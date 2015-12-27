@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/WeiSwift.iml" filepath="$PROJECT_DIR$/WeiSwift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weiSwift/weiSwift.iml" filepath="$PROJECT_DIR$/weiSwift/weiSwift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weiboSDK/weiboSDK.iml" filepath="$PROJECT_DIR$/weiboSDK/weiboSDK.iml" />
+    </modules>
+  </component>
+</project>

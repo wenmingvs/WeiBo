@@ -1,0 +1,2 @@
+include ':weiboSDK'
+include ':weiSwift'
