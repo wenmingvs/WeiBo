@@ -30,8 +30,8 @@ import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.utils.LogUtil;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.fragment.TabDB;
-import com.wenming.weiswift.util.AccessTokenKeeper;
-import com.wenming.weiswift.util.Constants;
+import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
+import com.wenming.weiswift.weiboAccess.Constants;
 
 public class MainActivity extends FragmentActivity {
     private AuthInfo mAuthInfo;
@@ -49,8 +49,9 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
+
         mContext = this;
         initTab();
 

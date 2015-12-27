@@ -15,8 +15,20 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:windowNoTitle">false</item>
+
     </style>
 
+    <style name="CustomWindowTitleBackground">
+
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="android:Theme.Holo.Light">
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">40dp</item>
+        <item name="android:windowTitleBackgroundStyle" >@style/CustomWindowTitleBackground</item>
+
+    </style>
 
 </resources>

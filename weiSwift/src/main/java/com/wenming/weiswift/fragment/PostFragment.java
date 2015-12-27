@@ -31,8 +31,4 @@ public class PostFragment extends Fragment {
 
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-    }
 }

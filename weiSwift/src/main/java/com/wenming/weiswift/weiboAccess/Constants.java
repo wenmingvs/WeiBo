@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wenming.weiswift.util;
+package com.wenming.weiswift.weiboAccess;
 
 public interface Constants {
 
