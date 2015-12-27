@@ -1,8 +1,10 @@
 package com.wenming.weiswift.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
@@ -15,52 +17,23 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.fragment.TabDB;
 
 public class MainActivity extends FragmentActivity {
-    private TextView mTokenText;
     private FragmentTabHost mFragmentTabHost;
     private Context mContext;
-    private TabHost.OnTabChangeListener onTabChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
-
         mContext = this;
         initTab();
 
-
-//		mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
-//				Constants.REDIRECT_URL, Constants.SCOPE);
-//		mTokenText = (TextView) findViewById(R.id.textview);
-//		mSsoHandler = new SsoHandler(MainActivity.this, mAuthInfo);
-//
-//		mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
-//
-//		findViewById(R.id.button).setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				mSsoHandler.authorize(new AuthListener());
-//			}
-//		});
-//		findViewById(R.id.button2).setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
-//						mListener);
-//			}
-//		});
     }
 
     private void initTab() {
         mFragmentTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
         mFragmentTabHost.setup(mContext, getSupportFragmentManager(), R.id.contentLayout);
         mFragmentTabHost.getTabWidget().setDividerDrawable(null);
-        mFragmentTabHost.setOnTabChangedListener(onTabChangeListener);
 
         TabHost.TabSpec tabSpec;
         String tabs[] = TabDB.getTabText();
@@ -69,13 +42,6 @@ public class MainActivity extends FragmentActivity {
             mFragmentTabHost.addTab(tabSpec, TabDB.getFragments()[i], null);
             mFragmentTabHost.setTag(i);
         }
-        onTabChangeListener = new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-
-
-            }
-        };
     }
 
     private View getTabView(int index) {
@@ -88,90 +54,13 @@ public class MainActivity extends FragmentActivity {
         return view;
     }
 
-
-//
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		super.onActivityResult(requestCode, resultCode, data);
-//
-//		// SSO 授权回调
-//		// 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResults
-//		if (mSsoHandler != null) {
-//			mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-//		}
-//
-//	}
-//
-//	class AuthListener implements WeiboAuthListener {
-//
-//		@Override
-//		public void onComplete(Bundle values) {
-//			// TODO Auto-generated method stub
-//			mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-//			if (mAccessToken.isSessionValid()) {
-//
-//				AccessTokenKeeper.writeAccessToken(MainActivity.this,
-//						mAccessToken);
-//				Toast.makeText(MainActivity.this, "授权成功", Toast.LENGTH_SHORT)
-//						.show();
-//			}
-//
-//		}
-//
-//		@Override
-//		public void onCancel() {
-//			// TODO Auto-generated method stub
-//			// Toast.makeText(MainActivity.this, "取消授权",
-//			// Toast.LENGTH_LONG).show();
-//		}
-//
-//		@Override
-//		public void onWeiboException(WeiboException e) {
-//			// TODO Auto-generated method stub
-//			Toast.makeText(MainActivity.this,
-//					"Auth exception : " + e.getMessage(), Toast.LENGTH_LONG)
-//					.show();
-//		}
-//
-//	}
-//
-//	/**
-//	 * 微博 OpenAPI 回调接口。
-//	 */
-//	private RequestListener mListener = new RequestListener() {
-//		@Override
-//		public void onComplete(String response) {
-//			if (!TextUtils.isEmpty(response)) {
-//				LogUtil.i(TAG, response);
-//				if (response.startsWith("{\"statuses\"")) {
-//					// 调用 StatusList#parse 解析字符串成微博列表对象
-//					StatusList statuses = StatusList.parse(response);
-//					if (statuses != null && statuses.total_number > 0) {
-//						Toast.makeText(MainActivity.this,
-//								"获取微博信息流成功, 条数: " + statuses.statusList.size(),
-//								Toast.LENGTH_LONG).show();
-//
-//					}
-//				} else if (response.startsWith("{\"created_at\"")) {
-//					// 调用 Status#parse 解析字符串成微博对象
-//					Status status = Status.parse(response);
-//					Toast.makeText(MainActivity.this,
-//							"发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
-//							.show();
-//				} else {
-//					Toast.makeText(MainActivity.this, response,
-//							Toast.LENGTH_LONG).show();
-//				}
-//			}
-//		}
-//
-//		@Override
-//		public void onWeiboException(WeiboException e) {
-//			LogUtil.e(TAG, e.getMessage());
-//			ErrorInfo info = ErrorInfo.parse(e.getMessage());
-//			Toast.makeText(MainActivity.this, info.toString(),
-//					Toast.LENGTH_LONG).show();
-//		}
-//	};
-//
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("首页");
+        if(fragment != null){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

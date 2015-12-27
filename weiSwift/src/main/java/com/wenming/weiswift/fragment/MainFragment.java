@@ -42,7 +42,6 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolBar();
-
     }
 
     private void initToolBar() {
@@ -78,7 +77,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
@@ -135,6 +133,4 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
         mToolBar.setVisibility(View.GONE);
     }
-
-
 }
