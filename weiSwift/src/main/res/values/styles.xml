@@ -26,7 +26,7 @@
     <style name="ToolbarTheme" parent="android:Theme.Holo.Light">
 
         <item name="android:windowActionBar">false</item>
-        <item name="android:windowTitleSize">40dp</item>
+        <item name="android:windowTitleSize">45dp</item>
         <item name="android:windowTitleBackgroundStyle" >@style/CustomWindowTitleBackground</item>
 
     </style>

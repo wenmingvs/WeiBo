@@ -24,7 +24,6 @@
         android:layout_centerVertical="true"
         android:padding="8dp"
         android:text="设置"
-        android:textColor="@color/orange"
         android:textSize="18sp"
         />
 

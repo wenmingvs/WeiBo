@@ -1,49 +1,23 @@
 package com.wenming.weiswift.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
-import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.StatusesAPI;
-import com.sina.weibo.sdk.openapi.models.ErrorInfo;
-import com.sina.weibo.sdk.openapi.models.Status;
-import com.sina.weibo.sdk.openapi.models.StatusList;
-import com.sina.weibo.sdk.utils.LogUtil;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.fragment.TabDB;
-import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
-import com.wenming.weiswift.weiboAccess.Constants;
 
 public class MainActivity extends FragmentActivity {
-    private AuthInfo mAuthInfo;
     private TextView mTokenText;
-    private Oauth2AccessToken mAccessToken;
-    private SsoHandler mSsoHandler;
-    private StatusesAPI mStatusesAPI;
-
-
     private FragmentTabHost mFragmentTabHost;
     private Context mContext;
-
     private TabHost.OnTabChangeListener onTabChangeListener;
 
     @Override
