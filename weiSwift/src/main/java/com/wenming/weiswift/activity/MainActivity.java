@@ -57,9 +57,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("首页");
-        if(fragment != null){
+        if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
