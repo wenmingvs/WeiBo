@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/toolbar_home"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_home_login"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-
+        android:id="@+id/refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:text="注册"
+        android:text="刷新"
         android:textColor="@color/orange"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,20 +23,18 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="首页"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/getData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="8dp"
-        android:text="登陆"
+        android:text="获取数据"
         android:textColor="@color/orange"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

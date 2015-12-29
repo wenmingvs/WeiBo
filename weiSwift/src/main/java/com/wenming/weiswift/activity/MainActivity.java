@@ -27,7 +27,6 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.main);
         mContext = this;
         initTab();
-
     }
 
     private void initTab() {
