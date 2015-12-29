@@ -5,4 +5,5 @@ package com.wenming.weiswift.bean;
  */
 public class WeiBoBean {
 
+
 }
