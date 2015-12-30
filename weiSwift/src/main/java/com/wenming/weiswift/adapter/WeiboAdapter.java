@@ -8,20 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.bean.WeiBoBean;
+import com.wenming.weiswift.util.HttpUtil;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 2015/12/29.
  */
 public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> {
-    private List<WeiBoBean> mDataset;
+    private ArrayList<Status> mData;
     private Context mContext;
 
-    public WeiboAdapter(List<WeiBoBean> weiboList, Context context) {
-        this.mDataset = weiboList;
+    public WeiboAdapter(ArrayList<Status> datas, Context context) {
+        this.mData = datas;
         this.mContext = context;
     }
 
@@ -32,14 +33,45 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        //微博用户信息
+        holder.profile_name.setText(mData.get(position).user.name);
+        holder.profile_time.setText("刚刚   ");
+        holder.weiboComeFrom.setText("来自 " + mData.get(position).source);
+        //HttpUtil.doGetAsyn(mData.statusList.get(position).user.profile_image_url,HttpCallBack);
+
+
+        //微博内容
+        holder.weibo_Content.setText(mData.get(position).text);
+
+
+        //微博转发，评论，赞的数量
+        holder.comment.setText(mData.get(position).comments_count + "");
+        holder.redirect.setText(mData.get(position).reposts_count+ "");
+        holder.feedlike.setText(mData.get(position).attitudes_count+ "");
 
     }
 
+
+
+    HttpUtil.CallBack HttpCallBack = new HttpUtil.CallBack() {
+        @Override
+        public void onPostComplete(String result) {
+
+        }
+
+        @Override
+        public void onGetComplete(byte[] result) {
+            // mBitmap = BitmapFactory.decodeByteArray(result, 0, result.length);
+        }
+    };
+
+
     @Override
     public int getItemCount() {
-        return 5;
+        return mData.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,5 +97,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
         }
     }
 
+    public void setData(ArrayList<Status> data){
+        this.mData = data;
+    }
 
 }
