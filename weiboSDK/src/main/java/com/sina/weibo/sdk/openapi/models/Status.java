@@ -21,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 微博结构体。
@@ -152,7 +154,7 @@ public class Status {
         status.idstr = jsonObject.optString("idstr");
         status.text = jsonObject.optString("text");
 
-        status.source = jsonObject.optString("source");
+        status.source = getSource(jsonObject.optString("source"));
 
         status.favorited = jsonObject.optBoolean("favorited", false);
         status.truncated = jsonObject.optBoolean("truncated", false);
@@ -191,14 +193,16 @@ public class Status {
 
         return status;
     }
-//
-//    private  void GetValue(String bundle){
-//        Pattern mpattern = Pattern.compile("<>(.*?)</a>");
-//        Matcher mmatcher = mpattern.matcher(xml);
-//        ArrayList<String> arrayList_title = new ArrayList<String>();
-//        while(mmatcher.find())
-//            arrayList_title.add(mmatcher.group());
-//    }
+
+    private static String getSource(String string) {
+        Pattern mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
+        Matcher mmatcher = mpattern.matcher(string);
+        if (mmatcher.find()) {
+            return mmatcher.group(2);
+        } else {
+            return string;
+        }
+    }
 
 
 }
