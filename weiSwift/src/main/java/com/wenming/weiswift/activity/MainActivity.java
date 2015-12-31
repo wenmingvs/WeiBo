@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -14,11 +13,22 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.fragment.DiscoverFragment;
+import com.wenming.weiswift.fragment.FragmentTabHost;
+import com.wenming.weiswift.fragment.MainFragment;
+import com.wenming.weiswift.fragment.MessageFragment;
+import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
+
 
 public class MainActivity extends FragmentActivity {
     private FragmentTabHost mFragmentTabHost;
     private Context mContext;
+    private MainFragment mMainFragMent;
+    private MessageFragment mMessageFragment;
+    private DiscoverFragment mDiscoverFragment;
+    private ProfileFragment mProfileFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +44,6 @@ public class MainActivity extends FragmentActivity {
         mFragmentTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
         mFragmentTabHost.setup(mContext, getSupportFragmentManager(), R.id.contentLayout);
         mFragmentTabHost.getTabWidget().setDividerDrawable(null);
-
         TabHost.TabSpec tabSpec;
         String tabs[] = TabDB.getTabText();
         for (int i = 0; i < tabs.length; i++) {
@@ -42,6 +51,36 @@ public class MainActivity extends FragmentActivity {
             mFragmentTabHost.addTab(tabSpec, TabDB.getFragments()[i], null);
             mFragmentTabHost.setTag(i);
         }
+        mMainFragMent = (MainFragment) getSupportFragmentManager().findFragmentByTag("首页");
+        mMessageFragment = (MessageFragment) getSupportFragmentManager().findFragmentByTag("消息");
+        mDiscoverFragment = (DiscoverFragment) getSupportFragmentManager().findFragmentByTag("发现");
+        mProfileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("我");
+
+        mFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                //ToastUtil.showShort(mContext,tabId);
+
+//                mMainFragMent.hideToolBar();
+//                mMessageFragment.hideToolBar();
+//                mDiscoverFragment.hideToolBar();
+//                mProfileFragment.hideToolBar();
+//
+//                switch (tabId){
+//                    case "首页":
+//                        mMainFragMent.showToolBar();
+//                    case "消息":
+//                        mMessageFragment.showToolBar();
+//                    case "发现":
+//                        mDiscoverFragment.showToolBar();
+//                    case "我":
+//                        mProfileFragment.showToolBar();
+//                }
+
+
+            }
+        });
+
     }
 
     private View getTabView(int index) {
@@ -62,4 +101,6 @@ public class MainActivity extends FragmentActivity {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="transperant">#00000000</color>
     <color name="white">#FFFFFF</color><!--白色 -->
-    <color name="comm_grey">#ededed</color><!-- 浅灰色 -->
+	<color name="comm_grey">#DFDFDF</color><!-- 浅灰色 -->
     <color name="mask_transperant">#AA000000</color>
 	<color name="eighty_per_trans_black">#CC000000</color><!-- 黑色80%透明 -->
 	<color name="sixty_per_trans_black">#AA000000</color><!-- 黑色60% 透明-->
@@ -14,7 +14,6 @@
 	<color name="ninety_per_trans_white">#EDFFFFFF</color><!-- 白色90%透明 -->
 
 	<color name="sperate_white">#DDDDDD</color><!-- 弹窗分割线颜色 -->
-    
     <!-- chat box -->
     <color name="bubble_chatto_unread_bg">#8dcbfb</color>
     <color name="bubble_chatto_unread_stroke_bg">#578ff7</color>

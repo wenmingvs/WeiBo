@@ -15,7 +15,7 @@
 
     </FrameLayout>
 
-    <android.support.v4.app.FragmentTabHost
+    <com.wenming.weiswift.fragment.FragmentTabHost
         android:id="@+id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:id="@+id/tabcontent"
             android:layout_width="0dp"
             android:layout_height="0dp" />
-    </android.support.v4.app.FragmentTabHost>
+    </com.wenming.weiswift.fragment.FragmentTabHost>
 
 
 </LinearLayout>

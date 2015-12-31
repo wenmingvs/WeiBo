@@ -2,7 +2,6 @@ package com.wenming.weiswift.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,6 +41,15 @@ public class DiscoverFragment extends Fragment {
         return textView;
 
     }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            hideToolBar();
+        } else {
+            showToolBar();
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -54,4 +62,13 @@ public class DiscoverFragment extends Fragment {
         super.onDestroyView();
         mToolBar.setVisibility(View.GONE);
     }
+
+    public void hideToolBar() {
+        mToolBar.setVisibility(View.GONE);
+    }
+
+    public void showToolBar() {
+        mToolBar.setVisibility(View.VISIBLE);
+    }
+
 }
