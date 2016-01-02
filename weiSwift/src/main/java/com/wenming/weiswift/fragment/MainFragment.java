@@ -60,6 +60,11 @@ public class MainFragment extends Fragment {
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int lastVisibleItem;
+    private long lastWeiboID;
+
+    private boolean FROM_PULL_TO_REFRESH = false;
+    private boolean FROM_BOTTOM_LOAD_MORE = false;
+
 
     /**
      * 微博 OpenAPI 回调接口。
@@ -72,13 +77,18 @@ public class MainFragment extends Fragment {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
                     ArrayList<Status> datas = StatusList.parse(response).statusList;
-//                    if (mDatas != null && mDatas.size() > 0) {
-//                        mAdapter.setData(mDatas);
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-                    mDatas.addAll(datas);
-                    mAdapter.notifyDataSetChanged();
 
+                    if (FROM_PULL_TO_REFRESH) {
+                        mDatas.clear();
+                        mDatas.addAll(datas);
+                        mAdapter.setData(mDatas);
+                        mAdapter.notifyDataSetChanged();
+                    } else if (FROM_BOTTOM_LOAD_MORE) {
+                        datas.remove(0);
+                        mDatas.addAll(datas);
+                        mAdapter.setData(mDatas);
+                        mAdapter.notifyDataSetChanged();
+                    }
 
                 } else if (response.startsWith("{\"created_at\"")) {
                     // 调用 Status#parse 解析字符串成微博对象
@@ -92,6 +102,8 @@ public class MainFragment extends Fragment {
                 }
             }
             mSwipeRefreshLayout.setRefreshing(false);
+            FROM_PULL_TO_REFRESH = false;
+            FROM_BOTTOM_LOAD_MORE = false;
         }
 
         @Override
@@ -101,6 +113,8 @@ public class MainFragment extends Fragment {
             Toast.makeText(mContext, info.toString(),
                     Toast.LENGTH_LONG).show();
             mSwipeRefreshLayout.setRefreshing(false);
+            FROM_PULL_TO_REFRESH = false;
+            FROM_BOTTOM_LOAD_MORE = false;
         }
     };
 
@@ -247,8 +261,10 @@ public class MainFragment extends Fragment {
                 // 对statusAPI实例化
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                    FROM_PULL_TO_REFRESH = true;
+                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 0, false,
                             mListener);
+
                 }
             }
         });
@@ -260,10 +276,11 @@ public class MainFragment extends Fragment {
                 // 对statusAPI实例化
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                    FROM_PULL_TO_REFRESH = true;
+                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 0, false,
                             mListener);
                 }
-                ;
+
             }
         });
 
@@ -292,8 +309,11 @@ public class MainFragment extends Fragment {
                     // 对statusAPI实例化
                     mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                     if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                        mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                        FROM_BOTTOM_LOAD_MORE = true;
+                        lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
+                        mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 0, false,
                                 mListener);
+
                     }
 
                 }
