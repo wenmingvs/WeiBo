@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,6 @@ public class MainFragment extends Fragment {
     private AuthInfo mAuthInfo;
     private Oauth2AccessToken mAccessToken;
     private SsoHandler mSsoHandler;
-
     private Context mContext;
     private RecyclerView mRecyclerView;
     private WeiboAdapter mAdapter;
@@ -54,12 +54,11 @@ public class MainFragment extends Fragment {
     private View mToolBar;
     private TextView mLogin;
     private TextView mRegister;
-    private TextView mRefresh;
-    private TextView mGetData;
     private View mView;
     private ArrayList<Status> mDatas;
     private StatusesAPI mStatusesAPI;
     private boolean mFirstLoad;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     /**
      * 微博 OpenAPI 回调接口。
      */
@@ -68,7 +67,6 @@ public class MainFragment extends Fragment {
         public void onComplete(String response) {
             LogUtil.d("wenming", response);
             if (!TextUtils.isEmpty(response)) {
-
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
                     mDatas = StatusList.parse(response).statusList;
@@ -87,6 +85,7 @@ public class MainFragment extends Fragment {
                             Toast.LENGTH_LONG).show();
                 }
             }
+            mSwipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
@@ -95,6 +94,7 @@ public class MainFragment extends Fragment {
             ErrorInfo info = ErrorInfo.parse(e.getMessage());
             Toast.makeText(mContext, info.toString(),
                     Toast.LENGTH_LONG).show();
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     };
 
@@ -109,24 +109,15 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         LogUtil.d("onCreate");
         super.onCreate(savedInstanceState);
-        initToolBar();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
-            LogUtil.d("onCreateView");
-        }
-        ViewGroup parent = (ViewGroup) mView.getParent();
-        if (parent != null) {
-            parent.removeView(mView);
-        }
-
-
+        LogUtil.d("onCreateView");
+        mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
+        initToolBar();
         initRecyclerView();
+        initRefreshLayout();
         return mView;
     }
 
@@ -227,32 +218,40 @@ public class MainFragment extends Fragment {
             }
         });
 
-        mRegister.setText("获取与展示");
         mRegister.setOnClickListener(new View.OnClickListener() {
             /**
              * @param view
              */
             @Override
             public void onClick(View view) {
+                mSsoHandler.registerOrLoginByMobile("验证码登陆", new AuthListener());
+            }
+        });
+    }
 
-                // mSsoHandler.registerOrLoginByMobile("验证码登陆",new AuthListener());
-
-                // 获取当前已保存过的 Token
+    private void initRefreshLayout() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
                 // 对statusAPI实例化
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                    mStatusesAPI.friendsTimeline(0L, 0L, 50, 1, false, 0, false,
                             mListener);
                 }
             }
         });
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         if (mFirstLoad == true) {
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext,8)));
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 8)));
         }
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
@@ -298,7 +297,6 @@ public class MainFragment extends Fragment {
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-
         private int space;
 
         public SpaceItemDecoration(int space) {
@@ -307,8 +305,7 @@ public class MainFragment extends Fragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.top = space;
+            outRect.top = space;
         }
     }
-
 }
