@@ -49,7 +49,7 @@ public class MainFragment extends Fragment {
     private Context mContext;
     private RecyclerView mRecyclerView;
     private WeiboAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private Activity mActivity;
     private View mToolBar;
     private TextView mLogin;
@@ -59,6 +59,8 @@ public class MainFragment extends Fragment {
     private StatusesAPI mStatusesAPI;
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private int lastVisibleItem;
+
     /**
      * 微博 OpenAPI 回调接口。
      */
@@ -69,11 +71,15 @@ public class MainFragment extends Fragment {
             if (!TextUtils.isEmpty(response)) {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
-                    mDatas = StatusList.parse(response).statusList;
-                    if (mDatas != null && mDatas.size() > 0) {
-                        mAdapter.setData(mDatas);
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    ArrayList<Status> datas = StatusList.parse(response).statusList;
+//                    if (mDatas != null && mDatas.size() > 0) {
+//                        mAdapter.setData(mDatas);
+//                        mAdapter.notifyDataSetChanged();
+//                    }
+                    mDatas.addAll(datas);
+                    mAdapter.notifyDataSetChanged();
+
+
                 } else if (response.startsWith("{\"created_at\"")) {
                     // 调用 Status#parse 解析字符串成微博对象
                     Status status = Status.parse(response);
@@ -241,11 +247,26 @@ public class MainFragment extends Fragment {
                 // 对statusAPI实例化
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    mStatusesAPI.friendsTimeline(0L, 0L, 50, 1, false, 0, false,
+                    mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
                             mListener);
                 }
             }
         });
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+                // 对statusAPI实例化
+                mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+                if (mAccessToken != null && mAccessToken.isSessionValid()) {
+                    mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                            mListener);
+                }
+                ;
+            }
+        });
+
     }
 
     private void initRecyclerView() {
@@ -253,6 +274,7 @@ public class MainFragment extends Fragment {
         if (mFirstLoad == true) {
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 8)));
         }
+
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -260,11 +282,40 @@ public class MainFragment extends Fragment {
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mAdapter.getItemCount()) {
+
+                    mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+                    // 对statusAPI实例化
+                    mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+                    if (mAccessToken != null && mAccessToken.isSessionValid()) {
+                        mStatusesAPI.friendsTimeline(0L, 0L, 10, 1, false, 0, false,
+                                mListener);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
     }
 
     public void setData(ArrayList<Status> data) {
         this.mDatas = data;
     }
+
+    public void getWeiboMessage() {
+
+    }
+
 
     class AuthListener implements WeiboAuthListener {
 
