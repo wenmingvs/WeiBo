@@ -1,7 +1,9 @@
 package com.wenming.weiswift.adapter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.util.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,11 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<Status> mData;
     private Context mContext;
     private DisplayImageOptions options;
+    private ArrayList<String> mImageDatas;
+    private boolean mFirstLoad;
+    private GridLayoutManager gridLayoutManager;
+    private ImageAdapter imageAdapter;
+    private ViewGroup.LayoutParams mParams;
 
 
     public WeiboAdapter(ArrayList<Status> datas, Context context) {
@@ -44,6 +52,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 .considerExifParams(true)
                 .displayer(new CircleBitmapDisplayer(14671839, 1))
                 .build();
+        mImageDatas = new ArrayList<String>();
+        mFirstLoad = true;
     }
 
     @Override
@@ -51,6 +61,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem, parent, false);
             ItemViewHolder viewHolder = new ItemViewHolder(view);
+            viewHolder.imageList.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 5)));
             return viewHolder;
         } else if (viewType == TYPE_FOOTER) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.footerview, null);
@@ -60,7 +71,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ImageView waitingImg = (ImageView) view.findViewById(R.id.waiting_image);
             mFooterImag = (AnimationDrawable) waitingImg.getDrawable();
             mFooterImag.start();
-
             return footerViewHolder;
         }
 
@@ -77,8 +87,25 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((ItemViewHolder) holder).profile_time.setText("刚刚   ");
             ((ItemViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
-            //微博内容
+            //微博文字内容
             ((ItemViewHolder) holder).weibo_Content.setText(mData.get(position).text);
+
+            //微博图片内容
+            mImageDatas = mData.get(position).origin_pic_urls;
+            gridLayoutManager = new GridLayoutManager(mContext, 3);
+            imageAdapter = new ImageAdapter(mImageDatas, mContext);
+            ((ItemViewHolder) holder).imageList.setHasFixedSize(true);
+            ((ItemViewHolder) holder).imageList.setAdapter(imageAdapter);
+            ((ItemViewHolder) holder).imageList.setLayoutManager(gridLayoutManager);
+
+            if (mImageDatas != null && mImageDatas.size() != 0) {
+                mParams = ((ItemViewHolder) holder).imageList.getLayoutParams();
+                mParams.height = (DensityUtil.dp2px(mContext, 100f)) * getImgLineCount(mImageDatas);
+                mParams.width = (DensityUtil.dp2px(mContext, 100f)) * getImgLineCount(mImageDatas);
+                ((ItemViewHolder) holder).imageList.setLayoutParams(mParams);
+            } else {
+                ((ItemViewHolder) holder).imageList.setVisibility(View.GONE);
+            }
 
             //微博转发，评论，赞的数量
             if (mData.get(position).comments_count != 0) {
@@ -96,10 +123,21 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             } else {
                 ((FooterViewHolder) holder).linearLayout.setVisibility(View.VISIBLE);
             }
-
         }
 
+    }
 
+
+    private int getImgLineCount(ArrayList<String> mData) {
+        int count = mData.size();
+        if (count <= 3) {
+            return 1;
+        } else if (count <= 6) {
+            return 2;
+        } else if (count <= 9) {
+            return 3;
+        }
+        return 0;
     }
 
     @Override
@@ -130,6 +168,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView redirect;
         public TextView comment;
         public TextView feedlike;
+        public RecyclerView imageList;
 
         public ItemViewHolder(View v) {
             super(v);
@@ -141,18 +180,32 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             redirect = (TextView) v.findViewById(R.id.redirect);
             comment = (TextView) v.findViewById(R.id.comment);
             feedlike = (TextView) v.findViewById(R.id.feedlike);
+            imageList = (RecyclerView) v.findViewById(R.id.weibo_image);
         }
     }
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout linearLayout;
 
-
         public FooterViewHolder(View view) {
             super(view);
             linearLayout = (LinearLayout) view.findViewById(R.id.loadMoreLayout);
         }
 
+    }
+
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpaceItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.right = space;
+            outRect.top = space;
+        }
     }
 
 }

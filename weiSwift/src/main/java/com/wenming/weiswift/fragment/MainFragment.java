@@ -72,7 +72,7 @@ public class MainFragment extends Fragment {
     private RequestListener mListener = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            LogUtil.d("wenming", response);
+            //LogUtil.d("wenming", response);
             if (!TextUtils.isEmpty(response)) {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
@@ -310,9 +310,11 @@ public class MainFragment extends Fragment {
                     mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                     if (mAccessToken != null && mAccessToken.isSessionValid()) {
                         FROM_BOTTOM_LOAD_MORE = true;
-                        lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
-                        mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 0, false,
-                                mListener);
+                        if (mDatas.size() != 0) {
+                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
+                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 0, false, 1, false,
+                                    mListener);
+                        }
 
                     }
 
@@ -330,10 +332,6 @@ public class MainFragment extends Fragment {
 
     public void setData(ArrayList<Status> data) {
         this.mDatas = data;
-    }
-
-    public void getWeiboMessage() {
-
     }
 
 

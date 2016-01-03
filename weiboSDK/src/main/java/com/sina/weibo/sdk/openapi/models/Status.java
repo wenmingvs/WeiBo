@@ -16,6 +16,9 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -127,6 +130,10 @@ public class Status {
      */
     public ArrayList<String> pic_urls;
 
+    public ArrayList<String> origin_pic_urls;
+    private static Pattern mpattern;
+    private static Matcher mmatcher;
+
     /**
      * 微博流内的推广微博ID
      */
@@ -180,11 +187,15 @@ public class Status {
         if (picUrlsArray != null && picUrlsArray.length() > 0) {
             int length = picUrlsArray.length();
             status.pic_urls = new ArrayList<String>(length);
+            status.origin_pic_urls = new ArrayList<String>(length);
             JSONObject tmpObject = null;
+            String tmpUrl;
             for (int ix = 0; ix < length; ix++) {
                 tmpObject = picUrlsArray.optJSONObject(ix);
                 if (tmpObject != null) {
-                    status.pic_urls.add(tmpObject.optString("thumbnail_pic"));
+                    tmpUrl = tmpObject.optString("thumbnail_pic");
+                    status.pic_urls.add(tmpUrl);
+                    status.origin_pic_urls.add(getOriginUrl(tmpUrl));
                 }
             }
         }
@@ -195,8 +206,8 @@ public class Status {
     }
 
     private static String getSource(String string) {
-        Pattern mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
-        Matcher mmatcher = mpattern.matcher(string);
+        mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
+        mmatcher = mpattern.matcher(string);
         if (mmatcher.find()) {
             return mmatcher.group(2);
         } else {
@@ -204,5 +215,25 @@ public class Status {
         }
     }
 
+    private static String getOriginUrl(String thumbnail_url) {
+//        Log.d("wenming",thumbnail_url);
+//        //http://ww1.sinaimg.cn/thumbnail/6628711bgw1ezmlnsnvx9j20cj0b4jse.jpg
+//        mpattern = Pattern.compile("http://(.*?)/thumbnail/(.*?)");
+//        mmatcher = mpattern.matcher(thumbnail_url);
+//        if (mmatcher.find()) {
+//            StringBuffer buffer = new StringBuffer("http://ww4.sinaimg.cn/bmiddle/");
+//            buffer.append(mmatcher.group(2));
+//            Log.d("wenming",buffer.toString());
+//            return buffer.toString();
+//        } else {
+//            return thumbnail_url;
+//        }
+
+        StringBuffer buffer = new StringBuffer(thumbnail_url);
+        buffer.replace(22, 31, "bmiddle");
+        Log.d("wenming", buffer.toString());
+        return buffer.toString();
+
+    }
 
 }

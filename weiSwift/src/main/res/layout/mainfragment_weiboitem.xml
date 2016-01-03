@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/timeline_feedcard_retweet_background_auto"
-    android:clickable="true"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/timeline_feedcard_retweet_background_auto"
+              android:clickable="true"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="红楼"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="16分钟前  "
                     android:textColor="@color/orange"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/weiboComeFrom"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:text="来自 微博weibo.com"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -71,8 +71,16 @@
 
         android:text="【天津本周预计将迎两次雾霾 为期6天半】记者从天津市气象局了解到，本周天津将迎来两次雾霾，一次持续两天半，一次持续四天。天津气象台预报员称，本周天津冷空气活动比较弱，气温较往年偏高。受静稳天气影响，雾霾天气依旧较多，以间歇性雾霾天气为主。"
         android:textColor="#444444"
-        android:textSize="15sp" />
+        android:textSize="15sp"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/weibo_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        >
+
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,7 +100,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/timeline_icon_redirect" />
+                android:src="@drawable/timeline_icon_redirect"/>
 
 
             <TextView
@@ -101,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="转发"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -117,7 +125,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/timeline_icon_comment" />
+                android:src="@drawable/timeline_icon_comment"/>
 
             <TextView
                 android:id="@+id/comment"
@@ -125,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="评论"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -141,7 +149,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/timeline_icon_unlike" />
+                android:src="@drawable/timeline_icon_unlike"/>
 
 
             <TextView
@@ -150,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="赞"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
