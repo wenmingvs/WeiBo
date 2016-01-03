@@ -100,8 +100,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             if (mImageDatas != null && mImageDatas.size() != 0) {
                 mParams = ((ItemViewHolder) holder).imageList.getLayoutParams();
-                mParams.height = (DensityUtil.dp2px(mContext, 100f)) * getImgLineCount(mImageDatas);
-                mParams.width = (DensityUtil.dp2px(mContext, 100f)) * getImgLineCount(mImageDatas);
+                mParams.height = (DensityUtil.dp2px(mContext, 110f)) * getImgLineCount(mImageDatas);
+                mParams.width = ((ItemViewHolder) holder).weibo_Content.getMeasuredWidth();
                 ((ItemViewHolder) holder).imageList.setLayoutParams(mParams);
             } else {
                 ((ItemViewHolder) holder).imageList.setVisibility(View.GONE);

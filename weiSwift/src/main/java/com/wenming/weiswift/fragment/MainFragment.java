@@ -262,7 +262,7 @@ public class MainFragment extends Fragment {
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
                     FROM_PULL_TO_REFRESH = true;
-                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 0, false,
+                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
                             mListener);
 
                 }
@@ -277,7 +277,7 @@ public class MainFragment extends Fragment {
                 mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                 if (mAccessToken != null && mAccessToken.isSessionValid()) {
                     FROM_PULL_TO_REFRESH = true;
-                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 0, false,
+                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
                             mListener);
                 }
 
@@ -312,7 +312,7 @@ public class MainFragment extends Fragment {
                         FROM_BOTTOM_LOAD_MORE = true;
                         if (mDatas.size() != 0) {
                             lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
-                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 0, false, 1, false,
+                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
                                     mListener);
                         }
 
