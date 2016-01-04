@@ -77,7 +77,6 @@ public class MainFragment extends Fragment {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
                     ArrayList<Status> datas = StatusList.parse(response).statusList;
-
                     if (FROM_PULL_TO_REFRESH) {
                         mDatas.clear();
                         mDatas.addAll(datas);
@@ -280,7 +279,6 @@ public class MainFragment extends Fragment {
                     mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
                             mListener);
                 }
-
             }
         });
 

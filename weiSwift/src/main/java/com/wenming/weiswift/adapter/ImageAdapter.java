@@ -44,10 +44,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mData.size() >= 0) {
-
             ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
         }
-
     }
 
     @Override

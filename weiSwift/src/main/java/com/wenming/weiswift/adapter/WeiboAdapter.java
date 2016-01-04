@@ -91,6 +91,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((ItemViewHolder) holder).weibo_Content.setText(mData.get(position).text);
 
             //微博图片内容
+
             mImageDatas = mData.get(position).origin_pic_urls;
             gridLayoutManager = new GridLayoutManager(mContext, 3);
             imageAdapter = new ImageAdapter(mImageDatas, mContext);
@@ -100,8 +101,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             if (mImageDatas != null && mImageDatas.size() != 0) {
                 mParams = ((ItemViewHolder) holder).imageList.getLayoutParams();
-                mParams.height = (DensityUtil.dp2px(mContext, 110f)) * getImgLineCount(mImageDatas);
-                mParams.width = ((ItemViewHolder) holder).weibo_Content.getMeasuredWidth();
+                mParams.height = (DensityUtil.dp2px(mContext, 110f)) * getImgLineCount(mImageDatas) + (DensityUtil.dp2px(mContext, 5f)) * getImgLineCount(mImageDatas);
+                mParams.width = (DensityUtil.dp2px(mContext, 110f)) * 3 + (DensityUtil.dp2px(mContext, 5f)) * 2;
                 ((ItemViewHolder) holder).imageList.setLayoutParams(mParams);
             } else {
                 ((ItemViewHolder) holder).imageList.setVisibility(View.GONE);
