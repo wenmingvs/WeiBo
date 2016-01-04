@@ -119,7 +119,7 @@
 	<color name="lightskyblue">#87CEFA</color><!--亮天蓝色 -->
 	<color name="skyblue">#507DAF</color><!--天蓝色 -->
 	<color name="gray">#808080</color><!--灰色 -->
-	<color name="grey">#808080</color><!--灰色 -->
+	<color name="grey">#f2f2f2</color><!--灰色 -->
 	<color name="olive">#808000</color><!--橄榄色 -->
 	<color name="purple">#800080</color><!--紫色 -->
 	<color name="maroon">#800000</color><!--粟色 -->

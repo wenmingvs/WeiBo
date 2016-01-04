@@ -26,14 +26,13 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
-import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.SimulationString;
 import com.wenming.weiswift.adapter.WeiboAdapter;
 import com.wenming.weiswift.util.DensityUtil;
 import com.wenming.weiswift.util.LogUtil;
+import com.wenming.weiswift.util.SharedPreferencesUtil;
 import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
 import com.wenming.weiswift.weiboAccess.Constants;
 
@@ -76,6 +75,8 @@ public class MainFragment extends Fragment {
         @Override
         public void onComplete(String response) {
             //LogUtil.d("wenming", response);
+            SharedPreferencesUtil.put(mContext, "wenming", response);
+
             if (!TextUtils.isEmpty(response)) {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
@@ -112,23 +113,24 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onWeiboException(WeiboException e) {
-            LogUtil.e("wenming", e.getMessage());
-            ErrorInfo info = ErrorInfo.parse(e.getMessage());
-            Toast.makeText(mContext, info.toString(),
-                    Toast.LENGTH_LONG).show();
-            mSwipeRefreshLayout.setRefreshing(false);
-            FROM_PULL_TO_REFRESH = false;
-            FROM_BOTTOM_LOAD_MORE = false;
-//            simulationData();
+//            LogUtil.e("wenming", e.getMessage());
+//            ErrorInfo info = ErrorInfo.parse(e.getMessage());
+//            Toast.makeText(mContext, info.toString(),
+//                    Toast.LENGTH_LONG).show();
 //            mSwipeRefreshLayout.setRefreshing(false);
 //            FROM_PULL_TO_REFRESH = false;
 //            FROM_BOTTOM_LOAD_MORE = false;
+            simulationData();
+            mSwipeRefreshLayout.setRefreshing(false);
+            FROM_PULL_TO_REFRESH = false;
+            FROM_BOTTOM_LOAD_MORE = false;
         }
     };
 
     private void simulationData() {
-        SimulationString simulationString = new SimulationString(mContext);
-        String response = simulationString.getData();
+        //SimulationString simulationString = new SimulationString(mContext);
+        Object defaultObject = new String(" ");
+        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", defaultObject);
         LogUtil.d(response);
         if (response.startsWith("{\"statuses\"")) {
             // 调用 StatusList#parse 解析字符串成微博列表对象
@@ -178,6 +180,7 @@ public class MainFragment extends Fragment {
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         initToolBar();
         initRecyclerView();
+
         initRefreshLayout();
         return mView;
     }
@@ -318,10 +321,8 @@ public class MainFragment extends Fragment {
         // 对statusAPI实例化
         mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
         if (mAccessToken != null && mAccessToken.isSessionValid()) {
-//            mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
-//                    mListener);
-            mStatusesAPI.mentions(0, 0, 5, 1, 0, 1,
-                    0, false, mListener);
+            mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
+                    mListener);
         }
     }
 
@@ -330,7 +331,6 @@ public class MainFragment extends Fragment {
         if (mFirstLoad == true) {
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 8)));
         }
-
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -372,9 +372,7 @@ public class MainFragment extends Fragment {
         this.mDatas = data;
     }
 
-
     class AuthListener implements WeiboAuthListener {
-
         @Override
         public void onComplete(Bundle values) {
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);// 从 Bundle 中解析 Token
@@ -412,7 +410,8 @@ public class MainFragment extends Fragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.top = space;
+            outRect.bottom = space;
         }
+
     }
 }
