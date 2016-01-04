@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/timeline_feedcard_retweet_background_auto"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/mainfragment_original_weiboitem_title" />
+
+    <TextView
+        android:id="@+id/weibo_Content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:text="确实像是笔记本电池，两个凸起是防滑垫脚？//@喝七喜的LBJ: 一个笔记本电脑电池都能把人吓成这样~ //@张晨初艺术空间: [吃惊] //@六安自媒体: 求证 //@郭晏平: 首都机场？[吃惊]"
+        android:textColor="#222222"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#F7F7F7"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\@飞常准 :  【网曝：首都机场有人带枪上飞机】 据“停机坪”公众号1月4日发布的消息，有网友报料称，有乘客把看似是玩具或道具“手枪”带上了飞机。并在机舱里拿着枪摆各种姿势合影。事件发生的地点在北京首都机场的一架飞机上。"
+            android:textColor="#5D5D5D"
+            android:textSize="15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <include layout="@layout/mainfragment_original_weiboitem_count" />
+</LinearLayout>

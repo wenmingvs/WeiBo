@@ -56,6 +56,30 @@ public class MainActivity extends FragmentActivity {
         mDiscoverFragment = (DiscoverFragment) getSupportFragmentManager().findFragmentByTag("发现");
         mProfileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("我");
 
+        mFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                //ToastUtil.showShort(mContext,tabId);
+
+//                mMainFragMent.hideToolBar();
+//                mMessageFragment.hideToolBar();
+//                mDiscoverFragment.hideToolBar();
+//                mProfileFragment.hideToolBar();
+//
+//                switch (tabId){
+//                    case "首页":
+//                        mMainFragMent.showToolBar();
+//                    case "消息":
+//                        mMessageFragment.showToolBar();
+//                    case "发现":
+//                        mDiscoverFragment.showToolBar();
+//                    case "我":
+//                        mProfileFragment.showToolBar();
+//                }
+
+
+            }
+        });
 
     }
 

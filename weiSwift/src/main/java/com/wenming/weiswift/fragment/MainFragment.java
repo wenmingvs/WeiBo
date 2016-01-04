@@ -30,6 +30,7 @@ import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.SimulationString;
 import com.wenming.weiswift.adapter.WeiboAdapter;
 import com.wenming.weiswift.util.DensityUtil;
 import com.wenming.weiswift.util.LogUtil;
@@ -59,12 +60,14 @@ public class MainFragment extends Fragment {
     private StatusesAPI mStatusesAPI;
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private int lastVisibleItem;
+    private int mLastVisibleItemPositon;//count from 1
     private long lastWeiboID;
 
     private boolean FROM_PULL_TO_REFRESH = false;
     private boolean FROM_BOTTOM_LOAD_MORE = false;
 
+    private int scrolledX;
+    private int scrolledY;
 
     /**
      * 微博 OpenAPI 回调接口。
@@ -86,7 +89,9 @@ public class MainFragment extends Fragment {
                         datas.remove(0);
                         mDatas.addAll(datas);
                         mAdapter.setData(mDatas);
-                        mAdapter.notifyDataSetChanged();
+                        LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
+                        mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());
+                        //mLayoutManager.scrollToPosition(mLastVisibleItemPositon);
                     }
 
                 } else if (response.startsWith("{\"created_at\"")) {
@@ -114,8 +119,45 @@ public class MainFragment extends Fragment {
             mSwipeRefreshLayout.setRefreshing(false);
             FROM_PULL_TO_REFRESH = false;
             FROM_BOTTOM_LOAD_MORE = false;
+//            simulationData();
+//            mSwipeRefreshLayout.setRefreshing(false);
+//            FROM_PULL_TO_REFRESH = false;
+//            FROM_BOTTOM_LOAD_MORE = false;
         }
     };
+
+    private void simulationData() {
+        SimulationString simulationString = new SimulationString(mContext);
+        String response = simulationString.getData();
+        LogUtil.d(response);
+        if (response.startsWith("{\"statuses\"")) {
+            // 调用 StatusList#parse 解析字符串成微博列表对象
+            ArrayList<Status> datas = StatusList.parse(response).statusList;
+            if (FROM_PULL_TO_REFRESH) {
+                mDatas.clear();
+                mDatas.addAll(datas);
+                mAdapter.setData(mDatas);
+                mAdapter.notifyDataSetChanged();
+            } else if (FROM_BOTTOM_LOAD_MORE) {
+                datas.remove(0);
+                mDatas.addAll(datas);
+                mAdapter.setData(mDatas);
+                LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
+                mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());
+                //mLayoutManager.scrollToPosition(mLastVisibleItemPositon);
+            }
+
+        } else if (response.startsWith("{\"created_at\"")) {
+            // 调用 Status#parse 解析字符串成微博对象
+            Status status = Status.parse(response);
+            Toast.makeText(mContext,
+                    "发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            Toast.makeText(mContext, response,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -256,32 +298,31 @@ public class MainFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-                // 对statusAPI实例化
-                mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
-                if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    FROM_PULL_TO_REFRESH = true;
-                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
-                            mListener);
-
-                }
+                FROM_PULL_TO_REFRESH = true;
+                getfriendsTimeline();
             }
         });
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
-                mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-                // 对statusAPI实例化
-                mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
-                if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                    FROM_PULL_TO_REFRESH = true;
-                    mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
-                            mListener);
-                }
+                FROM_PULL_TO_REFRESH = true;
+                getfriendsTimeline();
             }
         });
 
+    }
+
+    private void getfriendsTimeline() {
+        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+        // 对statusAPI实例化
+        mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+        if (mAccessToken != null && mAccessToken.isSessionValid()) {
+//            mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
+//                    mListener);
+            mStatusesAPI.mentions(0, 0, 5, 1, 0, 1,
+                    0, false, mListener);
+        }
     }
 
     private void initRecyclerView() {
@@ -298,22 +339,21 @@ public class MainFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mAdapter.getItemCount()) {
-
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
                     mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
                     // 对statusAPI实例化
                     mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
                     if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                        FROM_BOTTOM_LOAD_MORE = true;
                         if (mDatas.size() != 0) {
+                            FROM_BOTTOM_LOAD_MORE = true;
                             lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
                             mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
                                     mListener);
                         }
-
                     }
 
                 }
@@ -322,7 +362,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                mLastVisibleItemPositon = mLayoutManager.findLastVisibleItemPosition();
             }
         });
 

@@ -35,6 +35,8 @@ import java.util.regex.Pattern;
  */
 public class Status {
 
+    private static Pattern mpattern;
+    private static Matcher mmatcher;
     /**
      * 微博创建时间
      */
@@ -129,10 +131,7 @@ public class Status {
      * 微博配图地址。多图时返回多图链接。无配图返回"[]"
      */
     public ArrayList<String> pic_urls;
-
     public ArrayList<String> origin_pic_urls;
-    private static Pattern mpattern;
-    private static Matcher mmatcher;
 
     /**
      * 微博流内的推广微博ID
@@ -216,18 +215,6 @@ public class Status {
     }
 
     private static String getOriginUrl(String thumbnail_url) {
-//        Log.d("wenming",thumbnail_url);
-//        //http://ww1.sinaimg.cn/thumbnail/6628711bgw1ezmlnsnvx9j20cj0b4jse.jpg
-//        mpattern = Pattern.compile("http://(.*?)/thumbnail/(.*?)");
-//        mmatcher = mpattern.matcher(thumbnail_url);
-//        if (mmatcher.find()) {
-//            StringBuffer buffer = new StringBuffer("http://ww4.sinaimg.cn/bmiddle/");
-//            buffer.append(mmatcher.group(2));
-//            Log.d("wenming",buffer.toString());
-//            return buffer.toString();
-//        } else {
-//            return thumbnail_url;
-//        }
 
         StringBuffer buffer = new StringBuffer(thumbnail_url);
         buffer.replace(22, 31, "bmiddle");

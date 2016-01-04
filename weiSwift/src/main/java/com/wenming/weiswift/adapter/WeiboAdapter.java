@@ -59,7 +59,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem, parent, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_original_weiboitem, parent, false);
             ItemViewHolder viewHolder = new ItemViewHolder(view);
             viewHolder.imageList.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 5)));
             return viewHolder;
@@ -110,6 +110,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             //微博转发，评论，赞的数量
             if (mData.get(position).comments_count != 0) {
+
                 ((ItemViewHolder) holder).comment.setText(mData.get(position).comments_count + "");
             }
             if (mData.get(position).reposts_count != 0) {
