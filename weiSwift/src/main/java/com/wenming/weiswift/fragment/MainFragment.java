@@ -65,6 +65,7 @@ public class MainFragment extends Fragment {
 
     private boolean FROM_PULL_TO_REFRESH = false;
     private boolean FROM_BOTTOM_LOAD_MORE = false;
+    private boolean mLoginState = true;
 
     private int scrolledX;
     private int scrolledY;
@@ -77,7 +78,6 @@ public class MainFragment extends Fragment {
         public void onComplete(String response) {
             //LogUtil.d("wenming", response);
             SharedPreferencesUtil.put(mContext, "wenming", response);
-
             if (!TextUtils.isEmpty(response)) {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
@@ -129,9 +129,9 @@ public class MainFragment extends Fragment {
 
     private void simulationData() {
         //SimulationString simulationString = new SimulationString(mContext);
-        Object defaultObject = new String(" ");
-        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", defaultObject);
-        LogUtil.d(response);
+        //Object defaultObject = new String(" ");
+        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
+        //LogUtil.d(response);
         if (response.startsWith("{\"statuses\"")) {
             // 调用 StatusList#parse 解析字符串成微博列表对象
             ArrayList<Status> datas = StatusList.parse(response).statusList;
@@ -141,11 +141,12 @@ public class MainFragment extends Fragment {
                 mAdapter.setData(mDatas);
                 mAdapter.notifyDataSetChanged();
             } else if (FROM_BOTTOM_LOAD_MORE) {
-                datas.remove(0);
+                //datas.remove(0);
                 mDatas.addAll(datas);
                 mAdapter.setData(mDatas);
                 LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
-                mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());
+                mAdapter.notifyDataSetChanged();
+                //mAdapter.notifyItemRangeInserted( 3 , datas.size());//count from 1
                 //mLayoutManager.scrollToPosition(mLastVisibleItemPositon);
             }
 
@@ -195,7 +196,6 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         LogUtil.d("onActivityCreated");
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
@@ -270,6 +270,20 @@ public class MainFragment extends Fragment {
         mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
         mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
+        if (mLoginState == true) {
+            initLoginState();
+        } else {
+            initUnLoginState();
+        }
+    }
+
+    private void initLoginState() {
+        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_login);
+        mToolBar = mActivity.findViewById(R.id.toolbar_home_login);
+    }
+
+    private void initUnLoginState() {
+
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_unlogin);
         mLogin = (TextView) mToolBar.findViewById(R.id.login);

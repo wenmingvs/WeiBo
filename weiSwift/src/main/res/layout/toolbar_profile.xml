@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar_profile"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:text="添加朋友"
+        android:textColor="#525252"
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_margin="8dp"
         android:gravity="center"
-        android:padding="5dp"
         android:text="我"
-        android:textSize="20sp"
-        />
+        android:textColor="#525252"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="8dp"
+        android:layout_margin="8dp"
         android:text="设置"
-        android:textSize="18sp"
-        />
+        android:textColor="#525252"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

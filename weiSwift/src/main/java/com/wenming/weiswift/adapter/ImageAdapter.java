@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.util.LogUtil;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mData.size() >= 0) {
             ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
+            LogUtil.d(mData.get(position));
+            ;
         }
     }
 

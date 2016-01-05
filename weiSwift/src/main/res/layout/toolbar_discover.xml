@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/toolbar_discover"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_discover"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:text="注册"
-        android:textColor="@color/orange"
-        android:textSize="18sp"
-        />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rect_gray"
+        android:searchIcon="@drawable/searchbar_second_textfield_search_icon" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="热门"
-        android:textSize="20sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/getData"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="8dp"
-        android:text="登陆"
-        android:textColor="@color/orange"
-        android:textSize="18sp"
-        />
+        android:layout_margin="8dp"
+        android:src="@drawable/navigationbar_search_voice_auto" />
 
 
 </RelativeLayout>

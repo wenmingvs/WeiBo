@@ -17,8 +17,6 @@
 package com.sina.weibo.sdk.openapi.models;
 
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -194,6 +192,7 @@ public class Status {
                 if (tmpObject != null) {
                     tmpUrl = tmpObject.optString("thumbnail_pic");
                     status.pic_urls.add(tmpUrl);
+                    //    Log.d("wenming","origin_pic_urls = " + getOriginUrl(tmpUrl));
                     status.origin_pic_urls.add(getOriginUrl(tmpUrl));
                 }
             }
@@ -218,7 +217,7 @@ public class Status {
 
         StringBuffer buffer = new StringBuffer(thumbnail_url);
         buffer.replace(22, 31, "bmiddle");
-        Log.d("wenming", buffer.toString());
+        // Log.d("wenming", buffer.toString());
         return buffer.toString();
 
     }

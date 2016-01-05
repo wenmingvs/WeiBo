@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -17,8 +18,10 @@ import com.wenming.weiswift.fragment.DiscoverFragment;
 import com.wenming.weiswift.fragment.FragmentTabHost;
 import com.wenming.weiswift.fragment.MainFragment;
 import com.wenming.weiswift.fragment.MessageFragment;
+import com.wenming.weiswift.fragment.PostFragment;
 import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
+import com.wenming.weiswift.util.DensityUtil;
 
 
 public class MainActivity extends FragmentActivity {
@@ -28,6 +31,7 @@ public class MainActivity extends FragmentActivity {
     private MessageFragment mMessageFragment;
     private DiscoverFragment mDiscoverFragment;
     private ProfileFragment mProfileFragment;
+    private PostFragment mPostFragment;
 
 
     @Override
@@ -53,43 +57,28 @@ public class MainActivity extends FragmentActivity {
         }
         mMainFragMent = (MainFragment) getSupportFragmentManager().findFragmentByTag("首页");
         mMessageFragment = (MessageFragment) getSupportFragmentManager().findFragmentByTag("消息");
+        mPostFragment = (PostFragment) getSupportFragmentManager().findFragmentByTag("New");
         mDiscoverFragment = (DiscoverFragment) getSupportFragmentManager().findFragmentByTag("发现");
         mProfileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("我");
-
-        mFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                //ToastUtil.showShort(mContext,tabId);
-
-//                mMainFragMent.hideToolBar();
-//                mMessageFragment.hideToolBar();
-//                mDiscoverFragment.hideToolBar();
-//                mProfileFragment.hideToolBar();
-//
-//                switch (tabId){
-//                    case "首页":
-//                        mMainFragMent.showToolBar();
-//                    case "消息":
-//                        mMessageFragment.showToolBar();
-//                    case "发现":
-//                        mDiscoverFragment.showToolBar();
-//                    case "我":
-//                        mProfileFragment.showToolBar();
-//                }
-
-
-            }
-        });
 
     }
 
     private View getTabView(int index) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.tabitem, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.tabitem_havetext, null);
         TextView textView = (TextView) view.findViewById(R.id.itemTextView);
         textView.setText(TabDB.getTabText()[index]);
         Drawable drawable = getResources().getDrawable(TabDB.getTabImg()[index]);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         textView.setCompoundDrawables(null, drawable, null, null);
+        return view;
+    }
+
+    private View getMiddleTabView(int index) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.tabitem_notext, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(mContext, 60), DensityUtil.dp2px(mContext, 45));
+        params.setMargins(0, DensityUtil.dp2px(mContext, 5), 0, DensityUtil.dp2px(mContext, 5));
+        view.setLayoutParams(params);
+
         return view;
     }
 
@@ -102,5 +91,13 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+//        mMainFragMent.onDestroy();
+//        mMessageFragment.onDestroy();
+//        mPostFragment.onDestroy();
+//        mDiscoverFragment.onDestroy();
+//        mProfileFragment.onDestroy();
+        super.onDestroy();
+    }
 }

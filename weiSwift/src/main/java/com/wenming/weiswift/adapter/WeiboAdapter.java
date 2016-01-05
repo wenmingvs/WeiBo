@@ -85,8 +85,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position > 0) position--;
         if (holder instanceof ItemViewHolder) {
+            position--;
             //微博用户信息
             ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((ItemViewHolder) holder).profile_img, options);
             ((ItemViewHolder) holder).profile_name.setText(mData.get(position).user.name);
@@ -95,9 +95,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             //微博文字内容
             ((ItemViewHolder) holder).weibo_Content.setText(mData.get(position).text);
-
+            int p = holder.getPosition();
             //微博图片内容
-
             mImageDatas = mData.get(position).origin_pic_urls;
             gridLayoutManager = new GridLayoutManager(mContext, 3);
             imageAdapter = new ImageAdapter(mImageDatas, mContext);
@@ -116,7 +115,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             //微博转发，评论，赞的数量
             if (mData.get(position).comments_count != 0) {
-
                 ((ItemViewHolder) holder).comment.setText(mData.get(position).comments_count + "");
             }
             if (mData.get(position).reposts_count != 0) {
@@ -126,7 +124,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((ItemViewHolder) holder).feedlike.setText(mData.get(position).attitudes_count + "");
             }
         } else if (holder instanceof FooterViewHolder) {
-            if (getItemCount() == 1) {
+            if (getItemCount() == 2) {
                 ((FooterViewHolder) holder).linearLayout.setVisibility(View.GONE);
             } else {
                 ((FooterViewHolder) holder).linearLayout.setVisibility(View.VISIBLE);

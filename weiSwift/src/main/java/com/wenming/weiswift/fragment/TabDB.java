@@ -20,10 +20,8 @@ public class TabDB {
 
     public static Class[] getFragments() {
         Class[] classess = {MainFragment.class, MessageFragment.class, PostFragment.class, DiscoverFragment.class, ProfileFragment.class};
-        return  classess;
+        return classess;
     }
-
-
 
 
 }
