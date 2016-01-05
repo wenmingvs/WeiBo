@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.util.LogUtil;
 
 import java.util.ArrayList;
 
@@ -39,21 +38,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_imageitem, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        if (mData.size() >= 0) {
-            ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
-            LogUtil.d(mData.get(position));
-            ;
-        }
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
+
+//        ImageLoader.getInstance().loadImage(mData.get(position), new SimpleImageLoadingListener() {
+//            public void onLoadingComplete(String imageUri, android.view.View view, android.graphics.Bitmap loadedImage) {
+//                holder.imageItem.setImageBitmap(loadedImage);   //imageView，你要显示的imageview控件对象，布局文件里面//配置的
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+
+        return mData == null ? 0 : mData.size();
     }
 
     public void setData(ArrayList<String> data) {
@@ -67,6 +71,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             imageItem = (ImageView) itemView.findViewById(R.id.imageItem);
+
         }
     }
 

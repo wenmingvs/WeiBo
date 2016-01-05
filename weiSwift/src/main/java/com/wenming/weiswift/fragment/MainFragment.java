@@ -26,7 +26,6 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
-import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
@@ -84,6 +83,8 @@ public class MainFragment extends Fragment {
                     ArrayList<Status> datas = StatusList.parse(response).statusList;
                     if (FROM_PULL_TO_REFRESH) {
                         mDatas.clear();
+
+                        mDatas.add(0, new Status());
                         mDatas.addAll(datas);
                         mAdapter.setData(mDatas);
                         mAdapter.notifyDataSetChanged();
@@ -92,8 +93,8 @@ public class MainFragment extends Fragment {
                         mDatas.addAll(datas);
                         mAdapter.setData(mDatas);
                         LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
-                        mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());
-                        //mLayoutManager.scrollToPosition(mLastVisibleItemPositon);
+                        //mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon , datas.size());
+                        mAdapter.notifyDataSetChanged();
                     }
 
                 } else if (response.startsWith("{\"created_at\"")) {
@@ -114,12 +115,12 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onWeiboException(WeiboException e) {
-            ErrorInfo info = ErrorInfo.parse(e.getMessage());
-            Toast.makeText(mContext, info.toString(),
-                    Toast.LENGTH_LONG).show();
+//            ErrorInfo info = ErrorInfo.parse(e.getMessage());
+//            Toast.makeText(mContext, info.toString(),
+//                    Toast.LENGTH_LONG).show();
 //            mSwipeRefreshLayout.setRefreshing(false);
 //            FROM_PULL_TO_REFRESH = false;
-//            FROM_BOTTOM_LOAD_MORE = false;
+            // FROM_BOTTOM_LOAD_MORE = false;
             simulationData();
             mSwipeRefreshLayout.setRefreshing(false);
             FROM_PULL_TO_REFRESH = false;
@@ -137,6 +138,7 @@ public class MainFragment extends Fragment {
             ArrayList<Status> datas = StatusList.parse(response).statusList;
             if (FROM_PULL_TO_REFRESH) {
                 mDatas.clear();
+                mDatas.add(0, new Status());
                 mDatas.addAll(datas);
                 mAdapter.setData(mDatas);
                 mAdapter.notifyDataSetChanged();
@@ -144,10 +146,8 @@ public class MainFragment extends Fragment {
                 //datas.remove(0);
                 mDatas.addAll(datas);
                 mAdapter.setData(mDatas);
-                LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
+                //mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());//count from 1
                 mAdapter.notifyDataSetChanged();
-                //mAdapter.notifyItemRangeInserted( 3 , datas.size());//count from 1
-                //mLayoutManager.scrollToPosition(mLastVisibleItemPositon);
             }
 
         } else if (response.startsWith("{\"created_at\"")) {
@@ -351,6 +351,8 @@ public class MainFragment extends Fragment {
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        // mRecyclerView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(),false,false));
+
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -363,7 +365,7 @@ public class MainFragment extends Fragment {
                     if (mAccessToken != null && mAccessToken.isSessionValid()) {
                         if (mDatas.size() != 0) {
                             FROM_BOTTOM_LOAD_MORE = true;
-                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id) + 1;
+                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
                             mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
                                     mListener);
                         }
