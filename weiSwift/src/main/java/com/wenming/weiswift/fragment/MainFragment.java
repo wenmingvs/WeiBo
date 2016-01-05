@@ -26,6 +26,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
+import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
@@ -113,10 +114,9 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onWeiboException(WeiboException e) {
-//            LogUtil.e("wenming", e.getMessage());
-//            ErrorInfo info = ErrorInfo.parse(e.getMessage());
-//            Toast.makeText(mContext, info.toString(),
-//                    Toast.LENGTH_LONG).show();
+            ErrorInfo info = ErrorInfo.parse(e.getMessage());
+            Toast.makeText(mContext, info.toString(),
+                    Toast.LENGTH_LONG).show();
 //            mSwipeRefreshLayout.setRefreshing(false);
 //            FROM_PULL_TO_REFRESH = false;
 //            FROM_BOTTOM_LOAD_MORE = false;
@@ -180,7 +180,6 @@ public class MainFragment extends Fragment {
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         initToolBar();
         initRecyclerView();
-
         initRefreshLayout();
         return mView;
     }

@@ -5,12 +5,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 
@@ -20,6 +18,7 @@ import com.wenming.weiswift.R;
 public class ProfileFragment extends Fragment {
     private Activity mActivity;
     private View mToolBar;
+    private View mView;
 
 
     @Override
@@ -38,15 +37,11 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        TextView textView = new TextView(getActivity());
-        textView.setText("我");
-        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(30);
-        return textView;
+        mView = inflater.inflate(R.layout.profilefragment_layout, null);
+        return mView;
 
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);

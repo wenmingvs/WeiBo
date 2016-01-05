@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:text="【天津本周预计将迎两次雾霾 为期6天半】记者从天津市气象局了解到，本周天津将迎来两次雾霾，一次持续两天半，一次持续四天。天津气象台预报员称，本周天津冷空气活动比较弱，气温较往年偏高。受静稳天气影响，雾霾天气依旧较多，以间歇性雾霾天气为主。"
-        android:textColor="#444444"
+        android:textColor="#222222"
         android:textSize="15sp"/>
 
     <android.support.v7.widget.RecyclerView
