@@ -31,6 +31,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_HEADER = 2;
     private static final int TYPE_RETWEET_ITEM = 3;
+    private static final int TYPE_RETWEET_DELETE = 4;
 
     protected AnimationDrawable mFooterImag;
     private ArrayList<Status> mData;
@@ -42,6 +43,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ImageAdapter imageAdapter;
     private LinearLayout.LayoutParams mParams;
     private View view;
+    private StringBuffer retweetcontent_buffer = new StringBuffer();
 
 
     public WeiboAdapter(ArrayList<Status> datas, Context context) {
@@ -93,8 +95,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-
         if (holder instanceof OriginViewHolder) {
             //微博用户信息
             ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((OriginViewHolder) holder).profile_img, options);
@@ -153,11 +153,11 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).feedlike.setText(mData.get(position).attitudes_count + "");
 
             //转发的文字
-            StringBuffer buffer = new StringBuffer();
-            buffer.append("@");
-            buffer.append(mData.get(position).retweeted_status.user.name + " :  ");
-            buffer.append(mData.get(position).retweeted_status.text);
-            ((RetweetViewHolder) holder).origin_nameAndcontent.setText(buffer.toString());
+            retweetcontent_buffer.setLength(0);
+            retweetcontent_buffer.append("@");
+            retweetcontent_buffer.append(mData.get(position).retweeted_status.user.name + " :  ");
+            retweetcontent_buffer.append(mData.get(position).retweeted_status.text);
+            ((RetweetViewHolder) holder).origin_nameAndcontent.setText(retweetcontent_buffer.toString());
 
             //转发的图片
 
@@ -222,7 +222,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else if (position == 0) {
             return TYPE_HEADER;
         } else {
-            if (mData.get(position).retweeted_status != null) {
+            if (mData.get(position).retweeted_status != null && mData.get(position).retweeted_status.user != null) {
                 return TYPE_RETWEET_ITEM;
             } else {
                 return TYPE_ORINGIN_ITEM;

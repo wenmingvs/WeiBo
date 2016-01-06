@@ -130,7 +130,6 @@ public class Status {
      */
     public ArrayList<String> pic_urls;
     public ArrayList<String> origin_pic_urls;
-    public ArrayList<String> retweet_pic_urls;
 
 
     /**
