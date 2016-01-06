@@ -1,4 +1,4 @@
-package com.wenming.weiswift.util;
+package com.wenming.weiswift.util.androidutils;
 
 import android.app.Activity;
 import android.content.Context;

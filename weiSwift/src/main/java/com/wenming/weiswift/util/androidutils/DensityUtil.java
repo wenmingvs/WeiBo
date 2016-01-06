@@ -1,4 +1,4 @@
-package com.wenming.weiswift.util;
+package com.wenming.weiswift.util.androidutils;
 
 import android.content.Context;
 import android.util.TypedValue;

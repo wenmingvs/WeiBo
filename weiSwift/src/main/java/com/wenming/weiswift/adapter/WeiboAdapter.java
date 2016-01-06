@@ -18,7 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.util.DensityUtil;
+import com.wenming.weiswift.util.androidutils.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -64,7 +64,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_original_weiboitem, parent, false);
             ItemViewHolder itemViewHolder = new ItemViewHolder(view);
             itemViewHolder.imageList.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 5)));
-            itemViewHolder.setIsRecyclable(false);
             return itemViewHolder;
         } else if (viewType == TYPE_FOOTER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.footerview, null);
@@ -86,6 +85,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+
         if (holder instanceof ItemViewHolder) {
             //微博用户信息
             ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((ItemViewHolder) holder).profile_img, options);
@@ -98,6 +99,10 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             int p = holder.getPosition();
 
             //微博图片内容
+
+            ((ItemViewHolder) holder).imageList.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).imageList.setVisibility(View.VISIBLE);
+
             mImageDatas = mData.get(position).origin_pic_urls;
             gridLayoutManager = new GridLayoutManager(mContext, 3);
             imageAdapter = new ImageAdapter(mImageDatas, mContext);
@@ -105,7 +110,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((ItemViewHolder) holder).imageList.setAdapter(imageAdapter);
             ((ItemViewHolder) holder).imageList.setLayoutManager(gridLayoutManager);
             imageAdapter.setData(mImageDatas);
-
+            ((ItemViewHolder) holder).imageList.requestLayout();
 
             if (mImageDatas != null && mImageDatas.size() != 0) {
                 mParams = ((ItemViewHolder) holder).imageList.getLayoutParams();

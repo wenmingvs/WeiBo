@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.util.DensityUtil;
 
 import java.util.ArrayList;
 

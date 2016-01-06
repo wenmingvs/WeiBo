@@ -30,9 +30,6 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.adapter.WeiboAdapter;
-import com.wenming.weiswift.util.DensityUtil;
-import com.wenming.weiswift.util.LogUtil;
-import com.wenming.weiswift.util.SharedPreferencesUtil;
 import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
 import com.wenming.weiswift.weiboAccess.Constants;
 
@@ -65,25 +62,26 @@ public class MainFragment extends Fragment {
     private boolean FROM_PULL_TO_REFRESH = false;
     private boolean FROM_BOTTOM_LOAD_MORE = false;
     private boolean mLoginState = true;
-
-    private int scrolledX;
-    private int scrolledY;
+    private StringBuffer buffer = new StringBuffer();
 
     /**
      * 微博 OpenAPI 回调接口。
      */
     private RequestListener mListener = new RequestListener() {
+
+
         @Override
         public void onComplete(String response) {
             //LogUtil.d("wenming", response);
-            SharedPreferencesUtil.put(mContext, "wenming", response);
+            buffer.append(response);
+            SharedPreferencesUtil.put(mContext, "wenming", buffer.toString());
             if (!TextUtils.isEmpty(response)) {
                 if (response.startsWith("{\"statuses\"")) {
                     // 调用 StatusList#parse 解析字符串成微博列表对象
                     ArrayList<Status> datas = StatusList.parse(response).statusList;
+
                     if (FROM_PULL_TO_REFRESH) {
                         mDatas.clear();
-
                         mDatas.add(0, new Status());
                         mDatas.addAll(datas);
                         mAdapter.setData(mDatas);

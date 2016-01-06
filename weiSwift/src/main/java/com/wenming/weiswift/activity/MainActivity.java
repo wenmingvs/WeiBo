@@ -21,7 +21,6 @@ import com.wenming.weiswift.fragment.MessageFragment;
 import com.wenming.weiswift.fragment.PostFragment;
 import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
-import com.wenming.weiswift.util.DensityUtil;
 
 
 public class MainActivity extends FragmentActivity {

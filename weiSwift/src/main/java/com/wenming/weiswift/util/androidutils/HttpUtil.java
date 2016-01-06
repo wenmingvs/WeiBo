@@ -1,4 +1,4 @@
-package com.wenming.weiswift.util;
+package com.wenming.weiswift.util.androidutils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

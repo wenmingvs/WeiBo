@@ -1,4 +1,4 @@
-package com.wenming.weiswift.util;
+package com.wenming.weiswift.util.androidutils;
 
 import android.os.Environment;
 import android.os.StatFs;
