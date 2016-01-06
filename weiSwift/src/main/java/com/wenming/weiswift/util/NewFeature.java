@@ -5,11 +5,11 @@ package com.wenming.weiswift.util;
  */
 public class NewFeature {
 
-    public static int GET_WEIBO_NUMS = 50;
+    public static int GET_WEIBO_NUMS = 20;
 
     public static int LOAD_WEIBO_ITEM = 7;
 
-    public static int WEIBO_TYPE = 1;
+    public static int WEIBO_TYPE = 0;
 
     //通用设置
     public static boolean HAVA_IMAGE = true;

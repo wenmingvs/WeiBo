@@ -316,8 +316,8 @@ public class MainFragment extends Fragment {
                                     if (response.startsWith("{\"statuses\"")) {
                                         // 调用 StatusList#parse 解析字符串成微博列表对象
                                         mWeiBoItemDataList.clear();
-                                        mWeiBoItemDataList = StatusList.parse(response).statusList;
                                         mDatas.clear();
+                                        mWeiBoItemDataList = StatusList.parse(response).statusList;
                                         mDatas.add(0, new Status());
                                         for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
                                             mDatas.add(mWeiBoItemDataList.get(i - 1));

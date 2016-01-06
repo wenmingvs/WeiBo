@@ -130,6 +130,8 @@ public class Status {
      */
     public ArrayList<String> pic_urls;
     public ArrayList<String> origin_pic_urls;
+    public ArrayList<String> retweet_pic_urls;
+
 
     /**
      * 微博流内的推广微博ID
@@ -180,6 +182,7 @@ public class Status {
         status.mlevel = jsonObject.optInt("mlevel", -1);    // Have NOT supported
         status.visible = Visible.parse(jsonObject.optJSONObject("visible"));
 
+
         JSONArray picUrlsArray = jsonObject.optJSONArray("pic_urls");
         if (picUrlsArray != null && picUrlsArray.length() > 0) {
             int length = picUrlsArray.length();
@@ -198,6 +201,7 @@ public class Status {
             }
         }
 
+
         //status.ad = jsonObject.optString("ad", "");
 
         return status;
@@ -214,12 +218,10 @@ public class Status {
     }
 
     private static String getOriginUrl(String thumbnail_url) {
-
         StringBuffer buffer = new StringBuffer(thumbnail_url);
         buffer.replace(22, 31, "bmiddle");
         // Log.d("wenming", buffer.toString());
         return buffer.toString();
-
     }
 
 }

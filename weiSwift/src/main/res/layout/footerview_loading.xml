@@ -14,7 +14,7 @@
         android:src="@anim/refresh_loading"/>
 
     <TextView
-        android:id="@+id/tv_normal_refresh_footer_status"
+        android:id="@+id/footview_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
