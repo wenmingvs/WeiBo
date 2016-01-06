@@ -25,9 +25,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         this.mData = mData;
         this.mContext = mContext;
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.avator_default)
-                .showImageForEmptyUri(R.drawable.avator_default)
-                .showImageOnFail(R.drawable.avator_default)
+                .showImageOnLoading(R.drawable.message_image_default)
+                .showImageForEmptyUri(R.drawable.message_image_default)
+                .showImageOnFail(R.drawable.message_image_default)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)

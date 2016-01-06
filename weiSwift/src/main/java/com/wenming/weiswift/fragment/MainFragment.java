@@ -26,10 +26,17 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
+import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.adapter.WeiboAdapter;
+import com.wenming.weiswift.util.NewFeature;
+import com.wenming.weiswift.util.androidutils.DensityUtil;
+import com.wenming.weiswift.util.androidutils.LogUtil;
+import com.wenming.weiswift.util.androidutils.NetUtil;
+import com.wenming.weiswift.util.androidutils.SharedPreferencesUtil;
+import com.wenming.weiswift.util.androidutils.ToastUtil;
 import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
 import com.wenming.weiswift.weiboAccess.Constants;
 
@@ -56,13 +63,11 @@ public class MainFragment extends Fragment {
     private StatusesAPI mStatusesAPI;
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ArrayList<Status> mWeiBoItemDataList;
     private int mLastVisibleItemPositon;//count from 1
     private long lastWeiboID;
 
-    private boolean FROM_PULL_TO_REFRESH = false;
-    private boolean FROM_BOTTOM_LOAD_MORE = false;
     private boolean mLoginState = true;
-    private StringBuffer buffer = new StringBuffer();
 
     /**
      * 微博 OpenAPI 回调接口。
@@ -72,93 +77,15 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onComplete(String response) {
-            //LogUtil.d("wenming", response);
-            buffer.append(response);
-            SharedPreferencesUtil.put(mContext, "wenming", buffer.toString());
-            if (!TextUtils.isEmpty(response)) {
-                if (response.startsWith("{\"statuses\"")) {
-                    // 调用 StatusList#parse 解析字符串成微博列表对象
-                    ArrayList<Status> datas = StatusList.parse(response).statusList;
 
-                    if (FROM_PULL_TO_REFRESH) {
-                        mDatas.clear();
-                        mDatas.add(0, new Status());
-                        mDatas.addAll(datas);
-                        mAdapter.setData(mDatas);
-                        mAdapter.notifyDataSetChanged();
-                    } else if (FROM_BOTTOM_LOAD_MORE) {
-                        datas.remove(0);
-                        mDatas.addAll(datas);
-                        mAdapter.setData(mDatas);
-                        LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
-                        //mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon , datas.size());
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                } else if (response.startsWith("{\"created_at\"")) {
-                    // 调用 Status#parse 解析字符串成微博对象
-                    Status status = Status.parse(response);
-                    Toast.makeText(mContext,
-                            "发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
-                            .show();
-                } else {
-                    Toast.makeText(mContext, response,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-            mSwipeRefreshLayout.setRefreshing(false);
-            FROM_PULL_TO_REFRESH = false;
-            FROM_BOTTOM_LOAD_MORE = false;
         }
 
         @Override
         public void onWeiboException(WeiboException e) {
-//            ErrorInfo info = ErrorInfo.parse(e.getMessage());
-//            Toast.makeText(mContext, info.toString(),
-//                    Toast.LENGTH_LONG).show();
-//            mSwipeRefreshLayout.setRefreshing(false);
-//            FROM_PULL_TO_REFRESH = false;
-            // FROM_BOTTOM_LOAD_MORE = false;
-            simulationData();
-            mSwipeRefreshLayout.setRefreshing(false);
-            FROM_PULL_TO_REFRESH = false;
-            FROM_BOTTOM_LOAD_MORE = false;
+
         }
     };
 
-    private void simulationData() {
-        //SimulationString simulationString = new SimulationString(mContext);
-        //Object defaultObject = new String(" ");
-        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
-        //LogUtil.d(response);
-        if (response.startsWith("{\"statuses\"")) {
-            // 调用 StatusList#parse 解析字符串成微博列表对象
-            ArrayList<Status> datas = StatusList.parse(response).statusList;
-            if (FROM_PULL_TO_REFRESH) {
-                mDatas.clear();
-                mDatas.add(0, new Status());
-                mDatas.addAll(datas);
-                mAdapter.setData(mDatas);
-                mAdapter.notifyDataSetChanged();
-            } else if (FROM_BOTTOM_LOAD_MORE) {
-                //datas.remove(0);
-                mDatas.addAll(datas);
-                mAdapter.setData(mDatas);
-                //mAdapter.notifyItemRangeInserted(mLastVisibleItemPositon + 1, datas.size());//count from 1
-                mAdapter.notifyDataSetChanged();
-            }
-
-        } else if (response.startsWith("{\"created_at\"")) {
-            // 调用 Status#parse 解析字符串成微博对象
-            Status status = Status.parse(response);
-            Toast.makeText(mContext,
-                    "发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
-                    .show();
-        } else {
-            Toast.makeText(mContext, response,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -168,20 +95,18 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        LogUtil.d("onCreate");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtil.d("onCreateView");
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
+        mActivity = getActivity();
+        mContext = getActivity();
+        initAccessToken();
         initToolBar();
         initRecyclerView();
         initRefreshLayout();
         return mView;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -191,41 +116,11 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        LogUtil.d("onActivityCreated");
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        LogUtil.d("onStart");
-        super.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        LogUtil.d("onPause");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        LogUtil.d("onStop");
-        super.onStop();
-    }
-
-    @Override
     public void onDestroyView() {
         LogUtil.d("onDestroyView");
         super.onDestroyView();
         mToolBar.setVisibility(View.GONE);
         mFirstLoad = false;
-    }
-
-    @Override
-    public void onDestroy() {
-        LogUtil.d("onDestroy");
-        super.onDestroy();
     }
 
     public void hideToolBar() {
@@ -254,6 +149,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
+
         super.onHiddenChanged(hidden);
         if (hidden) {
             hideToolBar();
@@ -262,12 +158,16 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void initToolBar() {
-        mActivity = getActivity();
-        mContext = mActivity;
+    private void initAccessToken() {
         mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
         mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
+        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+        mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+    }
+
+    private void initToolBar() {
+
         if (mLoginState == true) {
             initLoginState();
         } else {
@@ -281,7 +181,6 @@ public class MainFragment extends Fragment {
     }
 
     private void initUnLoginState() {
-
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_unlogin);
         mLogin = (TextView) mToolBar.findViewById(R.id.login);
@@ -312,30 +211,19 @@ public class MainFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                FROM_PULL_TO_REFRESH = true;
-                getfriendsTimeline();
+                pullToRefreshData();
             }
         });
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
-                FROM_PULL_TO_REFRESH = true;
-                getfriendsTimeline();
+                pullToRefreshData();
             }
         });
 
     }
 
-    private void getfriendsTimeline() {
-        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-        // 对statusAPI实例化
-        mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
-        if (mAccessToken != null && mAccessToken.isSessionValid()) {
-            mStatusesAPI.friendsTimeline(0, 0, 5, 1, false, 1, false,
-                    mListener);
-        }
-    }
 
     private void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
@@ -346,10 +234,11 @@ public class MainFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDatas = new ArrayList<Status>();
+        mWeiBoItemDataList = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        // mRecyclerView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(),false,false));
+
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -357,18 +246,30 @@ public class MainFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
-                    mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-                    // 对statusAPI实例化
-                    mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
-                    if (mAccessToken != null && mAccessToken.isSessionValid()) {
-                        if (mDatas.size() != 0) {
-                            FROM_BOTTOM_LOAD_MORE = true;
-                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
-                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
-                                    mListener);
-                        }
-                    }
 
+//                    if (mAccessToken != null && mAccessToken.isSessionValid()) {
+//                        if (mDatas.size() != 0) {
+//                            FROM_BOTTOM_LOAD_MORE = true;
+//                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
+//                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
+//                                    mListener);
+//                        }
+//                    }
+
+
+                    if (mDatas.size() - 1 != mWeiBoItemDataList.size()) {
+                        for (int i = mLastVisibleItemPositon; i <= mLastVisibleItemPositon + NewFeature.LOAD_WEIBO_ITEM; i++) {
+                            if (i == mWeiBoItemDataList.size()) {
+                                mDatas.add(mWeiBoItemDataList.get(i));
+                            }
+
+                        }
+                        mAdapter.setData(mDatas);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
+                        ToastUtil.showShort(mContext, "本地数据已经被读取完！！！");
+                    }
                 }
             }
 
@@ -376,13 +277,72 @@ public class MainFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mLastVisibleItemPositon = mLayoutManager.findLastVisibleItemPosition();
+                LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
             }
         });
-
     }
 
-    public void setData(ArrayList<Status> data) {
-        this.mDatas = data;
+    private void pullToRefreshData() {
+        if (NetUtil.isConnected(mContext)) {
+            if (mAccessToken != null && mAccessToken.isSessionValid()) {
+                mStatusesAPI.friendsTimeline(0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, NewFeature.WEIBO_TYPE, false,
+                        new RequestListener() {
+                            @Override
+                            public void onComplete(String response) {
+                                SharedPreferencesUtil.put(mContext, "wenming", response);
+                                if (!TextUtils.isEmpty(response)) {
+                                    if (response.startsWith("{\"statuses\"")) {
+                                        // 调用 StatusList#parse 解析字符串成微博列表对象
+                                        mWeiBoItemDataList.clear();
+                                        mWeiBoItemDataList = StatusList.parse(response).statusList;
+                                        mDatas.clear();
+                                        mDatas.add(0, new Status());
+                                        for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
+                                            mDatas.add(mWeiBoItemDataList.get(i));
+                                        }
+                                        mAdapter.setData(mDatas);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                } else if (response.startsWith("{\"created_at\"")) {
+                                    // 调用 Status#parse 解析字符串成微博对象
+                                    Status status = Status.parse(response);
+                                    Toast.makeText(mContext,
+                                            "发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
+                                            .show();
+                                } else {
+                                    Toast.makeText(mContext, response,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                mSwipeRefreshLayout.setRefreshing(false);
+                            }
+
+                            @Override
+                            public void onWeiboException(WeiboException e) {
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                ErrorInfo info = ErrorInfo.parse(e.getMessage());
+                                Toast.makeText(mContext, info.toString(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+        } else {
+            //获取缓存的微博数据
+            String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
+            if (response.startsWith("{\"statuses\"")) {
+                mWeiBoItemDataList.clear();
+                mWeiBoItemDataList = StatusList.parse(response).statusList;
+                mDatas.clear();
+                mDatas.add(0, new Status());
+                for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
+                    mDatas.add(mWeiBoItemDataList.get(i));
+                }
+                mAdapter.setData(mDatas);
+                mAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+        }
+
     }
 
     class AuthListener implements WeiboAuthListener {

@@ -20,8 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+
         android:background="#F7F7F7"
         android:orientation="vertical"
         android:paddingBottom="10dp"
@@ -30,6 +29,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="\@飞常准 :  【网曝：首都机场有人带枪上飞机】 据“停机坪”公众号1月4日发布的消息，有网友报料称，有乘客把看似是玩具或道具“手枪”带上了飞机。并在机舱里拿着枪摆各种姿势合影。事件发生的地点在北京首都机场的一架飞机上。"
             android:textColor="#5D5D5D"
             android:textSize="15sp" />
@@ -37,6 +38,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:visibility="gone">
 
         </android.support.v7.widget.RecyclerView>

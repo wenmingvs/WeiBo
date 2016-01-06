@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.util.androidutils.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.headsearchview, null);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40));
-            //params.setMargins(DensityUtil.dp2px(mContext, 8), DensityUtil.dp2px(mContext, 5), DensityUtil.dp2px(mContext, 8), DensityUtil.dp2px(mContext, 5));
             view.setLayoutParams(params);
             SearchViewHolder viewHolder = new SearchViewHolder(view);
             return viewHolder;

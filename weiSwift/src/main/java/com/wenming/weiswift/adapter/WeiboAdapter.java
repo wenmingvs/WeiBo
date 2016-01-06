@@ -38,7 +38,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     private boolean mFirstLoad;
     private GridLayoutManager gridLayoutManager;
     private ImageAdapter imageAdapter;
-    private ViewGroup.LayoutParams mParams;
+    private LinearLayout.LayoutParams mParams;
     private View view;
 
 
@@ -66,13 +66,14 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             itemViewHolder.imageList.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 5)));
             return itemViewHolder;
         } else if (viewType == TYPE_FOOTER) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.footerview, null);
+            view = LayoutInflater.from(mContext).inflate(R.layout.footerview_loading, null);
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             FooterViewHolder footerViewHolder = new FooterViewHolder(view);
             ImageView waitingImg = (ImageView) view.findViewById(R.id.waiting_image);
             mFooterImag = (AnimationDrawable) waitingImg.getDrawable();
             mFooterImag.start();
             return footerViewHolder;
+
         } else if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.headsearchview, null);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40));
@@ -96,7 +97,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             //微博文字内容
             ((ItemViewHolder) holder).weibo_Content.setText(mData.get(position).text);
-            int p = holder.getPosition();
+
 
             //微博图片内容
 
@@ -106,18 +107,21 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             mImageDatas = mData.get(position).origin_pic_urls;
             gridLayoutManager = new GridLayoutManager(mContext, 3);
             imageAdapter = new ImageAdapter(mImageDatas, mContext);
-            //((ItemViewHolder) holder).imageList.setHasFixedSize(true);
+            ((ItemViewHolder) holder).imageList.setHasFixedSize(true);
             ((ItemViewHolder) holder).imageList.setAdapter(imageAdapter);
             ((ItemViewHolder) holder).imageList.setLayoutManager(gridLayoutManager);
             imageAdapter.setData(mImageDatas);
             ((ItemViewHolder) holder).imageList.requestLayout();
 
             if (mImageDatas != null && mImageDatas.size() != 0) {
-                mParams = ((ItemViewHolder) holder).imageList.getLayoutParams();
+                mParams = (LinearLayout.LayoutParams) ((ItemViewHolder) holder).imageList.getLayoutParams();
                 mParams.height = (DensityUtil.dp2px(mContext, 110f)) * getImgLineCount(mImageDatas) + (DensityUtil.dp2px(mContext, 5f)) * getImgLineCount(mImageDatas);
                 mParams.width = (DensityUtil.dp2px(mContext, 110f)) * 3 + (DensityUtil.dp2px(mContext, 5f)) * 2;
+                mParams.setMargins(DensityUtil.dp2px(mContext, 8), DensityUtil.dp2px(mContext, -5), DensityUtil.dp2px(mContext, 8), DensityUtil.dp2px(mContext, 8));
+
                 ((ItemViewHolder) holder).imageList.setLayoutParams(mParams);
                 imageAdapter.notifyDataSetChanged();
+
             } else {
                 ((ItemViewHolder) holder).imageList.setVisibility(View.GONE);
 

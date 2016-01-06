@@ -21,6 +21,7 @@ import com.wenming.weiswift.fragment.MessageFragment;
 import com.wenming.weiswift.fragment.PostFragment;
 import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
+import com.wenming.weiswift.util.androidutils.DensityUtil;
 
 
 public class MainActivity extends FragmentActivity {
@@ -60,6 +61,7 @@ public class MainActivity extends FragmentActivity {
         mDiscoverFragment = (DiscoverFragment) getSupportFragmentManager().findFragmentByTag("发现");
         mProfileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("我");
 
+
     }
 
     private View getTabView(int index) {
@@ -92,11 +94,6 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
-//        mMainFragMent.onDestroy();
-//        mMessageFragment.onDestroy();
-//        mPostFragment.onDestroy();
-//        mDiscoverFragment.onDestroy();
-//        mProfileFragment.onDestroy();
         super.onDestroy();
     }
 }
