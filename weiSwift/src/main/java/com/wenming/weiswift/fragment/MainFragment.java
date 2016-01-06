@@ -246,29 +246,19 @@ public class MainFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
-
-//                    if (mAccessToken != null && mAccessToken.isSessionValid()) {
-//                        if (mDatas.size() != 0) {
-//                            FROM_BOTTOM_LOAD_MORE = true;
-//                            lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
-//                            mStatusesAPI.friendsTimeline(0L, lastWeiboID, 5, 1, false, 1, false,
-//                                    mListener);
-//                        }
-//                    }
-
-
                     if (mDatas.size() - 1 != mWeiBoItemDataList.size()) {
                         for (int i = mLastVisibleItemPositon; i <= mLastVisibleItemPositon + NewFeature.LOAD_WEIBO_ITEM; i++) {
-                            if (i == mWeiBoItemDataList.size()) {
-                                mDatas.add(mWeiBoItemDataList.get(i));
+                            if (i > mWeiBoItemDataList.size()) {
+                                break;
                             }
-
+                            mDatas.add(mWeiBoItemDataList.get(i - 1));
                         }
                         mAdapter.setData(mDatas);
                         mAdapter.notifyDataSetChanged();
                     } else {
                         lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
-                        ToastUtil.showShort(mContext, "本地数据已经被读取完！！！");
+                        ToastUtil.showShort(mContext, "本地数据已经被读取完，开始进行网络请求");
+                        pullToLoadMoreData();
                     }
                 }
             }
@@ -281,6 +271,38 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
+    private void pullToLoadMoreData() {
+        if (NetUtil.isConnected(mContext)) {
+            if (mAccessToken != null && mAccessToken.isSessionValid()) {
+                mStatusesAPI.friendsTimeline(0, lastWeiboID, NewFeature.GET_WEIBO_NUMS, 1, false, NewFeature.WEIBO_TYPE, false,
+                        new RequestListener() {
+                            @Override
+                            public void onComplete(String response) {
+                                ArrayList<Status> status = StatusList.parse(response).statusList;
+                                status.remove(0);
+                                mWeiBoItemDataList.addAll(status);
+                                for (int i = mLastVisibleItemPositon; i <= mLastVisibleItemPositon + NewFeature.LOAD_WEIBO_ITEM; i++) {
+                                    if (i > mWeiBoItemDataList.size()) {
+                                        break;
+                                    }
+                                    mDatas.add(mWeiBoItemDataList.get(i - 1));
+                                }
+                                mAdapter.setData(mDatas);
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onWeiboException(WeiboException e) {
+                                ToastUtil.showShort(mContext, "服务器出现问题！");
+                            }
+                        });
+            }
+        } else {
+            ToastUtil.showShort(mContext, "网络请求失败，没有网络");
+        }
+    }
+
 
     private void pullToRefreshData() {
         if (NetUtil.isConnected(mContext)) {
@@ -298,7 +320,7 @@ public class MainFragment extends Fragment {
                                         mDatas.clear();
                                         mDatas.add(0, new Status());
                                         for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
-                                            mDatas.add(mWeiBoItemDataList.get(i));
+                                            mDatas.add(mWeiBoItemDataList.get(i - 1));
                                         }
                                         mAdapter.setData(mDatas);
                                         mAdapter.notifyDataSetChanged();
