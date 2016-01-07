@@ -63,7 +63,7 @@ public class MainFragment extends Fragment {
     private StatusesAPI mStatusesAPI;
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ArrayList<Status> mWeiBoItemDataList;
+    private ArrayList<Status> mWeiBoCache;
     private int mLastVisibleItemPositon;//count from 1
     private long lastWeiboID;
 
@@ -234,31 +234,25 @@ public class MainFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDatas = new ArrayList<Status>();
-        mWeiBoItemDataList = new ArrayList<Status>();
+        mWeiBoCache = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
-                    if (mDatas.size() - 1 != mWeiBoItemDataList.size()) {
-                        for (int i = mLastVisibleItemPositon; i <= mLastVisibleItemPositon + NewFeature.LOAD_WEIBO_ITEM; i++) {
-                            if (i > mWeiBoItemDataList.size()) {
-                                break;
-                            }
-                            mDatas.add(mWeiBoItemDataList.get(i - 1));
-                        }
+                    if (mDatas.size() - 1 < mWeiBoCache.size()) {//读取本地缓存数据
+                        addDataFromCache(mLastVisibleItemPositon - 1);
                         mAdapter.setData(mDatas);
                         mAdapter.notifyDataSetChanged();
                     } else {
                         lastWeiboID = Long.parseLong(mDatas.get(mDatas.size() - 1).id);
                         ToastUtil.showShort(mContext, "本地数据已经被读取完，开始进行网络请求");
-                        pullToLoadMoreData();
+                        pullToLoadMoreDataFromURL();
                     }
                 }
             }
@@ -272,7 +266,7 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void pullToLoadMoreData() {
+    private void pullToLoadMoreDataFromURL() {
         if (NetUtil.isConnected(mContext)) {
             if (mAccessToken != null && mAccessToken.isSessionValid()) {
                 mStatusesAPI.friendsTimeline(0, lastWeiboID, NewFeature.GET_WEIBO_NUMS, 1, false, NewFeature.WEIBO_TYPE, false,
@@ -281,13 +275,8 @@ public class MainFragment extends Fragment {
                             public void onComplete(String response) {
                                 ArrayList<Status> status = StatusList.parse(response).statusList;
                                 status.remove(0);
-                                mWeiBoItemDataList.addAll(status);
-                                for (int i = mLastVisibleItemPositon; i <= mLastVisibleItemPositon + NewFeature.LOAD_WEIBO_ITEM; i++) {
-                                    if (i > mWeiBoItemDataList.size()) {
-                                        break;
-                                    }
-                                    mDatas.add(mWeiBoItemDataList.get(i - 1));
-                                }
+                                mWeiBoCache.addAll(status);
+                                addDataFromCache(mLastVisibleItemPositon - 1);
                                 mAdapter.setData(mDatas);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -311,61 +300,67 @@ public class MainFragment extends Fragment {
                         new RequestListener() {
                             @Override
                             public void onComplete(String response) {
-                                SharedPreferencesUtil.put(mContext, "wenming", response);
+                                //短时间内疯狂请求数据，服务器会暂时返回空数据，所以在这里要判空
                                 if (!TextUtils.isEmpty(response)) {
-                                    if (response.startsWith("{\"statuses\"")) {
-                                        // 调用 StatusList#parse 解析字符串成微博列表对象
-                                        mWeiBoItemDataList.clear();
-                                        mDatas.clear();
-                                        mWeiBoItemDataList = StatusList.parse(response).statusList;
-                                        mDatas.add(0, new Status());
-                                        for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
-                                            mDatas.add(mWeiBoItemDataList.get(i - 1));
-                                        }
-                                        mAdapter.setData(mDatas);
-                                        mAdapter.notifyDataSetChanged();
-                                    }
-                                } else if (response.startsWith("{\"created_at\"")) {
-                                    // 调用 Status#parse 解析字符串成微博对象
-                                    Status status = Status.parse(response);
-                                    Toast.makeText(mContext,
-                                            "发送一送微博成功, id = " + status.id, Toast.LENGTH_LONG)
-                                            .show();
+                                    SharedPreferencesUtil.put(mContext, "wenming", response);
+                                    getWeiBoCache(0);
                                 } else {
-                                    Toast.makeText(mContext, response,
-                                            Toast.LENGTH_LONG).show();
+                                    ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
                                 }
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }
 
                             @Override
                             public void onWeiboException(WeiboException e) {
-                                mSwipeRefreshLayout.setRefreshing(false);
                                 ErrorInfo info = ErrorInfo.parse(e.getMessage());
-                                Toast.makeText(mContext, info.toString(),
-                                        Toast.LENGTH_LONG).show();
+                                ToastUtil.showShort(mContext, info.toString());
+                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         });
             }
         } else {
-            //获取缓存的微博数据
-            String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
-            if (response.startsWith("{\"statuses\"")) {
-                mWeiBoItemDataList.clear();
-                mWeiBoItemDataList = StatusList.parse(response).statusList;
-                mDatas.clear();
-                mDatas.add(0, new Status());
-                for (int i = 1; i <= NewFeature.LOAD_WEIBO_ITEM; i++) {
-                    mDatas.add(mWeiBoItemDataList.get(i));
-                }
-                mAdapter.setData(mDatas);
-                mAdapter.notifyDataSetChanged();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-
+            getWeiBoCache(0);
+            ToastUtil.showShort(mContext, "没有网络,读取本地缓存");
+            mSwipeRefreshLayout.setRefreshing(false);
         }
-
     }
+
+    /**
+     * 从本地缓存中拿到数据并且解析到mWeiBoCache
+     *
+     * @param start
+     */
+    private void getWeiBoCache(int start) {
+        mWeiBoCache.clear();
+        mDatas.clear();
+        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
+        if (response.startsWith("{\"statuses\"")) {
+            mWeiBoCache = StatusList.parse(response).statusList;
+            mDatas.add(0, new Status());
+            addDataFromCache(0);
+        }
+        mAdapter.setData(mDatas);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * @param start mWeiBoCache start to add
+     */
+    private void addDataFromCache(int start) {
+        int count = 0;
+        for (int i = start; i < mWeiBoCache.size(); i++) {
+            if (start == mWeiBoCache.size()) {
+                ToastUtil.showShort(mContext, "本地缓存已经读取完！");
+                break;
+            }
+            if (count == NewFeature.LOAD_WEIBO_ITEM) {
+                break;
+            }
+            mDatas.add(mWeiBoCache.get(i));
+            count++;
+        }
+    }
+
 
     class AuthListener implements WeiboAuthListener {
         @Override
