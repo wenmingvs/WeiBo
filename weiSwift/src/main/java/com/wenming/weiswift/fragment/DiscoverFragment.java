@@ -18,6 +18,7 @@ import com.wenming.weiswift.R;
 public class DiscoverFragment extends Fragment {
     private Activity mActivity;
     private View mToolBar;
+    private View mView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,8 @@ public class DiscoverFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.mainfragment_retweet_weiboitem, container, false);
+        mView = inflater.inflate(R.layout.mainfragment_retweet_weiboitem, container, false);
+        return mView;
     }
 
     @Override

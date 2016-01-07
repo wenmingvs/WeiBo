@@ -183,7 +183,7 @@ public class MainFragment extends Fragment {
     private void initUnLoginState() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_unlogin);
-        mLogin = (TextView) mToolBar.findViewById(R.id.login);
+        mLogin = (TextView) mToolBar.findViewById(R.id.setting);
         mRegister = (TextView) mToolBar.findViewById(R.id.register);
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

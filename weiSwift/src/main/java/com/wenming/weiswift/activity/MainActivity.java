@@ -21,6 +21,7 @@ import com.wenming.weiswift.fragment.MessageFragment;
 import com.wenming.weiswift.fragment.PostFragment;
 import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
+import com.wenming.weiswift.util.ActivityCollector;
 import com.wenming.weiswift.util.androidutils.DensityUtil;
 
 
@@ -40,6 +41,7 @@ public class MainActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.mainactivity_layout);
         mContext = this;
+        ActivityCollector.addActivity(this);
         initTab();
 
     }
@@ -79,7 +81,6 @@ public class MainActivity extends FragmentActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(mContext, 60), DensityUtil.dp2px(mContext, 45));
         params.setMargins(0, DensityUtil.dp2px(mContext, 5), 0, DensityUtil.dp2px(mContext, 5));
         view.setLayoutParams(params);
-
         return view;
     }
 
