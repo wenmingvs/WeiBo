@@ -31,6 +31,7 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.adapter.WeiboAdapter;
+import com.wenming.weiswift.util.ActivityCollector;
 import com.wenming.weiswift.util.NewFeature;
 import com.wenming.weiswift.util.androidutils.DensityUtil;
 import com.wenming.weiswift.util.androidutils.LogUtil;
@@ -67,25 +68,6 @@ public class MainFragment extends Fragment {
     private int mLastVisibleItemPositon;//count from 1
     private long lastWeiboID;
 
-    private boolean mLoginState = true;
-
-    /**
-     * 微博 OpenAPI 回调接口。
-     */
-    private RequestListener mListener = new RequestListener() {
-
-
-        @Override
-        public void onComplete(String response) {
-
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-
-        }
-    };
-
 
     @Override
     public void onAttach(Context context) {
@@ -97,14 +79,24 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtil.d("onCreateView");
-        mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
-        mActivity = getActivity();
-        mContext = getActivity();
-        initAccessToken();
-        initToolBar();
-        initRecyclerView();
-        initRefreshLayout();
-        return mView;
+        if (NewFeature.LOGIN_STATUS == true) {
+            mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
+            mActivity = getActivity();
+            mContext = getActivity();
+            initAccessToken();
+            initToolBar();
+            initRecyclerView();
+            initRefreshLayout();
+            return mView;
+        } else {
+            mView = inflater.inflate(R.layout.mainfragment_unlogin_layout, container, false);
+            mActivity = getActivity();
+            mContext = getActivity();
+            initAccessToken();
+            initToolBar();
+            return mView;
+        }
+
     }
 
 
@@ -112,15 +104,20 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         LogUtil.d("onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        mToolBar.setVisibility(View.VISIBLE);
+        if (NewFeature.LOGIN_STATUS == true) {
+            mToolBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onDestroyView() {
         LogUtil.d("onDestroyView");
         super.onDestroyView();
-        mToolBar.setVisibility(View.GONE);
-        mFirstLoad = false;
+        if (NewFeature.LOGIN_STATUS == true) {
+            mToolBar.setVisibility(View.GONE);
+            mFirstLoad = false;
+        }
+
     }
 
     public void hideToolBar() {
@@ -168,7 +165,7 @@ public class MainFragment extends Fragment {
 
     private void initToolBar() {
 
-        if (mLoginState == true) {
+        if (NewFeature.LOGIN_STATUS == true) {
             initLoginState();
         } else {
             initUnLoginState();
@@ -183,7 +180,7 @@ public class MainFragment extends Fragment {
     private void initUnLoginState() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_unlogin);
-        mLogin = (TextView) mToolBar.findViewById(R.id.setting);
+        mLogin = (TextView) mToolBar.findViewById(R.id.login);
         mRegister = (TextView) mToolBar.findViewById(R.id.register);
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,6 +358,11 @@ public class MainFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.d("onResume in MainFragment");
+    }
 
     class AuthListener implements WeiboAuthListener {
         @Override
@@ -369,12 +371,15 @@ public class MainFragment extends Fragment {
             if (mAccessToken.isSessionValid()) {
                 AccessTokenKeeper.writeAccessToken(mContext,
                         mAccessToken);//保存Token
-                Toast.makeText(mContext, "授权成功", Toast.LENGTH_SHORT)
+                Toast.makeText(mContext, "授权成功,请再次启动App", Toast.LENGTH_SHORT)
                         .show();
+                ActivityCollector.finishAll();
             } else {
                 Toast.makeText(mContext, "授权失败", Toast.LENGTH_SHORT)
                         .show();
             }
+
+
         }
 
         @Override

@@ -244,7 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
-            android:text="退出微博"
+            android:text="注销并退出微博"
 
             android:textColor="@color/red"
             android:textSize="16sp" />

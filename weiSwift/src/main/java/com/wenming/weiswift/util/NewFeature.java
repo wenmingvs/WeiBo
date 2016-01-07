@@ -5,6 +5,8 @@ package com.wenming.weiswift.util;
  */
 public class NewFeature {
 
+    public static boolean LOGIN_STATUS = false;
+
     public static int GET_WEIBO_NUMS = 40;
 
     public static int LOAD_WEIBO_ITEM = 10;

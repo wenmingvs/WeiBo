@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.util.ActivityCollector;
+import com.wenming.weiswift.util.NewFeature;
+import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
 
 /**
  * Created by wenmingvs on 2016/1/7.
@@ -41,10 +43,12 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("确定要退出微博？")
+                builder.setMessage("确定要注销并且退出微博？")
                         .setCancelable(false)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                AccessTokenKeeper.clear(getApplicationContext());
+                                NewFeature.LOGIN_STATUS = false;
                                 ActivityCollector.finishAll();
                             }
                         })

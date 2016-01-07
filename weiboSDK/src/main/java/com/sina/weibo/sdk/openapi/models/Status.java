@@ -194,7 +194,7 @@ public class Status {
                 if (tmpObject != null) {
                     tmpUrl = tmpObject.optString("thumbnail_pic");
                     status.pic_urls.add(tmpUrl);
-                    //    Log.d("wenming","origin_pic_urls = " + getOriginUrl(tmpUrl));
+                    //Log.d("wenming","origin_pic_urls = " + getOriginUrl(tmpUrl));
                     status.origin_pic_urls.add(getOriginUrl(tmpUrl));
                 }
             }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.fragment.DiscoverFragment;
 import com.wenming.weiswift.fragment.FragmentTabHost;
@@ -22,7 +23,9 @@ import com.wenming.weiswift.fragment.PostFragment;
 import com.wenming.weiswift.fragment.ProfileFragment;
 import com.wenming.weiswift.fragment.TabDB;
 import com.wenming.weiswift.util.ActivityCollector;
+import com.wenming.weiswift.util.NewFeature;
 import com.wenming.weiswift.util.androidutils.DensityUtil;
+import com.wenming.weiswift.weiboAccess.AccessTokenKeeper;
 
 
 public class MainActivity extends FragmentActivity {
@@ -33,6 +36,7 @@ public class MainActivity extends FragmentActivity {
     private DiscoverFragment mDiscoverFragment;
     private ProfileFragment mProfileFragment;
     private PostFragment mPostFragment;
+    private Oauth2AccessToken mAccessToken;
 
 
     @Override
@@ -43,6 +47,17 @@ public class MainActivity extends FragmentActivity {
         mContext = this;
         ActivityCollector.addActivity(this);
         initTab();
+        setSessionValid();
+    }
+
+    private void setSessionValid() {
+        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+        if (mAccessToken.isSessionValid()) {
+            NewFeature.LOGIN_STATUS = true;
+        } else {
+            NewFeature.LOGIN_STATUS = false;
+        }
+
 
     }
 
@@ -84,12 +99,22 @@ public class MainActivity extends FragmentActivity {
         return view;
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("首页");
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
+        Fragment mainFragment = getSupportFragmentManager().findFragmentByTag("首页");
+        if (mainFragment != null) {
+            mainFragment.onActivityResult(requestCode, resultCode, data);
+
+//            android.support.v4.app.FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
+//            MainFragment mainFragment1 = new MainFragment();
+//            tr.replace(R.id.contentLayout,mainFragment1);
+//            tr.commit();
+            // getSupportFragmentManager.().getFragments().remove(0);
+            // getSupportFragmentManager().getFragments().add(mainFragment);
+//            getSupportFragmentManager().beginTransaction().attach(mainFragment);
+
         }
     }
 
