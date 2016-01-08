@@ -17,6 +17,7 @@ import android.view.Window;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.adapter.MessageAdapter;
+import com.wenming.weiswift.util.NewFeature;
 
 import java.util.ArrayList;
 
@@ -37,31 +38,53 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mData = new ArrayList<Integer>();
-        mData.add(R.drawable.messagescenter_at);
-        mData.add(R.drawable.messagescenter_comments);
-        mData.add(R.drawable.messagescenter_good);
-        mData.add(R.drawable.messagescenter_subscription);
-        mData.add(R.drawable.messagescenter_messagebox);
-
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
-        initToolBar();
-        initRecyclerView();
-        initRefreshLayout();
-        return mView;
+        if (NewFeature.LOGIN_STATUS == true) {
+            mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
+            initToolBar();
+            mData = new ArrayList<Integer>();
+            mData.add(R.drawable.messagescenter_at);
+            mData.add(R.drawable.messagescenter_comments);
+            mData.add(R.drawable.messagescenter_good);
+            mData.add(R.drawable.messagescenter_subscription);
+            mData.add(R.drawable.messagescenter_messagebox);
+            initRecyclerView();
+            initRefreshLayout();
+            return mView;
+
+        } else {
+            mView = inflater.inflate(R.layout.messagefragment_unlogin_layout, container, false);
+            initToolBar();
+            return mView;
+        }
     }
 
     private void initToolBar() {
+        if (NewFeature.LOGIN_STATUS == true) {
+            initLoginState();
+        } else {
+            initUnLoginState();
+        }
+    }
+
+    private void initUnLoginState() {
         mActivity = getActivity();
         mContext = mActivity;
-        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message);
-        mToolBar = mActivity.findViewById(R.id.toolbar_message);
+        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_unlogin);
+        mToolBar = mActivity.findViewById(R.id.toolbar_message_unlogin);
     }
+
+    private void initLoginState() {
+        mActivity = getActivity();
+        mContext = mActivity;
+        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_login);
+        mToolBar = mActivity.findViewById(R.id.toolbar_message_login);
+    }
+
 
     private void initRefreshLayout() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.message_pulltorefresh);
@@ -93,7 +116,6 @@ public class MessageFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolBar.setVisibility(View.VISIBLE);
-
     }
 
     @Override

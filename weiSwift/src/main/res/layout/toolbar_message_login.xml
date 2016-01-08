@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toolbar_message"
+    android:id="@+id/toolbar_message_login"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
