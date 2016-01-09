@@ -8,7 +8,7 @@ Sina WeiBo Android App, require Android 4.0+, GPL v3 License
 
 截图
 -----
-![enter image description here](http://ww1.sinaimg.cn/bmiddle/691cc151gw1eztdyrb6ylg20810g2e87.gif)
+![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weibogif.gif)
 
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot1.png)
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot2.png)
