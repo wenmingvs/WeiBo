@@ -25,5 +25,15 @@
             />
     </FrameLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="由于App还在开发的原因，请使用GitHub上提供的测试账号体验"
+        android:textColor="#909090"
+        android:textSize="18sp"
+        />
+
 
 </LinearLayout>

@@ -14,12 +14,13 @@
         android:src="@drawable/navigationbar_friendattention_auto" />
 
     <TextView
+        android:id="@+id/toolbar_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="闭关写代码"
+        android:text=""
         android:textColor="#525252"
         android:textSize="20sp" />
 

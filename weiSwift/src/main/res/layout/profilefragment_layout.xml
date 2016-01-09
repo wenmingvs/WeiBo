@@ -17,10 +17,10 @@
             android:clickable="true">
 
             <ImageView
+                android:id="@+id/profile_myimg"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_margin="10dp"
-
                 android:src="@drawable/example_profileimg" />
 
             <LinearLayout
@@ -33,6 +33,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/profile_myname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -42,6 +43,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/profile_mydescribe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -77,9 +79,9 @@
                 android:paddingTop="5dp">
 
                 <TextView
+                    android:id="@+id/profile_statuses_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="1806"
                     android:textColor="#222222" />
 
@@ -105,9 +107,9 @@
                 android:paddingTop="5dp">
 
                 <TextView
+                    android:id="@+id/profile_friends_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="202"
                     android:textColor="#222222" />
 
@@ -115,7 +117,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="转发"
+                    android:text="关注"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
 
@@ -133,9 +135,9 @@
                 android:paddingTop="5dp">
 
                 <TextView
+                    android:id="@+id/profile_followers_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="1614"
                     android:textColor="#222222" />
 

@@ -26,12 +26,13 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
+import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
+import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.adapter.WeiboAdapter;
-import com.wenming.weiswift.util.ActivityCollector;
 import com.wenming.weiswift.util.NewFeature;
 import com.wenming.weiswift.util.androidutils.DensityUtil;
 import com.wenming.weiswift.util.androidutils.LogUtil;
@@ -59,6 +60,7 @@ public class MainFragment extends Fragment {
     private View mToolBar;
     private TextView mLogin;
     private TextView mRegister;
+    private TextView mUserName;
     private View mView;
     private ArrayList<Status> mDatas;
     private StatusesAPI mStatusesAPI;
@@ -67,7 +69,7 @@ public class MainFragment extends Fragment {
     private ArrayList<Status> mWeiBoCache;
     private int mLastVisibleItemPositon;//count from 1
     private long lastWeiboID;
-
+    private UsersAPI mUsersAPI;
 
     @Override
     public void onAttach(Context context) {
@@ -161,6 +163,7 @@ public class MainFragment extends Fragment {
         mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
         mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
         mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+        mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, mAccessToken);
     }
 
     private void initToolBar() {
@@ -175,7 +178,30 @@ public class MainFragment extends Fragment {
     private void initLoginState() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_login);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_login);
+        mUserName = (TextView) mToolBar.findViewById(R.id.toolbar_username);
+        refreshUserName();
     }
+
+    private void refreshUserName() {
+        long uid = Long.parseLong(mAccessToken.getUid());
+        mUsersAPI.show(uid, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                // 调用 User#parse 将JSON串解析成User对象
+                User user = User.parse(response);
+                if (user != null) {
+                    mUserName.setText(user.name);
+                }
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ErrorInfo info = ErrorInfo.parse(e.getMessage());
+                ToastUtil.showShort(mContext, info.toString());
+            }
+        });
+    }
+
 
     private void initUnLoginState() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
@@ -242,7 +268,7 @@ public class MainFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
-                    if (mDatas.size() - 1 < mWeiBoCache.size()) {//读取本地缓存数据
+                    if (mDatas.size() - 1 < mWeiBoCache.size() && mDatas.size() != 0) {//读取本地缓存数据
                         addDataFromCache(mLastVisibleItemPositon - 1);
                         mAdapter.setData(mDatas);
                         mAdapter.notifyDataSetChanged();
@@ -371,9 +397,8 @@ public class MainFragment extends Fragment {
             if (mAccessToken.isSessionValid()) {
                 AccessTokenKeeper.writeAccessToken(mContext,
                         mAccessToken);//保存Token
-                Toast.makeText(mContext, "授权成功,请再次启动App", Toast.LENGTH_SHORT)
+                Toast.makeText(mContext, "授权成功,请重启App", Toast.LENGTH_SHORT)
                         .show();
-                ActivityCollector.finishAll();
             } else {
                 Toast.makeText(mContext, "授权失败", Toast.LENGTH_SHORT)
                         .show();

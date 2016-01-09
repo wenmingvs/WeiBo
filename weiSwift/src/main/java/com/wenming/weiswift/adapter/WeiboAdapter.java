@@ -18,9 +18,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.util.androidutils.DateUtils;
 import com.wenming.weiswift.util.androidutils.DensityUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by wenmingvs on 2015/12/29.
@@ -99,7 +102,11 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             //微博用户信息
             ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((OriginViewHolder) holder).profile_img, options);
             ((OriginViewHolder) holder).profile_name.setText(mData.get(position).user.name);
-            ((OriginViewHolder) holder).profile_time.setText("刚刚   ");
+
+            Date data = DateUtils.parseDate(mData.get(position).created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
+            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+            String time = df.format(data);
+            ((OriginViewHolder) holder).profile_time.setText(time + "   ");
             ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
             //微博文字内容
@@ -141,7 +148,10 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             //微博用户信息
             ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((RetweetViewHolder) holder).profile_img, options);
             ((RetweetViewHolder) holder).profile_name.setText(mData.get(position).user.name);
-            ((RetweetViewHolder) holder).profile_time.setText("刚刚   ");
+            Date data = DateUtils.parseDate(mData.get(position).created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
+            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+            String time = df.format(data);
+            ((RetweetViewHolder) holder).profile_time.setText(time + "   ");
             ((RetweetViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
             //微博文字内容
