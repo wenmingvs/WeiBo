@@ -211,7 +211,7 @@ public class MainFragment extends Fragment {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSsoHandler.authorize(new AuthListener());
+                mSsoHandler.authorizeWeb(new AuthListener());
             }
         });
 
