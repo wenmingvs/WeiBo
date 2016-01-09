@@ -2,6 +2,8 @@
 -----
 Sina WeiBo Android App, require Android 4.0+, GPL v3 License
 
+![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/baiduYun.png)
+
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/qrcode.png)
 
 截图
