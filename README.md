@@ -11,14 +11,16 @@ Sina WeiBo Android App, require Android 4.0+, GPL v3 License
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weibogif.gif)
 
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot1.png)
-
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot2.png)
-
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot3.png)
-
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot4.png)
-
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot5.png)
+
+
+测试微博账号
+------
+529208204@qq.com
+weibotest123
 
 
 Gradle 构建
