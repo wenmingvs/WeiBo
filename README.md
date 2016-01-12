@@ -6,6 +6,8 @@ Sina WeiBo Android App, require Android 4.0+, GPL v3 License
 
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/qrcode.png)
 
+App目前仅完成刷微博的功能，后面会陆陆续续完善剩下的功能
+
 截图
 -----
 ![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weibogif.gif)
