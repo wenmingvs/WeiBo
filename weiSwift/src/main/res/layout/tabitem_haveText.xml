@@ -14,6 +14,5 @@
         android:gravity="center"
         android:text="首页"
         android:textSize="10sp" />
-
-
+    
 </LinearLayout>

@@ -5,27 +5,12 @@
               android:layout_height="match_parent"
               android:background="@color/grey"
               android:orientation="vertical">
-
-
     <FrameLayout
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
     </FrameLayout>
 
-    <com.wenming.weiswift.fragment.FragmentTabHost
-        android:id="@+id/tabhost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F6F6F6">
-
-        <FrameLayout
-            android:id="@+id/tabcontent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"/>
-    </com.wenming.weiswift.fragment.FragmentTabHost>
-
-
+    <include layout="@layout/bottom_toolbar" />
 </LinearLayout>
