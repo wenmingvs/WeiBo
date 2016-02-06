@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
@@ -29,6 +32,8 @@ public class MainActivity extends FragmentActivity {
     private PostFragment mPostFragment;
     private FragmentManager mFragmentManager;
     private Oauth2AccessToken mAccessToken;
+    private TextView mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
+    private FrameLayout mPostTab;
 
 
     @Override
@@ -36,11 +41,52 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.mainactivity_layout);
+        mHomeTab = (TextView) findViewById(R.id.tv_home);
+        mMessageTab = (TextView) findViewById(R.id.tv_message);
+        mDiscoeryTab = (TextView) findViewById(R.id.tv_discovery);
+        mProfile = (TextView) findViewById(R.id.tv_profile);
+        mPostTab = (FrameLayout) findViewById(R.id.fl_post);
         mContext = this;
         ActivityCollector.addActivity(this);
         setSessionValid();
         mFragmentManager = getSupportFragmentManager();
         setTabFragment(0);
+        setUpListener();
+    }
+
+    private void setUpListener() {
+
+
+        mHomeTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(0);
+            }
+        });
+        mMessageTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(1);
+            }
+        });
+        mPostTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(2);
+            }
+        });
+        mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(3);
+            }
+        });
+        mProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(4);
+            }
+        });
     }
 
     private void setSessionValid() {
@@ -49,6 +95,7 @@ public class MainActivity extends FragmentActivity {
             NewFeature.LOGIN_STATUS = true;
         } else {
             NewFeature.LOGIN_STATUS = false;
+
         }
     }
 
@@ -58,6 +105,7 @@ public class MainActivity extends FragmentActivity {
 
         switch (index) {
             case 0:
+                mHomeTab.setSelected(true);
                 if (mMainFragment == null) {
                     mMainFragment = new MainFragment();
                     transaction.add(R.id.contentLayout, mMainFragment);
@@ -66,6 +114,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 1:
+                mMessageTab.setSelected(true);
                 if (mMessageFragment == null) {
                     mMessageFragment = new MessageFragment();
                     transaction.add(R.id.contentLayout, mMessageFragment);
@@ -74,6 +123,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 2:
+                mPostTab.setSelected(true);
                 if (mPostFragment == null) {
                     mPostFragment = new PostFragment();
                     transaction.add(R.id.contentLayout, mPostFragment);
@@ -82,6 +132,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 3:
+                mDiscoeryTab.setSelected(true);
                 if (mDiscoverFragment == null) {
                     mDiscoverFragment = new DiscoverFragment();
                     transaction.add(R.id.contentLayout, mDiscoverFragment);
@@ -90,6 +141,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 4:
+                mProfile.setSelected(true);
                 if (mProfileFragment == null) {
                     mProfileFragment = new ProfileFragment();
                     transaction.add(R.id.contentLayout, mProfileFragment);
@@ -117,37 +169,11 @@ public class MainActivity extends FragmentActivity {
         if (mProfileFragment != null) {
             transaction.hide(mProfileFragment);
         }
+        mHomeTab.setSelected(false);
+        mMessageTab.setSelected(false);
+        mDiscoeryTab.setSelected(false);
+        mProfile.setSelected(false);
     }
-
-
-//    private void initTab() {
-//        mFragmentTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
-//        mFragmentTabHost.setup(mContext, getSupportFragmentManager(), R.id.contentLayout);
-//        mFragmentTabHost.getTabWidget().setDividerDrawable(null);
-//        TabHost.TabSpec tabSpec;
-//        String tabs[] = TabDB.getTabText();
-//        for (int i = 0; i < tabs.length; i++) {
-//            tabSpec = mFragmentTabHost.newTabSpec(tabs[i]).setIndicator(getTabView(i));
-//            mFragmentTabHost.addTab(tabSpec, TabDB.getFragments()[i], null);
-//            mFragmentTabHost.setTag(i);
-//        }
-//        mMainFragMent = (MainFragment) getSupportFragmentManager().findFragmentByTag("首页");
-//        mMessageFragment = (MessageFragment) getSupportFragmentManager().findFragmentByTag("消息");
-//        mPostFragment = (PostFragment) getSupportFragmentManager().findFragmentByTag("New");
-//        mDiscoverFragment = (DiscoverFragment) getSupportFragmentManager().findFragmentByTag("发现");
-//        mProfileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("我");
-//    }
-//
-//
-//    private View getTabView(int index) {
-//        View view = LayoutInflater.from(mContext).inflate(R.layout.tabitem_havetext, null);
-//        TextView textView = (TextView) view.findViewById(R.id.itemTextView);
-//        textView.setText(TabDB.getTabText()[index]);
-//        Drawable drawable = getResources().getDrawable(TabDB.getTabImg()[index]);
-//        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-//        textView.setCompoundDrawables(null, drawable, null, null);
-//        return view;
-//    }
 
 
     @Override
