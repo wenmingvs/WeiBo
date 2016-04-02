@@ -31,6 +31,7 @@ import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.AccessTokenKeeper;
 import com.wenming.weiswift.common.Constants;
@@ -40,7 +41,6 @@ import com.wenming.weiswift.common.NetUtil;
 import com.wenming.weiswift.common.SharedPreferencesUtil;
 import com.wenming.weiswift.common.ToastUtil;
 import com.wenming.weiswift.home.adapter.WeiboAdapter;
-import com.wenming.weiswift.home.util.NewFeature;
 
 import java.util.ArrayList;
 
@@ -81,26 +81,21 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtil.d("onCreateView");
+        mActivity = getActivity();
+        mContext = getActivity();
+        initAccessToken();
         if (NewFeature.LOGIN_STATUS == true) {
             mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
-            mActivity = getActivity();
-            mContext = getActivity();
-            initAccessToken();
             initToolBar();
             initRecyclerView();
             initRefreshLayout();
             return mView;
         } else {
             mView = inflater.inflate(R.layout.mainfragment_unlogin_layout, container, false);
-            mActivity = getActivity();
-            mContext = getActivity();
-            initAccessToken();
             initToolBar();
             return mView;
         }
-
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -109,6 +104,12 @@ public class MainFragment extends Fragment {
         if (NewFeature.LOGIN_STATUS == true) {
             mToolBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.d("onResume in MainFragment");
     }
 
     @Override
@@ -121,6 +122,7 @@ public class MainFragment extends Fragment {
         }
 
     }
+
 
     public void hideToolBar() {
         mToolBar.setVisibility(View.GONE);
@@ -144,6 +146,7 @@ public class MainFragment extends Fragment {
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
+
     }
 
     @Override
@@ -382,12 +385,6 @@ public class MainFragment extends Fragment {
             mDatas.add(mWeiBoCache.get(i));
             count++;
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LogUtil.d("onResume in MainFragment");
     }
 
     class AuthListener implements WeiboAuthListener {

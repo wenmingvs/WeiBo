@@ -29,11 +29,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".home.activity.SettingActivity"
-            android:label="设置"
-            android:theme="@style/ToolbarTheme"/>
-
 
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"

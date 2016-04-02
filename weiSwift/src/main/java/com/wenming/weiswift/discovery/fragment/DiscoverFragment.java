@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.fragment;
+package com.wenming.weiswift.discovery.fragment;
 
 
 import android.app.Activity;

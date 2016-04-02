@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.activity;
+package com.wenming.weiswift.profile.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,10 +10,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.AccessTokenKeeper;
-import com.wenming.weiswift.home.util.ActivityCollector;
-import com.wenming.weiswift.home.util.NewFeature;
+import com.wenming.weiswift.common.ActivityCollector;
 
 /**
  * Created by wenmingvs on 2016/1/7.

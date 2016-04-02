@@ -6,6 +6,9 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.DateUtils;
 import com.wenming.weiswift.common.DensityUtil;
+import com.wenming.weiswift.common.emojitextview.EmojiTextView;
+import com.wenming.weiswift.common.emojitextview.MyClickableSpan;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,7 +115,15 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
             //微博文字内容
+
+            SpannableString spStr = new SpannableString(mData.get(position).text);
+            MyClickableSpan clickSpan = new MyClickableSpan ();
+            spStr.setSpan(clickSpan, 0, mData.get(position).text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ((OriginViewHolder) holder).weibo_Content.append(spStr);
+            ((OriginViewHolder) holder).weibo_Content.setMovementMethod(LinkMovementMethod.getInstance());
+
             ((OriginViewHolder) holder).weibo_Content.setText(mData.get(position).text);
+
 
 
             //微博图片内容
@@ -239,7 +252,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
 
         }
-
     }
 
     public void setData(ArrayList<Status> data) {
@@ -251,7 +263,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView profile_name;
         public TextView profile_time;
         public TextView weiboComeFrom;
-        public TextView weibo_Content;
+        public EmojiTextView weibo_Content;
         public TextView redirect;
         public TextView comment;
         public TextView feedlike;
@@ -262,7 +274,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);
-            weibo_Content = (TextView) v.findViewById(R.id.weibo_Content);
+            weibo_Content = (EmojiTextView) v.findViewById(R.id.weibo_Content);
             weiboComeFrom = (TextView) v.findViewById(R.id.weiboComeFrom);
             redirect = (TextView) v.findViewById(R.id.redirect);
             comment = (TextView) v.findViewById(R.id.comment);

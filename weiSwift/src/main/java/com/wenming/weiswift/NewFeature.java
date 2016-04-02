@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.util;
+package com.wenming.weiswift;
 
 /**
  * Created by wenmingvs on 2016/1/6.

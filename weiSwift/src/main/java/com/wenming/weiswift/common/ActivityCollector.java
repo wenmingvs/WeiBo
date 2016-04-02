@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.util;
+package com.wenming.weiswift.common;
 
 import android.app.Activity;
 

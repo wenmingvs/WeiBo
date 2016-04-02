@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.fragment;
+package com.wenming.weiswift.profile.fragment;
 
 
 import android.app.Activity;
@@ -26,11 +26,11 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
 import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.User;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.AccessTokenKeeper;
 import com.wenming.weiswift.common.Constants;
-import com.wenming.weiswift.home.activity.SettingActivity;
-import com.wenming.weiswift.home.util.NewFeature;
+import com.wenming.weiswift.profile.activity.SettingActivity;
 
 /**
  * Created by wenmingvs on 15/12/26.

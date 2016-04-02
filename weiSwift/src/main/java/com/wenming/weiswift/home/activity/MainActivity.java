@@ -12,18 +12,24 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.AccessTokenKeeper;
-import com.wenming.weiswift.home.fragment.DiscoverFragment;
+import com.wenming.weiswift.common.ActivityCollector;
+import com.wenming.weiswift.discovery.fragment.DiscoverFragment;
 import com.wenming.weiswift.home.fragment.MainFragment;
-import com.wenming.weiswift.home.fragment.MessageFragment;
-import com.wenming.weiswift.home.fragment.PostFragment;
-import com.wenming.weiswift.home.fragment.ProfileFragment;
-import com.wenming.weiswift.home.util.ActivityCollector;
-import com.wenming.weiswift.home.util.NewFeature;
+import com.wenming.weiswift.message.fragment.MessageFragment;
+import com.wenming.weiswift.post.fragment.PostFragment;
+import com.wenming.weiswift.profile.fragment.ProfileFragment;
 
 
 public class MainActivity extends FragmentActivity {
+
+    private static final int HOME_FRAGMENT = 0X001;
+    private static final int MESSAGE_FRAGMENT = 0X002;
+    private static final int POST_FRAGMENT = 0X003;
+    private static final int DISCOVERY_FRAGMENT = 0X004;
+    private static final int PROFILE_FRAGMENT = 0X005;
     private Context mContext;
     private MainFragment mMainFragment;
     private MessageFragment mMessageFragment;
@@ -50,41 +56,39 @@ public class MainActivity extends FragmentActivity {
         ActivityCollector.addActivity(this);
         setSessionValid();
         mFragmentManager = getSupportFragmentManager();
-        setTabFragment(0);
+        setTabFragment(HOME_FRAGMENT);
         setUpListener();
     }
 
     private void setUpListener() {
-
-
         mHomeTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(0);
+                setTabFragment(HOME_FRAGMENT);
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(1);
+                setTabFragment(MESSAGE_FRAGMENT);
             }
         });
         mPostTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(2);
+                setTabFragment(POST_FRAGMENT);
             }
         });
         mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(3);
+                setTabFragment(DISCOVERY_FRAGMENT);
             }
         });
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(4);
+                setTabFragment(PROFILE_FRAGMENT);
             }
         });
     }
@@ -95,7 +99,6 @@ public class MainActivity extends FragmentActivity {
             NewFeature.LOGIN_STATUS = true;
         } else {
             NewFeature.LOGIN_STATUS = false;
-
         }
     }
 
@@ -104,7 +107,7 @@ public class MainActivity extends FragmentActivity {
         hideAllFragments(transaction);
 
         switch (index) {
-            case 0:
+            case HOME_FRAGMENT:
                 mHomeTab.setSelected(true);
                 if (mMainFragment == null) {
                     mMainFragment = new MainFragment();
@@ -113,7 +116,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.show(mMainFragment);
                 }
                 break;
-            case 1:
+            case MESSAGE_FRAGMENT:
                 mMessageTab.setSelected(true);
                 if (mMessageFragment == null) {
                     mMessageFragment = new MessageFragment();
@@ -122,7 +125,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.show(mMessageFragment);
                 }
                 break;
-            case 2:
+            case POST_FRAGMENT:
                 mPostTab.setSelected(true);
                 if (mPostFragment == null) {
                     mPostFragment = new PostFragment();
@@ -131,7 +134,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.show(mPostFragment);
                 }
                 break;
-            case 3:
+            case DISCOVERY_FRAGMENT:
                 mDiscoeryTab.setSelected(true);
                 if (mDiscoverFragment == null) {
                     mDiscoverFragment = new DiscoverFragment();
@@ -140,7 +143,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.show(mDiscoverFragment);
                 }
                 break;
-            case 4:
+            case PROFILE_FRAGMENT:
                 mProfile.setSelected(true);
                 if (mProfileFragment == null) {
                     mProfileFragment = new ProfileFragment();
@@ -179,8 +182,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        //  Fragment mainFragment = getSupportFragmentManager().findFragmentByTag("首页");
         if (mMainFragment != null) {
             mMainFragment.onActivityResult(requestCode, resultCode, data);
         }

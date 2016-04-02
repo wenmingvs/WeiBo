@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.fragment;
+package com.wenming.weiswift.message.fragment;
 
 
 import android.app.Activity;
@@ -15,9 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.home.adapter.MessageAdapter;
-import com.wenming.weiswift.home.util.NewFeature;
 
 import java.util.ArrayList;
 

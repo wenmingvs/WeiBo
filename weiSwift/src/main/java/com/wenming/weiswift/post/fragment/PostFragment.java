@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.fragment;
+package com.wenming.weiswift.post.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
