@@ -207,7 +207,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="清楚缓存"
+            android:text="清理缓存"
             android:textColor="#111111"
             android:textSize="16sp" />
 

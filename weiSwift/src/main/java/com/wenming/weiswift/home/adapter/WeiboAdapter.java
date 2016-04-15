@@ -6,9 +6,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.DateUtils;
 import com.wenming.weiswift.common.DensityUtil;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.common.emojitextview.MyClickableSpan;
+import com.wenming.weiswift.home.util.WeiBoContentTextUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,16 +112,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
             //微博文字内容
-
-            SpannableString spStr = new SpannableString(mData.get(position).text);
-            MyClickableSpan clickSpan = new MyClickableSpan ();
-            spStr.setSpan(clickSpan, 0, mData.get(position).text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            ((OriginViewHolder) holder).weibo_Content.append(spStr);
-            ((OriginViewHolder) holder).weibo_Content.setMovementMethod(LinkMovementMethod.getInstance());
-
-            ((OriginViewHolder) holder).weibo_Content.setText(mData.get(position).text);
-
-
+            ((OriginViewHolder) holder).weibo_Content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((OriginViewHolder) holder).weibo_Content));
 
             //微博图片内容
             ((OriginViewHolder) holder).imageList.setVisibility(View.GONE);
@@ -168,7 +156,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
 
             //微博文字内容
-            ((RetweetViewHolder) holder).retweet_content.setText(mData.get(position).text);
+            ((RetweetViewHolder) holder).retweet_content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content));
 
             //微博转发，评论，赞的数量
             ((RetweetViewHolder) holder).comment.setText(mData.get(position).comments_count + "");
@@ -180,7 +168,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             retweetcontent_buffer.append("@");
             retweetcontent_buffer.append(mData.get(position).retweeted_status.user.name + " :  ");
             retweetcontent_buffer.append(mData.get(position).retweeted_status.text);
-            ((RetweetViewHolder) holder).origin_nameAndcontent.setText(retweetcontent_buffer.toString());
+            ((RetweetViewHolder) holder).origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), mContext, ((RetweetViewHolder) holder).origin_nameAndcontent));
 
             //转发的图片
 
