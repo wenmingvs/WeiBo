@@ -41,7 +41,7 @@ public class WeiBoContentTextUtil {
             if (at != null) {
                 int start = matcher.start(1);
                 int end = start + at.length();
-                WeiBoContentClickableSpan myClickableSpan = new WeiBoContentClickableSpan() {
+                WeiBoContentClickableSpan myClickableSpan = new WeiBoContentClickableSpan(context) {
                     @Override
                     public void onClick(View widget) {
                         Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
@@ -53,7 +53,7 @@ public class WeiBoContentTextUtil {
             if (topic != null) {
                 int start = matcher.start(2);
                 int end = start + topic.length();
-                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan() {
+                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
 
                     @Override
                     public void onClick(View widget) {
@@ -67,7 +67,7 @@ public class WeiBoContentTextUtil {
             if (url != null) {
                 int start = matcher.start(3);
                 int end = start + url.length();
-                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan() {
+                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
 
                     @Override
                     public void onClick(View widget) {

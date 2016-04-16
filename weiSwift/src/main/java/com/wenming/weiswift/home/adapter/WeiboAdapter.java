@@ -109,7 +109,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
             String time = df.format(data);
             ((OriginViewHolder) holder).profile_time.setText(time + "   ");
-            ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
+            if(mData.get(position).source != null){
+                ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
+            }else{
+                ((OriginViewHolder) holder).weiboComeFrom.setText("");
+            }
+
 
             //微博文字内容
             ((OriginViewHolder) holder).weibo_Content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((OriginViewHolder) holder).weibo_Content));
