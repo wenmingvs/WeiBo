@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/imageItem"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
         android:scaleType="centerCrop" />
 
 </LinearLayout>

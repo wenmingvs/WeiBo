@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.adapter;
+package com.wenming.weiswift.home.imagelist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

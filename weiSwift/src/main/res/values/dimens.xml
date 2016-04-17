@@ -6,8 +6,6 @@
     <dimen name="weibo_item_space">8dp</dimen>
 
 
-    <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
-
     <!--微博顶部TitleBar的各项字体大小-->
     <dimen name="home_weiboitem_title_profile_pic">38dp</dimen><!--头像大小（长宽相等）-->
     <dimen name="home_weiboitem_title_profile_name">14sp</dimen><!--发微博用户-->
@@ -26,5 +24,8 @@
     <!--转发内容的字体大小-->
     <dimen name="home_retweet_weiboitem_font">16sp</dimen><!--转发内容中的字体大小-->
 
+    <!--首页的其他设置-->
+    <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
+    <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
 
 </resources>
