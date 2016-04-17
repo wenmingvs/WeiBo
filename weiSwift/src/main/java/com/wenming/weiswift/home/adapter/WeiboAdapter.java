@@ -20,8 +20,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.DateUtils;
 import com.wenming.weiswift.common.DensityUtil;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.home.imagelist.ImageAdapter;
-import com.wenming.weiswift.home.imagelist.SpaceItemDecoration;
+import com.wenming.weiswift.home.ItemDecoration.ImageItemSapce;
 import com.wenming.weiswift.home.util.WeiBoContentTextUtil;
 
 import java.text.SimpleDateFormat;
@@ -72,32 +71,39 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (viewType == TYPE_ORINGIN_ITEM) {
             view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_original_weiboitem, parent, false);
             OriginViewHolder itemViewHolder = new OriginViewHolder(view);
-            itemViewHolder.imageList.addItemDecoration(new SpaceItemDecoration((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+            itemViewHolder.imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return itemViewHolder;
-        } else {
-            if (viewType == TYPE_RETWEET_ITEM) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_retweet_weiboitem, parent, false);
-                RetweetViewHolder retweetViewHolder = new RetweetViewHolder(view);
-                retweetViewHolder.retweet_imageList.addItemDecoration(new SpaceItemDecoration((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-                return retweetViewHolder;
-            } else if (viewType == TYPE_FOOTER) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.footerview_loading, null);
-                view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                FooterViewHolder footerViewHolder = new FooterViewHolder(view);
-                ImageView waitingImg = (ImageView) view.findViewById(R.id.waiting_image);
-                mFooterImag = (AnimationDrawable) waitingImg.getDrawable();
-                mFooterImag.start();
-                return footerViewHolder;
+        } else if (viewType == TYPE_RETWEET_ITEM) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_retweet_weiboitem, parent, false);
+            RetweetViewHolder retweetViewHolder = new RetweetViewHolder(view);
+            retweetViewHolder.retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+            return retweetViewHolder;
+        } else if (viewType == TYPE_FOOTER) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.footerview_loading, null);
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            FooterViewHolder footerViewHolder = new FooterViewHolder(view);
+            ImageView waitingImg = (ImageView) view.findViewById(R.id.waiting_image);
+            mFooterImag = (AnimationDrawable) waitingImg.getDrawable();
+            mFooterImag.start();
+            return footerViewHolder;
 
-            } else if (viewType == TYPE_HEADER) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.headsearchview, null);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40));
-                view.setLayoutParams(params);
-                SearchViewHolder headerViewHolder = new SearchViewHolder(view);
-                return headerViewHolder;
-            }
+        } else if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.headsearchview, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40));
+            view.setLayoutParams(params);
+            SearchViewHolder headerViewHolder = new SearchViewHolder(view);
+            return headerViewHolder;
         }
+
         return null;
+    }
+
+    private void setWeiBoComeFrom(TextView textView, String content) {
+        if (content != null && content.length() > 0) {
+            textView.setText("来自 " + content);
+        } else {
+            textView.setText("");
+        }
     }
 
     @Override
@@ -111,12 +117,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
             String time = df.format(data);
             ((OriginViewHolder) holder).profile_time.setText(time + "   ");
-            if (mData.get(position).source != null) {
-                ((OriginViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
-            } else {
-                ((OriginViewHolder) holder).weiboComeFrom.setText("");
-            }
 
+            setWeiBoComeFrom(((OriginViewHolder) holder).weiboComeFrom, mData.get(position).source);
 
             //微博文字内容
             ((OriginViewHolder) holder).weibo_Content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((OriginViewHolder) holder).weibo_Content));
@@ -151,7 +153,8 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
             String time = df.format(data);
             ((RetweetViewHolder) holder).profile_time.setText(time + "   ");
-            ((RetweetViewHolder) holder).weiboComeFrom.setText("来自 " + mData.get(position).source);
+
+            setWeiBoComeFrom(((RetweetViewHolder) holder).weiboComeFrom, mData.get(position).source);
 
             //微博文字内容
             ((RetweetViewHolder) holder).retweet_content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content));
@@ -320,11 +323,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private class SearchViewHolder extends ViewHolder {
-
         public SearchViewHolder(View itemView) {
             super(itemView);
         }
     }
+
+
 
 
 }

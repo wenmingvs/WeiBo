@@ -27,5 +27,6 @@
     <!--首页的其他设置-->
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
     <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
+    <dimen name="home_weiboitem_space">8dp</dimen><!--微博列表的上下间距-->
 
 </resources>

@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.imagelist;
+package com.wenming.weiswift.home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -47,16 +47,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
 
-//        ImageLoader.getInstance().loadImage(mData.get(position), new SimpleImageLoadingListener() {
-//            public void onLoadingComplete(String imageUri, android.view.View view, android.graphics.Bitmap loadedImage) {
-//                holder.imageItem.setImageBitmap(loadedImage);   //imageView，你要显示的imageview控件对象，布局文件里面//配置的
-//            }
-//        });
     }
 
     @Override
     public int getItemCount() {
-
         return mData == null ? 0 : mData.size();
     }
 

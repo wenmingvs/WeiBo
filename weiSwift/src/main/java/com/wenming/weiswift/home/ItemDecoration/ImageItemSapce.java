@@ -1,4 +1,4 @@
-package com.wenming.weiswift.home.imagelist;
+package com.wenming.weiswift.home.ItemDecoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,10 @@ import android.view.View;
 /**
  * Created by wenmingvs on 16/4/17.
  */
-public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+public class ImageItemSapce extends RecyclerView.ItemDecoration {
     private int space;
 
-    public SpaceItemDecoration(int space) {
+    public ImageItemSapce(int space) {
         this.space = space;
     }
 

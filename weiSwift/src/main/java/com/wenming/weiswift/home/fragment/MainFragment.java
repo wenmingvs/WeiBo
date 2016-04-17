@@ -3,12 +3,10 @@ package com.wenming.weiswift.home.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -35,11 +33,11 @@ import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.AccessTokenKeeper;
 import com.wenming.weiswift.common.Constants;
-import com.wenming.weiswift.common.DensityUtil;
 import com.wenming.weiswift.common.LogUtil;
 import com.wenming.weiswift.common.NetUtil;
 import com.wenming.weiswift.common.SharedPreferencesUtil;
 import com.wenming.weiswift.common.ToastUtil;
+import com.wenming.weiswift.home.ItemDecoration.WeiboItemSapce;
 import com.wenming.weiswift.home.adapter.WeiboAdapter;
 
 import java.util.ArrayList;
@@ -86,13 +84,13 @@ public class MainFragment extends Fragment {
         initAccessToken();
         if (NewFeature.LOGIN_STATUS == true) {
             mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
-            initToolBar();
+            initLoginStateTitleBar();
             initRecyclerView();
             initRefreshLayout();
             return mView;
         } else {
             mView = inflater.inflate(R.layout.mainfragment_unlogin_layout, container, false);
-            initToolBar();
+            initunLoginStateTitleBar();
             return mView;
         }
     }
@@ -169,16 +167,7 @@ public class MainFragment extends Fragment {
         mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, mAccessToken);
     }
 
-    private void initToolBar() {
-
-        if (NewFeature.LOGIN_STATUS == true) {
-            initLoginState();
-        } else {
-            initUnLoginState();
-        }
-    }
-
-    private void initLoginState() {
+    private void initLoginStateTitleBar() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_login);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_login);
         mUserName = (TextView) mToolBar.findViewById(R.id.toolbar_username);
@@ -206,7 +195,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void initUnLoginState() {
+    private void initunLoginStateTitleBar() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_home_unlogin);
         mLogin = (TextView) mToolBar.findViewById(R.id.login);
@@ -229,6 +218,11 @@ public class MainFragment extends Fragment {
         });
     }
 
+    /**
+     * 初始化下拉刷新控件
+     * 1. 设置下拉刷新执行的逻辑
+     * 2. 第一次进来就自动下拉刷新
+     */
     private void initRefreshLayout() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -254,7 +248,7 @@ public class MainFragment extends Fragment {
     private void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         if (mFirstLoad == true) {
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(DensityUtil.dp2px(mContext, 8)));
+            mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
         }
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
@@ -263,14 +257,13 @@ public class MainFragment extends Fragment {
         mWeiBoCache = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount() && !mSwipeRefreshLayout.isRefreshing()) {
                     if (mDatas.size() - 1 < mWeiBoCache.size() && mDatas.size() != 0) {//读取本地缓存数据
                         addDataFromCache(mLastVisibleItemPositon - 1);
                         mAdapter.setData(mDatas);
@@ -292,6 +285,9 @@ public class MainFragment extends Fragment {
         });
     }
 
+    /**
+     * 滑动到底部的时候，下拉加载更多的逻辑，使用帧动画
+     */
     private void pullToLoadMoreDataFromURL() {
         if (NetUtil.isConnected(mContext)) {
             if (mAccessToken != null && mAccessToken.isSessionValid()) {
@@ -319,6 +315,11 @@ public class MainFragment extends Fragment {
     }
 
 
+    /**
+     * 下拉刷新执行的逻辑
+     * 1. 检查网络是否可用，如果网络不可用，则读取本地缓存，并且关闭圆圈动画
+     * 2. 网络可用，则请求数据，并且设置回调，回调执行完成后关闭圆圈动画，如果请求失败，也要关闭动画
+     */
     private void pullToRefreshData() {
         if (NetUtil.isConnected(mContext)) {
             if (mAccessToken != null && mAccessToken.isSessionValid()) {
@@ -416,19 +417,5 @@ public class MainFragment extends Fragment {
             Toast.makeText(mContext, "取消授权",
                     Toast.LENGTH_LONG).show();
         }
-    }
-
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpaceItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom = space;
-        }
-
     }
 }
