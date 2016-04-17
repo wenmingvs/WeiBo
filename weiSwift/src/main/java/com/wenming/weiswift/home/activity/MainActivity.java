@@ -64,7 +64,10 @@ public class MainActivity extends FragmentActivity {
         mHomeTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 setTabFragment(HOME_FRAGMENT);
+
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {

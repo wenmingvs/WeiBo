@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -262,7 +263,15 @@ public class MainFragment extends Fragment {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        ImageLoader.getInstance().pause();
+                        break;
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        ImageLoader.getInstance().resume();
+                        break;
+                }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPositon + 1 == mAdapter.getItemCount() && !mSwipeRefreshLayout.isRefreshing()) {
                     if (mDatas.size() - 1 < mWeiBoCache.size() && mDatas.size() != 0) {//读取本地缓存数据
                         addDataFromCache(mLastVisibleItemPositon - 1);
@@ -280,7 +289,7 @@ public class MainFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mLastVisibleItemPositon = mLayoutManager.findLastVisibleItemPosition();
-                LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
+                //LogUtil.d("mLastVisibleItemPositon = " + mLastVisibleItemPositon);
             }
         });
     }
