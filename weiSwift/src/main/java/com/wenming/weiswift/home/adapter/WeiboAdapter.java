@@ -329,6 +329,4 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
 
-
-
 }

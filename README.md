@@ -2,21 +2,21 @@
 -----
 Sina WeiBo Android App, require Android 4.0+, GPL v3 License
 
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/baiduYun.png)
+![enter image description here](http://ww2.sinaimg.cn/large/691cc151gw1f30nbhbre0j207w02gjrb.jpg)
 
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/qrcode.png)
+![enter image description here](http://ww3.sinaimg.cn/large/691cc151gw1f30nbhmha1j2044044wec.jpg)
 
 App目前仅完成刷微博的功能，后面会陆陆续续完善剩下的功能
 
 截图
 -----
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weibogif.gif)
+![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f30ndnpwcdg20810g2e87.gif)
 
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot1.png)
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot2.png)
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot3.png)
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot4.png)
-![enter image description here](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/screenshot5.png)
+![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f30nb8isudj209h0goq4a.jpg)
+![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f30nb9jg3sj209g0gojs1.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f30nbayb6hj209f0gogn1.jpg)
+![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f30nbcbftjj209e0got9r.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f30nbdb5kpj209e0go0ta.jpg)
 
 
 测试微博账号

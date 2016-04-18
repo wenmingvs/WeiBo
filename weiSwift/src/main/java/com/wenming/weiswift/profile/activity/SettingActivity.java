@@ -33,7 +33,6 @@ public class SettingActivity extends Activity {
         mContext = this;
         initToolBar();
         initContent();
-
     }
 
     private void initContent() {
