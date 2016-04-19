@@ -18,7 +18,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by wenmingvs on 16/4/19.
  */
-public class ImageDetailsActivity extends Activity {
+public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.OnSingleTagListener {
 
     private ImageDetailViewPager mViewPager;
     private TextView mPageText;
@@ -26,6 +26,7 @@ public class ImageDetailsActivity extends Activity {
     private ArrayList<String> mDatas;
     private int mPosition;
     private int mImgNum;
+    private ViewPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,9 @@ public class ImageDetailsActivity extends Activity {
         mViewPager = (ImageDetailViewPager) findViewById(R.id.viewpagerId);
         mImageView = (ImageView) findViewById(R.id.image_moreId);
         mPageText = (TextView) findViewById(R.id.pageTextId);
-        ViewPagerAdapter viewpagerAdapter = new ViewPagerAdapter(mDatas, this, mPhotoTapListener);
-        mViewPager.setAdapter(viewpagerAdapter);
+        mAdapter = new ViewPagerAdapter(mDatas, this);
+        mAdapter.setOnSingleTagListener(this);
+        mViewPager.setAdapter(mAdapter);
 
         mPageText.setText((mPosition + 1) + "/" + mImgNum);
 
@@ -73,6 +75,7 @@ public class ImageDetailsActivity extends Activity {
 
     }
 
+
     private PhotoViewAttacher.OnPhotoTapListener mPhotoTapListener = new PhotoViewAttacher.OnPhotoTapListener() {
         @Override
         public void onPhotoTap(View view, float v, float v1) {
@@ -86,4 +89,8 @@ public class ImageDetailsActivity extends Activity {
     };
 
 
+    @Override
+    public void onTag() {
+        finish();
+    }
 }

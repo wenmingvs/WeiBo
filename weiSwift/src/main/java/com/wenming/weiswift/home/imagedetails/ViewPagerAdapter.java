@@ -1,11 +1,19 @@
 package com.wenming.weiswift.home.imagedetails;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
 
@@ -18,14 +26,30 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class ViewPagerAdapter extends PagerAdapter {
 
     private ArrayList<String> mDatas;
-    private PhotoViewAttacher.OnPhotoTapListener mPhotoTapListener;
     private Context mContext;
+    private DisplayImageOptions options;
+    public OnSingleTagListener onSingleTagListener;
+
+    public interface OnSingleTagListener {
+        public void onTag();
+    }
+
+    public void setOnSingleTagListener(OnSingleTagListener onSingleTagListener) {
+        this.onSingleTagListener = onSingleTagListener;
+    }
 
 
-    public ViewPagerAdapter(ArrayList<String> datas, Context context, PhotoViewAttacher.OnPhotoTapListener onPhotoTapListener) {
+    public ViewPagerAdapter(ArrayList<String> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
-        this.mPhotoTapListener = onPhotoTapListener;
+
+
+        options = new DisplayImageOptions.Builder()
+                .considerExifParams(true)
+                .imageScaleType(ImageScaleType.NONE)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .build();
+
     }
 
     @Override
@@ -39,15 +63,63 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        PhotoView photoView = new PhotoView(container.getContext());
-        ImageLoader.getInstance().displayImage(mDatas.get(position), photoView);
-        photoView.setOnPhotoTapListener(mPhotoTapListener);
-        photoView.setMaximumScale(10f);
-        photoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public Object instantiateItem(ViewGroup container, final int position) {
+        final PhotoView photoView = new PhotoView(container.getContext());
+        photoView.setMaximumScale(12f);
 
+        ImageLoader.getInstance().displayImage(mDatas.get(position), photoView, options, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                if (bitmap.getHeight() > bitmap.getWidth() * 2) {
+                    Toast.makeText(mContext, "onLoadingComplete", Toast.LENGTH_SHORT).show();
+                    photoView.setScale(9.65f, 0, 0, false);
+                    photoView.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+                        @Override
+                        public boolean onSingleTapConfirmed(MotionEvent e) {
+                            onSingleTagListener.onTag();
+                            // Toast.makeText(mContext, "onSingleTapConfirmed", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onDoubleTap(MotionEvent e) {
+                            photoView.setScale(9.65f, true);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onDoubleTapEvent(MotionEvent e) {
+                            photoView.setScale(9.65f, true);
+                            return false;
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
+            }
+        });
+        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                onSingleTagListener.onTag();
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
+                onSingleTagListener.onTag();
             }
         });
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
