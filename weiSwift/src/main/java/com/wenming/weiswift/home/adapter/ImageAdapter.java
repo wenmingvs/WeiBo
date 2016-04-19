@@ -1,6 +1,7 @@
 package com.wenming.weiswift.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.home.imagedetails.ImageDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -43,10 +45,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         ImageLoader.getInstance().displayImage(mData.get(position), holder.imageItem, options);
-
+        holder.imageItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ImageDetailsActivity.class);
+                intent.putExtra("imagelist_url", mData);
+                intent.putExtra("image_position", position);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

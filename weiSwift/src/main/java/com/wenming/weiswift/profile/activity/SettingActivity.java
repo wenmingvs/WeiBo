@@ -58,7 +58,6 @@ public class SettingActivity extends Activity {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
-
             }
         });
         mBackImageView.setOnClickListener(new View.OnClickListener() {
