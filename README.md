@@ -11,7 +11,7 @@ App目前仅完成刷微博的功能，后面会陆陆续续完善剩下的功�
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f317uc1rphj209h0go3zt.jpg)
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f317udnkncj209g0gomxr.jpg)
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f317uesye1j209f0gomyj.jpg)
-![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f30nbcbftjj209e0got9r.jpg)
+![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f317ug513rj209e0go0tq.jpg)
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f317ugorndj209e0go3z0.jpg)
 
 
@@ -19,7 +19,6 @@ App目前仅完成刷微博的功能，后面会陆陆续续完善剩下的功�
 ------
 529208204@qq.com
 weibotest123
-测试合并
 
 Gradle 构建
 ------
