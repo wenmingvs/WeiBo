@@ -19,7 +19,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name">
         <activity
-            android:name=".home.activity.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/ToolbarTheme">
             <intent-filter>
@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".profile.activity.SettingActivity"
+            android:name=".fragment.profile.activity.SettingActivity"
             android:theme="@style/ToolbarTheme" />
 
         <activity
@@ -57,9 +57,13 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize"></activity>
 
-        <activity android:name=".home.imagedetails.ImageDetailsActivity"
-            android:theme="@style/ToolbarTheme"
-            />
+        <activity
+            android:name=".fragment.home.imagedetaillist.ImageDetailsActivity"
+            android:theme="@style/ToolbarTheme" />
+
+        <activity
+            android:name=".fragment.home.weiboitemdetail.WeiBoDetailActivity"
+            android:theme="@style/ToolbarTheme" />
 
     </application>
 

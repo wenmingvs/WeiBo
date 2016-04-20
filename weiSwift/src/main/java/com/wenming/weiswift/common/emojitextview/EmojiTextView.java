@@ -26,13 +26,5 @@ public class EmojiTextView extends TextView {
         mContext = context;
     }
 
-    public EmojiTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
-    }
-
-
-
-
 
 }
