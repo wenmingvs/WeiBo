@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.ActivityCollector;
 
 /**

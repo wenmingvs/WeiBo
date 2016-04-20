@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wenming.weiswift.common;
+package com.wenming.weiswift.common.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;

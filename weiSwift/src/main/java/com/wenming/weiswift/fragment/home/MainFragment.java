@@ -32,12 +32,12 @@ import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.AccessTokenKeeper;
-import com.wenming.weiswift.common.Constants;
-import com.wenming.weiswift.common.LogUtil;
-import com.wenming.weiswift.common.NetUtil;
-import com.wenming.weiswift.common.SharedPreferencesUtil;
-import com.wenming.weiswift.common.ToastUtil;
+import com.wenming.weiswift.common.util.LogUtil;
+import com.wenming.weiswift.common.util.NetUtil;
+import com.wenming.weiswift.common.util.SharedPreferencesUtil;
+import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
 
@@ -336,9 +336,10 @@ public class MainFragment extends Fragment {
                         new RequestListener() {
                             @Override
                             public void onComplete(String response) {
-                                //短时间内疯狂请求数据，服务器会暂时返回空数据，所以在这里要判空
+                                //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
                                 if (!TextUtils.isEmpty(response)) {
                                     SharedPreferencesUtil.put(mContext, "wenming", response);
+                                    //SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/aaa/", "json.txt", response);
                                     getWeiBoCache(0);
                                 } else {
                                     ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
@@ -370,6 +371,8 @@ public class MainFragment extends Fragment {
         mWeiBoCache.clear();
         mDatas.clear();
         String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
+        //String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/aaa/", "json.txt");
+
         if (response.startsWith("{\"statuses\"")) {
             mWeiBoCache = StatusList.parse(response).statusList;
             mDatas.add(0, new Status());

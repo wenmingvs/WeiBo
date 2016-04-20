@@ -1,9 +1,14 @@
-package com.wenming.weiswift.common;
+package com.wenming.weiswift.common.util;
 
+import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 
 /**
  * SD卡相关的辅助类
@@ -76,8 +81,52 @@ public class SDCardUtil {
      *
      * @return
      */
-    public static String getRootDirectoryPath() {
+    public static String getRootDirectoryPath(Context context) {
         return Environment.getRootDirectory().getAbsolutePath();
     }
+
+    public static void put(Context context, String fileDir, String fileName, String content) {
+        File filedir = new File(fileDir);
+        File jsonfile = new File(filedir, fileName);
+        if (!filedir.exists()) {
+            filedir.mkdir();
+        }
+        try {
+            jsonfile.createNewFile();
+            if (isSDCardEnable()) {
+                FileOutputStream outputstream = new FileOutputStream(jsonfile);
+                byte[] buffer = content.getBytes();
+                outputstream.write(buffer);
+                outputstream.flush();
+                outputstream.close();
+                Toast.makeText(context, "文件写入成功", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(context, "文件写入失败", Toast.LENGTH_SHORT).show();
+            LogUtil.d(ex.toString());
+        }
+    }
+
+    public static String get(Context context, String fileDir, String fileName) {
+        StringBuffer sb = null;
+        try {
+            File file = new File(fileDir, fileName);
+            LogUtil.d(file.getPath());
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String readline = "";
+            sb = new StringBuffer();
+            while ((readline = br.readLine()) != null) {
+                System.out.println("readline:" + readline);
+                sb.append(readline);
+            }
+            br.close();
+            Toast.makeText(context, fileName + "文件读取成功", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, fileName + "文件读取失败", Toast.LENGTH_SHORT).show();
+        }
+        return sb.toString();
+    }
+
 
 }

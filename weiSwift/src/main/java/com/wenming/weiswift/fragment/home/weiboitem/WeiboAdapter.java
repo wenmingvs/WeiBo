@@ -3,7 +3,6 @@ package com.wenming.weiswift.fragment.home.weiboitem;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -13,23 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.DateUtils;
-import com.wenming.weiswift.common.DensityUtil;
-import com.wenming.weiswift.common.ToastUtil;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.imagelist.ImageAdapter;
+import com.wenming.weiswift.common.util.DensityUtil;
+import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
-import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
-import com.wenming.weiswift.fragment.home.weiboitemdetail.WeiBoDetailActivity;
+import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.OrgPicActivity;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.RetPicActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by wenmingvs on 2015/12/29.
@@ -45,40 +38,24 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     protected AnimationDrawable mFooterImag;
     private ArrayList<Status> mData;
     private Context mContext;
-    private DisplayImageOptions options;
-    private ArrayList<String> mImageDatas;
-    private boolean mFirstLoad;
-    private ImageAdapter imageAdapter;
     private LinearLayout.LayoutParams mParams;
     private View view;
-    private StringBuffer retweetcontent_buffer = new StringBuffer();
 
 
     public WeiboAdapter(ArrayList<Status> datas, Context context) {
         this.mData = datas;
         this.mContext = context;
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.avator_default)
-                .showImageForEmptyUri(R.drawable.avator_default)
-                .showImageOnFail(R.drawable.avator_default)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .displayer(new CircleBitmapDisplayer(14671839, 1))
-                .build();
-        mImageDatas = new ArrayList<String>();
-        mFirstLoad = true;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ORINGIN_ITEM) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_original_weiboitem, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_original_pictext, parent, false);
             OriginViewHolder itemViewHolder = new OriginViewHolder(view);
             itemViewHolder.imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return itemViewHolder;
         } else if (viewType == TYPE_RETWEET_ITEM) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_retweet_weiboitem, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_retweet_pictext, parent, false);
             RetweetViewHolder retweetViewHolder = new RetweetViewHolder(view);
             retweetViewHolder.retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return retweetViewHolder;
@@ -102,108 +79,44 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         return null;
     }
 
-    private void setWeiBoComeFrom(TextView textView, String content) {
-        if (content != null && content.length() > 0) {
-            textView.setText("来自 " + content);
-        } else {
-            textView.setText("");
-        }
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if (holder instanceof OriginViewHolder) {
 
-            //整个微博的点击时间
-            ((OriginViewHolder) holder).weibo_layout.setOnClickListener(new View.OnClickListener() {
+            FillWeiBoItem.fillTitleBar(mData.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom);
+            FillWeiBoItem.fillWeiBoContent(mData.get(position), mContext, ((OriginViewHolder) holder).weibo_content);
+            FillWeiBoItem.fillButtonBar(mData.get(position), ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
+            FillWeiBoItem.fillWeiBoImgList(mData.get(position), mContext, ((OriginViewHolder) holder).imageList);
+
+            //微博背景的点击事件
+            ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, WeiBoDetailActivity.class);
-                    intent.putExtra("weiboitem_id", mData.get(position).id);
-                    ToastUtil.showShort(mContext,mData.get(position).id + "");
+                    Intent intent = new Intent(mContext, OrgPicActivity.class);
+                    intent.putExtra("weiboitem", mData.get(position));
+                    ToastUtil.showShort(mContext, mData.get(position).id + "");
                     mContext.startActivity(intent);
                 }
             });
 
-
-            //微博用户信息
-            ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((OriginViewHolder) holder).profile_img, options);
-            ((OriginViewHolder) holder).profile_name.setText(mData.get(position).user.name);
-
-            Date data = DateUtils.parseDate(mData.get(position).created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
-            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
-            String time = df.format(data);
-            ((OriginViewHolder) holder).profile_time.setText(time + "   ");
-
-            setWeiBoComeFrom(((OriginViewHolder) holder).weibo_comeform, mData.get(position).source);
-
-            //微博文字内容
-            ((OriginViewHolder) holder).weibo_Content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((OriginViewHolder) holder).weibo_Content));
-
-            //微博图片内容
-            ((OriginViewHolder) holder).imageList.setVisibility(View.GONE);
-            ((OriginViewHolder) holder).imageList.setVisibility(View.VISIBLE);
-
-            mImageDatas = mData.get(position).origin_pic_urls;
-            GridLayoutManager gridLayoutManager = initGridLayoutManager(mImageDatas);
-            imageAdapter = new ImageAdapter(mImageDatas, mContext);
-            ((OriginViewHolder) holder).imageList.setHasFixedSize(true);
-            ((OriginViewHolder) holder).imageList.setAdapter(imageAdapter);
-            ((OriginViewHolder) holder).imageList.setLayoutManager(gridLayoutManager);
-            imageAdapter.setData(mImageDatas);
-
-
-            if (mImageDatas == null || mImageDatas.size() == 0) {
-                ((OriginViewHolder) holder).imageList.setVisibility(View.GONE);
-            }
-
-            //微博转发，评论，赞的数量
-            ((OriginViewHolder) holder).comment.setText(mData.get(position).comments_count + "");
-            ((OriginViewHolder) holder).redirect.setText(mData.get(position).reposts_count + "");
-            ((OriginViewHolder) holder).feedlike.setText(mData.get(position).attitudes_count + "");
-
         } else if (holder instanceof RetweetViewHolder) {
-            //微博用户信息
-            ImageLoader.getInstance().displayImage(mData.get(position).user.avatar_hd, ((RetweetViewHolder) holder).profile_img, options);
-            ((RetweetViewHolder) holder).profile_name.setText(mData.get(position).user.name);
-            Date data = DateUtils.parseDate(mData.get(position).created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
-            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
-            String time = df.format(data);
-            ((RetweetViewHolder) holder).profile_time.setText(time + "   ");
 
-            setWeiBoComeFrom(((RetweetViewHolder) holder).weibo_comefrom, mData.get(position).source);
+            FillWeiBoItem.fillTitleBar(mData.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom);
+            FillWeiBoItem.fillRetweetContent(mData.get(position), mContext, ((RetweetViewHolder) holder).origin_nameAndcontent);
+            FillWeiBoItem.fillWeiBoContent(mData.get(position), mContext, ((RetweetViewHolder) holder).retweet_content);
+            FillWeiBoItem.fillButtonBar(mData.get(position), ((RetweetViewHolder) holder).comment, ((RetweetViewHolder) holder).redirect, ((RetweetViewHolder) holder).feedlike);
+            FillWeiBoItem.fillWeiBoImgList(mData.get(position).retweeted_status, mContext, ((RetweetViewHolder) holder).retweet_imageList);
 
-            //微博文字内容
-            ((RetweetViewHolder) holder).retweet_content.setText(WeiBoContentTextUtil.getWeiBoContent(mData.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content));
-
-            //微博转发，评论，赞的数量
-            ((RetweetViewHolder) holder).comment.setText(mData.get(position).comments_count + "");
-            ((RetweetViewHolder) holder).redirect.setText(mData.get(position).reposts_count + "");
-            ((RetweetViewHolder) holder).feedlike.setText(mData.get(position).attitudes_count + "");
-
-            //转发的文字
-            retweetcontent_buffer.setLength(0);
-            retweetcontent_buffer.append("@");
-            retweetcontent_buffer.append(mData.get(position).retweeted_status.user.name + " :  ");
-            retweetcontent_buffer.append(mData.get(position).retweeted_status.text);
-            ((RetweetViewHolder) holder).origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), mContext, ((RetweetViewHolder) holder).origin_nameAndcontent));
-
-            //转发的图片
-            ((RetweetViewHolder) holder).retweet_imageList.setVisibility(View.GONE);
-            ((RetweetViewHolder) holder).retweet_imageList.setVisibility(View.VISIBLE);
-
-            mImageDatas = mData.get(position).retweeted_status.origin_pic_urls;
-            GridLayoutManager gridLayoutManager = initGridLayoutManager(mImageDatas);
-            imageAdapter = new ImageAdapter(mImageDatas, mContext);
-            ((RetweetViewHolder) holder).retweet_imageList.setHasFixedSize(true);
-            ((RetweetViewHolder) holder).retweet_imageList.setAdapter(imageAdapter);
-            ((RetweetViewHolder) holder).retweet_imageList.setLayoutManager(gridLayoutManager);
-            imageAdapter.setData(mImageDatas);
-
-            if (mImageDatas == null || mImageDatas.size() == 0) {
-                ((RetweetViewHolder) holder).retweet_imageList.setVisibility(View.GONE);
-            }
-
+            //微博背景的点击事件
+            ((RetweetViewHolder) holder).retweet_weibo_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, RetPicActivity.class);
+                    intent.putExtra("weiboitem", mData.get(position));
+                    ToastUtil.showShort(mContext, mData.get(position).id + "");
+                    mContext.startActivity(intent);
+                }
+            });
         } else if (holder instanceof FooterViewHolder) {
             if (getItemCount() == 1) {
                 ((FooterViewHolder) holder).linearLayout.setVisibility(View.GONE);
@@ -212,45 +125,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         }
 
-    }
-
-
-    /**
-     * 根据图片数量返回应该显示的行数
-     *
-     * @param mData
-     * @return
-     */
-    private int getImgLineCount(ArrayList<String> mData) {
-        int count = mData.size();
-        if (count <= 3) {
-            return 1;
-        } else if (count <= 6) {
-            return 2;
-        } else if (count <= 9) {
-            return 3;
-        }
-        return 0;
-    }
-
-    /**
-     * 根据图片数量，初始化GridLayoutManager，并且设置列数，
-     * 当图片 = 1 的时候，显示1列
-     * 当图片<=4张的时候，显示2列
-     * 当图片>4 张的时候，显示3列
-     *
-     * @return
-     */
-    private GridLayoutManager initGridLayoutManager(ArrayList<String> ImageDatas) {
-        GridLayoutManager gridLayoutManager;
-        if (mImageDatas != null && mImageDatas.size() == 1) {
-            gridLayoutManager = new GridLayoutManager(mContext, 1);
-        } else if (mImageDatas != null && mImageDatas.size() <= 4) {
-            gridLayoutManager = new GridLayoutManager(mContext, 2);
-        } else {
-            gridLayoutManager = new GridLayoutManager(mContext, 3);
-        }
-        return gridLayoutManager;
     }
 
     @Override
@@ -278,12 +152,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public static class OriginViewHolder extends ViewHolder {
-        public LinearLayout weibo_layout;
+        public LinearLayout origin_weibo_layout;
         public ImageView profile_img;
         public TextView profile_name;
         public TextView profile_time;
-        public TextView weibo_comeform;
-        public EmojiTextView weibo_Content;
+        public TextView weibo_comefrom;
+        public EmojiTextView weibo_content;
         public TextView redirect;
         public TextView comment;
         public TextView feedlike;
@@ -291,12 +165,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public OriginViewHolder(View v) {
             super(v);
-            weibo_layout = (LinearLayout) v.findViewById(R.id.originweibo_layout);
+            origin_weibo_layout = (LinearLayout) v.findViewById(R.id.origin_weibo_layout);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);
-            weibo_Content = (EmojiTextView) v.findViewById(R.id.weibo_Content);
-            weibo_comeform = (TextView) v.findViewById(R.id.weiboComeFrom);
+            weibo_content = (EmojiTextView) v.findViewById(R.id.weibo_Content);
+            weibo_comefrom = (TextView) v.findViewById(R.id.weiboComeFrom);
             redirect = (TextView) v.findViewById(R.id.redirect);
             comment = (TextView) v.findViewById(R.id.comment);
             feedlike = (TextView) v.findViewById(R.id.feedlike);
@@ -305,6 +179,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public static class RetweetViewHolder extends ViewHolder {
+        public LinearLayout retweet_weibo_layout;
         public ImageView profile_img;
         public TextView profile_name;
         public TextView profile_time;
@@ -319,6 +194,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public RetweetViewHolder(View v) {
             super(v);
+            retweet_weibo_layout = (LinearLayout) v.findViewById(R.id.retweet_weibo_layout);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);

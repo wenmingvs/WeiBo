@@ -16,6 +16,9 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +28,7 @@ import org.json.JSONObject;
  * @author SINA
  * @since 2013-11-24
  */
-public class User {
+public class User implements Parcelable {
 
     /** 用户UID（int64） */
     public String id;
@@ -162,4 +165,108 @@ public class User {
         
         return user;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.idstr);
+        dest.writeString(this.screen_name);
+        dest.writeString(this.name);
+        dest.writeInt(this.province);
+        dest.writeInt(this.city);
+        dest.writeString(this.location);
+        dest.writeString(this.description);
+        dest.writeString(this.url);
+        dest.writeString(this.profile_image_url);
+        dest.writeString(this.profile_url);
+        dest.writeString(this.domain);
+        dest.writeString(this.weihao);
+        dest.writeString(this.gender);
+        dest.writeInt(this.followers_count);
+        dest.writeInt(this.friends_count);
+        dest.writeInt(this.statuses_count);
+        dest.writeInt(this.favourites_count);
+        dest.writeString(this.created_at);
+        dest.writeByte(following ? (byte) 1 : (byte) 0);
+        dest.writeByte(allow_all_act_msg ? (byte) 1 : (byte) 0);
+        dest.writeByte(geo_enabled ? (byte) 1 : (byte) 0);
+        dest.writeByte(verified ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.verified_type);
+        dest.writeString(this.remark);
+        dest.writeParcelable(this.status, flags);
+        dest.writeByte(allow_all_comment ? (byte) 1 : (byte) 0);
+        dest.writeString(this.avatar_large);
+        dest.writeString(this.avatar_hd);
+        dest.writeString(this.verified_reason);
+        dest.writeByte(follow_me ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.online_status);
+        dest.writeInt(this.bi_followers_count);
+        dest.writeString(this.lang);
+        dest.writeString(this.star);
+        dest.writeString(this.mbtype);
+        dest.writeString(this.mbrank);
+        dest.writeString(this.block_word);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readString();
+        this.idstr = in.readString();
+        this.screen_name = in.readString();
+        this.name = in.readString();
+        this.province = in.readInt();
+        this.city = in.readInt();
+        this.location = in.readString();
+        this.description = in.readString();
+        this.url = in.readString();
+        this.profile_image_url = in.readString();
+        this.profile_url = in.readString();
+        this.domain = in.readString();
+        this.weihao = in.readString();
+        this.gender = in.readString();
+        this.followers_count = in.readInt();
+        this.friends_count = in.readInt();
+        this.statuses_count = in.readInt();
+        this.favourites_count = in.readInt();
+        this.created_at = in.readString();
+        this.following = in.readByte() != 0;
+        this.allow_all_act_msg = in.readByte() != 0;
+        this.geo_enabled = in.readByte() != 0;
+        this.verified = in.readByte() != 0;
+        this.verified_type = in.readInt();
+        this.remark = in.readString();
+        this.status = in.readParcelable(Status.class.getClassLoader());
+        this.allow_all_comment = in.readByte() != 0;
+        this.avatar_large = in.readString();
+        this.avatar_hd = in.readString();
+        this.verified_reason = in.readString();
+        this.follow_me = in.readByte() != 0;
+        this.online_status = in.readInt();
+        this.bi_followers_count = in.readInt();
+        this.lang = in.readString();
+        this.star = in.readString();
+        this.mbtype = in.readString();
+        this.mbrank = in.readString();
+        this.block_word = in.readString();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

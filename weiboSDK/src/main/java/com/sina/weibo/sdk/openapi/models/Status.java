@@ -17,6 +17,9 @@
 package com.sina.weibo.sdk.openapi.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +34,7 @@ import java.util.regex.Pattern;
  * @author SINA
  * @since 2013-11-22
  */
-public class Status {
+public class Status implements Parcelable {
 
     private static Pattern mpattern;
     private static Matcher mmatcher;
@@ -223,4 +226,79 @@ public class Status {
         return buffer.toString();
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.created_at);
+        dest.writeString(this.id);
+        dest.writeString(this.mid);
+        dest.writeString(this.idstr);
+        dest.writeString(this.text);
+        dest.writeString(this.source);
+        dest.writeByte(favorited ? (byte) 1 : (byte) 0);
+        dest.writeByte(truncated ? (byte) 1 : (byte) 0);
+        dest.writeString(this.in_reply_to_status_id);
+        dest.writeString(this.in_reply_to_user_id);
+        dest.writeString(this.in_reply_to_screen_name);
+        dest.writeString(this.thumbnail_pic);
+        dest.writeString(this.bmiddle_pic);
+        dest.writeString(this.original_pic);
+        dest.writeParcelable(this.geo, flags);
+        dest.writeParcelable(this.user, flags);
+        dest.writeParcelable(this.retweeted_status, flags);
+        dest.writeInt(this.reposts_count);
+        dest.writeInt(this.comments_count);
+        dest.writeInt(this.attitudes_count);
+        dest.writeInt(this.mlevel);
+        dest.writeParcelable(this.visible, flags);
+        dest.writeStringList(this.pic_urls);
+        dest.writeStringList(this.origin_pic_urls);
+    }
+
+    public Status() {
+    }
+
+    protected Status(Parcel in) {
+        this.created_at = in.readString();
+        this.id = in.readString();
+        this.mid = in.readString();
+        this.idstr = in.readString();
+        this.text = in.readString();
+        this.source = in.readString();
+        this.favorited = in.readByte() != 0;
+        this.truncated = in.readByte() != 0;
+        this.in_reply_to_status_id = in.readString();
+        this.in_reply_to_user_id = in.readString();
+        this.in_reply_to_screen_name = in.readString();
+        this.thumbnail_pic = in.readString();
+        this.bmiddle_pic = in.readString();
+        this.original_pic = in.readString();
+        this.geo = in.readParcelable(Geo.class.getClassLoader());
+        this.user = in.readParcelable(User.class.getClassLoader());
+        this.retweeted_status = in.readParcelable(Status.class.getClassLoader());
+        this.reposts_count = in.readInt();
+        this.comments_count = in.readInt();
+        this.attitudes_count = in.readInt();
+        this.mlevel = in.readInt();
+        this.visible = in.readParcelable(Visible.class.getClassLoader());
+        this.pic_urls = in.createStringArrayList();
+        this.origin_pic_urls = in.createStringArrayList();
+    }
+
+    public static final Parcelable.Creator<Status> CREATOR = new Parcelable.Creator<Status>() {
+        @Override
+        public Status createFromParcel(Parcel source) {
+            return new Status(source);
+        }
+
+        @Override
+        public Status[] newArray(int size) {
+            return new Status[size];
+        }
+    };
 }

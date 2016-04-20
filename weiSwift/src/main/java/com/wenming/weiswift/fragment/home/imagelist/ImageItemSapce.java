@@ -26,7 +26,7 @@ public class ImageItemSapce extends RecyclerView.ItemDecoration {
                 }
                 break;
             case 3:
-                if ((parent.getChildAdapterPosition(view) + 1) == 2 || (parent.getChildAdapterPosition(view) + 1) == 4) {
+                if ((parent.getChildAdapterPosition(view) + 1) == 2 || (parent.getChildAdapterPosition(view) + 1) == 3) {
                     outRect.left = space / 2;
                 }
                 break;
@@ -62,7 +62,7 @@ public class ImageItemSapce extends RecyclerView.ItemDecoration {
                 break;
 
         }
-        if ((parent.getChildAdapterPosition(view) + 1) >= 3 && parent.getAdapter().getItemCount() <= 4) {
+        if ((parent.getChildAdapterPosition(view) + 1) >= 4 && parent.getAdapter().getItemCount() <= 4) {
             outRect.top = space;
         }
 

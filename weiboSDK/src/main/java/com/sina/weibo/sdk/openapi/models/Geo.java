@@ -16,10 +16,12 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.text.TextUtils;
 
 /**
  * 地理信息结构体。
@@ -27,7 +29,7 @@ import android.text.TextUtils;
  * @author SINA
  * @since 2013-11-24
  */
-public class Geo {
+public class Geo implements Parcelable {
     
     /** 经度坐标 */
     public String longitude;
@@ -82,4 +84,50 @@ public class Geo {
         
         return geo;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.longitude);
+        dest.writeString(this.latitude);
+        dest.writeString(this.city);
+        dest.writeString(this.province);
+        dest.writeString(this.city_name);
+        dest.writeString(this.province_name);
+        dest.writeString(this.address);
+        dest.writeString(this.pinyin);
+        dest.writeString(this.more);
+    }
+
+    public Geo() {
+    }
+
+    protected Geo(Parcel in) {
+        this.longitude = in.readString();
+        this.latitude = in.readString();
+        this.city = in.readString();
+        this.province = in.readString();
+        this.city_name = in.readString();
+        this.province_name = in.readString();
+        this.address = in.readString();
+        this.pinyin = in.readString();
+        this.more = in.readString();
+    }
+
+    public static final Parcelable.Creator<Geo> CREATOR = new Parcelable.Creator<Geo>() {
+        @Override
+        public Geo createFromParcel(Parcel source) {
+            return new Geo(source);
+        }
+
+        @Override
+        public Geo[] newArray(int size) {
+            return new Geo[size];
+        }
+    };
 }

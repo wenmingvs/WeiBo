@@ -13,6 +13,11 @@ public class NewFeature {
 
     public static int WEIBO_TYPE = 0;
 
+    public static int WEIBOTYPE_ORIGIN_PICTEXT = 0;
+    public static int WEIBOTYPE_ORIGIN_VIDEO = 1;
+    public static int WEIBOTYPE_RETWEET_PICTEXT = 2;
+    public static int WEIBOTYPE_RETWEET_VIDEO = 3;
+
     //通用设置
     public static boolean HAVA_IMAGE = true;
 

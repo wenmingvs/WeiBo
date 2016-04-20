@@ -1,4 +1,4 @@
-package com.wenming.weiswift.common;
+package com.wenming.weiswift.common.util;
 
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;

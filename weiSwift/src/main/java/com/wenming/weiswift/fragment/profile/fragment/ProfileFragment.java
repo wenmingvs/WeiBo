@@ -28,8 +28,8 @@ import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.AccessTokenKeeper;
-import com.wenming.weiswift.common.Constants;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.fragment.profile.activity.SettingActivity;
 
 /**
@@ -68,7 +68,6 @@ public class ProfileFragment extends Fragment {
                 .considerExifParams(true)
                 .displayer(new CircleBitmapDisplayer(14671839, 1))
                 .build();
-
     }
 
     private void initUser() {
