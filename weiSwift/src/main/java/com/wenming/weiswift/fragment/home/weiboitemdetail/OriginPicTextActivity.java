@@ -1,42 +1,44 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-
-import java.util.ArrayList;
+import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 /**
  * Created by wenmingvs on 16/4/21.
  */
-public class OrgPicActivity extends BaseActivity {
-    private DisplayImageOptions options;
-    private ArrayList<String> mImageDatas;
-
-    public LinearLayout origin_weibo_layout;
-    public ImageView profile_img;
-    public TextView profile_name;
-    public TextView profile_time;
-    public TextView weibo_comeform;
-    public EmojiTextView weibo_Content;
-    public TextView redirect;
-    public TextView comment;
-    public TextView feedlike;
-    public RecyclerView imageList;
+public class OriginPicTextActivity extends BaseActivity {
+    private Context mContext;
+    private LinearLayout origin_weibo_layout;
+    private ImageView profile_img;
+    private TextView profile_name;
+    private TextView profile_time;
+    private TextView weibo_comefrom;
+    private EmojiTextView weibo_content;
+    private TextView redirect;
+    private TextView comment;
+    private TextView feedlike;
+    private RecyclerView imageList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
+        mWeiboItem = getIntent().getParcelableExtra("weiboitem");
+        FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_name, profile_time, weibo_comefrom);
+        FillWeiBoItem.fillWeiBoContent(mWeiboItem, mContext, weibo_content);
+        FillWeiBoItem.fillButtonBar(mWeiboItem, comment, redirect, feedlike);
+        FillWeiBoItem.fillWeiBoImgList(mWeiboItem, mContext, imageList);
 
     }
-
 
     @Override
     public void setContntView() {
@@ -45,8 +47,8 @@ public class OrgPicActivity extends BaseActivity {
         profile_img = (ImageView) findViewById(R.id.profile_img);
         profile_name = (TextView) findViewById(R.id.profile_name);
         profile_time = (TextView) findViewById(R.id.profile_time);
-        weibo_Content = (EmojiTextView) findViewById(R.id.weibo_Content);
-        weibo_comeform = (TextView) findViewById(R.id.weiboComeFrom);
+        weibo_content = (EmojiTextView) findViewById(R.id.weibo_Content);
+        weibo_comefrom = (TextView) findViewById(R.id.weiboComeFrom);
         redirect = (TextView) findViewById(R.id.redirect);
         comment = (TextView) findViewById(R.id.comment);
         feedlike = (TextView) findViewById(R.id.feedlike);

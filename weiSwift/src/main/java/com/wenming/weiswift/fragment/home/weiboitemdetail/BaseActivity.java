@@ -1,7 +1,6 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -22,7 +21,6 @@ import com.wenming.weiswift.common.login.Constants;
  */
 public abstract class BaseActivity extends Activity {
 
-    public Context mContext;
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
     public StatusesAPI mStatusesAPI;
@@ -37,8 +35,6 @@ public abstract class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        mContext = this;
-        mWeiboItem = getIntent().getParcelableExtra("weiboitem");
         setContntView();
         initTitleBar();
         initAccessToken();
@@ -48,11 +44,11 @@ public abstract class BaseActivity extends Activity {
     public abstract void setContntView();
 
     private void initAccessToken() {
-        mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
+        mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
         mSsoHandler = new SsoHandler(BaseActivity.this, mAuthInfo);
-        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-        mCommentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, mAccessToken);
+        mAccessToken = AccessTokenKeeper.readAccessToken(this);
+        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
     }
 
     private void initTitleBar() {

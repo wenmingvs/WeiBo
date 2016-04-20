@@ -32,12 +32,12 @@ import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SharedPreferencesUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
 

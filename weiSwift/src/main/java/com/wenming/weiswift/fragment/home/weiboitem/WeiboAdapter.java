@@ -16,11 +16,10 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.common.util.DensityUtil;
-import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
-import com.wenming.weiswift.fragment.home.weiboitemdetail.OrgPicActivity;
-import com.wenming.weiswift.fragment.home.weiboitemdetail.RetPicActivity;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.OriginPicTextActivity;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.RetweetPicTextActivity;
 
 import java.util.ArrayList;
 
@@ -92,9 +91,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, OrgPicActivity.class);
+                    Intent intent = new Intent(mContext, OriginPicTextActivity.class);
                     intent.putExtra("weiboitem", mData.get(position));
-                    ToastUtil.showShort(mContext, mData.get(position).id + "");
+                    //ToastUtil.showShort(mContext, mData.get(position).id + "");
                     mContext.startActivity(intent);
                 }
             });
@@ -111,9 +110,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).retweet_weibo_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, RetPicActivity.class);
+                    Intent intent = new Intent(mContext, RetweetPicTextActivity.class);
                     intent.putExtra("weiboitem", mData.get(position));
-                    ToastUtil.showShort(mContext, mData.get(position).id + "");
+                    //ToastUtil.showShort(mContext, mData.get(position).id + "");
                     mContext.startActivity(intent);
                 }
             });
