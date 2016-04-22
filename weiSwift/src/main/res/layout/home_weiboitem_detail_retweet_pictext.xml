@@ -6,17 +6,21 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
 
+            <include layout="@layout/home_weiboitem_detail_bottom_bar" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

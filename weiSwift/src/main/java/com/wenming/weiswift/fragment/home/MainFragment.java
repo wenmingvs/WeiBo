@@ -36,6 +36,7 @@ import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.NetUtil;
+import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.SharedPreferencesUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
@@ -305,7 +306,9 @@ public class MainFragment extends Fragment {
                             @Override
                             public void onComplete(String response) {
                                 ArrayList<Status> status = StatusList.parse(response).statusList;
-                                status.remove(0);
+                                if (status.size() > 0) {
+                                    status.remove(0);
+                                }
                                 mWeiBoCache.addAll(status);
                                 addDataFromCache(mLastVisibleItemPositon - 1);
                                 mAdapter.setData(mDatas);
@@ -323,6 +326,23 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private void saveJsonData(Context context, String jsonString) {
+        if (NewFeature.SAVE_TO_SDCARD) {
+            SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "json.txt", jsonString);
+        } else {
+            SharedPreferencesUtil.put(mContext, "wenming", jsonString);
+        }
+    }
+
+    private String getJsonData(Context context) {
+        String response;
+        if (NewFeature.SAVE_TO_SDCARD) {
+            response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/aaa/", "json.txt");
+        } else {
+            response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
+        }
+        return response;
+    }
 
     /**
      * 下拉刷新执行的逻辑
@@ -338,8 +358,7 @@ public class MainFragment extends Fragment {
                             public void onComplete(String response) {
                                 //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
                                 if (!TextUtils.isEmpty(response)) {
-                                    SharedPreferencesUtil.put(mContext, "wenming", response);
-                                    //SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/aaa/", "json.txt", response);
+                                    saveJsonData(mContext, response);
                                     getWeiBoCache(0);
                                 } else {
                                     ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
@@ -370,9 +389,7 @@ public class MainFragment extends Fragment {
     private void getWeiBoCache(int start) {
         mWeiBoCache.clear();
         mDatas.clear();
-        String response = (String) SharedPreferencesUtil.get(mContext, "wenming", new String());
-        //String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/aaa/", "json.txt");
-
+        String response = getJsonData(mContext);
         if (response.startsWith("{\"statuses\"")) {
             mWeiBoCache = StatusList.parse(response).statusList;
             mDatas.add(0, new Status());

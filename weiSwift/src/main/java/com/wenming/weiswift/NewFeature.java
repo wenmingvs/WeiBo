@@ -31,5 +31,8 @@ public class NewFeature {
     public static int SEND_IMG_QUANTITY_HIGT = 1;
     public static int SEND_IMG_QUANTITY_NORMAL = 2;
 
+    //缓存存储位置
+    public static boolean SAVE_TO_SDCARD = false;
+
 
 }

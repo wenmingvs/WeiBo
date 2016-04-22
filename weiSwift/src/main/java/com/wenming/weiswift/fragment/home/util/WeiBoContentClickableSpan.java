@@ -28,4 +28,6 @@ public class WeiBoContentClickableSpan extends ClickableSpan {
         ds.setColor(mContext.getResources().getColor(R.color.home_weiboitem_content_keyword));
         ds.setUnderlineText(false);
     }
+
+
 }

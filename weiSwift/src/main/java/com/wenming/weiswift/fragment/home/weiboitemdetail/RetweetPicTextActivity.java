@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.emojitextview.EmojiTextView;
+import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 /**
@@ -17,14 +19,15 @@ public class RetweetPicTextActivity extends BaseActivity {
     private Context mContext;
     private LinearLayout retweet_weibo_layout;
     private ImageView profile_img;
+    private ImageView profile_verified;
     private TextView profile_name;
     private TextView profile_time;
     private TextView weibo_comefrom;
-    private TextView retweet_content;
+    private EmojiTextView retweet_content;
     private TextView redirect;
     private TextView comment;
     private TextView feedlike;
-    private TextView origin_nameAndcontent;
+    private EmojiTextView origin_nameAndcontent;
     private RecyclerView retweet_imageList;
 
     @Override
@@ -32,7 +35,8 @@ public class RetweetPicTextActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
-        FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_name, profile_time, weibo_comefrom);
+        retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+        FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillWeiBoItem.fillRetweetContent(mWeiboItem, mContext, origin_nameAndcontent);
         FillWeiBoItem.fillWeiBoContent(mWeiboItem, mContext, retweet_content);
         FillWeiBoItem.fillButtonBar(mWeiboItem, comment, redirect, feedlike);
@@ -45,14 +49,15 @@ public class RetweetPicTextActivity extends BaseActivity {
         setContentView(R.layout.home_weiboitem_detail_retweet_pictext);
         retweet_weibo_layout = (LinearLayout) findViewById(R.id.retweet_weibo_layout);
         profile_img = (ImageView) findViewById(R.id.profile_img);
+        profile_verified = (ImageView) findViewById(R.id.profile_verified);
         profile_name = (TextView) findViewById(R.id.profile_name);
         profile_time = (TextView) findViewById(R.id.profile_time);
-        retweet_content = (TextView) findViewById(R.id.retweet_content);
+        retweet_content = (EmojiTextView) findViewById(R.id.retweet_content);
         weibo_comefrom = (TextView) findViewById(R.id.weiboComeFrom);
         redirect = (TextView) findViewById(R.id.redirect);
         comment = (TextView) findViewById(R.id.comment);
         feedlike = (TextView) findViewById(R.id.feedlike);
-        origin_nameAndcontent = (TextView) findViewById(R.id.origin_nameAndcontent);
+        origin_nameAndcontent = (EmojiTextView) findViewById(R.id.origin_nameAndcontent);
         retweet_imageList = (RecyclerView) findViewById(R.id.origin_imageList);
     }
 }

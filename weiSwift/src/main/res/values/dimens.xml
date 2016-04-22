@@ -7,7 +7,7 @@
 
 
     <!--微博顶部TitleBar的各项字体大小-->
-    <dimen name="home_weiboitem_title_profile_pic">38dp</dimen><!--头像大小（长宽相等）-->
+    <dimen name="home_weiboitem_title_profile_pic">40dp</dimen><!--头像大小（长宽相等）-->
     <dimen name="home_weiboitem_title_profile_name">14sp</dimen><!--发微博用户-->
     <dimen name="home_weiboitem_title_profile_time">12sp</dimen><!--微博时间-->
     <dimen name="home_weiboitem_title_weibocomefrom">12sp</dimen><!--微博来源-->
@@ -19,7 +19,7 @@
 
     <!--原创内容的字体大小-->
     <dimen name="home_original_weiboitem_font">16sp</dimen><!--微博内容中字体大小-->
-    <dimen name="home_original_weiboitem_linespace">2dp</dimen><!--微博内容中行距大小-->
+    <dimen name="home_original_weiboitem_linespace">3dp</dimen><!--微博内容中行距大小-->
 
     <!--转发内容的字体大小-->
     <dimen name="home_retweet_weiboitem_font">16sp</dimen><!--转发内容中的字体大小-->
@@ -28,5 +28,21 @@
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
     <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
     <dimen name="home_weiboitem_space">8dp</dimen><!--微博列表的上下间距-->
+
+    <!--微博内容中字体大小-->
+    <dimen name="home_weiboitem_detail_bottom_bar_font">14sp</dimen>
+
+    <!--微博图片尺寸，竖直方向的长方形尺寸，适用于长微博和height比较大的图片-->
+    <dimen name="home_weiboitem_imagesize_vertical_rectangle_width">170dp</dimen>
+    <dimen name="home_weiboitem_imagesize_vertical_rectangle_height">225dp</dimen>
+
+    <!--微博图片尺寸，水平方向的长方形尺寸，适用于width比较大的图片-->
+    <dimen name="home_weiboitem_imagesize_horizontal_rectangle_width">225dp</dimen>
+    <dimen name="home_weiboitem_imagesize_horizontal_rectangle_height">170dp</dimen>
+
+    <!--微博图片尺寸，正方形尺寸，适用于width和height不大的图片-->
+    <dimen name="home_weiboitem_imagesize_square_width">170dp</dimen>
+    <dimen name="home_weiboitem_imagesize_square_height">170dp</dimen>
+
 
 </resources>

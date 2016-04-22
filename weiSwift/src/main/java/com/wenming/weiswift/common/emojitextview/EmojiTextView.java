@@ -9,10 +9,6 @@ import android.widget.TextView;
  */
 public class EmojiTextView extends TextView {
 
-    private static final String AT = "@[\u4e00-\u9fa5\\w]+";// @人
-    private static final String TOPIC = "#[\u4e00-\u9fa5\\w]+#";// ##话题
-    private static final String URL = "http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";//链接
-
 
     private Context mContext;
 

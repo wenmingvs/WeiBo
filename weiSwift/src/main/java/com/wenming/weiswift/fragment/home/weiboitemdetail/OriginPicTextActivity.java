@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
+import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 /**
@@ -18,6 +19,7 @@ public class OriginPicTextActivity extends BaseActivity {
     private Context mContext;
     private LinearLayout origin_weibo_layout;
     private ImageView profile_img;
+    private ImageView profile_verified;
     private TextView profile_name;
     private TextView profile_time;
     private TextView weibo_comefrom;
@@ -33,7 +35,8 @@ public class OriginPicTextActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
-        FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_name, profile_time, weibo_comefrom);
+        imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+        FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillWeiBoItem.fillWeiBoContent(mWeiboItem, mContext, weibo_content);
         FillWeiBoItem.fillButtonBar(mWeiboItem, comment, redirect, feedlike);
         FillWeiBoItem.fillWeiBoImgList(mWeiboItem, mContext, imageList);
@@ -45,6 +48,7 @@ public class OriginPicTextActivity extends BaseActivity {
         setContentView(R.layout.home_weiboitem_detail_orginal_pictext);
         origin_weibo_layout = (LinearLayout) findViewById(R.id.origin_weibo_layout);
         profile_img = (ImageView) findViewById(R.id.profile_img);
+        profile_verified = (ImageView) findViewById(R.id.profile_verified);
         profile_name = (TextView) findViewById(R.id.profile_name);
         profile_time = (TextView) findViewById(R.id.profile_time);
         weibo_content = (EmojiTextView) findViewById(R.id.weibo_Content);
