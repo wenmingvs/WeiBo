@@ -27,6 +27,7 @@
     <color name="grey">#f2f2f2</color><!--灰色 -->
     <color name="gray">#808080</color><!--灰色 -->
     <color name="red">#FF0000</color><!--红色 -->
+    <color name="black">#000000</color>
 
 
 </resources>

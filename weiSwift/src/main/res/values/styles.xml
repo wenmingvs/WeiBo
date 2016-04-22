@@ -31,4 +31,10 @@
 
     </style>
 
+    <!-- home_image_detail_list_popup_window_anim_style -->
+    <style name="image_option_pop_window_anim_style">
+        <item name="android:windowEnterAnimation">@anim/home_image_detail_list_pop_window_in</item>
+        <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
+    </style>
+
 </resources>

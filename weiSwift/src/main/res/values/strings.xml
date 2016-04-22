@@ -5,4 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+
+    <string name="home_image_detail_image_pop_window_save_pic">保存图片</string>
+    <string name="home_image_detail_image_pop_window_forward_weibo">转发微博</string>
+    <string name="home_image_detail_image_pop_window_quit">取消</string>
+
 </resources>

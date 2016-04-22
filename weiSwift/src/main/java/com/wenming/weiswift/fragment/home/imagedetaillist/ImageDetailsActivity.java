@@ -1,15 +1,19 @@
 package com.wenming.weiswift.fragment.home.imagedetaillist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.util.ScreenUtil;
 
 import java.util.ArrayList;
 
@@ -21,30 +25,38 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.OnSingleTagListener {
 
     private ImageDetailViewPager mViewPager;
-    private TextView mPageText;
-    private ImageView mImageView;
+    private ImageDetailTopBar mImageDetailTopBar;
     private ArrayList<String> mDatas;
     private int mPosition;
     private int mImgNum;
     private ViewPagerAdapter mAdapter;
+    private Context mContext;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_weiboitem_imagedetails);
+        mContext = ImageDetailsActivity.this;
         mDatas = this.getIntent().getStringArrayListExtra("imagelist_url");
         mPosition = getIntent().getIntExtra("image_position", 0);
         mImgNum = mDatas.size();
 
         mViewPager = (ImageDetailViewPager) findViewById(R.id.viewpagerId);
-        mImageView = (ImageView) findViewById(R.id.image_moreId);
-        mPageText = (TextView) findViewById(R.id.pageTextId);
+        mImageDetailTopBar = (ImageDetailTopBar) findViewById(R.id.imageTopBar);
         mAdapter = new ViewPagerAdapter(mDatas, this);
         mAdapter.setOnSingleTagListener(this);
         mViewPager.setAdapter(mAdapter);
 
-        mPageText.setText((mPosition + 1) + "/" + mImgNum);
+        if (mImgNum == 1) {
+            mImageDetailTopBar.setPageNumVisible(View.GONE);
+        } else {
+            mImageDetailTopBar.setPageNum((mPosition + 1) + "/" + mImgNum);
+        }
+
 
         mViewPager.setCurrentItem(mPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -56,7 +68,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
             @Override
             public void onPageSelected(int position) {
                 // 每当页数发生改变时重新设定一遍当前的页数和总页数
-                mPageText.setText((position + 1) + "/" + mImgNum);
+                mImageDetailTopBar.setPageNum((position + 1) + "/" + mImgNum);
             }
 
             @Override
@@ -66,13 +78,43 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         });
 
 
-        mImageView.setOnClickListener(new View.OnClickListener() {
+        mImageDetailTopBar.setOnMoreOptionsListener(new ImageDetailTopBar.OnMoreOptionsListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(ImageDetailsActivity.this, "等待完成的功能", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                ImageOptionPopupWindow mPopupWindow = ImageOptionPopupWindow.getInstance(mContext);
+                setupPopDismissEvent(mPopupWindow);
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                } else {
+                    mPopupWindow.showAtLocation(findViewById(R.id.frameLayout), Gravity.BOTTOM, 0, 0);
+                    setOutBackground(0.5f);
+                }
             }
         });
 
+    }
+
+    /**
+     * 设置popwindow外部的alpha值
+     * @param alpha
+     */
+    private void setOutBackground(float alpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = alpha;
+        getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 设置popwindow的dismiss监听事件
+     * @param mPopupWindow
+     */
+    private void setupPopDismissEvent(ImageOptionPopupWindow mPopupWindow) {
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+               setOutBackground(1.0f);
+            }
+        });
     }
 
 
@@ -93,4 +135,5 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
     public void onTag() {
         finish();
     }
+
 }
