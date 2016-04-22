@@ -13,7 +13,7 @@ import com.wenming.weiswift.R;
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class ImageDetailTopBar extends RelativeLayout{
+public class ImageDetailTopBar extends RelativeLayout {
 
     private View mView;
     private TextView mPageNum;
@@ -22,7 +22,7 @@ public class ImageDetailTopBar extends RelativeLayout{
 
     /**
      * @param context 上下文
-     * @param attrs 用户获取自定义view的属性
+     * @param attrs   用户获取自定义view的属性
      */
     public ImageDetailTopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +49,7 @@ public class ImageDetailTopBar extends RelativeLayout{
 
     /**
      * 设置当前图片的页数
+     *
      * @param pageNum
      */
     public void setPageNum(String pageNum) {
@@ -57,6 +58,7 @@ public class ImageDetailTopBar extends RelativeLayout{
 
     /**
      * 设置是否显示当前页数，为1时不需要显示
+     *
      * @param isVisible
      */
     public void setPageNumVisible(int isVisible) {
@@ -72,6 +74,7 @@ public class ImageDetailTopBar extends RelativeLayout{
 
     /**
      * 传入一个监听接口
+     *
      * @param onMoreOptionsListener
      */
     public void setOnMoreOptionsListener(OnMoreOptionsListener onMoreOptionsListener) {

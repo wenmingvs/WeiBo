@@ -5,8 +5,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.ScreenUtil;
@@ -17,6 +17,7 @@ import com.wenming.weiswift.common.util.ScreenUtil;
 public class ImageOptionPopupWindow extends PopupWindow {
 
     private View mView;
+    private TextView mCancalTextView;
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
@@ -36,6 +37,7 @@ public class ImageOptionPopupWindow extends PopupWindow {
 
     /**
      * 创建一个ImageOptionPopupWindow
+     *
      * @param context
      */
     private ImageOptionPopupWindow(Context context) {
@@ -65,7 +67,18 @@ public class ImageOptionPopupWindow extends PopupWindow {
         });
         // 设置popupwindow的布局
         mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
+        mCancalTextView = (TextView) mView.findViewById(R.id.pop_cancal);
         this.setContentView(mView);
+        initOnClickListener();
     }
 
+    private void initOnClickListener() {
+
+        mCancalTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+    }
 }

@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/home_image_detail_image_pop_window_save_pic"
-        android:textSize="16sp"
+        android:background="@drawable/home_image_detail_popwindow_bg_auto"
         android:gravity="center"
-        android:textColor="@color/black"/>
+        android:text="@string/home_image_detail_image_pop_window_save_pic"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
-    <FrameLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey"></FrameLayout>
+        android:background="@color/grey"></ImageView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/home_image_detail_image_pop_window_forward_weibo"
-        android:textSize="16sp"
+        android:background="@drawable/home_image_detail_popwindow_bg_auto"
         android:gravity="center"
-        android:textColor="@color/black"/>
+        android:text="@string/home_image_detail_image_pop_window_forward_weibo"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,12 +39,14 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/pop_cancal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/home_image_detail_image_pop_window_quit"
-        android:textSize="16sp"
+        android:background="@drawable/home_image_detail_popwindow_bg_auto"
         android:gravity="center"
-        android:textColor="@color/black"/>
+        android:text="@string/home_image_detail_image_pop_window_quit"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 </LinearLayout>
