@@ -1,37 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/pageTextId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:clickable="false"
-        android:text="4/6"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
-
-    <ImageView
-        android:id="@+id/image_moreId"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/home_weiboitem_imagedetail_more_auto"
-        android:scaleType="center" />
-
 
     <com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailViewPager
         android:id="@+id/viewpagerId"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</RelativeLayout>
+    <com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailTopBar
+        android:id="@+id/imageTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        />
+
+</FrameLayout>
