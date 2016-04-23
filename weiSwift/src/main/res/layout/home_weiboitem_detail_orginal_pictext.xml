@@ -4,7 +4,6 @@
     android:id="@+id/swipe_refresh_widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.DetailScrollView
@@ -14,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <include layout="@layout/mainfragment_weiboitem_original_pictext" />
