@@ -19,7 +19,7 @@ import com.wenming.weiswift.common.login.Constants;
 /**
  * Created by wenmingvs on 16/4/20.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class DetailActivity extends Activity {
 
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
@@ -46,7 +46,7 @@ public abstract class BaseActivity extends Activity {
     private void initAccessToken() {
         mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
-        mSsoHandler = new SsoHandler(BaseActivity.this, mAuthInfo);
+        mSsoHandler = new SsoHandler(DetailActivity.this, mAuthInfo);
         mAccessToken = AccessTokenKeeper.readAccessToken(this);
         mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
     }

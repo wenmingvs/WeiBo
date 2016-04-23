@@ -17,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="26dp"
-        android:layout_marginTop="26dp"
-        android:visibility="invisible" />
+        android:layout_marginTop="26dp" />
 
 </FrameLayout>

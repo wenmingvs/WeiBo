@@ -9,6 +9,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -71,34 +72,19 @@ public class FillWeiBoItem {
     public static void fillProfileImg(final Status status, final ImageView profile_img, final ImageView profile_verified) {
 
         final User user = status.user;
-        ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img, mAvatorOptions, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {
-            }
+        profile_verified.setVisibility(View.GONE);
+        profile_verified.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                if (user.verified == true && user.verified_type == 0) {
-                    profile_verified.setImageResource(R.drawable.avatar_vip);
-                } else if (user.verified == true && user.verified_type == 1 || user.verified_type == 2 || user.verified_type == 3) {
-                    profile_verified.setImageResource(R.drawable.avatar_enterprise_vip);
-                } else if (user.verified == false && user.verified_type == 220) {
-                    profile_verified.setImageResource(R.drawable.avatar_grassroot);
-                } else {
-                    profile_verified.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onLoadingCancelled(String s, View view) {
-
-            }
-        });
+        if (user.verified == true && user.verified_type == 0) {
+            profile_verified.setImageResource(R.drawable.avatar_vip);
+        } else if (user.verified == true && (user.verified_type == 1 || user.verified_type == 2 || user.verified_type == 3)) {
+            profile_verified.setImageResource(R.drawable.avatar_enterprise_vip);
+        } else if (user.verified == false && user.verified_type == 220) {
+            profile_verified.setImageResource(R.drawable.avatar_grassroot);
+        } else {
+            profile_verified.setVisibility(View.INVISIBLE);
+        }
+        ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img, mAvatorOptions);
 
     }
 
@@ -145,8 +131,25 @@ public class FillWeiBoItem {
         comment.setText(status.comments_count + "");
         redirect.setText(status.reposts_count + "");
         feedlike.setText(status.attitudes_count + "");
-
     }
+
+
+    /**
+     * 决定是否隐藏转发，评论，赞的底部的bar，进入weibodetail的时候隐藏他
+     *
+     * @param visible
+     * @param layout
+     */
+    public static void showButtonBar(int visible, LinearLayout layout) {
+        if (visible == View.VISIBLE) {
+            layout.setVisibility(View.VISIBLE);
+        } else if (visible == View.GONE) {
+            layout.setVisibility(View.GONE);
+        } else if (visible == View.INVISIBLE) {
+            layout.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     /**
      * 填充微博文字内容

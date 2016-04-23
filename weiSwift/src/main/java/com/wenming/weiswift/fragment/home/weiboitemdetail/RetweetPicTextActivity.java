@@ -3,6 +3,7 @@ package com.wenming.weiswift.fragment.home.weiboitemdetail;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 /**
  * Created by wenmingvs on 16/4/21.
  */
-public class RetweetPicTextActivity extends BaseActivity {
+public class RetweetPicTextActivity extends DetailActivity {
     private Context mContext;
     private LinearLayout retweet_weibo_layout;
     private ImageView profile_img;
@@ -24,6 +25,7 @@ public class RetweetPicTextActivity extends BaseActivity {
     private TextView profile_time;
     private TextView weibo_comefrom;
     private EmojiTextView retweet_content;
+    private LinearLayout bottombar_layout;
     private TextView redirect;
     private TextView comment;
     private TextView feedlike;
@@ -39,8 +41,9 @@ public class RetweetPicTextActivity extends BaseActivity {
         FillWeiBoItem.fillTitleBar(mWeiboItem, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillWeiBoItem.fillRetweetContent(mWeiboItem, mContext, origin_nameAndcontent);
         FillWeiBoItem.fillWeiBoContent(mWeiboItem, mContext, retweet_content);
-        FillWeiBoItem.fillButtonBar(mWeiboItem, comment, redirect, feedlike);
         FillWeiBoItem.fillWeiBoImgList(mWeiboItem.retweeted_status, mContext, retweet_imageList);
+        FillWeiBoItem.showButtonBar(View.GONE, bottombar_layout);
+
 
     }
 
@@ -54,6 +57,7 @@ public class RetweetPicTextActivity extends BaseActivity {
         profile_time = (TextView) findViewById(R.id.profile_time);
         retweet_content = (EmojiTextView) findViewById(R.id.retweet_content);
         weibo_comefrom = (TextView) findViewById(R.id.weiboComeFrom);
+        bottombar_layout = (LinearLayout) findViewById(R.id.bottombar_layout);
         redirect = (TextView) findViewById(R.id.redirect);
         comment = (TextView) findViewById(R.id.comment);
         feedlike = (TextView) findViewById(R.id.feedlike);

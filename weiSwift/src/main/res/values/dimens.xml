@@ -7,7 +7,7 @@
 
 
     <!--微博顶部TitleBar的各项字体大小-->
-    <dimen name="home_weiboitem_title_profile_pic">40dp</dimen><!--头像大小（长宽相等）-->
+    <dimen name="home_weiboitem_title_profile_pic">38dp</dimen><!--头像大小（长宽相等）-->
     <dimen name="home_weiboitem_title_profile_name">14sp</dimen><!--发微博用户-->
     <dimen name="home_weiboitem_title_profile_time">12sp</dimen><!--微博时间-->
     <dimen name="home_weiboitem_title_weibocomefrom">12sp</dimen><!--微博来源-->
