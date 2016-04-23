@@ -16,8 +16,8 @@
         android:id="@+id/profile_verified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:visibility="invisible"
-        android:layout_marginTop="28dp" />
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="26dp"
+        android:visibility="invisible" />
 
 </FrameLayout>

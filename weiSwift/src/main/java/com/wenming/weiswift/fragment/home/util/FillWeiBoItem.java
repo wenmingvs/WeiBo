@@ -44,7 +44,7 @@ public class FillWeiBoItem {
             .considerExifParams(true)
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
-    ;
+
 
     private static DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.message_image_default)
