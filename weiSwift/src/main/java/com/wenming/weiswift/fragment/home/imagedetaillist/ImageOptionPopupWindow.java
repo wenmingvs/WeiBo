@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.ScreenUtil;
+import com.wenming.weiswift.common.util.ToastUtil;
 
 /**
  * Created by xiangflight on 2016/4/22.
@@ -18,6 +19,9 @@ public class ImageOptionPopupWindow extends PopupWindow {
 
     private View mView;
     private TextView mCancalTextView;
+    private TextView mSavePicTextView;
+    private TextView mRetweetTextView;
+
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
@@ -42,6 +46,16 @@ public class ImageOptionPopupWindow extends PopupWindow {
      */
     private ImageOptionPopupWindow(Context context) {
         super(context);
+        initPopWindow(context);
+        // 设置popupwindow的布局
+        mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
+        this.setContentView(mView);
+
+
+        initOnClickListener(context);
+    }
+
+    private void initPopWindow(Context context) {
         // 设置popupWindow的外部属性
         // 设置宽高
         this.setWidth(ScreenUtil.getScreenWidth(context));
@@ -65,19 +79,30 @@ public class ImageOptionPopupWindow extends PopupWindow {
                 return false;
             }
         });
-        // 设置popupwindow的布局
-        mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
-        mCancalTextView = (TextView) mView.findViewById(R.id.pop_cancal);
-        this.setContentView(mView);
-        initOnClickListener();
     }
 
-    private void initOnClickListener() {
+    private void initOnClickListener(final Context context) {
+        mCancalTextView = (TextView) mView.findViewById(R.id.pop_cancal);
+        mSavePicTextView = (TextView) mView.findViewById(R.id.pop_savcpic);
+        mRetweetTextView = (TextView) mView.findViewById(R.id.pop_retweet);
 
         mCancalTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+        mSavePicTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showShort(context, "保存图片");
+            }
+        });
+
+        mRetweetTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showShort(context, "转发微博");
             }
         });
     }
