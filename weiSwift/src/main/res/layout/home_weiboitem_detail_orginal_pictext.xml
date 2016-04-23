@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_refresh_widget"
     android:layout_width="match_parent"
@@ -6,9 +7,9 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical">
 
-    <ScrollView
+    <com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.DetailScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,10 +19,15 @@
             <include layout="@layout/mainfragment_weiboitem_original_pictext" />
 
             <include layout="@layout/home_weiboitem_detail_bottom_bar" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/comment_recyelerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
-
-
-    </ScrollView>
+    </com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.DetailScrollView>
 
 
 </android.support.v4.widget.SwipeRefreshLayout>
+

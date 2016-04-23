@@ -69,9 +69,8 @@ public class FillWeiBoItem {
      * @param profile_img
      * @param profile_verified
      */
-    public static void fillProfileImg(final Status status, final ImageView profile_img, final ImageView profile_verified) {
+    public static void fillProfileImg(final User user, final ImageView profile_img, final ImageView profile_verified) {
 
-        final User user = status.user;
         profile_verified.setVisibility(View.GONE);
         profile_verified.setVisibility(View.VISIBLE);
 
@@ -84,7 +83,7 @@ public class FillWeiBoItem {
         } else {
             profile_verified.setVisibility(View.INVISIBLE);
         }
-        ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img, mAvatorOptions);
+        ImageLoader.getInstance().displayImage(user.avatar_hd, profile_img, mAvatorOptions);
 
     }
 
@@ -98,13 +97,13 @@ public class FillWeiBoItem {
      * @param weibo_comefrom
      */
     public static void fillTitleBar(Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        fillProfileImg(status, profile_img, profile_verified);
+        fillProfileImg(status.user, profile_img, profile_verified);
         profile_name.setText(status.user.name);
         setWeiBoTime(profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
     }
 
-    private static void setWeiBoTime(TextView textView, String created_at) {
+    public static void setWeiBoTime(TextView textView, String created_at) {
         Date data = DateUtils.parseDate(created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
         SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
         String time = df.format(data);
@@ -154,8 +153,8 @@ public class FillWeiBoItem {
     /**
      * 填充微博文字内容
      */
-    public static void fillWeiBoContent(Status status, Context context, EmojiTextView weibo_content) {
-        weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(status.text, context, weibo_content));
+    public static void fillWeiBoContent(String text, Context context, EmojiTextView weibo_content) {
+        weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(text, context, weibo_content));
         weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -302,6 +301,11 @@ public class FillWeiBoItem {
         });
     }
 
+    public static void fillWeiBoCommentDeatil(Context context, Status status) {
+
+    }
+
+
     /**
      * 根据下载的图片的大小，返回图片的类型
      *
@@ -329,7 +333,6 @@ public class FillWeiBoItem {
      * @return
      */
     public static int returnImageType(Context context, String url) {
-
         //长微博尺寸
         if (url.endsWith(".gif")) {
             return IMAGE_TYPE_GIF;
@@ -337,4 +340,6 @@ public class FillWeiBoItem {
 
         return IMAGE_TYPE_WIDTH_PIC;
     }
+
+
 }

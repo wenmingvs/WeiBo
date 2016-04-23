@@ -12,6 +12,7 @@
         android:layout_weight="5">
 
         <TextView
+            android:id="@+id/commentBar_retweet"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -22,19 +23,20 @@
             android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
         <TextView
+            android:id="@+id/commentBar_comment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:gravity="center"
             android:padding="12dp"
             android:text="评论 52"
-            android:textColor="#4d4d4d"
             android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
     </LinearLayout>
 
 
     <TextView
+        android:id="@+id/commentBar_like"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"

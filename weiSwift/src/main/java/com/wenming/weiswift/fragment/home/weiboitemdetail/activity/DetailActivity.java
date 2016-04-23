@@ -1,6 +1,7 @@
-package com.wenming.weiswift.fragment.home.weiboitemdetail;
+package com.wenming.weiswift.fragment.home.weiboitemdetail.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,7 +11,6 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
-import com.sina.weibo.sdk.openapi.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
@@ -23,22 +23,33 @@ public abstract class DetailActivity extends Activity {
 
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
-    public StatusesAPI mStatusesAPI;
     public CommentsAPI mCommentsAPI;
     public SsoHandler mSsoHandler;
     public Status mWeiboItem;
-
     public View mToolBar;
     public ImageView mBackIcon;
+    public Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        mWeiboItem = getIntent().getParcelableExtra("weiboitem");
+        mContext = this;
         setContntView();
         initTitleBar();
         initAccessToken();
+        initRefreshLayout();
+        initWeiBoContent();
     }
+
+    protected abstract void initRefreshLayout();
+
+
+    protected abstract void initWeiBoContent();
+
+    protected abstract void pullToRefreshData();
 
 
     public abstract void setContntView();

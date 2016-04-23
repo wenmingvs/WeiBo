@@ -16,51 +16,81 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * 评论结构体。
- * 
+ *
  * @author SINA
  * @since 2013-11-24
  */
 public class Comment {
 
-    /** 评论创建时间 */
+    /**
+     * 评论创建时间
+     */
     public String created_at;
-    /** 评论的 ID */
+    /**
+     * 评论的 ID
+     */
     public String id;
-    /** 评论的内容 */
+    /**
+     * 评论的内容
+     */
     public String text;
-    /** 评论的来源 */
+    /**
+     * 评论的来源
+     */
     public String source;
-    /** 评论作者的用户信息字段 */
+    /**
+     * 评论作者的用户信息字段
+     */
     public User user;
-    /** 评论的 MID */
+    /**
+     * 评论的 MID
+     */
     public String mid;
-    /** 字符串型的评论 ID */
+    /**
+     * 字符串型的评论 ID
+     */
     public String idstr;
-    /** 评论的微博信息字段 */
+    /**
+     * 评论的微博信息字段
+     */
     public Status status;
-    /** 评论来源评论，当本评论属于对另一评论的回复时返回此字段 */
+    /**
+     * 评论来源评论，当本评论属于对另一评论的回复时返回此字段
+     */
     public Comment reply_comment;
-    
+
     public static Comment parse(JSONObject jsonObject) {
         if (null == jsonObject) {
             return null;
         }
 
         Comment comment = new Comment();
-        comment.created_at    = jsonObject.optString("created_at");
-        comment.id            = jsonObject.optString("id");
-        comment.text          = jsonObject.optString("text");
-        comment.source        = jsonObject.optString("source");
-        comment.user          = User.parse(jsonObject.optJSONObject("user"));
-        comment.mid           = jsonObject.optString("mid");
-        comment.idstr         = jsonObject.optString("idstr");
-        comment.status        = Status.parse(jsonObject.optJSONObject("status"));            
+        comment.created_at = jsonObject.optString("created_at");
+        comment.id = jsonObject.optString("id");
+        comment.text = jsonObject.optString("text");
+        comment.source = jsonObject.optString("source");
+        comment.user = User.parse(jsonObject.optJSONObject("user"));
+        comment.mid = jsonObject.optString("mid");
+        comment.idstr = jsonObject.optString("idstr");
+        comment.status = Status.parse(jsonObject.optJSONObject("status"));
         comment.reply_comment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
-        
+
         return comment;
+    }
+
+    public static Comment parse(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            return Comment.parse(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

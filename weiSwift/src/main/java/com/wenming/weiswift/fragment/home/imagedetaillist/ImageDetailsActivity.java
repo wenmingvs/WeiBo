@@ -3,17 +3,14 @@ package com.wenming.weiswift.fragment.home.imagedetaillist;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.util.ScreenUtil;
 
 import java.util.ArrayList;
 
@@ -96,6 +93,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
 
     /**
      * 设置popwindow外部的alpha值
+     *
      * @param alpha
      */
     private void setOutBackground(float alpha) {
@@ -106,13 +104,14 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
 
     /**
      * 设置popwindow的dismiss监听事件
+     *
      * @param mPopupWindow
      */
     private void setupPopDismissEvent(ImageOptionPopupWindow mPopupWindow) {
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-               setOutBackground(1.0f);
+                setOutBackground(1.0f);
             }
         });
     }

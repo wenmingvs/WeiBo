@@ -5,22 +5,23 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
     android:orientation="vertical">
-
-    <ScrollView
+    <com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.DetailScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
+
+        <include layout="@layout/home_weiboitem_detail_bottom_bar" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_recyelerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
-
-            <include layout="@layout/home_weiboitem_detail_bottom_bar" />
-        </LinearLayout>
-
-    </ScrollView>
-
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.DetailScrollView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -65,11 +65,11 @@
             android:theme="@style/ToolbarTheme" />
 
         <activity
-            android:name=".fragment.home.weiboitemdetail.OriginPicTextActivity"
+            android:name=".fragment.home.weiboitemdetail.activity.OriginPicTextActivity"
             android:theme="@style/ToolbarTheme" />
 
         <activity
-            android:name=".fragment.home.weiboitemdetail.RetweetPicTextActivity"
+            android:name=".fragment.home.weiboitemdetail.activity.RetweetPicTextActivity"
             android:theme="@style/ToolbarTheme" />
 
     </application>
