@@ -52,6 +52,7 @@ public class StatusList {
         StatusList statuses = new StatusList();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
+
             statuses.hasvisible = jsonObject.optBoolean("hasvisible", false);
             statuses.previous_cursor = jsonObject.optString("previous_cursor", "0");
             statuses.next_cursor = jsonObject.optString("next_cursor", "0");
@@ -68,7 +69,6 @@ public class StatusList {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return statuses;
     }
 }

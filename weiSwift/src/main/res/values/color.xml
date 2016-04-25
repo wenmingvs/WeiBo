@@ -29,5 +29,11 @@
     <color name="red">#FF0000</color><!--红色 -->
     <color name="black">#000000</color>
 
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_ff">#F0F0F0</color>
+    <color name="color_00">#8A000000</color>
+
+
 
 </resources>

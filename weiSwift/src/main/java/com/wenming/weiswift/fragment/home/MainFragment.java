@@ -67,7 +67,7 @@ public class MainFragment extends Fragment {
     private boolean mFirstLoad;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<Status> mWeiBoCache;
-    private int mLastVisibleItemPositon;//count from 1
+    private int mLastVisibleItemPositon;//因为有search bar的存在，所以是微博条目是从1开始计数
     private long lastWeiboID;
     private UsersAPI mUsersAPI;
 
@@ -345,7 +345,7 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 下拉刷新执行的逻辑
+     * 下拉刷新执行的逻辑(String) SharedPreferencesUtil.ge
      * 1. 检查网络是否可用，如果网络不可用，则读取本地缓存，并且关闭圆圈动画
      * 2. 网络可用，则请求数据，并且设置回调，回调执行完成后关闭圆圈动画，如果请求失败，也要关闭动画
      */

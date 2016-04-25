@@ -3,18 +3,43 @@ package com.wenming.weiswift.fragment.home.weiboitemdetail.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.sina.weibo.sdk.openapi.models.Comment;
+import com.sina.weibo.sdk.openapi.models.CommentList;
 import com.sina.weibo.sdk.openapi.models.Status;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
+import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
+import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
+import com.wenming.weiswift.common.util.LogUtil;
+import com.wenming.weiswift.common.util.NetUtil;
+import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 16/4/20.
@@ -24,12 +49,25 @@ public abstract class DetailActivity extends Activity {
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
     public CommentsAPI mCommentsAPI;
+    public StatusesAPI mStatusesAPI;
     public SsoHandler mSsoHandler;
     public Status mWeiboItem;
     public View mToolBar;
     public ImageView mBackIcon;
     public Context mContext;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    public RecyclerView mRecyclerView;
+    private ArrayList<Comment> mDatas;
+    private LinearLayoutManager mLayoutManager;
+    private CommentAdapter mAdapter;
+    private boolean mNoMoreData;//表示服务器的评论已经加载完成
+    private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
+    public LinearLayout mHeaderView;
+
+    private int mLastestComments;
+    private int mLastestReposts;
+    private int mLastestAttitudes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +75,12 @@ public abstract class DetailActivity extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
         mContext = this;
-        setContntView();
+        setContentView(R.layout.home_weiboitem_detail);
         initTitleBar();
         initAccessToken();
         initRefreshLayout();
-        initWeiBoContent();
     }
 
-    protected abstract void initRefreshLayout();
-
-
-    protected abstract void initWeiBoContent();
-
-    protected abstract void pullToRefreshData();
-
-
-    public abstract void setContntView();
-
-    private void initAccessToken() {
-        mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
-                Constants.REDIRECT_URL, Constants.SCOPE);
-        mSsoHandler = new SsoHandler(DetailActivity.this, mAuthInfo);
-        mAccessToken = AccessTokenKeeper.readAccessToken(this);
-        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
-    }
 
     private void initTitleBar() {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_weiboitem_detail_title);
@@ -74,4 +94,169 @@ public abstract class DetailActivity extends Activity {
         });
     }
 
+    private void initAccessToken() {
+        mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
+                Constants.REDIRECT_URL, Constants.SCOPE);
+        mSsoHandler = new SsoHandler(DetailActivity.this, mAuthInfo);
+        mAccessToken = AccessTokenKeeper.readAccessToken(this);
+        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
+        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
+    }
+
+    protected void initRefreshLayout() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.commmentlist_swipe_refresh_widget);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefreshData();
+            }
+        });
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                pullToRefreshData();
+            }
+        });
+    }
+
+
+    protected void initRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.commmentlist_RecyclerView);
+        mAdapter = new CommentAdapter(mContext, mDatas);
+        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+        addHeaderView(mDatas == null ? 0 : mDatas.size());
+        refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
+    }
+
+
+    protected void pullToRefreshData() {
+        if (NetUtil.isConnected(mContext)) {
+            getWeiBoCount();
+            getCommentList();
+        } else {
+            ToastUtil.showShort(mContext, "没有网络,读取本地缓存");
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    protected abstract void addHeaderView(int size);
+
+    private void getWeiBoCount() {
+        mStatusesAPI.count(new String[]{mWeiboItem.id}, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                LogUtil.d(response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    mLastestComments = jsonArray.getJSONObject(0).optInt("comments");
+                    mLastestReposts = jsonArray.getJSONObject(0).optInt("reposts");
+                    mLastestAttitudes = jsonArray.getJSONObject(0).optInt("attitudes");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(mContext, e.getMessage());
+            }
+        });
+    }
+
+    protected abstract void refreshDetailBar(int comments, int reposts, int attitudes);
+
+    /**
+     * 第一次去请求微博数据
+     */
+    private void getCommentList() {
+        mCommentsAPI.show(Long.valueOf(mWeiboItem.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                if (!TextUtils.isEmpty(response)) {
+                    mDatas = CommentList.parse(response).commentList;
+                    initRecyclerView();
+                } else {
+                    ToastUtil.showShort(mContext, "返回的微博数据为空");
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(mContext, e.getMessage());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+
+    private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
+            if (state == LoadingFooter.State.Loading) {
+                Log.d("wenming", "the state is Loading, just wait..");
+                return;
+            }
+            if (!mNoMoreData && mDatas != null) {
+                // loading more
+                RecyclerViewStateUtils.setFooterViewState(DetailActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
+                requestMoreData();
+            }
+        }
+    };
+
+    /**
+     * 网络请求下一页的评论数据
+     */
+    private void requestMoreData() {
+        ToastUtil.showShort(mContext, "请求更多评论数据");
+        mCommentsAPI.show(Long.valueOf(mWeiboItem.id), 0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                if (!TextUtils.isEmpty(response)) {
+                    ArrayList<Comment> httpRespnse = CommentList.parse(response).commentList;
+                    loadMoreData(httpRespnse);
+                } else {
+                    ToastUtil.showShort(mContext, "返回的微博数据为空");
+                    mNoMoreData = true;
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(mContext, e.getMessage());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    /**
+     * 成功拿到下一页的评论数据，要根据数据的内容来决定是否已经加载到头了
+     * 1. 如果请求下来的数据，数目为1，且id和mDatas的最后一条评论的id相同，则表示服务器的数据已经请求完了
+     * 2. 如果请求的数据大于1，则删掉重复的第一条，再添加到mDatas中，并且刷新recyclerview的状态和底部的view
+     *
+     * @param httpRespnse
+     */
+    private void loadMoreData(ArrayList<Comment> httpRespnse) {
+        if (httpRespnse.size() == 1 && httpRespnse.get(0).id.equals(mDatas.get(mDatas.size() - 1).id)) {
+            mNoMoreData = true;
+            RecyclerViewStateUtils.setFooterViewState(DetailActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Normal, null);
+        } else if (httpRespnse.size() > 1) {
+            httpRespnse.remove(0);
+            mDatas.addAll(httpRespnse);
+            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+            RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
+        }
+    }
 }

@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
+
+    <include layout="@layout/home_weiboitem_detail_bottom_bar" />
+
+</LinearLayout>
+
+
+
+
+

@@ -65,7 +65,7 @@ public class FillWeiBoItem {
     /**
      * 设置头像的认证icon，记住要手动刷新icon，不然icon会被recycleriview重用，导致显示出错
      *
-     * @param status
+     * @param user
      * @param profile_img
      * @param profile_verified
      */

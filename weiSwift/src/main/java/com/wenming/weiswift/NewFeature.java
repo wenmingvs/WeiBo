@@ -7,9 +7,17 @@ public class NewFeature {
 
     public static boolean LOGIN_STATUS = false;
 
+    //每次刷新微博获取的数量
     public static int GET_WEIBO_NUMS = 40;
 
+    //滑动到底部，获取评论的数量
     public static int LOAD_WEIBO_ITEM = 10;
+
+    //每次刷新微博，获取的数量
+    public static int GET_COMMENT_ITEM = 40;
+
+    //滑动到底部，获取评论的数量
+    public static int LOADMORE_COMMENT_ITEM = 40;
 
     public static int WEIBO_TYPE = 0;
 

@@ -1,8 +1,9 @@
-package com.wenming.weiswift.fragment.home.weiboitemdetail.commentdetail.adapter;
+package com.wenming.weiswift.fragment.home.weiboitemdetail.adapter;
 
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,8 @@ import java.util.ArrayList;
  * 用于显示评论列表的adapter
  * Created by wenmingvs on 16/4/23.
  */
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
+
     private Context mContext;
     private ArrayList<Comment> mDatas;
     private View mView;
@@ -36,40 +38,44 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mView = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_detail_commentbar_comment_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(mView);
-        return viewHolder;
+        CommentViewHolder commentViewHolder = new CommentViewHolder(mView);
+        return commentViewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User user = mDatas.get(position).user;
-        String time = mDatas.get(position).created_at;
-        String content = mDatas.get(position).text;
+        if (holder instanceof CommentViewHolder) {
+            User user = mDatas.get(position).user;
+            String time = mDatas.get(position).created_at;
+            String content = mDatas.get(position).text;
 
-        FillWeiBoItem.fillProfileImg(user, holder.profile_img, holder.profile_verified);
-        holder.profile_name.setText(user.name);
-        FillWeiBoItem.setWeiBoTime(holder.profile_time, time);
-        FillWeiBoItem.fillWeiBoContent(content, mContext, holder.commment_content);
-
+            FillWeiBoItem.fillProfileImg(user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
+            ((CommentViewHolder) holder).profile_name.setText(user.name);
+            FillWeiBoItem.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
+            FillWeiBoItem.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).commment_content);
+        }
     }
+
 
     @Override
     public int getItemCount() {
-        if (mDatas != null && mDatas.size() > 0) {
+        if (mDatas != null) {
             return mDatas.size();
         } else {
             return 0;
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class CommentViewHolder extends ViewHolder {
+        //微博列表的控件
         public ImageView profile_img;
         public ImageView profile_verified;
         public TextView profile_name;
         public TextView profile_time;
         public EmojiTextView commment_content;
 
-        public ViewHolder(View v) {
+        public CommentViewHolder(View v) {
             super(v);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
@@ -77,7 +83,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             profile_time = (TextView) v.findViewById(R.id.comment_profile_time);
             commment_content = (EmojiTextView) v.findViewById(R.id.comment_content);
         }
-
     }
+
 
 }

@@ -10,4 +10,13 @@
     <string name="home_image_detail_image_pop_window_forward_weibo">转发微博</string>
     <string name="home_image_detail_image_pop_window_quit">取消</string>
 
+
+    <string name="header_text">The Header</string>
+    <string name="footer_text">The Footer</string>
+
+    <!--footer-->
+    <string name="list_footer_loading">正在加载中…</string>
+    <string name="list_footer_network_error">点击重新加载</string>
+    <string name="list_footer_end">已经到底了</string>
+
 </resources>
