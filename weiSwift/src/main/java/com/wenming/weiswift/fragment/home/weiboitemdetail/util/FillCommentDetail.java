@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Comment;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
@@ -26,6 +27,7 @@ public class FillCommentDetail {
 
     public static void RefreshNoneView(Context context, int comments_count, View noneView) {
 
+
         if (NetUtil.isConnected(context)) {
             if (comments_count > 0) {
                 noneView.setVisibility(View.GONE);
@@ -33,10 +35,13 @@ public class FillCommentDetail {
                 noneView.setVisibility(View.VISIBLE);
             }
         } else {
-            noneView.setVisibility(View.VISIBLE);
-            TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
-            textView.setText("网络出错啦");
+            if (!NewFeature.CACHE_DETAIL_ACTIVITY) {
+                noneView.setVisibility(View.VISIBLE);
+                TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
+                textView.setText("网络出错啦");
+            }
         }
+
     }
 
 
@@ -49,6 +54,7 @@ public class FillCommentDetail {
      * @param recyclerView
      * @param commentView
      */
+
     public static void FillCommentList(Context context, int commentCount, ArrayList<Comment> commentArrayList, final RecyclerView recyclerView, TextView commentView) {
         CommentAdapter commentAdapter = new CommentAdapter(context, commentArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);

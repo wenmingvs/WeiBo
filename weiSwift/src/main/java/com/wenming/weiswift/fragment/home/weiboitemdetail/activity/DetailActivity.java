@@ -70,7 +70,6 @@ public abstract class DetailActivity extends Activity {
     public boolean mNoMoreData;//表示服务器的评论已经加载完成
     public HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     public LinearLayout mHeaderView;
-    public boolean mCache;
 
     public int mLastestComments;
     public int mLastestReposts;
@@ -85,7 +84,6 @@ public abstract class DetailActivity extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
         mContext = this;
-        mCache = true;//
         setContentView(R.layout.home_weiboitem_detail);
         initTitleBar();
         initAccessToken();
@@ -159,8 +157,7 @@ public abstract class DetailActivity extends Activity {
             getWeiBoCount();
             getCommentList();
         } else {
-            //TODO 需要删掉的
-            if (mCache) {
+            if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                 getWeiBoCount();
                 getCommentList();
             }
@@ -179,7 +176,7 @@ public abstract class DetailActivity extends Activity {
         mStatusesAPI.count(new String[]{mWeiboItem.id}, new RequestListener() {
             @Override
             public void onComplete(String response) {
-                if (mCache) {
+                if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                     SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "count.txt", response);
                     LogUtil.d(response);
                 }
@@ -197,7 +194,7 @@ public abstract class DetailActivity extends Activity {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                if (mCache) {
+                if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "count.txt");
                     LogUtil.d(response);
                     try {
@@ -228,7 +225,7 @@ public abstract class DetailActivity extends Activity {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-                    if (mCache) {
+                    if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                         SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt", response);
                     }
                     mCommentDatas = CommentList.parse(response).commentList;
@@ -241,7 +238,7 @@ public abstract class DetailActivity extends Activity {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                if (mCache) {
+                if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt");
                     LogUtil.d(response);
                     mCommentDatas = CommentList.parse(response).commentList;

@@ -12,11 +12,11 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.ActivityCollector;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.fragment.discovery.fragment.DiscoverFragment;
 import com.wenming.weiswift.fragment.home.MainFragment;
-import com.wenming.weiswift.fragment.message.fragment.MessageFragment;
+import com.wenming.weiswift.fragment.message.MessageFragment;
 import com.wenming.weiswift.fragment.post.fragment.PostFragment;
 import com.wenming.weiswift.fragment.profile.fragment.ProfileFragment;
 

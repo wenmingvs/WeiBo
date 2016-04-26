@@ -21,8 +21,8 @@
             android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:textColor="#909090"
             android:text="登陆后，别人评论你的微博，给你发消息，都可以在这里收到通知"
+            android:textColor="#909090"
             android:textSize="15sp" />
     </LinearLayout>
 

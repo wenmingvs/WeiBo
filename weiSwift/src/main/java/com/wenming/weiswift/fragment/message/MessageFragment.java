@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.message.fragment;
+package com.wenming.weiswift.fragment.message;
 
 
 import android.app.Activity;
@@ -8,18 +8,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.fragment.message.MessageAdapter;
-
-import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -27,13 +23,13 @@ import java.util.ArrayList;
 public class MessageFragment extends Fragment {
     private Activity mActivity;
     private View mToolBar;
-    private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private MessageAdapter messageAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
     private View mView;
     private Context mContext;
-    private ArrayList<Integer> mData;
+
+    private RelativeLayout mMention_layout;
+    private RelativeLayout mComment_layout;
+    private RelativeLayout mAttitude_layout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,14 +42,8 @@ public class MessageFragment extends Fragment {
         if (NewFeature.LOGIN_STATUS == true) {
             mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
             initToolBar();
-            mData = new ArrayList<Integer>();
-            mData.add(R.drawable.messagescenter_at);
-            mData.add(R.drawable.messagescenter_comments);
-            mData.add(R.drawable.messagescenter_good);
-            mData.add(R.drawable.messagescenter_subscription);
-            mData.add(R.drawable.messagescenter_messagebox);
-            initRecyclerView();
             initRefreshLayout();
+            setUpListener();
             return mView;
 
         } else {
@@ -61,6 +51,33 @@ public class MessageFragment extends Fragment {
             initToolBar();
             return mView;
         }
+    }
+
+    private void setUpListener() {
+        mMention_layout = (RelativeLayout) mView.findViewById(R.id.mention_layout);
+        mComment_layout = (RelativeLayout) mView.findViewById(R.id.comment_layout);
+        mAttitude_layout = (RelativeLayout) mView.findViewById(R.id.attitude_layout);
+
+        mMention_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mComment_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mAttitude_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
     }
 
     private void initToolBar() {
@@ -104,13 +121,6 @@ public class MessageFragment extends Fragment {
         });
     }
 
-    private void initRecyclerView() {
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.messageList);
-        mLinearLayoutManager = new LinearLayoutManager(mContext);
-        messageAdapter = new MessageAdapter(mContext, mData);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setAdapter(messageAdapter);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

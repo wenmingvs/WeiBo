@@ -49,5 +49,8 @@ public class NewFeature {
     //缓存存储位置
     public static boolean SAVE_TO_SDCARD = false;
 
+    //缓存评论数据
+    public static boolean CACHE_DETAIL_ACTIVITY = true;
+
 
 }

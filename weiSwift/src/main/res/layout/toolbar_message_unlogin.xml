@@ -15,6 +15,6 @@
         android:text="消息"
         android:textColor="#525252"
         android:textSize="20sp" />
-
+    
 
 </RelativeLayout>
