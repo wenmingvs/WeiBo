@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.openapi.models.Comment;
+import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
@@ -23,14 +23,14 @@ import java.util.ArrayList;
  * 用于显示评论列表的adapter
  * Created by wenmingvs on 16/4/23.
  */
-public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Comment> mDatas;
+    private ArrayList<Status> mDatas;
     private View mView;
 
 
-    public CommentAdapter(Context mContext, ArrayList<Comment> datas) {
+    public RetweetAdapter(Context mContext, ArrayList<Status> datas) {
         this.mContext = mContext;
         this.mDatas = datas;
     }
@@ -38,22 +38,22 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mView = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_detail_commentbar_comment_item, parent, false);
-        CommentViewHolder commentViewHolder = new CommentViewHolder(mView);
+        RetweetViewHolder commentViewHolder = new RetweetViewHolder(mView);
         return commentViewHolder;
     }
 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (holder instanceof CommentViewHolder) {
+        if (holder instanceof RetweetViewHolder) {
             User user = mDatas.get(position).user;
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillWeiBoItem.fillProfileImg(user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
-            ((CommentViewHolder) holder).profile_name.setText(user.name);
-            FillWeiBoItem.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
-            FillWeiBoItem.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
+            FillWeiBoItem.fillProfileImg(user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
+            ((RetweetViewHolder) holder).profile_name.setText(user.name);
+            FillWeiBoItem.setWeiBoTime(((RetweetViewHolder) holder).profile_time, time);
+            FillWeiBoItem.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);
         }
     }
 
@@ -67,11 +67,11 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public void setData(ArrayList<Comment> data) {
+    public void setData(ArrayList<Status> data) {
         this.mDatas = data;
     }
 
-    public class CommentViewHolder extends ViewHolder {
+    public class RetweetViewHolder extends ViewHolder {
         //微博列表的控件
         public ImageView profile_img;
         public ImageView profile_verified;
@@ -79,7 +79,7 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView profile_time;
         public EmojiTextView content;
 
-        public CommentViewHolder(View v) {
+        public RetweetViewHolder(View v) {
             super(v);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_verified = (ImageView) v.findViewById(R.id.profile_verified);

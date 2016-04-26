@@ -1,11 +1,12 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail.headview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
@@ -14,6 +15,8 @@ import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.util.FillCommentDetail;
+
+import static com.wenming.weiswift.R.id.noneLayout;
 
 /**
  * Created by wenmingvs on 16/4/26.
@@ -34,34 +37,24 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     private TextView commentView;
     private TextView retweetView;
     private TextView likeView;
+    private RelativeLayout mNoneView;
+    private Context mContext;
+    private ImageView mCommentIndicator;
+    private ImageView mRetweetIndicator;
+    private OnDetailButtonClickListener onDetailButtonClickListener;
 
-    public RetweetPicTextHeaderView(Context context, AttributeSet attrs, Status status) {
-        super(context, attrs);
-        init(context, status);
-    }
-
-    public RetweetPicTextHeaderView(Context context, AttributeSet attrs, int defStyleAttr, Status status) {
-        super(context, attrs, defStyleAttr);
-        init(context, status);
-    }
 
     public RetweetPicTextHeaderView(Context context, Status status) {
         super(context);
         init(context, status);
     }
 
-    private void initWeiBoContent(Context context, Status status) {
-        retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillWeiBoItem.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
-        FillWeiBoItem.fillWeiBoContent(status.text, context, retweet_content);
-        FillWeiBoItem.fillRetweetContent(status, context, origin_nameAndcontent);
-        FillWeiBoItem.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
-        FillWeiBoItem.showButtonBar(View.GONE, bottombar_layout);
-        FillCommentDetail.FillDetailBar(status, commentView, retweetView, likeView);
+    public void setOnDetailButtonClickListener(OnDetailButtonClickListener onDetailButtonClickListener) {
+        this.onDetailButtonClickListener = onDetailButtonClickListener;
     }
 
-
     public void init(Context context, Status status) {
+        mContext = context;
         mView = inflate(context, R.layout.mainfragment_weiboitem_detail_commentbar_retweet_pictext_headview, this);
         retweet_weibo_layout = (LinearLayout) findViewById(R.id.retweet_weibo_layout);
         profile_img = (ImageView) findViewById(R.id.profile_img);
@@ -76,11 +69,47 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         commentView = (TextView) findViewById(R.id.commentBar_comment);
         retweetView = (TextView) findViewById(R.id.commentBar_retweet);
         likeView = (TextView) findViewById(R.id.commentBar_like);
-
+        mNoneView = (RelativeLayout) findViewById(noneLayout);
+        mCommentIndicator = (ImageView) findViewById(R.id.comment_indicator);
+        mRetweetIndicator = (ImageView) findViewById(R.id.retweet_indicator);
         initWeiBoContent(context, status);
     }
 
+    private void initWeiBoContent(Context context, Status status) {
+        retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+        FillWeiBoItem.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillWeiBoItem.fillWeiBoContent(status.text, context, retweet_content);
+        FillWeiBoItem.fillRetweetContent(status, context, origin_nameAndcontent);
+        FillWeiBoItem.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
+        FillWeiBoItem.showButtonBar(View.GONE, bottombar_layout);
+        FillCommentDetail.FillDetailBar(status.comments_count, status.reposts_count, status.attitudes_count, commentView, retweetView, likeView);
+        FillCommentDetail.RefreshNoneView(mContext, status.comments_count, mNoneView);
+
+        retweetView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                retweetView.setTextColor(Color.parseColor("#000000"));
+//                mRetweetIndicator.setVisibility(View.VISIBLE);
+//                commentView.setTextColor(Color.parseColor("#828282"));
+//                mCommentIndicator.setVisibility(View.INVISIBLE);
+                onDetailButtonClickListener.OnRetweet();
+            }
+        });
+        commentView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentView.setTextColor(Color.parseColor("#000000"));
+                mCommentIndicator.setVisibility(View.VISIBLE);
+                retweetView.setTextColor(Color.parseColor("#828282"));
+                mRetweetIndicator.setVisibility(View.INVISIBLE);
+                onDetailButtonClickListener.OnComment();
+            }
+        });
+    }
+
+
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
         FillCommentDetail.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
+        FillCommentDetail.RefreshNoneView(mContext, comments_count, mNoneView);
     }
 }

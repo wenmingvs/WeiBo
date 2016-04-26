@@ -13,11 +13,18 @@ public class NewFeature {
     //滑动到底部，获取评论的数量
     public static int LOAD_WEIBO_ITEM = 10;
 
-    //每次刷新微博，获取的数量
+    //每次刷新微博，获取评论的数量
     public static int GET_COMMENT_ITEM = 40;
 
     //滑动到底部，获取评论的数量
-    public static int LOADMORE_COMMENT_ITEM = 40;
+    public static int LOADMORE_COMMENT_ITEM = 30;
+
+    //每次刷新微博，获取转发的数量
+    public static int GET_RETWEET_ITEM = 40;
+
+    //滑动到底部，获取转发的数量
+    public static int LOADMORE_RETWEET_ITEM = 30;
+
 
     public static int WEIBO_TYPE = 0;
 

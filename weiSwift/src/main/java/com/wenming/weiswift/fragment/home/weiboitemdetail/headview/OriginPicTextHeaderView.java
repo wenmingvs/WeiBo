@@ -1,11 +1,12 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail.headview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
@@ -14,6 +15,8 @@ import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.util.FillCommentDetail;
+
+import static com.wenming.weiswift.R.id.noneLayout;
 
 /**
  * Created by wenmingvs on 16/4/25.
@@ -32,23 +35,23 @@ public class OriginPicTextHeaderView extends LinearLayout {
     private TextView retweetView;
     private TextView commentView;
     private TextView likeView;
+    private RelativeLayout mNoneView;
+    private Context mContext;
+    private ImageView mCommentIndicator;
+    private ImageView mRetweetIndicator;
+    private OnDetailButtonClickListener onDetailButtonClickListener;
 
     public OriginPicTextHeaderView(Context context, Status status) {
         super(context);
         init(context, status);
     }
 
-    public OriginPicTextHeaderView(Context context, AttributeSet attrs, Status status) {
-        super(context, attrs);
-        init(context, status);
-    }
-
-    public OriginPicTextHeaderView(Context context, AttributeSet attrs, int defStyleAttr, Status status) {
-        super(context, attrs, defStyleAttr);
-        init(context, status);
+    public void setOnDetailButtonClickListener(OnDetailButtonClickListener onDetailButtonClickListener) {
+        this.onDetailButtonClickListener = onDetailButtonClickListener;
     }
 
     public void init(Context context, Status status) {
+        mContext = context;
         mView = inflate(context, R.layout.mainfragment_weiboitem_detail_commentbar_origin_pictext_headview, this);
         origin_weibo_layout = (LinearLayout) mView.findViewById(R.id.origin_weibo_layout);
         profile_img = (ImageView) mView.findViewById(R.id.profile_img);
@@ -62,7 +65,9 @@ public class OriginPicTextHeaderView extends LinearLayout {
         commentView = (TextView) mView.findViewById(R.id.commentBar_comment);
         retweetView = (TextView) mView.findViewById(R.id.commentBar_retweet);
         likeView = (TextView) mView.findViewById(R.id.commentBar_like);
-
+        mNoneView = (RelativeLayout) findViewById(noneLayout);
+        mCommentIndicator = (ImageView) findViewById(R.id.comment_indicator);
+        mRetweetIndicator = (ImageView) findViewById(R.id.retweet_indicator);
         initWeiBoContent(context, status);
     }
 
@@ -72,11 +77,38 @@ public class OriginPicTextHeaderView extends LinearLayout {
         FillWeiBoItem.fillWeiBoContent(status.text, context, weibo_content);
         FillWeiBoItem.fillWeiBoImgList(status, context, imageList);
         FillWeiBoItem.showButtonBar(View.GONE, bottombar_layout);
-        FillCommentDetail.FillDetailBar(status, commentView, retweetView, likeView);
+        FillCommentDetail.FillDetailBar(status.comments_count, status.reposts_count, status.reposts_count, commentView, retweetView, likeView);
+        FillCommentDetail.RefreshNoneView(mContext, status.comments_count, mNoneView);
+
+        retweetView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                retweetView.setTextColor(Color.parseColor("#000000"));
+//                mRetweetIndicator.setVisibility(View.VISIBLE);
+//                commentView.setTextColor(Color.parseColor("#828282"));
+//                mCommentIndicator.setVisibility(View.INVISIBLE);
+                onDetailButtonClickListener.OnRetweet();
+            }
+        });
+        commentView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentView.setTextColor(Color.parseColor("#000000"));
+                mCommentIndicator.setVisibility(View.VISIBLE);
+
+                retweetView.setTextColor(Color.parseColor("#828282"));
+                mRetweetIndicator.setVisibility(View.INVISIBLE);
+
+                onDetailButtonClickListener.OnComment();
+            }
+        });
+
     }
 
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
         FillCommentDetail.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
+        FillCommentDetail.RefreshNoneView(mContext, comments_count, mNoneView);
     }
 
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/loadMoreLayout"
+    android:id="@+id/noneLayout"
     android:layout_width="match_parent"
     android:layout_height="210dp"
+    android:layout_marginBottom="30dp"
     android:background="@color/white"
+    android:visibility="gone"
     android:orientation="vertical">
 
     <ImageView

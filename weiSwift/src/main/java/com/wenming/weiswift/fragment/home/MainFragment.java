@@ -431,7 +431,6 @@ public class MainFragment extends Fragment {
                         .show();
             }
 
-
         }
 
         @Override

@@ -8,6 +8,7 @@
 
     <include layout="@layout/home_weiboitem_detail_bottom_bar" />
 
+    <include layout="@layout/mainfragment_weiboitem_detail_commentbar_comment_item_none" />
 </LinearLayout>
 
 

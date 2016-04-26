@@ -3,10 +3,12 @@ package com.wenming.weiswift.fragment.home.weiboitemdetail.util;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Comment;
-import com.sina.weibo.sdk.openapi.models.Status;
+import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 
 import java.util.ArrayList;
@@ -16,16 +18,25 @@ import java.util.ArrayList;
  */
 public class FillCommentDetail {
 
-    public static void FillDetailBar(Status status, TextView comment, TextView redirect, TextView feedlike) {
-        comment.setText("评论 " + status.comments_count);
-        redirect.setText("转发 " + status.reposts_count);
-        feedlike.setText("赞 " + status.attitudes_count);
-    }
-
     public static void FillDetailBar(int comments_count, int reposts_count, int attitudes_count, TextView comment, TextView redirect, TextView feedlike) {
         comment.setText("评论 " + comments_count);
         redirect.setText("转发 " + reposts_count);
         feedlike.setText("赞 " + attitudes_count);
+    }
+
+    public static void RefreshNoneView(Context context, int comments_count, View noneView) {
+
+        if (NetUtil.isConnected(context)) {
+            if (comments_count > 0) {
+                noneView.setVisibility(View.GONE);
+            } else if (comments_count == 0) {
+                noneView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            noneView.setVisibility(View.VISIBLE);
+            TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
+            textView.setText("网络出错啦");
+        }
     }
 
 

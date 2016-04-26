@@ -1,12 +1,8 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail.activity;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
-import com.wenming.weiswift.common.util.DensityUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.headview.RetweetPicTextHeaderView;
 
 /**
@@ -14,25 +10,18 @@ import com.wenming.weiswift.fragment.home.weiboitemdetail.headview.RetweetPicTex
  */
 public class RetweetPicTextCommentActivity extends DetailActivity {
 
-    private View mNoneView;
-    private boolean addNoneView;
-
     @Override
     protected void addHeaderView(int num) {
-        if (num > 0 && !addNoneView) {
-            mHeaderView = new RetweetPicTextHeaderView(mContext, mWeiboItem);
-            mNoneView = LayoutInflater.from(this).inflate(R.layout.mainfragment_weiboitem_detail_commentbar_comment_item_none, null);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(this, 210f));
-            mNoneView.setLayoutParams(layoutParams);
-          //  mHeaderView.addView(mNoneView);
-            addNoneView = true;
-        }
+        mHeaderView = new RetweetPicTextHeaderView(mContext, mWeiboItem);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mHeaderView.setLayoutParams(layoutParams);
+        ((RetweetPicTextHeaderView) mHeaderView).setOnDetailButtonClickListener(onDetailButtonClickListener);
         RecyclerViewUtils.setHeaderView(mRecyclerView, mHeaderView);
     }
 
     @Override
     protected void refreshDetailBar(int comments, int reposts, int attitudes) {
         ((RetweetPicTextHeaderView) mHeaderView).refreshDetailBar(comments, reposts, attitudes);
-
     }
+
 }
