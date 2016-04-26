@@ -13,7 +13,7 @@ public class CommentActivity extends DetailActivity {
      */
     @Override
     protected void pullToRefreshData() {
-
+        asdasdasasd
     }
 
     @Override
