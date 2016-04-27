@@ -3,6 +3,7 @@ package com.wenming.weiswift.fragment.message;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,6 +17,9 @@ import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.message.comment.CommentActivity;
+import com.wenming.weiswift.fragment.message.mention.MentionActivity;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -61,19 +65,21 @@ public class MessageFragment extends Fragment {
         mMention_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, MentionActivity.class);
+                mContext.startActivity(intent);
             }
         });
         mComment_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, CommentActivity.class);
+                mContext.startActivity(intent);
             }
         });
         mAttitude_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ToastUtil.showShort(mContext, "API暂未支持");
             }
         });
 

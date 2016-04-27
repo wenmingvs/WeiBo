@@ -72,6 +72,17 @@
             android:name=".fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity"
             android:theme="@style/ToolbarTheme" />
 
+        <activity
+            android:name=".fragment.message.mention.MentionActivity"
+            android:theme="@style/ToolbarTheme" />
+
+        <activity
+            android:name=".fragment.message.comment.CommentActivity"
+            android:theme="@style/ToolbarTheme" />
+        <activity
+            android:name=".fragment.profile.myweibo.MyWeiBoActivity"
+            android:theme="@style/ToolbarTheme" />
+
     </application>
 
 </manifest>

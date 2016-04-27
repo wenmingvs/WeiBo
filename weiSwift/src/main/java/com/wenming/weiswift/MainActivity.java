@@ -15,7 +15,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.common.ActivityCollector;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.fragment.discovery.fragment.DiscoverFragment;
-import com.wenming.weiswift.fragment.home.MainFragment;
+import com.wenming.weiswift.fragment.home.HomeFragment;
 import com.wenming.weiswift.fragment.message.MessageFragment;
 import com.wenming.weiswift.fragment.post.fragment.PostFragment;
 import com.wenming.weiswift.fragment.profile.fragment.ProfileFragment;
@@ -29,7 +29,7 @@ public class MainActivity extends FragmentActivity {
     private static final int DISCOVERY_FRAGMENT = 0X004;
     private static final int PROFILE_FRAGMENT = 0X005;
     private Context mContext;
-    private MainFragment mMainFragment;
+    private HomeFragment mHomeFragment;
     private MessageFragment mMessageFragment;
     private DiscoverFragment mDiscoverFragment;
     private ProfileFragment mProfileFragment;
@@ -110,11 +110,11 @@ public class MainActivity extends FragmentActivity {
         switch (index) {
             case HOME_FRAGMENT:
                 mHomeTab.setSelected(true);
-                if (mMainFragment == null) {
-                    mMainFragment = new MainFragment();
-                    transaction.add(R.id.contentLayout, mMainFragment);
+                if (mHomeFragment == null) {
+                    mHomeFragment = new HomeFragment();
+                    transaction.add(R.id.contentLayout, mHomeFragment);
                 } else {
-                    transaction.show(mMainFragment);
+                    transaction.show(mHomeFragment);
                 }
                 break;
             case MESSAGE_FRAGMENT:
@@ -158,8 +158,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
-        if (mMainFragment != null) {
-            transaction.hide(mMainFragment);
+        if (mHomeFragment != null) {
+            transaction.hide(mHomeFragment);
         }
         if (mMessageFragment != null) {
             transaction.hide(mMessageFragment);
@@ -183,8 +183,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mMainFragment != null) {
-            mMainFragment.onActivityResult(requestCode, resultCode, data);
+        if (mHomeFragment != null) {
+            mHomeFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

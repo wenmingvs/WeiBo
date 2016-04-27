@@ -2,7 +2,6 @@ package com.wenming.weiswift.fragment.home.weiboitem;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.common.util.DensityUtil;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
@@ -29,14 +27,10 @@ import java.util.ArrayList;
 public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int TYPE_ORINGIN_ITEM = 0;
-    private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_HEADER = 2;
     private static final int TYPE_RETWEET_ITEM = 3;
 
-    protected AnimationDrawable mFooterImag;
     private ArrayList<Status> mDatas;
     private Context mContext;
-    private LinearLayout.LayoutParams mParams;
     private View mView;
 
 
@@ -64,21 +58,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             RetweetViewHolder retweetViewHolder = new RetweetViewHolder(mView);
             retweetViewHolder.retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return retweetViewHolder;
-        } else if (viewType == TYPE_FOOTER) {
-            mView = LayoutInflater.from(mContext).inflate(R.layout.footerview_loading, null);
-            mView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            FooterViewHolder footerViewHolder = new FooterViewHolder(mView);
-            ImageView waitingImg = (ImageView) mView.findViewById(R.id.waiting_image);
-            mFooterImag = (AnimationDrawable) waitingImg.getDrawable();
-            mFooterImag.start();
-            return footerViewHolder;
-
-        } else if (viewType == TYPE_HEADER) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.headsearchview, null);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40));
-            view.setLayoutParams(params);
-            SearchViewHolder headerViewHolder = new SearchViewHolder(view);
-            return headerViewHolder;
         }
 
         return null;
@@ -104,6 +83,16 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
 
+            ((OriginViewHolder) holder).bottombar_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                    intent.putExtra("weiboitem", mDatas.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+
+
         } else if (holder instanceof RetweetViewHolder) {
 
             FillWeiBoItem.fillTitleBar(mDatas.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom);
@@ -122,12 +111,17 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mContext.startActivity(intent);
                 }
             });
-        } else if (holder instanceof FooterViewHolder) {
-            if (getItemCount() == 1) {
-                ((FooterViewHolder) holder).linearLayout.setVisibility(View.GONE);
-            } else {
-                ((FooterViewHolder) holder).linearLayout.setVisibility(View.VISIBLE);
-            }
+
+            ((RetweetViewHolder) holder).bottombar_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                    intent.putExtra("weiboitem", mDatas.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+
+
         }
 
     }
@@ -135,7 +129,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemCount() {
         if (mDatas != null) {
-            return mDatas.size() + 1;
+            return mDatas.size();
         } else {
             return 0;
         }
@@ -144,16 +138,10 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else if (position == 0) {
-            return TYPE_HEADER;
+        if (mDatas.get(position).retweeted_status != null && mDatas.get(position).retweeted_status.user != null) {
+            return TYPE_RETWEET_ITEM;
         } else {
-            if (mDatas.get(position).retweeted_status != null && mDatas.get(position).retweeted_status.user != null) {
-                return TYPE_RETWEET_ITEM;
-            } else {
-                return TYPE_ORINGIN_ITEM;
-            }
+            return TYPE_ORINGIN_ITEM;
         }
     }
 
@@ -173,6 +161,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView comment;
         public TextView feedlike;
         public RecyclerView imageList;
+        public LinearLayout bottombar_retweet;
+        public LinearLayout bottombar_comment;
+        public LinearLayout bottombar_attitude;
 
         public OriginViewHolder(View v) {
             super(v);
@@ -187,6 +178,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             comment = (TextView) v.findViewById(R.id.comment);
             feedlike = (TextView) v.findViewById(R.id.feedlike);
             imageList = (RecyclerView) v.findViewById(R.id.weibo_image);
+            bottombar_retweet = (LinearLayout) v.findViewById(R.id.bottombar_retweet);
+            bottombar_comment = (LinearLayout) v.findViewById(R.id.bottombar_comment);
+            bottombar_attitude = (LinearLayout) v.findViewById(R.id.bottombar_attitude);
         }
     }
 
@@ -203,6 +197,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView feedlike;
         public EmojiTextView origin_nameAndcontent;
         public RecyclerView retweet_imageList;
+        public LinearLayout bottombar_retweet;
+        public LinearLayout bottombar_comment;
+        public LinearLayout bottombar_attitude;
 
 
         public RetweetViewHolder(View v) {
@@ -219,23 +216,10 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             feedlike = (TextView) v.findViewById(R.id.feedlike);
             origin_nameAndcontent = (EmojiTextView) v.findViewById(R.id.origin_nameAndcontent);
             retweet_imageList = (RecyclerView) v.findViewById(R.id.origin_imageList);
+            bottombar_retweet = (LinearLayout) v.findViewById(R.id.bottombar_retweet);
+            bottombar_comment = (LinearLayout) v.findViewById(R.id.bottombar_comment);
+            bottombar_attitude = (LinearLayout) v.findViewById(R.id.bottombar_attitude);
         }
     }
-
-    class FooterViewHolder extends ViewHolder {
-        private LinearLayout linearLayout;
-
-        public FooterViewHolder(View view) {
-            super(view);
-            linearLayout = (LinearLayout) view.findViewById(R.id.loadMoreLayout);
-        }
-    }
-
-    private class SearchViewHolder extends ViewHolder {
-        public SearchViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
 
 }

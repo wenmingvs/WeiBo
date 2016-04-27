@@ -30,7 +30,6 @@ public class SampleHeader extends RelativeLayout {
     }
 
     public void init(Context context) {
-
         inflate(context, R.layout.sample_header, this);
     }
 }

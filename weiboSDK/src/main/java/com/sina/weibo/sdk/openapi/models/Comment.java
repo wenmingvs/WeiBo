@@ -19,6 +19,9 @@ package com.sina.weibo.sdk.openapi.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 评论结构体。
  *
@@ -26,6 +29,9 @@ import org.json.JSONObject;
  * @since 2013-11-24
  */
 public class Comment {
+
+    private static Pattern mpattern;
+    private static Matcher mmatcher;
 
     /**
      * 评论创建时间
@@ -74,6 +80,7 @@ public class Comment {
         comment.id = jsonObject.optString("id");
         comment.text = jsonObject.optString("text");
         comment.source = jsonObject.optString("source");
+        comment.source = getSource(jsonObject.optString("source"));
         comment.user = User.parse(jsonObject.optJSONObject("user"));
         comment.mid = jsonObject.optString("mid");
         comment.idstr = jsonObject.optString("idstr");
@@ -93,4 +100,16 @@ public class Comment {
 
         return null;
     }
+
+
+    private static String getSource(String string) {
+        mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
+        mmatcher = mpattern.matcher(string);
+        if (mmatcher.find()) {
+            return mmatcher.group(2);
+        } else {
+            return string;
+        }
+    }
+
 }

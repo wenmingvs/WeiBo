@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -31,6 +32,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.fragment.profile.activity.SettingActivity;
+import com.wenming.weiswift.fragment.profile.myweibo.MyWeiBoActivity;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -53,6 +55,7 @@ public class ProfileFragment extends Fragment {
     private TextView mFriends_count;
     private TextView mFollowers_count;
     private DisplayImageOptions options;
+    private LinearLayout mMyWeiBo_Layout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,13 +74,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initUser() {
-
         mProfile_myimg = (ImageView) mView.findViewById(R.id.profile_myimg);
         mProfile_myname = (TextView) mView.findViewById(R.id.profile_myname);
         mProfile_mydescribe = (TextView) mView.findViewById(R.id.profile_mydescribe);
         mStatuses_count = (TextView) mView.findViewById(R.id.profile_statuses_count);
         mFollowers_count = (TextView) mView.findViewById(R.id.profile_followers_count);
         mFriends_count = (TextView) mView.findViewById(R.id.profile_friends_count);
+        mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.MyWeiBo_layout);
 
         long uid = Long.parseLong(mAccessToken.getUid());
         mUsersAPI.show(uid, new RequestListener() {
@@ -100,6 +103,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onWeiboException(WeiboException e) {
 
+            }
+        });
+
+        mMyWeiBo_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, MyWeiBoActivity.class);
+                startActivity(intent);
             }
         });
     }

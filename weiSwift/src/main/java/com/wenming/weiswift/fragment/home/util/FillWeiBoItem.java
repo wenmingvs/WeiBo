@@ -110,7 +110,7 @@ public class FillWeiBoItem {
         textView.setText(time + "   ");
     }
 
-    private static void setWeiBoComeFrom(TextView textView, String content) {
+    public static void setWeiBoComeFrom(TextView textView, String content) {
         if (content != null && content.length() > 0) {
             textView.setText("来自 " + content);
         } else {
@@ -240,7 +240,7 @@ public class FillWeiBoItem {
                 if (datas.size() == 1) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
                     Random random = new Random();
-                    //再0，1,2中随机取一个数
+                    //在0，1,2中随机取一个数
                     if (random.nextInt(3) == 0) {
                         //竖直方向的长方形尺寸
                         layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);

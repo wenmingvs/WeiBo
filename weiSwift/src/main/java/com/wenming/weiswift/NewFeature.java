@@ -25,6 +25,11 @@ public class NewFeature {
     //滑动到底部，获取转发的数量
     public static int LOADMORE_RETWEET_ITEM = 30;
 
+    //每次刷新，获取@的数量
+    public static int GET_MENTION_ITEM = 40;
+
+    //滑动到底部，获取@的数量
+    public static int LOADMORE_MENTION_ITEM = 10;
 
     public static int WEIBO_TYPE = 0;
 
@@ -46,11 +51,18 @@ public class NewFeature {
     public static int SEND_IMG_QUANTITY_HIGT = 1;
     public static int SEND_IMG_QUANTITY_NORMAL = 2;
 
-    //缓存存储位置
-    public static boolean SAVE_TO_SDCARD = false;
 
-    //缓存评论数据
+    //缓存微博数据
+    public static boolean CACHE_WEIBOLIST = true;
+
+    //缓存单条微博的评论数据
     public static boolean CACHE_DETAIL_ACTIVITY = true;
+
+    //缓存message模块的@数据
+    public static boolean CACHE_MESSAGE_MENTION = true;
+
+    //缓存message模块的评论数据
+    public static boolean CACHE_MESSAGE_COMMENT = true;
 
 
 }

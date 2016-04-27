@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,19 +15,22 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 
 /**
+ * 主要用于完成一些网络请求的初始化操作，以及顶部bar的初始化
  * Created by wenmingvs on 16/4/26.
  */
-public abstract class DetailActivity extends Activity {
+public abstract class DetailActivity extends Activity implements IEndlessRecyclerView {
     public View mToolBar;
     public ImageView mBackIcon;
-    private Context mContext;
+    public Context mContext;
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
     public SwipeRefreshLayout mSwipeRefreshLayout;
+    public RecyclerView mRecyclerView;
     public CommentsAPI mCommentsAPI;
     public StatusesAPI mStatusesAPI;
     public SsoHandler mSsoHandler;
@@ -41,19 +45,10 @@ public abstract class DetailActivity extends Activity {
         initTitleBar();
         initAccessToken();
         initRefreshLayout();
+        initRecyclerView();
     }
 
-    public void initTitleBar() {
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_detail_base);
-        mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
-        mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);
-        mBackIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
+    public abstract void initTitleBar();
 
     public void initAccessToken() {
         mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
@@ -65,7 +60,7 @@ public abstract class DetailActivity extends Activity {
     }
 
     protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.commmentlist_swipe_refresh_widget);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -78,20 +73,10 @@ public abstract class DetailActivity extends Activity {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
                 pullToRefreshData();
             }
         });
     }
 
-    /**
-     * 下拉刷新，加载更多
-     */
-    protected abstract void pullToRefreshData();
-
-    /**
-     * 加载更多逻辑
-     */
-    protected abstract void requestMoreData();
 
 }

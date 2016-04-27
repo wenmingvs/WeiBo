@@ -243,7 +243,6 @@ public abstract class DetailActivity extends Activity {
                     LogUtil.d(response);
                     mCommentDatas = CommentList.parse(response).commentList;
                     updateRecyclerView();
-
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -284,7 +283,7 @@ public abstract class DetailActivity extends Activity {
      * 网络请求下一页的评论数据
      */
     public void requestMoreData() {
-        ToastUtil.showShort(mContext, "请求更多评论数据");
+        //ToastUtil.showShort(mContext, "请求更多评论数据");
         mCommentsAPI.show(Long.valueOf(mWeiboItem.id), 0, Long.valueOf(mCommentDatas.get(mCommentDatas.size() - 1).id), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -331,7 +330,7 @@ public abstract class DetailActivity extends Activity {
     public OnDetailButtonClickListener onDetailButtonClickListener = new OnDetailButtonClickListener() {
         @Override
         public void OnComment() {
-            ToastUtil.showShort(mContext, "你点击了评论按钮");
+            //ToastUtil.showShort(mContext, "你点击了评论按钮");
             getNewCommentList();
         }
 
@@ -351,7 +350,11 @@ public abstract class DetailActivity extends Activity {
     private void getNewCommentList() {
         mSwipeRefreshLayout.setRefreshing(true);
         getWeiBoCount();
-        mCommentsAPI.show(Long.valueOf(mWeiboItem.id), Long.valueOf(mCommentDatas.get(0).id), 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
+        Long max_id = Long.valueOf(0);
+        if (mCommentDatas != null) {
+            max_id = Long.valueOf(mCommentDatas.get(0).id);
+        }
+        mCommentsAPI.show(Long.valueOf(mWeiboItem.id), max_id, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -360,6 +363,9 @@ public abstract class DetailActivity extends Activity {
                         ToastUtil.showShort(mContext, "没有更新的微博了");
                     } else if (httpRespnse != null && httpRespnse.size() > 1) {
                         httpRespnse.remove(0);
+                        if (mCommentDatas == null) {
+                            mCommentDatas = new ArrayList<Comment>();
+                        }
                         mCommentDatas.addAll(0, httpRespnse);
                         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
                     }
@@ -371,9 +377,11 @@ public abstract class DetailActivity extends Activity {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+
+
     }
 
     private void getRetweetList() {

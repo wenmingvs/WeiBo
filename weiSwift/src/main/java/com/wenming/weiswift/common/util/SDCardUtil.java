@@ -99,10 +99,10 @@ public class SDCardUtil {
                 outputstream.write(buffer);
                 outputstream.flush();
                 outputstream.close();
-                Toast.makeText(context, "文件写入成功", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "文件写入成功", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ex) {
-            Toast.makeText(context, "文件写入失败", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "文件写入失败", Toast.LENGTH_SHORT).show();
             LogUtil.d(ex.toString());
         }
     }
