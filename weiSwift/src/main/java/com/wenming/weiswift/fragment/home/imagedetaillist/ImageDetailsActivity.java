@@ -11,10 +11,11 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
 
 import java.util.ArrayList;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 /**
  * Created by wenmingvs on 16/4/19.

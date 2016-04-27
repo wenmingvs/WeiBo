@@ -7,18 +7,19 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.wenming.weiswift.common.photoview.PhotoView;
+import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
+import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 import java.util.ArrayList;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by wenmingvs on 16/4/19.
@@ -80,9 +81,10 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                if (bitmap.getHeight() > bitmap.getWidth() * 2) {
-                    Toast.makeText(mContext, "onLoadingComplete", Toast.LENGTH_SHORT).show();
-                    photoView.setScale(9.65f, 0, 0, false);
+                if (FillWeiBoItem.returnImageType(mContext, bitmap) == FillWeiBoItem.IMAGE_TYPE_LONG_TEXT) {
+                    //Toast.makeText(mContext, "onLoadingComplete", Toast.LENGTH_SHORT).show();
+                    photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
                     photoView.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
                         @Override
                         public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -93,13 +95,13 @@ public class ViewPagerAdapter extends PagerAdapter {
 
                         @Override
                         public boolean onDoubleTap(MotionEvent e) {
-                            photoView.setScale(9.65f, true);
+                            //photoView.setScale(9.65f, true);
                             return false;
                         }
 
                         @Override
                         public boolean onDoubleTapEvent(MotionEvent e) {
-                            photoView.setScale(9.65f, true);
+                            //photoView.setScale(9.65f, true);
                             return false;
                         }
                     });

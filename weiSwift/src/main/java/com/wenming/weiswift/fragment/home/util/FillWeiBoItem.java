@@ -276,6 +276,10 @@ public class FillWeiBoItem {
                     imageType.setImageResource(R.drawable.timeline_image_gif);
                 }
 
+                if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT){
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                }
+
                 //若是长微博，还需要纠正尺寸
                 if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT && datas.size() == 1) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
