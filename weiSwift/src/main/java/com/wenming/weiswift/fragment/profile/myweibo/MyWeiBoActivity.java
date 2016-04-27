@@ -109,7 +109,7 @@ public class MyWeiBoActivity extends DetailActivity {
 
     @Override
     public void requestMoreData() {
-        mStatusesAPI.userTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.GET_WEIBO_NUMS, 1, false, NewFeature.WEIBO_TYPE, false, new RequestListener() {
+        mStatusesAPI.userTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.LOAD_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -141,7 +141,7 @@ public class MyWeiBoActivity extends DetailActivity {
         } else if (httpRespnse.size() > 1) {
             httpRespnse.remove(0);
             mDatas.addAll(httpRespnse);
-            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+            updateList();
             RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
         }
     }

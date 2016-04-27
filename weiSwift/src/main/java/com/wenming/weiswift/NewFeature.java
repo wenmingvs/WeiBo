@@ -11,7 +11,7 @@ public class NewFeature {
     public static int GET_WEIBO_NUMS = 40;
 
     //滑动到底部，获取评论的数量
-    public static int LOAD_WEIBO_ITEM = 10;
+    public static int LOAD_WEIBO_ITEM = 30;
 
     //每次刷新微博，获取评论的数量
     public static int GET_COMMENT_ITEM = 40;
@@ -29,14 +29,7 @@ public class NewFeature {
     public static int GET_MENTION_ITEM = 40;
 
     //滑动到底部，获取@的数量
-    public static int LOADMORE_MENTION_ITEM = 10;
-
-    public static int WEIBO_TYPE = 0;
-
-    public static int WEIBOTYPE_ORIGIN_PICTEXT = 0;
-    public static int WEIBOTYPE_ORIGIN_VIDEO = 1;
-    public static int WEIBOTYPE_RETWEET_PICTEXT = 2;
-    public static int WEIBOTYPE_RETWEET_VIDEO = 3;
+    public static int LOADMORE_MENTION_ITEM = 30;
 
     //通用设置
     public static boolean HAVA_IMAGE = true;

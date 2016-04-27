@@ -86,7 +86,7 @@ public class HomeFragment extends MainFragment {
 
     @Override
     public void requestMoreData() {
-        mStatusesAPI.friendsTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.GET_WEIBO_NUMS, 1, false, NewFeature.WEIBO_TYPE, false, new RequestListener() {
+        mStatusesAPI.friendsTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {

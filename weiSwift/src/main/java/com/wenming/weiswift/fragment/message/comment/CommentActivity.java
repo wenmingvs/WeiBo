@@ -127,7 +127,7 @@ public class CommentActivity extends DetailActivity {
         } else if (httpRespnse.size() > 1) {
             httpRespnse.remove(0);
             mDatas.addAll(httpRespnse);
-            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+            updateList();
             RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
         }
     }
