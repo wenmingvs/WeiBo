@@ -66,6 +66,8 @@ public class SettingActivity extends Activity {
                 finish();
             }
         });
+
+        
     }
 
     private void initToolBar() {
