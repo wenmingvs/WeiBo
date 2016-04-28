@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.FillWeiBoItem;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 

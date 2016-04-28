@@ -8,7 +8,7 @@ import com.wenming.weiswift.fragment.home.weiboitemdetail.headview.OriginPicText
 /**
  * Created by wenmingvs on 16/4/21.
  */
-public class OriginPicTextCommentActivity extends DetailActivity {
+public class OriginPicTextCommentActivity extends BaseActivity {
 
 
     @Override

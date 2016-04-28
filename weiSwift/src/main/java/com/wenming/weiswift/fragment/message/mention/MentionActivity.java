@@ -14,13 +14,13 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.message.DetailActivity;
 
 import java.util.ArrayList;
 

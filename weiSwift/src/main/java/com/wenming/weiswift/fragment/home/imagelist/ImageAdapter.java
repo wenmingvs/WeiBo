@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
+import com.wenming.weiswift.common.FillWeiBoItem;
 
 import java.util.ArrayList;
 

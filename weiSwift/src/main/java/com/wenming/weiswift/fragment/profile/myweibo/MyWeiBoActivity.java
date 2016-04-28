@@ -15,6 +15,7 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
@@ -26,7 +27,6 @@ import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.SeachHeadView;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
-import com.wenming.weiswift.fragment.message.DetailActivity;
 
 import java.util.ArrayList;
 

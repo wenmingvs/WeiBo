@@ -1,9 +1,6 @@
 package com.wenming.weiswift.fragment.home.weiboitemdetail.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,25 +10,19 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.CommentsAPI;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.CommentList;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
-import com.wenming.weiswift.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
@@ -48,20 +39,10 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/20.
  */
-public abstract class DetailActivity extends Activity {
+public abstract class BaseActivity extends DetailActivity {
 
-    public AuthInfo mAuthInfo;
-    public Oauth2AccessToken mAccessToken;
-    public CommentsAPI mCommentsAPI;
-    public StatusesAPI mStatusesAPI;
-    public SsoHandler mSsoHandler;
     public Status mWeiboItem;
-    public View mToolBar;
-    public ImageView mBackIcon;
-    public Context mContext;
 
-    public SwipeRefreshLayout mSwipeRefreshLayout;
-    public RecyclerView mRecyclerView;
     public ArrayList<Comment> mCommentDatas;
     public ArrayList<Status> mRetweetDatas;
 
@@ -80,18 +61,11 @@ public abstract class DetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
-        mContext = this;
-        setContentView(R.layout.home_weiboitem_detail);
-        initTitleBar();
-        initAccessToken();
-        initRefreshLayout();
-        initRecyclerView();
+        super.onCreate(savedInstanceState);
     }
 
-
+    @Override
     public void initTitleBar() {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_weiboitem_detail_title);
         mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
@@ -104,44 +78,15 @@ public abstract class DetailActivity extends Activity {
         });
     }
 
-    public void initAccessToken() {
-        mAuthInfo = new AuthInfo(this, Constants.APP_KEY,
-                Constants.REDIRECT_URL, Constants.SCOPE);
-        mSsoHandler = new SsoHandler(DetailActivity.this, mAuthInfo);
-        mAccessToken = AccessTokenKeeper.readAccessToken(this);
-        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
-        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
-    }
-
-    protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.commmentlist_swipe_refresh_widget);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                pullToRefreshData();
-            }
-        });
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                pullToRefreshData();
-            }
-        });
-    }
-
-
     /**
      * 第一次初始化recyclerview
      */
-    protected void initRecyclerView() {
+    @Override
+    public void initRecyclerView() {
         mLastestComments = mWeiboItem.comments_count;
         mLastestReposts = mWeiboItem.reposts_count;
         mLastestAttitudes = mWeiboItem.attitudes_count;
-        mRecyclerView = (RecyclerView) findViewById(R.id.commmentlist_RecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
         mCommentAdapter = new CommentAdapter(mContext, mCommentDatas);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -151,8 +96,8 @@ public abstract class DetailActivity extends Activity {
         refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
     }
 
-
-    protected void pullToRefreshData() {
+    @Override
+    public void pullToRefreshData() {
         if (NetUtil.isConnected(mContext)) {
             getWeiBoCount();
             getCommentList();
@@ -229,7 +174,7 @@ public abstract class DetailActivity extends Activity {
                         SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt", response);
                     }
                     mCommentDatas = CommentList.parse(response).commentList;
-                    updateRecyclerView();
+                    updateList();
                 } else {
                     ToastUtil.showShort(mContext, "返回的微博数据为空");
                 }
@@ -242,7 +187,7 @@ public abstract class DetailActivity extends Activity {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt");
                     LogUtil.d(response);
                     mCommentDatas = CommentList.parse(response).commentList;
-                    updateRecyclerView();
+                    updateList();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -254,7 +199,8 @@ public abstract class DetailActivity extends Activity {
      * 1. 更新recyclerview
      * 2. 更新评论，转发，赞的数量
      */
-    public void updateRecyclerView() {
+    @Override
+    public void updateList() {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         mCommentAdapter.setData(mCommentDatas);
 
@@ -273,7 +219,7 @@ public abstract class DetailActivity extends Activity {
             }
             if (!mNoMoreData && mCommentDatas != null) {
                 // loading more
-                RecyclerViewStateUtils.setFooterViewState(DetailActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Loading, null);
+                RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();
             }
         }
@@ -282,14 +228,15 @@ public abstract class DetailActivity extends Activity {
     /**
      * 网络请求下一页的评论数据
      */
+    @Override
     public void requestMoreData() {
         //ToastUtil.showShort(mContext, "请求更多评论数据");
         mCommentsAPI.show(Long.valueOf(mWeiboItem.id), 0, Long.valueOf(mCommentDatas.get(mCommentDatas.size() - 1).id), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Comment> httpRespnse = CommentList.parse(response).commentList;
-                    loadMoreData(httpRespnse);
+
+                    loadMoreData(response);
                 } else {
                     ToastUtil.showShort(mContext, "返回的微博数据为空");
                     mNoMoreData = true;
@@ -312,13 +259,13 @@ public abstract class DetailActivity extends Activity {
      * 成功拿到下一页的评论数据，要根据数据的内容来决定是否已经加载到头了
      * 1. 如果请求下来的数据，数目为1，且id和mCommentDatas的最后一条评论的id相同，则表示服务器的数据已经请求完了
      * 2. 如果请求的数据大于1，则删掉重复的第一条，再添加到mCommentDatas中，并且刷新recyclerview的状态和底部的view
-     *
-     * @param httpRespnse
      */
-    public void loadMoreData(ArrayList<Comment> httpRespnse) {
+    @Override
+    public void loadMoreData(String response) {
+        ArrayList<Comment> httpRespnse = CommentList.parse(response).commentList;
         if (httpRespnse != null && httpRespnse.size() == 1 && httpRespnse.get(0).id.equals(mCommentDatas.get(mCommentDatas.size() - 1).id)) {
             mNoMoreData = true;
-            RecyclerViewStateUtils.setFooterViewState(DetailActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Normal, null);
+            RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Normal, null);
         } else if (httpRespnse.size() > 1) {
             httpRespnse.remove(0);
             mCommentDatas.addAll(httpRespnse);

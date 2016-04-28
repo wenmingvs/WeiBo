@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.profile.fragment;
+package com.wenming.weiswift.fragment.profile;
 
 
 import android.app.Activity;
@@ -31,8 +31,8 @@ import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
-import com.wenming.weiswift.fragment.profile.activity.SettingActivity;
 import com.wenming.weiswift.fragment.profile.myweibo.MyWeiBoActivity;
+import com.wenming.weiswift.fragment.profile.setting.SettingActivity;
 
 /**
  * Created by wenmingvs on 15/12/26.

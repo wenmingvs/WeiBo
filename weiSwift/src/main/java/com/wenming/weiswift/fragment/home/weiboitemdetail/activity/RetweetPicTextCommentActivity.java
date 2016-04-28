@@ -8,7 +8,7 @@ import com.wenming.weiswift.fragment.home.weiboitemdetail.headview.RetweetPicTex
 /**
  * Created by wenmingvs on 16/4/21.
  */
-public class RetweetPicTextCommentActivity extends DetailActivity {
+public class RetweetPicTextCommentActivity extends BaseActivity {
 
     @Override
     protected void addHeaderView(int num) {

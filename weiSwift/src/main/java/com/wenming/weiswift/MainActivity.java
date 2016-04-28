@@ -17,8 +17,8 @@ import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.fragment.discovery.fragment.DiscoverFragment;
 import com.wenming.weiswift.fragment.home.HomeFragment;
 import com.wenming.weiswift.fragment.message.MessageFragment;
-import com.wenming.weiswift.fragment.post.fragment.PostFragment;
-import com.wenming.weiswift.fragment.profile.fragment.ProfileFragment;
+import com.wenming.weiswift.fragment.post.PostFragment;
+import com.wenming.weiswift.fragment.profile.ProfileFragment;
 
 
 public class MainActivity extends FragmentActivity {

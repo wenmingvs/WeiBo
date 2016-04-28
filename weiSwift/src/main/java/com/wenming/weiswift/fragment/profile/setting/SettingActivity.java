@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.profile.activity;
+package com.wenming.weiswift.fragment.profile.setting;
 
 import android.app.Activity;
 import android.app.AlertDialog;

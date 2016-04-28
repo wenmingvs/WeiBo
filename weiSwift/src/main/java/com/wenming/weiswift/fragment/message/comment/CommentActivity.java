@@ -14,6 +14,7 @@ import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.CommentList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
@@ -22,7 +23,6 @@ import com.wenming.weiswift.common.util.DensityUtil;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.message.DetailActivity;
 import com.wenming.weiswift.fragment.message.ItemSapce;
 
 import java.util.ArrayList;

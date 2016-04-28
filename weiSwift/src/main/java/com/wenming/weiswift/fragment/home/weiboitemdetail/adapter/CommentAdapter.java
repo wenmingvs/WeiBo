@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.FillWeiBoItem;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 import java.util.ArrayList;
 

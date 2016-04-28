@@ -14,9 +14,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.wenming.weiswift.common.FillWeiBoItem;
 import com.wenming.weiswift.common.photoview.PhotoView;
 import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
 
 import java.util.ArrayList;
 

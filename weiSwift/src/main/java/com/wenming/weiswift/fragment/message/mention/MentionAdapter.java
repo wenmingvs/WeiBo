@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.FillWeiBoItem;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
-import com.wenming.weiswift.fragment.message.FillMessageItem;
 
 import java.util.ArrayList;
 
@@ -44,7 +43,7 @@ public class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         FillWeiBoItem.fillTitleBar(mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom);
         FillWeiBoItem.fillWeiBoContent(mDatas.get(position).text, mContext, ((MentionViewHolder) holder).mention_content);
-        FillMessageItem.FillCenterContent(mDatas.get(position).retweeted_status, ((MentionViewHolder) holder).mentionitem_img, ((MentionViewHolder) holder).mentionitem_name, ((MentionViewHolder) holder).mentionitem_content);
+        FillWeiBoItem.FillCenterContent(mDatas.get(position).retweeted_status, ((MentionViewHolder) holder).mentionitem_img, ((MentionViewHolder) holder).mentionitem_name, ((MentionViewHolder) holder).mentionitem_content);
         FillWeiBoItem.fillButtonBar(mDatas.get(position), ((MentionViewHolder) holder).comment, ((MentionViewHolder) holder).redirect, ((MentionViewHolder) holder).feedlike);
 
 

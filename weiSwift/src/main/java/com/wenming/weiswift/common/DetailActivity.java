@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.message;
+package com.wenming.weiswift.common;
 
 import android.app.Activity;
 import android.content.Context;

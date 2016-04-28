@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.FillWeiBoItem;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.util.FillWeiBoItem;
-import com.wenming.weiswift.fragment.message.FillMessageItem;
 
 import java.util.ArrayList;
 
@@ -41,9 +40,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FillMessageItem.fillTitleBar(mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
+        FillWeiBoItem.fillTitleBar(mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
         FillWeiBoItem.fillWeiBoContent(mDatas.get(position).text, mContext, ((CommentViewHolder) holder).mention_content);
-        FillMessageItem.FillCenterContent(mDatas.get(position).status, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
+        FillWeiBoItem.FillCenterContent(mDatas.get(position).status, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
     }
 
     @Override

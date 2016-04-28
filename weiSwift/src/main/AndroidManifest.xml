@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".fragment.profile.activity.SettingActivity"
+            android:name=".fragment.profile.setting.SettingActivity"
             android:theme="@style/ToolbarTheme" />
 
         <activity

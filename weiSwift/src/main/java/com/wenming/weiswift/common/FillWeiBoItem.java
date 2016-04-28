@@ -1,9 +1,10 @@
-package com.wenming.weiswift.fragment.home.util;
+package com.wenming.weiswift.common;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -18,13 +19,18 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
+import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.common.util.DateUtils;
+import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.fragment.home.imagelist.ImageAdapter;
+import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -276,7 +282,7 @@ public class FillWeiBoItem {
                     imageType.setImageResource(R.drawable.timeline_image_gif);
                 }
 
-                if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT){
+                if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT) {
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
 
@@ -343,6 +349,78 @@ public class FillWeiBoItem {
         }
 
         return IMAGE_TYPE_WIDTH_PIC;
+    }
+
+
+    public static void FillDetailBar(int comments_count, int reposts_count, int attitudes_count, TextView comment, TextView redirect, TextView feedlike) {
+        comment.setText("评论 " + comments_count);
+        redirect.setText("转发 " + reposts_count);
+        feedlike.setText("赞 " + attitudes_count);
+    }
+
+    public static void RefreshNoneView(Context context, int comments_count, View noneView) {
+
+
+        if (NetUtil.isConnected(context)) {
+            if (comments_count > 0) {
+                noneView.setVisibility(View.GONE);
+            } else if (comments_count == 0) {
+                noneView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (!NewFeature.CACHE_DETAIL_ACTIVITY) {
+                noneView.setVisibility(View.VISIBLE);
+                TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
+                textView.setText("网络出错啦");
+            }
+        }
+
+    }
+
+
+    /**
+     * 初始化用于显示评论，转发，赞的viewpager
+     *
+     * @param context
+     * @param commentCount
+     * @param commentArrayList
+     * @param recyclerView
+     * @param commentView
+     */
+
+    public static void FillCommentList(Context context, int commentCount, ArrayList<Comment> commentArrayList, final RecyclerView recyclerView, TextView commentView) {
+        CommentAdapter commentAdapter = new CommentAdapter(context, commentArrayList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(commentAdapter);
+    }
+
+    public static void FillCenterContent(Status status, ImageView profile_img, TextView profile_name, TextView content) {
+        if (status.origin_pic_urls == null || status.origin_pic_urls.size() == 0) {
+            ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img);
+        } else {
+            ImageLoader.getInstance().displayImage(status.origin_pic_urls.get(0), profile_img);
+        }
+        profile_name.setText(status.user.name);
+        content.setText(status.text);
+    }
+
+
+    /**
+     * 填充顶部微博用户信息数据
+     *
+     * @param comment
+     * @param profile_img
+     * @param profile_verified
+     * @param profile_name
+     * @param profile_time
+     * @param weibo_comefrom
+     */
+    public static void fillTitleBar(Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        FillWeiBoItem.fillProfileImg(comment.user, profile_img, profile_verified);
+        profile_name.setText(comment.user.name);
+        FillWeiBoItem.setWeiBoTime(profile_time, comment.created_at);
+        FillWeiBoItem.setWeiBoComeFrom(weibo_comefrom, comment.source);
     }
 
 
