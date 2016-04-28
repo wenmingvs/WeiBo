@@ -12,9 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.wenming.weiswift.common.ActivityCollector;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.fragment.discovery.fragment.DiscoverFragment;
+import com.wenming.weiswift.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.fragment.home.HomeFragment;
 import com.wenming.weiswift.fragment.message.MessageFragment;
 import com.wenming.weiswift.fragment.post.PostFragment;
@@ -51,7 +50,6 @@ public class MainActivity extends FragmentActivity {
         mProfile = (ImageView) findViewById(R.id.tv_profile);
         mPostTab = (FrameLayout) findViewById(R.id.fl_post);
         mContext = this;
-        ActivityCollector.addActivity(this);
         setSessionValid();
         mFragmentManager = getSupportFragmentManager();
         setTabFragment(HOME_FRAGMENT);
@@ -81,6 +79,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(DISCOVERY_FRAGMENT);
+
             }
         });
         mProfile.setOnClickListener(new View.OnClickListener() {

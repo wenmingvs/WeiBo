@@ -27,7 +27,6 @@
             android:theme="@style/ToolbarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,7 +40,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- 手机短信注册页面 -->
         <activity
@@ -50,7 +49,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- 注册选择国家页面 -->
         <activity
@@ -58,7 +57,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".fragment.home.imagedetaillist.ImageDetailsActivity"
@@ -81,6 +80,9 @@
             android:theme="@style/ToolbarTheme" />
         <activity
             android:name=".fragment.profile.myweibo.MyWeiBoActivity"
+            android:theme="@style/ToolbarTheme" />
+
+        <activity android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity"
             android:theme="@style/ToolbarTheme" />
 
     </application>

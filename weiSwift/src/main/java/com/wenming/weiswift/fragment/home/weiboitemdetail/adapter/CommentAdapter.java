@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.FillWeiBoItem;
+import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
@@ -50,10 +50,10 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillWeiBoItem.fillProfileImg(user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
+            FillContent.fillProfileImg(user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
             ((CommentViewHolder) holder).profile_name.setText(user.name);
-            FillWeiBoItem.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
-            FillWeiBoItem.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
+            FillContent.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
+            FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
         }
     }
 

@@ -194,6 +194,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/clearCache_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="0.5dp"
@@ -211,23 +212,7 @@
             android:textColor="#111111"
             android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="35dp"
-            android:text="69.68MB"
-            android:textColor="#555555"
-            android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout

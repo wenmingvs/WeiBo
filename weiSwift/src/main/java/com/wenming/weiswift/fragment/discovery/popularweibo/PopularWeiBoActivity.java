@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.profile.myweibo;
+package com.wenming.weiswift.fragment.discovery.popularweibo;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class MyWeiBoActivity extends DetailActivity {
+public class PopularWeiBoActivity extends DetailActivity {
 
     public RecyclerView mRecyclerView;
     public WeiboAdapter mAdapter;
@@ -60,7 +60,6 @@ public class MyWeiBoActivity extends DetailActivity {
             }
         });
         mToolBar.findViewById(R.id.setting).setVisibility(View.INVISIBLE);
-
     }
 
 
@@ -79,7 +78,7 @@ public class MyWeiBoActivity extends DetailActivity {
     @Override
     public void pullToRefreshData() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mStatusesAPI.userTimeline(0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.publicTimeline(NewFeature.GET_PUBLICWEIBO_NUMS, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
@@ -109,7 +108,7 @@ public class MyWeiBoActivity extends DetailActivity {
 
     @Override
     public void requestMoreData() {
-        mStatusesAPI.userTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.LOAD_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -164,7 +163,7 @@ public class MyWeiBoActivity extends DetailActivity {
             }
             if (!mNoMoreData && mDatas != null) {
                 // loading more
-                RecyclerViewStateUtils.setFooterViewState(MyWeiBoActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
+                RecyclerViewStateUtils.setFooterViewState(PopularWeiBoActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();
             }
         }

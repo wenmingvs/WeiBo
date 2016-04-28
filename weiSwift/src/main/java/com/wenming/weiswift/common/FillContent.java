@@ -40,7 +40,7 @@ import java.util.Random;
 /**
  * Created by wenmingvs on 16/4/21.
  */
-public class FillWeiBoItem {
+public class FillContent {
 
     private static DisplayImageOptions mAvatorOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.avator_default)
@@ -220,12 +220,17 @@ public class FillWeiBoItem {
      * 转发的文字
      */
     public static void fillRetweetContent(Status status, Context context, TextView origin_nameAndcontent) {
-        StringBuffer retweetcontent_buffer = new StringBuffer();
-        retweetcontent_buffer.setLength(0);
-        retweetcontent_buffer.append("@");
-        retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
-        retweetcontent_buffer.append(status.retweeted_status.text);
-        origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
+        if (status.retweeted_status.user != null) {
+            StringBuffer retweetcontent_buffer = new StringBuffer();
+            retweetcontent_buffer.setLength(0);
+            retweetcontent_buffer.append("@");
+            retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
+            retweetcontent_buffer.append(status.retweeted_status.text);
+            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
+        } else {
+            origin_nameAndcontent.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
+        }
+
     }
 
     /**
@@ -240,18 +245,19 @@ public class FillWeiBoItem {
         ImageLoader.getInstance().displayImage(datas.get(position), imageView, mImageItemOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                ImageView imageView = (ImageView) view;
 
                 //单张图片的时候，从预设的3种图片尺寸中随机选一种
                 if (datas.size() == 1) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
                     Random random = new Random();
+                    //int randomnum = random.nextInt(0);
+                    int randomnum = 1;
                     //在0，1,2中随机取一个数
-                    if (random.nextInt(3) == 0) {
+                    if (randomnum == 0) {
                         //竖直方向的长方形尺寸
                         layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
                         layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-                    } else if (random.nextInt(3) == 1) {
+                    } else if (randomnum == 1) {
                         //水平方向的长方形尺寸
                         layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
                         layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
@@ -417,10 +423,10 @@ public class FillWeiBoItem {
      * @param weibo_comefrom
      */
     public static void fillTitleBar(Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        FillWeiBoItem.fillProfileImg(comment.user, profile_img, profile_verified);
+        FillContent.fillProfileImg(comment.user, profile_img, profile_verified);
         profile_name.setText(comment.user.name);
-        FillWeiBoItem.setWeiBoTime(profile_time, comment.created_at);
-        FillWeiBoItem.setWeiBoComeFrom(weibo_comefrom, comment.source);
+        FillContent.setWeiBoTime(profile_time, comment.created_at);
+        FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
     }
 
 

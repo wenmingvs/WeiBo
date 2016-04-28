@@ -21,8 +21,8 @@
             android:layout_height="100dp"
             android:src="@drawable/discover_textview" />
 
-
         <RelativeLayout
+            android:id="@+id/publicweibo_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="8dp"

@@ -10,10 +10,12 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.ActivityCollector;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.util.ToastUtil;
 
 /**
  * Created by wenmingvs on 2016/1/7.
@@ -23,13 +25,13 @@ public class SettingActivity extends Activity {
     private Context mContext;
     private RelativeLayout mExitLayout;
     private ImageView mBackImageView;
+    private RelativeLayout mClearCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.settings_layout);
-        ActivityCollector.addActivity(this);
         mContext = this;
         initToolBar();
         initContent();
@@ -38,6 +40,7 @@ public class SettingActivity extends Activity {
     private void initContent() {
         mExitLayout = (RelativeLayout) findViewById(R.id.exitLayout);
         mBackImageView = (ImageView) findViewById(R.id.backarrow);
+        mClearCache = (RelativeLayout) findViewById(R.id.clearCache_layout);
         mExitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +51,7 @@ public class SettingActivity extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                                 AccessTokenKeeper.clear(getApplicationContext());
                                 NewFeature.LOGIN_STATUS = false;
-                                ActivityCollector.finishAll();
+                                ((MyApplication) getApplication()).finishAll();
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -66,8 +69,15 @@ public class SettingActivity extends Activity {
                 finish();
             }
         });
+        mClearCache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageLoader.getInstance().clearDiskCache();
+                ImageLoader.getInstance().clearMemoryCache();
+                ToastUtil.showShort(mContext, "缓存清理成功！");
+            }
+        });
 
-        
     }
 
     private void initToolBar() {

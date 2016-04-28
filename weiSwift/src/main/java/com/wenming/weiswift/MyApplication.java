@@ -15,23 +15,28 @@
  *******************************************************************************/
 package com.wenming.weiswift;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.wenming.weiswift.common.util.LogUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public class MyApplication extends Application {
+public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
+
+    private List<Activity> mActivityList = new LinkedList<Activity>();
+
     public static void initImageLoader(Context context) {
-        // This configuration tuning is custom. You can tune every option, you may tune some of them,
-        // or you can create default configuration by
-        //  ImageLoaderConfiguration.createDefault(this);
-        // method.
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
@@ -39,8 +44,6 @@ public class MyApplication extends Application {
         config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.writeDebugLogs(); // Remove for release app
-
-        // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
     }
 
@@ -48,5 +51,52 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initImageLoader(getApplicationContext());
+        registerActivityLifecycleCallbacks(this);
+    }
+
+    public void finishAll() {
+        for (Activity activity : mActivityList) {
+            if (!activity.isFinishing()) {
+                LogUtil.d("Finish ALl = " + activity.getLocalClassName());
+                activity.finish();
+            }
+        }
+    }
+
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        LogUtil.d("OnCreate = " + activity.getLocalClassName());
+        mActivityList.add(activity);
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+        LogUtil.d("OnDestroyed = " + activity.getLocalClassName());
     }
 }

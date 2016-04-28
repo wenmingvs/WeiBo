@@ -21,6 +21,7 @@ import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
 

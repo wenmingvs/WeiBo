@@ -31,6 +31,12 @@ public class NewFeature {
     //滑动到底部，获取@的数量
     public static int LOADMORE_MENTION_ITEM = 30;
 
+    //每次刷新，获取公共微博的数量
+    public static int GET_PUBLICWEIBO_NUMS = 40;
+
+    //滑动到底部，获取公共微博的数量
+    public static int LOAD_PUBLICWEIBO_ITEM = 30;
+
     //通用设置
     public static boolean HAVA_IMAGE = true;
 

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.FillWeiBoItem;
+import com.wenming.weiswift.common.FillContent;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        FillWeiBoItem.fillImageList(mContext, mData, position, holder.imageItem, holder.imageType);
+        FillContent.fillImageList(mContext, mData, position, holder.imageItem, holder.imageType);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.home;
+package com.wenming.weiswift.fragment.home.weiboitem;
 
 import android.content.Context;
 import android.util.AttributeSet;

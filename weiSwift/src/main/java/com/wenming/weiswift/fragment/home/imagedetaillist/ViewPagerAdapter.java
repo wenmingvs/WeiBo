@@ -14,7 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.wenming.weiswift.common.FillWeiBoItem;
+import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.photoview.PhotoView;
 import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
 
@@ -81,7 +81,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                if (FillWeiBoItem.returnImageType(mContext, bitmap) == FillWeiBoItem.IMAGE_TYPE_LONG_TEXT) {
+                if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
                     //Toast.makeText(mContext, "onLoadingComplete", Toast.LENGTH_SHORT).show();
                     photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 

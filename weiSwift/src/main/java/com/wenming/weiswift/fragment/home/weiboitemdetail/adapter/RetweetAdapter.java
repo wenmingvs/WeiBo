@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.FillWeiBoItem;
+import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
@@ -50,10 +50,10 @@ public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillWeiBoItem.fillProfileImg(user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
+            FillContent.fillProfileImg(user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
             ((RetweetViewHolder) holder).profile_name.setText(user.name);
-            FillWeiBoItem.setWeiBoTime(((RetweetViewHolder) holder).profile_time, time);
-            FillWeiBoItem.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);
+            FillContent.setWeiBoTime(((RetweetViewHolder) holder).profile_time, time);
+            FillContent.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);
         }
     }
 

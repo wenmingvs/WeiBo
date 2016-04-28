@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.FillWeiBoItem;
+import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 
@@ -76,13 +76,13 @@ public class RetweetPicTextHeaderView extends LinearLayout {
 
     private void initWeiBoContent(Context context, Status status) {
         retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillWeiBoItem.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
-        FillWeiBoItem.fillWeiBoContent(status.text, context, retweet_content);
-        FillWeiBoItem.fillRetweetContent(status, context, origin_nameAndcontent);
-        FillWeiBoItem.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
-        FillWeiBoItem.showButtonBar(View.GONE, bottombar_layout);
-        FillWeiBoItem.FillDetailBar(status.comments_count, status.reposts_count, status.attitudes_count, commentView, retweetView, likeView);
-        FillWeiBoItem.RefreshNoneView(mContext, status.comments_count, mNoneView);
+        FillContent.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillContent.fillWeiBoContent(status.text, context, retweet_content);
+        FillContent.fillRetweetContent(status, context, origin_nameAndcontent);
+        FillContent.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
+        FillContent.showButtonBar(View.GONE, bottombar_layout);
+        FillContent.FillDetailBar(status.comments_count, status.reposts_count, status.attitudes_count, commentView, retweetView, likeView);
+        FillContent.RefreshNoneView(mContext, status.comments_count, mNoneView);
 
         retweetView.setOnClickListener(new OnClickListener() {
             @Override
@@ -108,7 +108,7 @@ public class RetweetPicTextHeaderView extends LinearLayout {
 
 
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
-        FillWeiBoItem.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
-        FillWeiBoItem.RefreshNoneView(mContext, comments_count, mNoneView);
+        FillContent.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
+        FillContent.RefreshNoneView(mContext, comments_count, mNoneView);
     }
 }
