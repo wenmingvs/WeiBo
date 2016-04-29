@@ -16,7 +16,6 @@ import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
 import java.util.ArrayList;
 
 
-
 /**
  * Created by wenmingvs on 16/4/19.
  */
