@@ -173,6 +173,8 @@ public class MainActivity extends FragmentActivity {
         mMessageTab.setSelected(false);
         mDiscoeryTab.setSelected(false);
         mProfile.setSelected(false);
+
+
     }
 
 

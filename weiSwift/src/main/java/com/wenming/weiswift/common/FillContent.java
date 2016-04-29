@@ -53,11 +53,14 @@ public class FillContent {
             .build();
 
 
+    /**
+     * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
+     */
     private static DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.message_image_default)
             .showImageForEmptyUri(R.drawable.message_image_default)
             .showImageOnFail(R.drawable.message_image_default)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.NONE_SAFE)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
