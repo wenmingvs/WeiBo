@@ -20,6 +20,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -52,6 +53,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         super.onCreate();
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
+        Fresco.initialize(getApplicationContext());
     }
 
     public void finishAll() {

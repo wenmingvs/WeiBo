@@ -14,6 +14,8 @@
     <com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailTopBar
         android:id="@+id/imageTopBar"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="48dp"
+
+        />
 
 </FrameLayout>

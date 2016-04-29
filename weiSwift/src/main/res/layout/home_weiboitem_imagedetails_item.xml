@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wenming.weiswift.common.photoview.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/PhotoViewID"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ImageViewItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+    android:layout_height="match_parent">
+
+    <com.wenming.weiswift.common.photoview.PhotoView
+        android:id="@+id/PhotoViewID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/frescoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        fresco:actualImageScaleType="fitCenter" />
+</RelativeLayout>
