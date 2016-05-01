@@ -57,7 +57,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.bga_refresh_loading01)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)

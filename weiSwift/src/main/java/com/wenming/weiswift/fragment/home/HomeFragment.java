@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Status;
@@ -190,6 +191,7 @@ public class HomeFragment extends MainFragment {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
+
             LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
             if (state == LoadingFooter.State.Loading) {
                 Log.d("wenming", "the state is Loading, just wait..");
@@ -200,6 +202,20 @@ public class HomeFragment extends MainFragment {
                 RecyclerViewStateUtils.setFooterViewState(mActivity, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();
             }
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    ImageLoader.getInstance().pause();
+                    break;
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    ImageLoader.getInstance().resume();
+                    break;
+            }
+
         }
     };
 }

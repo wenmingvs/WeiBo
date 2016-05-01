@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Status;
@@ -45,7 +46,6 @@ public class MentionActivity extends DetailActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
     }
-
 
 
     /**
@@ -88,8 +88,6 @@ public class MentionActivity extends DetailActivity {
     }
 
 
-
-
     @Override
     public void requestMoreData() {
         ToastUtil.showShort(mContext, "加载下拉刷新逻辑");
@@ -116,6 +114,21 @@ public class MentionActivity extends DetailActivity {
                 requestMoreData();
             }
         }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    ImageLoader.getInstance().pause();
+                    break;
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    ImageLoader.getInstance().resume();
+                    break;
+            }
+
+        }
+
     };
 
 

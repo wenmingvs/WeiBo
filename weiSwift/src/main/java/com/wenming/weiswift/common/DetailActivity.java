@@ -13,6 +13,7 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.endlessrecyclerview.IEndlessRecyclerView;
@@ -33,6 +34,7 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
     public RecyclerView mRecyclerView;
     public CommentsAPI mCommentsAPI;
     public StatusesAPI mStatusesAPI;
+    public FriendshipsAPI mFriendshipsAPI;
     public SsoHandler mSsoHandler;
     public boolean mRefrshAllData;
 
@@ -60,6 +62,7 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
         mAccessToken = AccessTokenKeeper.readAccessToken(this);
         mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, mAccessToken);
         mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
+        mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, mAccessToken);
     }
 
     protected void initRefreshLayout() {

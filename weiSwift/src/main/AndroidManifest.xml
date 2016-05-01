@@ -85,6 +85,9 @@
         <activity android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity"
             android:theme="@style/ToolbarTheme" />
 
+        <activity android:name=".fragment.profile.followers.FollowerActivity"
+            android:theme="@style/ToolbarTheme" />
+
     </application>
 
 </manifest>

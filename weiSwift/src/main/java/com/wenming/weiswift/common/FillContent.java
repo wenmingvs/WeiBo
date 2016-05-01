@@ -64,7 +64,6 @@ public class FillContent {
             .showImageOnFail(R.drawable.timeline_image_failure)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .imageScaleType(ImageScaleType.EXACTLY)
-
             .considerExifParams(true)
             .build();
 
@@ -433,6 +432,39 @@ public class FillContent {
         profile_name.setText(comment.user.name);
         FillContent.setWeiBoTime(profile_time, comment.created_at);
         FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
+    }
+
+    /**
+     * 填充粉丝的内容
+     *
+     * @param user
+     * @param followerImg
+     * @param followerVerf
+     * @param followerName
+     * @param content
+     * @param profileComefrom
+     * @param follwerRelation
+     */
+    public static void fillFollowContent(User user,
+                                         ImageView followerImg, ImageView followerVerf,
+                                         TextView followerName, TextView content,
+                                         TextView profileComefrom, ImageView follwerRelation) {
+
+
+        FillContent.fillProfileImg(user, followerImg, followerVerf);
+        followerName.setText(user.name);
+        if (user.status != null) {//有些人不发微博
+            content.setText(user.status.text);
+            profileComefrom.setText(user.status.source);
+        }
+
+        if (user.following == true) {
+            follwerRelation.setImageResource(R.drawable.card_icon_arrow);
+        } else {
+            follwerRelation.setImageResource(R.drawable.card_icon_addattention);
+        }
+
+
     }
 
 

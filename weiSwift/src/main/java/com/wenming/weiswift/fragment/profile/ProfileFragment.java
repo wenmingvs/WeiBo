@@ -31,6 +31,7 @@ import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
+import com.wenming.weiswift.fragment.profile.followers.FollowerActivity;
 import com.wenming.weiswift.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.fragment.profile.setting.SettingActivity;
 
@@ -56,6 +57,9 @@ public class ProfileFragment extends Fragment {
     private TextView mFollowers_count;
     private DisplayImageOptions options;
     private LinearLayout mMyWeiBo_Layout;
+    private LinearLayout mFollowers_Layout;
+    private LinearLayout mFriends_Layout;
+    private long mUid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,10 +84,13 @@ public class ProfileFragment extends Fragment {
         mStatuses_count = (TextView) mView.findViewById(R.id.profile_statuses_count);
         mFollowers_count = (TextView) mView.findViewById(R.id.profile_followers_count);
         mFriends_count = (TextView) mView.findViewById(R.id.profile_friends_count);
-        mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.MyWeiBo_layout);
+        mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.yyweibo_layout);
+        mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
+        mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
 
-        long uid = Long.parseLong(mAccessToken.getUid());
-        mUsersAPI.show(uid, new RequestListener() {
+
+        mUid = Long.parseLong(mAccessToken.getUid());
+        mUsersAPI.show(mUid, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -113,6 +120,23 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mFriends_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent = new Intent(mActivity, MyWeiBoActivity.class);
+                //startActivity(intent);
+            }
+        });
+        mFollowers_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, FollowerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private void initAccessToken() {
