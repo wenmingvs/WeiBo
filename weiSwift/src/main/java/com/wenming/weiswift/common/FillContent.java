@@ -46,6 +46,8 @@ public class FillContent {
             .showImageOnLoading(R.drawable.avator_default)
             .showImageForEmptyUri(R.drawable.avator_default)
             .showImageOnFail(R.drawable.avator_default)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
@@ -59,12 +61,13 @@ public class FillContent {
     private static DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.message_image_default)
             .showImageForEmptyUri(R.drawable.message_image_default)
-            .showImageOnFail(R.drawable.message_image_default)
-            .imageScaleType(ImageScaleType.NONE_SAFE)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
+            .showImageOnFail(R.drawable.timeline_image_failure)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
+
             .considerExifParams(true)
             .build();
+
 
     public static final int IMAGE_TYPE_LONG_TEXT = 1;//长微博
     public static final int IMAGE_TYPE_LONG_PIC = 2;//比较长的微博（但是不至于像长微博那么长）

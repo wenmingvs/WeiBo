@@ -49,6 +49,8 @@ public class CommentActivity extends DetailActivity {
         mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
+
+
     /**
      * 下拉刷新加载更多的逻辑
      */
@@ -137,6 +139,7 @@ public class CommentActivity extends DetailActivity {
         mAdapter.setData(mDatas);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
+
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override

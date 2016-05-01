@@ -65,6 +65,7 @@ public abstract class BaseActivity extends DetailActivity {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public void initTitleBar() {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_weiboitem_detail_title);

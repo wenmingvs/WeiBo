@@ -76,6 +76,7 @@ public class MyWeiBoActivity extends DetailActivity {
         mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
+
     @Override
     public void pullToRefreshData() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -152,6 +153,7 @@ public class MyWeiBoActivity extends DetailActivity {
         mAdapter.setData(mDatas);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
+
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override

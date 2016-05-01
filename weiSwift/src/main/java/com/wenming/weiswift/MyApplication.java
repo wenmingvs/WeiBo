@@ -42,7 +42,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
         config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+        config.diskCacheSize(100 * 1024 * 1024); // 50 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.writeDebugLogs(); // Remove for release app
         ImageLoader.getInstance().init(config.build());

@@ -39,6 +39,7 @@ public class HomeFragment extends MainFragment {
     private ArrayList<Status> mDatas;
     private boolean mNoMoreData;
 
+
     @Override
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
@@ -54,36 +55,26 @@ public class HomeFragment extends MainFragment {
     }
 
     @Override
-    public void pullToRefreshData() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        mStatusesAPI.friendsTimeline(0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
-                if (!TextUtils.isEmpty(response)) {
-                    if (NewFeature.CACHE_WEIBOLIST) {
-                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt", response);
-                    }
-                    mDatas = StatusList.parse(response).statusList;
-                    updateList();
-                } else {
-                    ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                if (NewFeature.CACHE_MESSAGE_COMMENT) {
-                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
-                    mDatas = StatusList.parse(response).statusList;
-                    updateList();
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
+    public void firstLoadData() {
+        String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
+        if (response != null) {
+            mDatas = StatusList.parse(response).statusList;
+            updateList();
+        } else {
+            refreshAllData();
+        }
     }
+
+
+    @Override
+    public void pullToRefreshData(boolean refrshAllData) {
+        if (refrshAllData) {
+            refreshAllData();
+        } else {
+            getlatestWeiBo();
+        }
+    }
+
 
     @Override
     public void requestMoreData() {
@@ -129,6 +120,70 @@ public class HomeFragment extends MainFragment {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         mAdapter.setData(mDatas);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getlatestWeiBo() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        mStatusesAPI.friendsTimeline(Long.valueOf(mDatas.get(0).id), 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                if (!TextUtils.isEmpty(response)) {
+                    ToastUtil.showShort(mContext, "局部刷新");
+                    ArrayList<Status> latestWeiBo = StatusList.parse(response).statusList;
+                    //latestWeiBo.remove(0);
+                    if (latestWeiBo.size() > 0) {
+                        mDatas.addAll(0, latestWeiBo);
+                        updateList();
+                    } else {
+                        ToastUtil.showShort(mContext, "没有更新的内容了");
+                    }
+
+                } else {
+                    ToastUtil.showShort(mContext, "加载到的内容为空");
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(mContext, "onWeiboException");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    public void refreshAllData() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        mStatusesAPI.friendsTimeline(0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
+                if (!TextUtils.isEmpty(response)) {
+                    ToastUtil.showShort(mContext, "全部刷新");
+                    if (NewFeature.CACHE_WEIBOLIST) {
+                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt", response);
+                    }
+                    mDatas = StatusList.parse(response).statusList;
+                    updateList();
+                } else {
+                    ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                if (NewFeature.CACHE_MESSAGE_COMMENT) {
+                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
+                    mDatas = StatusList.parse(response).statusList;
+                    updateList();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        mRefrshAllData = false;
     }
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {

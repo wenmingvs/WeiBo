@@ -26,16 +26,19 @@ import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.home.weiboitem.IWeiboListRecyclerView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by wenmingvs on 15/12/26.
  */
-public abstract class MainFragment extends Fragment implements IEndlessRecyclerView {
+public abstract class MainFragment extends Fragment implements IWeiboListRecyclerView {
 
     public AuthInfo mAuthInfo;
     public Oauth2AccessToken mAccessToken;
@@ -51,6 +54,9 @@ public abstract class MainFragment extends Fragment implements IEndlessRecyclerV
     public View mView;
     public boolean mFirstLoad;
     public SwipeRefreshLayout mSwipeRefreshLayout;
+    public boolean mRefrshAllData;
+    private Timer mTimer;
+    private TimerTask mTimeTask;
 
 
     @Override
@@ -68,6 +74,7 @@ public abstract class MainFragment extends Fragment implements IEndlessRecyclerV
         initAccessToken();
         if (NewFeature.LOGIN_STATUS == true) {
             mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
+            initTimeTask();
             initLoginStateTitleBar();
             initRecyclerView();
             initRefreshLayout();
@@ -141,6 +148,18 @@ public abstract class MainFragment extends Fragment implements IEndlessRecyclerV
         }
     }
 
+    @Override
+    public void initTimeTask() {
+        mTimeTask = new TimerTask() {
+            @Override
+            public void run() {
+                mRefrshAllData = true;
+            }
+        };
+        mTimer = new Timer();
+        mTimer.schedule(mTimeTask, 0, 15 * 60 * 1000);
+    }
+
     private void initAccessToken() {
         mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
@@ -207,6 +226,7 @@ public abstract class MainFragment extends Fragment implements IEndlessRecyclerV
      * 2. 第一次进来就自动下拉刷新
      */
     private void initRefreshLayout() {
+        mRefrshAllData = true;
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -214,14 +234,13 @@ public abstract class MainFragment extends Fragment implements IEndlessRecyclerV
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pullToRefreshData();
+                pullToRefreshData(mRefrshAllData);
             }
         });
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                pullToRefreshData();
+                firstLoadData();
             }
         });
 

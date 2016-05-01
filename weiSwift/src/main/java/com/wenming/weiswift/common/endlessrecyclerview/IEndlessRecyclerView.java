@@ -5,6 +5,7 @@ package com.wenming.weiswift.common.endlessrecyclerview;
  */
 public interface IEndlessRecyclerView {
 
+
     public abstract void initRecyclerView();
 
     public abstract void pullToRefreshData();
@@ -14,4 +15,6 @@ public interface IEndlessRecyclerView {
     public abstract void loadMoreData(String response);
 
     public abstract void updateList();
+
+
 }

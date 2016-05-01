@@ -3,7 +3,6 @@ package com.wenming.weiswift.common.util;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -120,12 +119,13 @@ public class SDCardUtil {
                 sb.append(readline);
             }
             br.close();
-            Toast.makeText(context, fileName + "文件读取成功", Toast.LENGTH_SHORT).show();
+            return sb.toString();
+            //Toast.makeText(context, fileName + "文件读取成功", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, fileName + "文件读取失败", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, fileName + "文件读取失败", Toast.LENGTH_SHORT).show();
         }
-        return sb.toString();
+        return null;
     }
 
 

@@ -34,6 +34,7 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
     public CommentsAPI mCommentsAPI;
     public StatusesAPI mStatusesAPI;
     public SsoHandler mSsoHandler;
+    public boolean mRefrshAllData;
 
 
     @Override
@@ -46,7 +47,9 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
         initAccessToken();
         initRefreshLayout();
         initRecyclerView();
+
     }
+
 
     public abstract void initTitleBar();
 
@@ -60,6 +63,7 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
     }
 
     protected void initRefreshLayout() {
+        mRefrshAllData = true;
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -76,6 +80,7 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
                 pullToRefreshData();
             }
         });
+
     }
 
 

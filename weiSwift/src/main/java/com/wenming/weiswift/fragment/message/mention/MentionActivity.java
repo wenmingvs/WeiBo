@@ -46,6 +46,8 @@ public class MentionActivity extends DetailActivity {
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
     }
 
+
+
     /**
      * 第一次下拉刷新加载的逻辑
      */
@@ -84,6 +86,8 @@ public class MentionActivity extends DetailActivity {
         mAdapter.setData(mDatas);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
+
+
 
 
     @Override

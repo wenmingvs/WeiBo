@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.photoview.PhotoView;
@@ -56,6 +57,9 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 
         options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.bga_refresh_loading01)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
                 .considerExifParams(true)
                 .imageScaleType(ImageScaleType.NONE)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
@@ -146,7 +150,14 @@ public class ViewPagerAdapter extends PagerAdapter {
                 public void onLoadingCancelled(String s, View view) {
 
                 }
+            }, new ImageLoadingProgressListener() {
+                @Override
+                public void onProgressUpdate(String s, View view, int current, int total) {
+                    LogUtil.d("onProgressUpdate = " + 100.0f * current / total + "%");
+                }
             });
+
+
             mPhotoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float v, float v1) {
