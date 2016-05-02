@@ -44,7 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        FillContent.fillTitleBar(mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
+        FillContent.fillTitleBar(mContext,mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((CommentViewHolder) holder).mention_content);
         FillContent.FillCenterContent(mDatas.get(position).status, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
         ((CommentViewHolder) holder).comment_layout.setOnClickListener(new View.OnClickListener() {

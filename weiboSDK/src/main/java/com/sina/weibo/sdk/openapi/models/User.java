@@ -75,6 +75,15 @@ public class User implements Parcelable {
      */
     public String profile_url;
     /**
+     * 用户的个性化背景(手机)
+     */
+    public String cover_image_phone;
+    /**
+     * 用户的个性化背景
+     */
+    public String cover_image;
+
+    /**
      * 用户的个性化域名
      */
     public String domain;
@@ -203,6 +212,8 @@ public class User implements Parcelable {
         user.url = jsonObject.optString("url", "");
         user.profile_image_url = jsonObject.optString("profile_image_url", "");
         user.profile_url = jsonObject.optString("profile_url", "");
+        user.cover_image_phone = jsonObject.optString("cover_image_phone", "");
+        user.cover_image = jsonObject.optString("cover_image", "");
         user.domain = jsonObject.optString("domain", "");
         user.weihao = jsonObject.optString("weihao", "");
         user.gender = jsonObject.optString("gender", "");
@@ -237,6 +248,9 @@ public class User implements Parcelable {
     }
 
 
+    public User() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -255,6 +269,8 @@ public class User implements Parcelable {
         dest.writeString(this.url);
         dest.writeString(this.profile_image_url);
         dest.writeString(this.profile_url);
+        dest.writeString(this.cover_image_phone);
+        dest.writeString(this.cover_image);
         dest.writeString(this.domain);
         dest.writeString(this.weihao);
         dest.writeString(this.gender);
@@ -284,9 +300,6 @@ public class User implements Parcelable {
         dest.writeString(this.block_word);
     }
 
-    public User() {
-    }
-
     protected User(Parcel in) {
         this.id = in.readString();
         this.idstr = in.readString();
@@ -299,6 +312,8 @@ public class User implements Parcelable {
         this.url = in.readString();
         this.profile_image_url = in.readString();
         this.profile_url = in.readString();
+        this.cover_image_phone = in.readString();
+        this.cover_image = in.readString();
         this.domain = in.readString();
         this.weihao = in.readString();
         this.gender = in.readString();
@@ -328,7 +343,7 @@ public class User implements Parcelable {
         this.block_word = in.readString();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

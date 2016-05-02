@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="71dp"
+    android:layout_marginBottom="1dp"
+    android:background="@drawable/message_item_auto"
+    android:clickable="true"
+    android:orientation="horizontal">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/friend_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/friend_verified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/avatar_vip" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="闭关写代码"
+                android:textColor="#343434"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/follow_me"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/card_icon_arrow" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/friend_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:text="车窗摇下听你听你完美借口/ 音乐开大让我让我假装感动/ 贴心的你不用自导自演心痛/ 我看不懂我会更难过 五月 我要夏天 "
+            android:textColor="#939393"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

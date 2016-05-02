@@ -29,6 +29,7 @@ import com.wenming.weiswift.common.util.DateUtils;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.fragment.home.imagelist.ImageAdapter;
+import com.wenming.weiswift.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 
@@ -80,7 +81,7 @@ public class FillContent {
      * @param profile_img
      * @param profile_verified
      */
-    public static void fillProfileImg(final User user, final ImageView profile_img, final ImageView profile_verified) {
+    public static void fillProfileImg(final Context context, final User user, final ImageView profile_img, final ImageView profile_verified) {
 
         profile_verified.setVisibility(View.GONE);
         profile_verified.setVisibility(View.VISIBLE);
@@ -96,6 +97,17 @@ public class FillContent {
         }
         ImageLoader.getInstance().displayImage(user.avatar_hd, profile_img, mAvatorOptions);
 
+        profile_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserActivity.class);
+                intent.putExtra("user", user);
+                context.startActivity(intent);
+
+            }
+        });
+
+
     }
 
     /**
@@ -107,8 +119,8 @@ public class FillContent {
      * @param profile_time
      * @param weibo_comefrom
      */
-    public static void fillTitleBar(Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        fillProfileImg(status.user, profile_img, profile_verified);
+    public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        fillProfileImg(context, status.user, profile_img, profile_verified);
         profile_name.setText(status.user.name);
         setWeiBoTime(profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
@@ -427,8 +439,8 @@ public class FillContent {
      * @param profile_time
      * @param weibo_comefrom
      */
-    public static void fillTitleBar(Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        FillContent.fillProfileImg(comment.user, profile_img, profile_verified);
+    public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        FillContent.fillProfileImg(context, comment.user, profile_img, profile_verified);
         profile_name.setText(comment.user.name);
         FillContent.setWeiBoTime(profile_time, comment.created_at);
         FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
@@ -445,26 +457,68 @@ public class FillContent {
      * @param profileComefrom
      * @param follwerRelation
      */
-    public static void fillFollowContent(User user,
+    public static void fillFollowContent(Context context, User user,
                                          ImageView followerImg, ImageView followerVerf,
                                          TextView followerName, TextView content,
                                          TextView profileComefrom, ImageView follwerRelation) {
 
 
-        FillContent.fillProfileImg(user, followerImg, followerVerf);
+        FillContent.fillProfileImg(context, user, followerImg, followerVerf);
         followerName.setText(user.name);
         if (user.status != null) {//有些人不发微博
             content.setText(user.status.text);
             profileComefrom.setText(user.status.source);
         }
-
         if (user.following == true) {
             follwerRelation.setImageResource(R.drawable.card_icon_arrow);
         } else {
             follwerRelation.setImageResource(R.drawable.card_icon_addattention);
         }
+    }
+
+    public static void fillFriendContent(Context context, User user, ImageView friendImg, ImageView friendVerified, ImageView followme, TextView friendName, TextView friendContent) {
+        FillContent.fillProfileImg(context, user, friendImg, friendVerified);
+        if (user.follow_me) {
+            followme.setVisibility(View.VISIBLE);
+        } else {
+            followme.setVisibility(View.INVISIBLE);
+        }
+
+        friendName.setText(user.name);
+        if (user.status != null) {//有些人不发微博
+            friendContent.setText(user.status.text);
+        }
+    }
 
 
+    public static void fillUserHeadView(Context context, User user, ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
+                                        ImageView userSex, TextView userFriends,
+                                        TextView userFollows, TextView userVerifiedreason) {
+        if (user.cover_image_phone != null && user.cover_image_phone.length() > 0) {
+            ImageLoader.getInstance().displayImage(user.cover_image_phone, userCoverimg);
+        } else if (user.cover_image != null && user.cover_image.length() > 0) {
+            ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
+        } else {
+            userCoverimg.setImageResource(R.drawable.cover_image);
+        }
+
+        FillContent.fillProfileImg(context, user, userImg, userVerified);
+        userName.setText(user.name);
+
+        if (user.gender.equals("m")) {
+            userSex.setImageResource(R.drawable.userinfo_icon_male);
+        } else if (user.gender.equals("f")) {
+            userSex.setImageResource(R.drawable.userinfo_icon_female);
+        } else {
+            userSex.setVisibility(View.GONE);
+        }
+        userFriends.setText("关注  " + user.friends_count);
+        userFollows.setText("粉丝  " + user.followers_count);
+        if (!user.verified) {
+            userVerifiedreason.setVisibility(View.GONE);
+        } else {
+            userVerifiedreason.setText("微博认证：" + user.verified_reason);
+        }
     }
 
 

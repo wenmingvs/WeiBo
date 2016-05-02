@@ -19,7 +19,6 @@
     </style>
 
     <style name="CustomWindowTitleBackground">
-
         <item name="android:background">@color/white</item>
     </style>
 
@@ -27,7 +26,7 @@
 
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">45dp</item>
-        <item name="android:windowTitleBackgroundStyle" >@style/CustomWindowTitleBackground</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
 
     </style>
 
@@ -36,5 +35,13 @@
         <item name="android:windowEnterAnimation">@anim/home_image_detail_list_pop_window_in</item>
         <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
     </style>
+
+
+    <style name="blackstatusbar" parent="android:Theme.Holo.Light.NoActionBar">
+
+        <item name="android:statusBarColor">@color/black</item>
+
+    </style>
+
 
 </resources>

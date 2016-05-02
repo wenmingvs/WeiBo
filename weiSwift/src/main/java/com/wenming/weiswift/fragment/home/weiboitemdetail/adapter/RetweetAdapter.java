@@ -50,7 +50,7 @@ public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillContent.fillProfileImg(user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
+            FillContent.fillProfileImg(mContext,user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
             ((RetweetViewHolder) holder).profile_name.setText(user.name);
             FillContent.setWeiBoTime(((RetweetViewHolder) holder).profile_time, time);
             FillContent.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);

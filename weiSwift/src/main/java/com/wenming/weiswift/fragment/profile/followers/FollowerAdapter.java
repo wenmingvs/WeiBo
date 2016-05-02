@@ -39,7 +39,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FillContent.fillFollowContent(mDatas.get(position),
+        FillContent.fillFollowContent(mContext, mDatas.get(position),
                 ((FollowerViewHolder) holder).followerImg, ((FollowerViewHolder) holder).followerVerf,
                 ((FollowerViewHolder) holder).followerName, ((FollowerViewHolder) holder).follower_firstcontent,
                 ((FollowerViewHolder) holder).profile_comefrom, ((FollowerViewHolder) holder).follwerRelation);
