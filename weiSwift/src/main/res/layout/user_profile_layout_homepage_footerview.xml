@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="47dp"
     android:background="@drawable/message_item_auto"
+    android:clickable="true"
     android:orientation="vertical">
 
     <TextView
