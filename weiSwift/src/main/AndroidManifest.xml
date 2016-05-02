@@ -19,8 +19,8 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:largeHeap="true"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:largeHeap="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -82,11 +82,21 @@
             android:name=".fragment.profile.myweibo.MyWeiBoActivity"
             android:theme="@style/ToolbarTheme" />
 
-        <activity android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity"
+        <activity
+            android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity"
             android:theme="@style/ToolbarTheme" />
 
-        <activity android:name=".fragment.profile.followers.FollowerActivity"
+        <activity
+            android:name=".fragment.profile.followers.FollowerActivity"
             android:theme="@style/ToolbarTheme" />
+
+        <activity
+            android:name=".fragment.profile.friends.FriendsActivity"
+            android:theme="@style/ToolbarTheme" />
+
+        <activity
+            android:name=".fragment.home.userdetail.UserActivity"
+            android:theme="@style/blackstatusbar" />
 
     </application>
 

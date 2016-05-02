@@ -32,6 +32,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.fragment.profile.followers.FollowerActivity;
+import com.wenming.weiswift.fragment.profile.friends.FriendsActivity;
 import com.wenming.weiswift.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.fragment.profile.setting.SettingActivity;
 
@@ -124,8 +125,8 @@ public class ProfileFragment extends Fragment {
         mFriends_Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(mActivity, MyWeiBoActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(mActivity, FriendsActivity.class);
+                startActivity(intent);
             }
         });
         mFollowers_Layout.setOnClickListener(new View.OnClickListener() {

@@ -42,7 +42,8 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        requestWindowFeature();
+
         setContentView(R.layout.messagefragment_base_layout);
         mContext = this;
         initTitleBar();
@@ -52,8 +53,12 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
 
     }
 
+    public void requestWindowFeature() {
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+    }
 
     public abstract void initTitleBar();
+
 
     public void initAccessToken() {
         mAuthInfo = new AuthInfo(this, Constants.APP_KEY,

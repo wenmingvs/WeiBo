@@ -1,6 +1,5 @@
-package com.wenming.weiswift.fragment.discovery.popularweibo;
+package com.wenming.weiswift.fragment.profile.friends;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,50 +7,41 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.models.Status;
-import com.sina.weibo.sdk.openapi.models.StatusList;
+import com.sina.weibo.sdk.openapi.models.User;
+import com.sina.weibo.sdk.openapi.models.UserList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.home.weiboitem.SeachHeadView;
-import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
-import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
 
 import java.util.ArrayList;
 
 /**
- * Created by wenmingvs on 16/4/27.
+ * Created by wenmingvs on 16/5/1.
  */
-public class PopularWeiBoActivity extends DetailActivity {
+public class FriendsActivity extends DetailActivity {
 
     public RecyclerView mRecyclerView;
-    public WeiboAdapter mAdapter;
+    public FriendsAdapter mAdapter;
     public LinearLayoutManager mLayoutManager;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
-    private ArrayList<Status> mDatas;
+    private ArrayList<User> mDatas;
     private boolean mNoMoreData;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private String mNext_cursor;
 
     @Override
     public void initTitleBar() {
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_detail_base);
         mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
         mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);
@@ -61,35 +51,36 @@ public class PopularWeiBoActivity extends DetailActivity {
                 finish();
             }
         });
+        ((TextView) mToolBar.findViewById(R.id.toolbar_title)).setText("全部关注");
         mToolBar.findViewById(R.id.setting).setVisibility(View.INVISIBLE);
     }
-
 
     @Override
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mAdapter = new WeiboAdapter(mDatas, mContext);
+        mAdapter = new FriendsAdapter(mDatas, mContext);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-        RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
-        mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        //RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
+        //mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
-
 
     @Override
     public void pullToRefreshData() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mStatusesAPI.publicTimeline(NewFeature.GET_PUBLICWEIBO_NUMS, 1, false, new RequestListener() {
+        mNext_cursor = "0";
+        mFriendshipsAPI.friends(Long.parseLong(mAccessToken.getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
                 if (!TextUtils.isEmpty(response)) {
                     if (NewFeature.CACHE_WEIBOLIST) {
-                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的微博列表缓存.txt", response);
+                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的关注列表缓存.txt", response);
                     }
-                    mDatas = StatusList.parse(response).statusList;
+                    mNext_cursor = UserList.parse(response).next_cursor;
+                    mDatas = UserList.parse(response).usersList;
                     updateList();
                 } else {
                     ToastUtil.showShort(mContext, "网络请求太快，服务器返回空数据，请注意请求频率");
@@ -100,8 +91,8 @@ public class PopularWeiBoActivity extends DetailActivity {
             @Override
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
-                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的微博列表缓存.txt");
-                    mDatas = StatusList.parse(response).statusList;
+                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的关注列表缓存.txt");
+                    mDatas = UserList.parse(response).usersList;
                     updateList();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -111,13 +102,13 @@ public class PopularWeiBoActivity extends DetailActivity {
 
     @Override
     public void requestMoreData() {
-        mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
+        mFriendshipsAPI.friends(Long.parseLong(mAccessToken.getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     loadMoreData(response);
                 } else {
-                    ToastUtil.showShort(mContext, "返回的微博数据为空");
+                    ToastUtil.showShort(mContext, "返回的数据为空");
                     mNoMoreData = true;
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -136,16 +127,11 @@ public class PopularWeiBoActivity extends DetailActivity {
 
     @Override
     public void loadMoreData(String string) {
-        ArrayList<Status> httpRespnse = StatusList.parse(string).statusList;
-        if (httpRespnse != null && httpRespnse.size() == 1 && httpRespnse.get(0).id.equals(mDatas.get(mDatas.size() - 1).id)) {
-            mNoMoreData = true;
-            RecyclerViewStateUtils.setFooterViewState(this, mRecyclerView, mDatas.size(), LoadingFooter.State.Normal, null);
-        } else if (httpRespnse.size() > 1) {
-            httpRespnse.remove(0);
-            mDatas.addAll(httpRespnse);
-            updateList();
-            RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
-        }
+        ArrayList<User> httpRespnse = UserList.parse(string).usersList;
+        mNext_cursor = UserList.parse(string).next_cursor;
+        mDatas.addAll(httpRespnse);
+        updateList();
+        RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
     }
 
     @Override
@@ -154,7 +140,6 @@ public class PopularWeiBoActivity extends DetailActivity {
         mAdapter.setData(mDatas);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
-
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
@@ -167,7 +152,7 @@ public class PopularWeiBoActivity extends DetailActivity {
             }
             if (!mNoMoreData && mDatas != null) {
                 // loading more
-                RecyclerViewStateUtils.setFooterViewState(PopularWeiBoActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
+                RecyclerViewStateUtils.setFooterViewState(FriendsActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();
             }
         }
@@ -185,7 +170,5 @@ public class PopularWeiBoActivity extends DetailActivity {
             }
 
         }
-
-
     };
 }

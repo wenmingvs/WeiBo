@@ -76,7 +76,7 @@ public class RetweetPicTextHeaderView extends LinearLayout {
 
     private void initWeiBoContent(Context context, Status status) {
         retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillContent.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillContent.fillTitleBar(mContext,status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillContent.fillWeiBoContent(status.text, context, retweet_content);
         FillContent.fillRetweetContent(status, context, origin_nameAndcontent);
         FillContent.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);

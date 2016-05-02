@@ -72,7 +72,7 @@ public class OriginPicTextHeaderView extends LinearLayout {
 
     private void initWeiBoContent(Context context, Status status) {
         imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillContent.fillTitleBar(status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillContent.fillTitleBar(mContext,status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillContent.fillWeiBoContent(status.text, context, weibo_content);
         FillContent.fillWeiBoImgList(status, context, imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);
