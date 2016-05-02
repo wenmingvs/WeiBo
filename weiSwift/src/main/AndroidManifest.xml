@@ -98,6 +98,15 @@
             android:name=".fragment.home.userdetail.UserActivity"
             android:theme="@style/blackstatusbar" />
 
+        <activity
+            android:name=".fragment.post.PostActivity"
+            android:theme="@style/blackstatusbar" />
+
+        <activity
+            android:name=".fragment.post.idea.IdeaActivity"
+            android:theme="@style/blackstatusbar" />
+
+
     </application>
 
 </manifest>

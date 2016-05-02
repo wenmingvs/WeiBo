@@ -16,7 +16,7 @@ import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.fragment.home.HomeFragment;
 import com.wenming.weiswift.fragment.message.MessageFragment;
-import com.wenming.weiswift.fragment.post.PostFragment;
+import com.wenming.weiswift.fragment.post.PostActivity;
 import com.wenming.weiswift.fragment.profile.ProfileFragment;
 
 
@@ -24,7 +24,6 @@ public class MainActivity extends FragmentActivity {
 
     private static final int HOME_FRAGMENT = 0X001;
     private static final int MESSAGE_FRAGMENT = 0X002;
-    private static final int POST_FRAGMENT = 0X003;
     private static final int DISCOVERY_FRAGMENT = 0X004;
     private static final int PROFILE_FRAGMENT = 0X005;
     private Context mContext;
@@ -32,7 +31,7 @@ public class MainActivity extends FragmentActivity {
     private MessageFragment mMessageFragment;
     private DiscoverFragment mDiscoverFragment;
     private ProfileFragment mProfileFragment;
-    private PostFragment mPostFragment;
+
     private FragmentManager mFragmentManager;
     private Oauth2AccessToken mAccessToken;
     private ImageView mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
@@ -72,7 +71,8 @@ public class MainActivity extends FragmentActivity {
         mPostTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTabFragment(POST_FRAGMENT);
+                Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                startActivity(intent);
             }
         });
         mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
@@ -122,15 +122,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.show(mMessageFragment);
                 }
                 break;
-            case POST_FRAGMENT:
-                mPostTab.setSelected(true);
-                if (mPostFragment == null) {
-                    mPostFragment = new PostFragment();
-                    transaction.add(R.id.contentLayout, mPostFragment);
-                } else {
-                    transaction.show(mPostFragment);
-                }
-                break;
+
             case DISCOVERY_FRAGMENT:
                 mDiscoeryTab.setSelected(true);
                 if (mDiscoverFragment == null) {
@@ -160,9 +152,7 @@ public class MainActivity extends FragmentActivity {
         if (mMessageFragment != null) {
             transaction.hide(mMessageFragment);
         }
-        if (mPostFragment != null) {
-            transaction.hide(mPostFragment);
-        }
+
         if (mDiscoverFragment != null) {
             transaction.hide(mDiscoverFragment);
         }

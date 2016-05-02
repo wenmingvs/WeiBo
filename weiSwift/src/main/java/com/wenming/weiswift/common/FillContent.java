@@ -153,6 +153,7 @@ public class FillContent {
         comment.setText(status.comments_count + "");
         redirect.setText(status.reposts_count + "");
         feedlike.setText(status.attitudes_count + "");
+
     }
 
 
