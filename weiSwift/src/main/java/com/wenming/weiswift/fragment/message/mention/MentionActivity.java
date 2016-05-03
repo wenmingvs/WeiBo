@@ -73,8 +73,11 @@ public class MentionActivity extends DetailActivity {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_MENTION) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_mention.txt");
-                    mDatas = StatusList.parse(response).statusList;
-                    updateList();
+                    if(response != null) {
+                        mDatas = StatusList.parse(response).statusList;
+                        updateList();
+                    }
+
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }

@@ -126,7 +126,7 @@ public class HomeFragment extends MainFragment {
     @Override
     public void getlatestWeiBo() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mStatusesAPI.friendsTimeline(Long.valueOf(mDatas.get(0).id), 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.friendsTimeline(Long.valueOf((mDatas == null ? "0" : mDatas.get(0).toString())), 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -178,8 +178,11 @@ public class HomeFragment extends MainFragment {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
-                    mDatas = StatusList.parse(response).statusList;
-                    updateList();
+                    if (response != null) {
+                        mDatas = StatusList.parse(response).statusList;
+                        updateList();
+                    }
+
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }

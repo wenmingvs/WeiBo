@@ -103,12 +103,12 @@ public class ViewPagerAdapter extends PagerAdapter {
                 }
             });
         } else {
+
             mPhotoView.setVisibility(View.VISIBLE);
             mSimpleDraweeView.setVisibility(View.INVISIBLE);
             ImageLoader.getInstance().displayImage(mDatas.get(position), mPhotoView, options, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
-
                 }
 
                 @Override
@@ -118,11 +118,9 @@ public class ViewPagerAdapter extends PagerAdapter {
 
                 @Override
                 public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                    if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
-                        //Toast.makeText(mContext, "onLoadingComplete", Toast.LENGTH_SHORT).show();
-                        mPhotoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                        mPhotoView.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+                    if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
+                        ((PhotoView) view).setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
                             @Override
                             public boolean onSingleTapConfirmed(MotionEvent e) {
                                 onSingleTagListener.onTag();
@@ -142,6 +140,8 @@ public class ViewPagerAdapter extends PagerAdapter {
                                 return false;
                             }
                         });
+
+                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
                 }
 

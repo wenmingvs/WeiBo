@@ -92,8 +92,13 @@ public class FriendsActivity extends DetailActivity {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的关注列表缓存.txt");
-                    mDatas = UserList.parse(response).usersList;
-                    updateList();
+
+                    if (response != null) {
+                        mDatas = UserList.parse(response).usersList;
+                        updateList();
+
+                    }
+
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }

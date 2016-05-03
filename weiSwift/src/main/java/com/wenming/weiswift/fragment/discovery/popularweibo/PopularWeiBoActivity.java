@@ -100,8 +100,11 @@ public class PopularWeiBoActivity extends DetailActivity {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的微博列表缓存.txt");
-                    mDatas = StatusList.parse(response).statusList;
-                    updateList();
+                    if(response != null){
+                        mDatas = StatusList.parse(response).statusList;
+                        updateList();
+                    }
+
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }

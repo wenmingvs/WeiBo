@@ -77,8 +77,11 @@ public class CommentActivity extends DetailActivity {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment.txt");
-                    mDatas = CommentList.parse(response).commentList;
-                    updateList();
+                    if(response != null) {
+                        mDatas = CommentList.parse(response).commentList;
+                        updateList();
+                    }
+
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
