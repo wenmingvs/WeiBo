@@ -5,6 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,66 @@ public class WeiBoContentTextUtil {
 
         if (matcher.find()) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
+            matcher.reset();
+        }
+
+        while (matcher.find()) {
+            final String at = matcher.group(1);
+            final String topic = matcher.group(2);
+            final String url = matcher.group(3);
+
+            //处理@用户
+            if (at != null) {
+                int start = matcher.start(1);
+                int end = start + at.length();
+                WeiBoContentClickableSpan myClickableSpan = new WeiBoContentClickableSpan(context) {
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
+                    }
+                };
+                spannableString.setSpan(myClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            //处理##话题
+            if (topic != null) {
+                int start = matcher.start(2);
+                int end = start + topic.length();
+                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
+
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(context, "点击了话题：" + topic, Toast.LENGTH_LONG).show();
+                    }
+                };
+                spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            // 处理url地址
+            if (url != null) {
+                int start = matcher.start(3);
+                int end = start + url.length();
+                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
+
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
+                    }
+                };
+                spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+        }
+        return spannableString;
+    }
+
+    public static SpannableString getWeiBoContent(String source, final Context context, EditText editText) {
+        SpannableString spannableString = new SpannableString(source);
+        //设置正则
+        Pattern pattern = Pattern.compile(ALL);
+        Matcher matcher = pattern.matcher(spannableString);
+
+        if (matcher.find()) {
+            editText.setMovementMethod(LinkMovementMethod.getInstance());
             matcher.reset();
         }
 

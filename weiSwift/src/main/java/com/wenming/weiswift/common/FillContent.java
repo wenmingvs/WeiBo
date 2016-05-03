@@ -31,7 +31,9 @@ import com.wenming.weiswift.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
+import com.wenming.weiswift.fragment.post.idea.IdeaActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -145,14 +147,38 @@ public class FillContent {
      * 填充微博转发，评论，赞的数量
      *
      * @param status
+     * @param bottombar_retweet
+     * @param bottombar_comment
+     * @param bottombar_attitude
      * @param comment
      * @param redirect
      * @param feedlike
      */
-    public static void fillButtonBar(Status status, TextView comment, TextView redirect, TextView feedlike) {
+    public static void fillButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude, TextView comment, TextView redirect, TextView feedlike) {
         comment.setText(status.comments_count + "");
         redirect.setText(status.reposts_count + "");
         feedlike.setText(status.attitudes_count + "");
+
+
+        bottombar_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OriginPicTextCommentActivity.class);
+                intent.putExtra("weiboitem", status);
+                context.startActivity(intent);
+            }
+        });
+
+
+        bottombar_retweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, IdeaActivity.class);
+                intent.putExtra("status", status);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 

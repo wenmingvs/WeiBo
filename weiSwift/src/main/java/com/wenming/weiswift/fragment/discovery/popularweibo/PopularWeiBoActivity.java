@@ -51,7 +51,6 @@ public class PopularWeiBoActivity extends DetailActivity {
 
     @Override
     public void initTitleBar() {
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_detail_base);
         mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
         mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);

@@ -104,7 +104,8 @@
 
         <activity
             android:name=".fragment.post.idea.IdeaActivity"
-            android:theme="@style/blackstatusbar" />
+            android:theme="@style/blackstatusbar"
+            android:windowSoftInputMode="adjustResize" />
 
 
     </application>

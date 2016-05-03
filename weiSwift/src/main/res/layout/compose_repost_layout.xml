@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/repost_layout"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_marginBottom="8dp"
     android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
     android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+    android:visibility="gone"
     android:background="@drawable/timeline_feedcard_retweet_background_auto"
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/mentionitem_img"
+        android:id="@+id/repost_img"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:scaleType="centerCrop"
@@ -23,7 +25,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/mentionitem_name"
+            android:id="@+id/repost_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
@@ -34,7 +36,7 @@
             android:textSize="@dimen/home_original_weiboitem_font" />
 
         <TextView
-            android:id="@+id/mentionitem_content"
+            android:id="@+id/repost_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

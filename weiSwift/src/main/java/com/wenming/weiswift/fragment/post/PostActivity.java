@@ -43,6 +43,7 @@ public class PostActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, IdeaActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         composePhoto.setOnClickListener(new View.OnClickListener() {
