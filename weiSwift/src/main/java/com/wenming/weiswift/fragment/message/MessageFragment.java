@@ -113,6 +113,17 @@ public class MessageFragment extends Fragment {
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
 
@@ -127,6 +138,7 @@ public class MessageFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             hideToolBar();
+            mSwipeRefreshLayout.setRefreshing(false);
         } else {
             showToolBar();
         }

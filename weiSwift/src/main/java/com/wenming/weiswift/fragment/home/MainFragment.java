@@ -143,6 +143,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         super.onHiddenChanged(hidden);
         if (hidden) {
             hideToolBar();
+            mSwipeRefreshLayout.setRefreshing(false);
         } else {
             showToolBar();
         }

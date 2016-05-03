@@ -44,6 +44,7 @@ public class HomeFragment extends MainFragment {
     @Override
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
+        mDatas= new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -126,7 +127,7 @@ public class HomeFragment extends MainFragment {
     @Override
     public void getlatestWeiBo() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mStatusesAPI.friendsTimeline(Long.valueOf((mDatas == null ? "0" : mDatas.get(0).toString())), 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.friendsTimeline(Long.valueOf((mDatas == null || mDatas.size() == 0 ? "0" : mDatas.get(0).id.toString())), 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
@@ -221,4 +222,5 @@ public class HomeFragment extends MainFragment {
 
         }
     };
+
 }

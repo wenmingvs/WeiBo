@@ -129,6 +129,18 @@
                 android:src="@drawable/weibobrowser_goforward_disabled" />
         </RelativeLayout>
 
+        <ScrollView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
 
     </LinearLayout>
 
