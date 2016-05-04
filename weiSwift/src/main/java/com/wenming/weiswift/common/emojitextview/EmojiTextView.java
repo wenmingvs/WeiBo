@@ -10,7 +10,7 @@ import android.widget.TextView;
 public class EmojiTextView extends TextView {
 
 
-    private Context mContext;
+    private final Context mContext;
 
     public EmojiTextView(Context context) {
         super(context, null);
@@ -21,6 +21,5 @@ public class EmojiTextView extends TextView {
         super(context, attrs);
         mContext = context;
     }
-
 
 }

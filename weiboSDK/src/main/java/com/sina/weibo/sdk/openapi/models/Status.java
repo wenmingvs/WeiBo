@@ -160,7 +160,7 @@ public class Status implements Parcelable {
         status.id = jsonObject.optString("id");
         status.mid = jsonObject.optString("mid");
         status.idstr = jsonObject.optString("idstr");
-        status.text = jsonObject.optString("text");
+        status.text = StringFilter(jsonObject.optString("text"));
 
         status.source = getSource(jsonObject.optString("source"));
 
@@ -301,4 +301,17 @@ public class Status implements Parcelable {
             return new Status[size];
         }
     };
+
+
+    public static String StringFilter(String str) {
+//        str = str.replaceAll("【", "[").replaceAll("】", "]").replaceAll("！", "!");//替换中文标号
+//        String regEx = "[『』]"; // 清除掉特殊字符
+//        Pattern p = Pattern.compile(regEx);
+//        Matcher m = p.matcher(str);
+//        return m.replaceAll("").trim();
+
+
+
+        return str;
+    }
 }
