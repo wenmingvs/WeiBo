@@ -20,8 +20,8 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.UsersAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.NewFeature;
@@ -30,6 +30,7 @@ import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.home.weiboitem.IWeiboListRecyclerView;
 
 import java.util.Timer;
 import java.util.TimerTask;
