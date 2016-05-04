@@ -5,7 +5,7 @@ package com.wenming.weiswift;
  */
 public class NewFeature {
 
-    public static boolean LOGIN_STATUS = false;
+    public static boolean LOGIN = false;
 
     //每次刷新微博获取的数量
     public static int GET_WEIBO_NUMS = 80;

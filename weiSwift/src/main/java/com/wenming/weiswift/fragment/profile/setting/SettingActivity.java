@@ -51,7 +51,7 @@ public class SettingActivity extends Activity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 AccessTokenKeeper.clear(getApplicationContext());
-                                NewFeature.LOGIN_STATUS = false;
+                                NewFeature.LOGIN = false;
                                 ((MyApplication) getApplication()).finishAll();
                             }
                         })

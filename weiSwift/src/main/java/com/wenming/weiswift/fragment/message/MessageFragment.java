@@ -42,7 +42,7 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
             initToolBar();
             initRefreshLayout();
@@ -86,7 +86,7 @@ public class MessageFragment extends Fragment {
     }
 
     private void initToolBar() {
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             initLoginState();
         } else {
             initUnLoginState();
@@ -138,7 +138,9 @@ public class MessageFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             hideToolBar();
-            mSwipeRefreshLayout.setRefreshing(false);
+            if(mSwipeRefreshLayout != null){
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
         } else {
             showToolBar();
         }

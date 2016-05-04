@@ -72,7 +72,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         mActivity = getActivity();
         mContext = getActivity();
         initAccessToken();
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
             initTimeTask();
             initLoginStateTitleBar();
@@ -90,7 +90,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         LogUtil.d("onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             mToolBar.setVisibility(View.VISIBLE);
         }
     }
@@ -105,7 +105,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
     public void onDestroyView() {
         LogUtil.d("onDestroyView");
         super.onDestroyView();
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             mToolBar.setVisibility(View.GONE);
             mFirstLoad = false;
         }
@@ -143,7 +143,9 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         super.onHiddenChanged(hidden);
         if (hidden) {
             hideToolBar();
-            mSwipeRefreshLayout.setRefreshing(false);
+            if(mSwipeRefreshLayout != null){
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
         } else {
             showToolBar();
         }

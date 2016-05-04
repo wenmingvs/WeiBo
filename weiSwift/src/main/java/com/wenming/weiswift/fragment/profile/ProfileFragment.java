@@ -165,7 +165,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (NewFeature.LOGIN_STATUS == true) {
+        if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.profilefragment_layout, null);
             initAccessToken();
             initToolBar();

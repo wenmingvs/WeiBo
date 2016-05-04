@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.fragment.home.HomeFragment;
 import com.wenming.weiswift.fragment.message.MessageFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(HOME_FRAGMENT);
-                
+
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {
@@ -72,8 +73,13 @@ public class MainActivity extends FragmentActivity {
         mPostTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PostActivity.class);
-                startActivity(intent);
+                if (NewFeature.LOGIN) {
+                    Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                    startActivity(intent);
+                } else {
+                    ToastUtil.showShort(mContext, "请先登录");
+                }
+
             }
         });
         mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +100,9 @@ public class MainActivity extends FragmentActivity {
     private void setSessionValid() {
         mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
         if (mAccessToken.isSessionValid()) {
-            NewFeature.LOGIN_STATUS = true;
+            NewFeature.LOGIN = true;
         } else {
-            NewFeature.LOGIN_STATUS = false;
+            NewFeature.LOGIN = false;
         }
     }
 
