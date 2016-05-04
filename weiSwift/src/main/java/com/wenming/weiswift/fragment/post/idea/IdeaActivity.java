@@ -116,6 +116,9 @@ public class IdeaActivity extends Activity {
                 } else {
                     repost();
                 }
+
+                finish();
+
             }
         });
 
@@ -200,7 +203,6 @@ public class IdeaActivity extends Activity {
             @Override
             public void onComplete(String s) {
                 ToastUtil.showShort(mContext, "发送成功");
-                finish();
             }
 
             @Override
@@ -218,7 +220,6 @@ public class IdeaActivity extends Activity {
         mStatusesAPI.repost(Long.valueOf(mStatus.id), mEditText.getText().toString(), 0, new RequestListener() {
             @Override
             public void onComplete(String s) {
-                finish();
                 ToastUtil.showShort(mContext, "转发成功");
             }
 

@@ -1,2 +1,2 @@
-include ':weiboSDK'
+include ':weiboSDK', ':photoviewlib'
 include ':weiSwift'

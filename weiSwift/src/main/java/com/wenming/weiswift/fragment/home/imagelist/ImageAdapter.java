@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.cesards.cropimageview.CropImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
@@ -57,12 +58,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageItem;
+        public CropImageView imageItem;
         public ImageView imageType;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageItem = (ImageView) itemView.findViewById(R.id.imageItem);
+            imageItem = (CropImageView) itemView.findViewById(R.id.imageItem);
             imageType = (ImageView) itemView.findViewById(R.id.imageType);
 
         }

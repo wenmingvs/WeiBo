@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cesards.cropimageview.CropImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -332,8 +333,9 @@ public class FillContent {
                     imageType.setImageResource(R.drawable.timeline_image_gif);
                 }
 
+                //若是长微博
                 if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT) {
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ((CropImageView)imageView).setCropType(CropImageView.CropType.CENTER_TOP);
                 }
 
                 //若是长微博，还需要纠正尺寸
@@ -341,7 +343,7 @@ public class FillContent {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
                     layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
                     layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ((CropImageView)imageView).setCropType(CropImageView.CropType.CENTER_TOP);
                 }
             }
 
@@ -359,10 +361,6 @@ public class FillContent {
                 context.startActivity(intent);
             }
         });
-    }
-
-    public static void fillWeiBoCommentDeatil(Context context, Status status) {
-
     }
 
 
@@ -518,11 +516,35 @@ public class FillContent {
     }
 
 
-    public static void fillUserHeadView(Context context, User user, ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
+    public static void fillUserHeadView(Context context, final User user, final ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
                                         ImageView userSex, TextView userFriends,
                                         TextView userFollows, TextView userVerifiedreason) {
         if (user.cover_image_phone != null && user.cover_image_phone.length() > 0) {
-            ImageLoader.getInstance().displayImage(user.cover_image_phone, userCoverimg);
+            ImageLoader.getInstance().displayImage(user.cover_image_phone, userCoverimg, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    if (user.cover_image != null && user.cover_image.length() > 0) {
+                        ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
+                    } else {
+                        userCoverimg.setImageResource(R.drawable.cover_image);
+                    }
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+
+                }
+            });
         } else if (user.cover_image != null && user.cover_image.length() > 0) {
             ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
         } else {

@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.photoviewlib.PhotoView;
+import com.example.photoviewlib.PhotoViewAttacher;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -22,8 +25,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
-import com.wenming.weiswift.common.photoview.PhotoView;
-import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
 import com.wenming.weiswift.common.util.LogUtil;
 
 import java.util.ArrayList;
@@ -39,8 +40,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private DisplayImageOptions options;
     public OnSingleTagListener onSingleTagListener;
     private View mView;
-    private PhotoView mPhotoView;
-    private SimpleDraweeView mSimpleDraweeView;
+
 
     public interface OnSingleTagListener {
         public void onTag();
@@ -78,86 +78,88 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        mView = LayoutInflater.from(mContext).inflate(R.layout.home_weiboitem_imagedetails_item, null);
-        mPhotoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
-        mSimpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
+        mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
+        final PhotoView photoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
+        final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
+        final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
 
         if (mDatas.get(position).endsWith(".gif")) {
-
+            donutProgress.setVisibility(View.GONE);
             String gifURL = getGifUrl(mDatas.get(position));
             LogUtil.d(gifURL);
-            mPhotoView.setVisibility(View.INVISIBLE);
-            mSimpleDraweeView.setVisibility(View.VISIBLE);
+            photoView.setVisibility(View.INVISIBLE);
+            simpleDraweeView.setVisibility(View.VISIBLE);
             Uri uri = Uri.parse(gifURL);
-            mSimpleDraweeView.setImageURI(uri);
+            simpleDraweeView.setImageURI(uri);
             DraweeController draweeController =
                     Fresco.newDraweeControllerBuilder()
                             .setUri(uri)
                             .setAutoPlayAnimations(true)
                             .build();
-            mSimpleDraweeView.setController(draweeController);
-            mSimpleDraweeView.setOnClickListener(new View.OnClickListener() {
+            simpleDraweeView.setController(draweeController);
+            simpleDraweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
+            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onSingleTagListener.onTag();
                 }
             });
-        } else {
 
-            mPhotoView.setVisibility(View.VISIBLE);
-            mSimpleDraweeView.setVisibility(View.INVISIBLE);
-            ImageLoader.getInstance().displayImage(mDatas.get(position), mPhotoView, options, new ImageLoadingListener() {
+
+        } else {
+            photoView.setVisibility(View.VISIBLE);
+            simpleDraweeView.setVisibility(View.INVISIBLE);
+            ImageLoader.getInstance().displayImage(mDatas.get(position), photoView, options, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
+                    donutProgress.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
-
+                    donutProgress.setVisibility(View.GONE);
                 }
 
                 @Override
-                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-
+                public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
+                    donutProgress.setProgress(100);
                     if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
+                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
                         ((PhotoView) view).setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
                             @Override
                             public boolean onSingleTapConfirmed(MotionEvent e) {
                                 onSingleTagListener.onTag();
-                                // Toast.makeText(mContext, "onSingleTapConfirmed", Toast.LENGTH_SHORT).show();
                                 return true;
                             }
 
                             @Override
                             public boolean onDoubleTap(MotionEvent e) {
-                                //photoView.setScale(9.65f, true);
+                                ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 return false;
                             }
 
                             @Override
                             public boolean onDoubleTapEvent(MotionEvent e) {
-                                //photoView.setScale(9.65f, true);
                                 return false;
                             }
                         });
-
-                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
+                    donutProgress.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onLoadingCancelled(String s, View view) {
-
                 }
             }, new ImageLoadingProgressListener() {
                 @Override
                 public void onProgressUpdate(String s, View view, int current, int total) {
-                    LogUtil.d("onProgressUpdate = " + 100.0f * current / total + "%");
+                    donutProgress.setProgress((int) 100.0f * current / total);
+                    LogUtil.d("onProgressUpdate = " + (int) 100.0f * current / total);
                 }
             });
 
 
-            mPhotoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float v, float v1) {
                     onSingleTagListener.onTag();

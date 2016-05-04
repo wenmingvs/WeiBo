@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.NewFeature;
@@ -74,6 +75,7 @@ public class SettingActivity extends Activity {
             public void onClick(View v) {
                 ImageLoader.getInstance().clearDiskCache();
                 ImageLoader.getInstance().clearMemoryCache();
+                Fresco.getImagePipeline().clearCaches();
                 ToastUtil.showShort(mContext, "缓存清理成功！");
             }
         });

@@ -10,8 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import com.example.photoviewlib.PhotoViewAttacher;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.photoview.PhotoViewAttacher;
 
 import java.util.ArrayList;
 

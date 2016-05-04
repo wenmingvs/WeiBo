@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity {
 
     private FragmentManager mFragmentManager;
     private Oauth2AccessToken mAccessToken;
-    private ImageView mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
+    private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private FrameLayout mPostTab;
 
 
@@ -43,10 +43,10 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.mainactivity_layout);
-        mHomeTab = (ImageView) findViewById(R.id.tv_home);
-        mMessageTab = (ImageView) findViewById(R.id.tv_message);
-        mDiscoeryTab = (ImageView) findViewById(R.id.tv_discovery);
-        mProfile = (ImageView) findViewById(R.id.tv_profile);
+        mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
+        mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
+        mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
+        mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (FrameLayout) findViewById(R.id.fl_post);
         mContext = this;
         setSessionValid();
@@ -60,6 +60,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(HOME_FRAGMENT);
+                
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {

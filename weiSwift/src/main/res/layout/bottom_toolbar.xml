@@ -17,6 +17,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/tv_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="3dp"
@@ -31,7 +32,6 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/tv_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tabbar_home_auto" />
@@ -58,6 +58,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/tv_message"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="3dp"
@@ -72,7 +73,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/tv_message"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tabbar_message_auto" />
@@ -110,7 +111,6 @@
                 android:layout_width="44dp"
                 android:layout_height="38dp"
                 android:layout_centerInParent="true"
-
                 android:background="@drawable/rect_orgin">
 
                 <ImageView
@@ -127,6 +127,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/tv_discovery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="3dp"
@@ -141,7 +142,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/tv_discovery"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tabbar_discover_auto" />
@@ -167,6 +168,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/tv_profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="3dp"
@@ -181,7 +183,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/tv_profile"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tabbar_profile_auto" />
