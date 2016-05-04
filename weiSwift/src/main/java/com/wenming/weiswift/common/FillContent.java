@@ -33,6 +33,7 @@ import com.wenming.weiswift.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
+import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 import com.wenming.weiswift.fragment.post.idea.IdeaActivity;
 
@@ -164,9 +165,16 @@ public class FillContent {
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OriginPicTextCommentActivity.class);
-                intent.putExtra("weiboitem", status);
-                context.startActivity(intent);
+                if (status.retweeted_status == null) {
+                    Intent intent = new Intent(context, OriginPicTextCommentActivity.class);
+                    intent.putExtra("weiboitem", status);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, RetweetPicTextCommentActivity.class);
+                    intent.putExtra("weiboitem",status);
+                    context.startActivity(intent);
+                }
+
             }
         });
 
@@ -335,7 +343,7 @@ public class FillContent {
 
                 //若是长微博
                 if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT) {
-                    ((CropImageView)imageView).setCropType(CropImageView.CropType.CENTER_TOP);
+                    ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
                 }
 
                 //若是长微博，还需要纠正尺寸
@@ -343,7 +351,7 @@ public class FillContent {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
                     layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
                     layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-                    ((CropImageView)imageView).setCropType(CropImageView.CropType.CENTER_TOP);
+                    ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
                 }
             }
 

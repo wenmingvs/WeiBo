@@ -78,7 +78,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position));
-                    //ToastUtil.showShort(mContext, mDatas.get(position).id + "");
                     mContext.startActivity(intent);
                 }
             });
@@ -97,7 +96,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, RetweetPicTextCommentActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position));
-                    //ToastUtil.showShort(mContext, mDatas.get(position).id + "");
                     mContext.startActivity(intent);
                 }
             });
