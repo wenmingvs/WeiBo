@@ -30,7 +30,6 @@ import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.home.weiboitem.IWeiboListRecyclerView;
 
 import java.util.Timer;
 import java.util.TimerTask;
