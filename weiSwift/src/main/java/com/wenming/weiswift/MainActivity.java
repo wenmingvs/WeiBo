@@ -159,7 +159,7 @@ public class MainActivity extends FragmentActivity {
             }
             transaction.commit();
         } else if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null && NewFeature.LOGIN == true) {
-            mHomeFragment.scrollToTop(true);
+            mHomeFragment.scrollToTop(false);
         }
 
     }

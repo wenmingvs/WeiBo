@@ -224,8 +224,8 @@ public class HomeFragment extends MainFragment {
     };
 
     public void scrollToTop(boolean refresh) {
+        mRecyclerView.scrollToPosition(0);
         if (refresh) {
-            mRecyclerView.scrollToPosition(0);
             mRecyclerView.post(new Runnable() {
                 @Override
                 public void run() {
