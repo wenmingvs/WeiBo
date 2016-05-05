@@ -44,7 +44,7 @@ public class HomeFragment extends MainFragment {
     @Override
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
-        mDatas= new ArrayList<Status>();
+        mDatas = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -222,5 +222,18 @@ public class HomeFragment extends MainFragment {
 
         }
     };
+
+    public void scrollToTop(boolean refresh) {
+        if (refresh) {
+            mRecyclerView.scrollToPosition(0);
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    pullToRefreshData(false);
+                }
+            });
+        }
+
+    }
 
 }

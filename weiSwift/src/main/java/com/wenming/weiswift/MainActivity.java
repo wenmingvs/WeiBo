@@ -27,11 +27,14 @@ public class MainActivity extends FragmentActivity {
     private static final int MESSAGE_FRAGMENT = 0X002;
     private static final int DISCOVERY_FRAGMENT = 0X004;
     private static final int PROFILE_FRAGMENT = 0X005;
+
+    private int mCurrentIndex;
     private Context mContext;
     private HomeFragment mHomeFragment;
     private MessageFragment mMessageFragment;
     private DiscoverFragment mDiscoverFragment;
     private ProfileFragment mProfileFragment;
+
 
     private FragmentManager mFragmentManager;
     private Oauth2AccessToken mAccessToken;
@@ -107,49 +110,58 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setTabFragment(int index) {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        hideAllFragments(transaction);
+        if (mCurrentIndex != index) {
+            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            hideAllFragments(transaction);
+            switch (index) {
+                case HOME_FRAGMENT:
+                    mHomeTab.setSelected(true);
+                    if (mHomeFragment == null) {
+                        mHomeFragment = new HomeFragment();
+                        transaction.add(R.id.contentLayout, mHomeFragment);
+                    } else {
+                        transaction.show(mHomeFragment);
 
-        switch (index) {
-            case HOME_FRAGMENT:
-                mHomeTab.setSelected(true);
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    transaction.add(R.id.contentLayout, mHomeFragment);
-                } else {
-                    transaction.show(mHomeFragment);
-                }
-                break;
-            case MESSAGE_FRAGMENT:
-                mMessageTab.setSelected(true);
-                if (mMessageFragment == null) {
-                    mMessageFragment = new MessageFragment();
-                    transaction.add(R.id.contentLayout, mMessageFragment);
-                } else {
-                    transaction.show(mMessageFragment);
-                }
-                break;
+                    }
+                    mCurrentIndex = HOME_FRAGMENT;
+                    break;
+                case MESSAGE_FRAGMENT:
+                    mMessageTab.setSelected(true);
+                    if (mMessageFragment == null) {
+                        mMessageFragment = new MessageFragment();
+                        transaction.add(R.id.contentLayout, mMessageFragment);
+                    } else {
+                        transaction.show(mMessageFragment);
+                    }
+                    mCurrentIndex = MESSAGE_FRAGMENT;
+                    break;
 
-            case DISCOVERY_FRAGMENT:
-                mDiscoeryTab.setSelected(true);
-                if (mDiscoverFragment == null) {
-                    mDiscoverFragment = new DiscoverFragment();
-                    transaction.add(R.id.contentLayout, mDiscoverFragment);
-                } else {
-                    transaction.show(mDiscoverFragment);
-                }
-                break;
-            case PROFILE_FRAGMENT:
-                mProfile.setSelected(true);
-                if (mProfileFragment == null) {
-                    mProfileFragment = new ProfileFragment();
-                    transaction.add(R.id.contentLayout, mProfileFragment);
-                } else {
-                    transaction.show(mProfileFragment);
-                }
-                break;
+                case DISCOVERY_FRAGMENT:
+                    mDiscoeryTab.setSelected(true);
+                    if (mDiscoverFragment == null) {
+                        mDiscoverFragment = new DiscoverFragment();
+                        transaction.add(R.id.contentLayout, mDiscoverFragment);
+                    } else {
+                        transaction.show(mDiscoverFragment);
+                    }
+                    mCurrentIndex = DISCOVERY_FRAGMENT;
+                    break;
+                case PROFILE_FRAGMENT:
+                    mProfile.setSelected(true);
+                    if (mProfileFragment == null) {
+                        mProfileFragment = new ProfileFragment();
+                        transaction.add(R.id.contentLayout, mProfileFragment);
+                    } else {
+                        transaction.show(mProfileFragment);
+                    }
+                    mCurrentIndex = PROFILE_FRAGMENT;
+                    break;
+            }
+            transaction.commit();
+        } else if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null && NewFeature.LOGIN == true) {
+            mHomeFragment.scrollToTop(true);
         }
-        transaction.commit();
+
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -170,8 +182,6 @@ public class MainActivity extends FragmentActivity {
         mMessageTab.setSelected(false);
         mDiscoeryTab.setSelected(false);
         mProfile.setSelected(false);
-
-
     }
 
 

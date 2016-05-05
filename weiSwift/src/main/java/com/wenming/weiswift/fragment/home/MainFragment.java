@@ -164,6 +164,11 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
     }
 
     private void initAccessToken() {
+
+        Context context = mContext;
+
+
+
         mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
         mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
