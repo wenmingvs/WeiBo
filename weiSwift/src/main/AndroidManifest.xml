@@ -114,8 +114,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".fragment.post.idea.picselect.activity.AlbumActivity"
+            android:name=".fragment.post.picselect.activity.AlbumActivity"
             android:theme="@style/blackstatusbar" />
+
+        <service android:name=".fragment.post.PostService" />
 
 
     </application>

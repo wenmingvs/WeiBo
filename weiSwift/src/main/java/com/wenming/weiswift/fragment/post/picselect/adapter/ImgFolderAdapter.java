@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.adapter;
+package com.wenming.weiswift.fragment.post.picselect.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,8 +14,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.AlbumFolderInfo;
-import com.wenming.weiswift.fragment.post.idea.picselect.util.OldRoundedBitmapDisplayer;
+import com.wenming.weiswift.fragment.post.picselect.bean.AlbumFolderInfo;
+import com.wenming.weiswift.fragment.post.picselect.util.OldRoundedBitmapDisplayer;
 
 import java.util.ArrayList;
 import java.util.List;

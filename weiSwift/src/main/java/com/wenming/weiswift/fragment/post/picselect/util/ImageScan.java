@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.util;
+package com.wenming.weiswift.fragment.post.picselect.util;
 
 import android.app.LoaderManager;
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.AlbumFolderInfo;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.ImageInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.AlbumFolderInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
 
 import java.io.File;
 import java.util.ArrayList;

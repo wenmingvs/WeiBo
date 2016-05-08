@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.popwindow;
+package com.wenming.weiswift.fragment.post.picselect.popwindow;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -13,8 +13,8 @@ import android.widget.PopupWindow;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ScreenUtil;
-import com.wenming.weiswift.fragment.post.idea.picselect.adapter.ImgFolderAdapter;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.AlbumFolderInfo;
+import com.wenming.weiswift.fragment.post.picselect.adapter.ImgFolderAdapter;
+import com.wenming.weiswift.fragment.post.picselect.bean.AlbumFolderInfo;
 
 import java.util.ArrayList;
 

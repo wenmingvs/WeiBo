@@ -693,16 +693,14 @@ public class StatusesAPI extends AbsOpenAPI {
         return params;
     }
 
-    private WeiboParameters buildTimeLineWithApp(long since_id, long max_id, int count, int page, boolean base_app,
-                                                 int featureType) {
+    private WeiboParameters buildTimeLineWithApp(long since_id, long max_id, int count, int page, boolean base_app, int featureType) {
         WeiboParameters params = buildTimeLineBase(since_id, max_id, count, page);
         params.put("feature", featureType);
         params.put("base_app", base_app ? 1 : 0);
         return params;
     }
 
-    private WeiboParameters buildTimeLineWithAppTrim(long since_id, long max_id, int count, int page, boolean base_app,
-                                                     boolean trim_user, int featureType) {
+    private WeiboParameters buildTimeLineWithAppTrim(long since_id, long max_id, int count, int page, boolean base_app, boolean trim_user, int featureType) {
         WeiboParameters params = buildTimeLineWithApp(since_id, max_id, count, page, base_app, featureType);
         params.put("trim_user", trim_user ? 1 : 0);
         return params;

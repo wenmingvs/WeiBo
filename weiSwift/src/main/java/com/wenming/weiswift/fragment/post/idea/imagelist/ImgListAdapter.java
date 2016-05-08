@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.imgpostlist;
+package com.wenming.weiswift.fragment.post.idea.imagelist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.ImageInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,6 @@ public class ImgListAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         if (viewType == ITEM_TYPE_IMAGE) {
             mView = LayoutInflater.from(mContext).inflate(R.layout.compose_idea_img_item, parent, false);
             ImgViewHolder viewHolder = new ImgViewHolder(mView);

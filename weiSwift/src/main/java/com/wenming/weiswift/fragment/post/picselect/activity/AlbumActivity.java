@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.activity;
+package com.wenming.weiswift.fragment.post.picselect.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -19,11 +19,11 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.ScreenUtil;
-import com.wenming.weiswift.fragment.post.idea.picselect.adapter.GirdViewAdapter;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.AlbumFolderInfo;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.ImageInfo;
-import com.wenming.weiswift.fragment.post.idea.picselect.popwindow.ImgFolderPopWindow;
-import com.wenming.weiswift.fragment.post.idea.picselect.util.ImageScan;
+import com.wenming.weiswift.fragment.post.picselect.adapter.GirdViewAdapter;
+import com.wenming.weiswift.fragment.post.picselect.bean.AlbumFolderInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.fragment.post.picselect.popwindow.ImgFolderPopWindow;
+import com.wenming.weiswift.fragment.post.picselect.util.ImageScan;
 
 import java.util.ArrayList;
 

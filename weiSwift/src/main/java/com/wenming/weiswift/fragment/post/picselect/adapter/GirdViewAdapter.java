@@ -1,7 +1,8 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.adapter;
+package com.wenming.weiswift.fragment.post.picselect.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.ImageInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,25 +74,31 @@ public class GirdViewAdapter extends BaseAdapter {
 
         if (imageInfo.isSelected()) {
             holder.select_img.setImageResource(R.drawable.compose_photo_preview_right);
+            holder.itemImg.setColorFilter(Color.parseColor("#77000000"));
         } else {
             holder.select_img.setImageResource(R.drawable.compose_guide_check_box_default);
+            holder.itemImg.setColorFilter(null);
         }
 
         holder.select_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //图片被选中
                 if (imageInfo.isSelected()) {
                     holder.select_img.setImageResource(R.drawable.compose_guide_check_box_default);
+                    holder.itemImg.setColorFilter(null);
                     imageInfo.setIsSelected(false);
                     deleteSelectImg(mSelectImgList, imageInfo);
                     mOnImgSelectListener.OnDisSelect(mSelectImgList);
-                } else {
+                }
+                //图片没有被选中
+                else {
                     if (mSelectImgList.size() >= 9) {
                         ToastUtil.showShort(mContext, "最多选择9张图片");
                         return;
                     }
                     holder.select_img.setImageResource(R.drawable.compose_photo_preview_right);
+                    holder.itemImg.setColorFilter(Color.parseColor("#77000000"));
                     imageInfo.setIsSelected(true);
                     addToSelectImgList(mSelectImgList, imageInfo);
                     mOnImgSelectListener.OnSelect(mSelectImgList);

@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.imgpostlist;
+package com.wenming.weiswift.fragment.post.idea.imagelist;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

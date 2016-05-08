@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.bean;
+package com.wenming.weiswift.fragment.post.picselect.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

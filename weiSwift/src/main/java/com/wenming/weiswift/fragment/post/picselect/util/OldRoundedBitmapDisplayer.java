@@ -1,4 +1,4 @@
-package com.wenming.weiswift.fragment.post.idea.picselect.util;
+package com.wenming.weiswift.fragment.post.picselect.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -62,11 +62,11 @@ public class OldRoundedBitmapDisplayer implements BitmapDisplayer {
 
     /**
      * Process incoming {@linkplain Bitmap} to make rounded corners according to target
-     * {@link com.nostra13.universalimageloader.core.imageaware.ImageViewAware}.<br />
+     * {@link ImageViewAware}.<br />
      * This method <b>doesn't display</b> result bitmap in {@link ImageView}
      *
      * @param bitmap      Incoming Bitmap to process
-     * @param imageAware  Target {@link com.nostra13.universalimageloader.core.imageaware.ImageAware ImageAware} to
+     * @param imageAware  Target {@link ImageAware ImageAware} to
      *                    display bitmap in
      * @param roundPixels Rounded pixels of corner
      * @return Result bitmap with rounded corners

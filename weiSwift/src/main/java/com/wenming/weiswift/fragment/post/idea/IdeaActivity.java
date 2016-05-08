@@ -2,11 +2,8 @@ package com.wenming.weiswift.fragment.post.idea;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,13 +33,12 @@ import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.util.WeiBoContentTextUtil;
-import com.wenming.weiswift.fragment.post.idea.imgpostlist.ImgListAdapter;
-import com.wenming.weiswift.fragment.post.idea.picselect.activity.AlbumActivity;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.AlbumFolderInfo;
-import com.wenming.weiswift.fragment.post.idea.picselect.bean.ImageInfo;
+import com.wenming.weiswift.fragment.post.PostService;
+import com.wenming.weiswift.fragment.post.idea.imagelist.ImgListAdapter;
+import com.wenming.weiswift.fragment.post.picselect.activity.AlbumActivity;
+import com.wenming.weiswift.fragment.post.picselect.bean.AlbumFolderInfo;
+import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -275,75 +271,18 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                     return;
                 }
 
-                if (mSelectImgList.size() == 0) {
-                    sendTextContent();
-                } else {
-                    sendImgTextContent();
-                }
-            }
-        });
 
-    }
-
-    /**
-     * 发送图文微博
-     */
-    private void sendImgTextContent() {
-        Bitmap bitmap = getLoacalBitmap(mSelectImgList.get(0).getImageFile().getAbsolutePath());
-        final ProgressDialog progressDialog = new ProgressDialog(mContext);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setMessage("正在上传图片");
-        progressDialog.show();
-        mStatusesAPI.upload(mEditText.getText().toString(), bitmap, "0", "0", new RequestListener() {
-            @Override
-            public void onComplete(String s) {
-                progressDialog.dismiss();
-                ToastUtil.showShort(mContext, "发送成功！");
+                Intent intent = new Intent(mContext, PostService.class);
+                intent.putParcelableArrayListExtra("select_img", mSelectImgList);
+                intent.putExtra("content", mEditText.getText().toString());
+                startService(intent);
                 finish();
-            }
 
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(mContext, "发送失败！");
             }
         });
+
     }
 
-    /**
-     * 获取本地的图片
-     *
-     * @param absolutePath
-     * @return
-     */
-    private Bitmap getLoacalBitmap(String absolutePath) {
-        try {
-
-            FileInputStream fis = new FileInputStream(absolutePath);
-            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 发送纯文字的微博
-     */
-    private void sendTextContent() {
-        mStatusesAPI.update(mEditText.getText().toString(), "0.0", "0.0", new RequestListener() {
-            @Override
-            public void onComplete(String s) {
-                ToastUtil.showShort(mContext, "发送成功");
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(mContext, "发送失败");
-                LogUtil.d(e.toString());
-            }
-        });
-    }
 
     private TextWatcher watcher = new TextWatcher() {
         private CharSequence inputString;
@@ -421,4 +360,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
         startActivityForResult(intent, 0);
     }
+
+
 }
