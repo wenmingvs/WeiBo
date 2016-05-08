@@ -16,22 +16,24 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="13dp"
+            android:layout_marginLeft="13dp"
+            android:clickable="true"
             android:text="取消"
-            android:textColor="#4c4c4c"
+            android:textColor="@color/toolbar_textview_background_auto"
             android:textSize="16sp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
+            android:layout_width="116dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/compose_toolbar_foldername_auto"
+            android:clickable="true"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
                 android:text="发微博"
                 android:textColor="#545454"
                 android:textSize="17sp" />
@@ -67,18 +69,41 @@
             android:background="#e3e3e3" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/idea_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"
-        android:gravity="top"
-        android:hint="分享新鲜事..."
-        android:paddingLeft="15dp"
-        android:paddingRight="31dp"
-        android:paddingTop="18dp"
-        android:textSize="17sp" />
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/idea_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="top"
+                android:hint="分享新鲜事..."
+                android:minHeight="100dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="31dp"
+                android:paddingTop="5dp"
+                android:textSize="17sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ImgList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="15dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
 
     <include layout="@layout/compose_repost_layout" />
 
@@ -160,7 +185,7 @@
             android:src="@drawable/compose_emoticonbutton_background_auto" />
 
         <ImageView
-            android:id="@+id/toolbar_more"
+            android:id="@+id/more_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

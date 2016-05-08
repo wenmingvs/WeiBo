@@ -33,7 +33,7 @@
 
     <color name="color_ff">#F0F0F0</color>
     <color name="color_00">#8A000000</color>
-
+    <color name="foldername_highlight">#e7e7e7</color>
 
 
 </resources>

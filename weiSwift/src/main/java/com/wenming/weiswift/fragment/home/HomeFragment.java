@@ -19,6 +19,7 @@ import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerVi
 import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
+import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
@@ -131,7 +132,7 @@ public class HomeFragment extends MainFragment {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-                    ToastUtil.showShort(mContext, "局部刷新");
+                    LogUtil.d("wenming", "局部刷新");
                     ArrayList<Status> latestWeiBo = StatusList.parse(response).statusList;
                     //latestWeiBo.remove(0);
                     if (latestWeiBo.size() > 0) {
@@ -163,7 +164,7 @@ public class HomeFragment extends MainFragment {
             public void onComplete(String response) {
                 //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
                 if (!TextUtils.isEmpty(response)) {
-                    ToastUtil.showShort(mContext, "全部刷新");
+                    LogUtil.d("wenming", "全部刷新");
                     if (NewFeature.CACHE_WEIBOLIST) {
                         SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt", response);
                     }

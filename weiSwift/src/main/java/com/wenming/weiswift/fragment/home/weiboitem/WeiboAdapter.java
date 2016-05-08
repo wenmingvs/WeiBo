@@ -15,7 +15,6 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 
@@ -51,12 +50,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (viewType == TYPE_ORINGIN_ITEM) {
             mView = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_original_pictext, parent, false);
             OriginViewHolder originViewHolder = new OriginViewHolder(mView);
-            originViewHolder.imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+            //originViewHolder.imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return originViewHolder;
         } else if (viewType == TYPE_RETWEET_ITEM) {
             mView = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_retweet_pictext, parent, false);
             RetweetViewHolder retweetViewHolder = new RetweetViewHolder(mView);
-            retweetViewHolder.retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+            //retweetViewHolder.retweet_imageList.addItemDecoration(new ImageItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
             return retweetViewHolder;
         }
 

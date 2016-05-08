@@ -50,8 +50,6 @@ public class ImageOptionPopupWindow extends PopupWindow {
         // 设置popupwindow的布局
         mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
         this.setContentView(mView);
-
-
         initOnClickListener(context);
     }
 

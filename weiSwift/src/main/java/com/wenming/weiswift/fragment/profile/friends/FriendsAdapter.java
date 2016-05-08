@@ -39,7 +39,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        FillContent.fillFriendContent(mContext,mDatas.get(position),
+        FillContent.fillFriendContent(mContext, mDatas.get(position),
                 ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified,
                 ((FriendsrViewHolder) holder).follow_me,
                 ((FriendsrViewHolder) holder).friendName, ((FriendsrViewHolder) holder).friendContent);

@@ -113,6 +113,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".fragment.post.idea.picselect.activity.AlbumActivity"
+            android:theme="@style/blackstatusbar" />
 
 
     </application>

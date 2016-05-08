@@ -70,6 +70,8 @@ public class FillContent {
             .bitmapConfig(Bitmap.Config.RGB_565)
             .imageScaleType(ImageScaleType.EXACTLY)
             .considerExifParams(true)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
             .build();
 
 
@@ -171,7 +173,7 @@ public class FillContent {
                     context.startActivity(intent);
                 } else {
                     Intent intent = new Intent(context, RetweetPicTextCommentActivity.class);
-                    intent.putExtra("weiboitem",status);
+                    intent.putExtra("weiboitem", status);
                     context.startActivity(intent);
                 }
 

@@ -49,31 +49,34 @@ public class PostActivity extends Activity {
         composePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "API暂时不支持");
+                Intent intent = new Intent(mContext, IdeaActivity.class);
+                intent.putExtra("startAlumbAcitivity", true);
+                startActivity(intent);
+                finish();
             }
         });
         composeHeadlines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "API暂时不支持");
+                ToastUtil.showShort(mContext, "正在开发中...");
             }
         });
         composeLbs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "API暂时不支持");
+                ToastUtil.showShort(mContext, "正在开发中...");
             }
         });
         composeReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "API暂时不支持");
+                ToastUtil.showShort(mContext, "正在开发中...");
             }
         });
         composeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "API暂时不支持");
+                ToastUtil.showShort(mContext, "正在开发中...");
             }
         });
         composeClose.setOnClickListener(new View.OnClickListener() {

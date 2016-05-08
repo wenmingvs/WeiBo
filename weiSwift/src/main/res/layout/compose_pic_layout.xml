@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/cancal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/toolbar_textview_background_auto"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/folder"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/compose_toolbar_foldername_auto"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp">
+
+            <TextView
+                android:id="@+id/foldername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相机胶卷"
+                android:textColor="#545454"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/folder_arrow"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/navigationbar_arrow_down" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/compose_send_corners_bg"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="下一步"
+            android:textColor="#b3b3b3"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#e3e3e3" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:horizontalSpacing="5dip"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fafafa"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/preview"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/compose_send_corners_bg"
+            android:gravity="center"
+            android:text="预览"
+            android:textColor="#b3b3b3"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/originpic"
+            android:layout_width="52dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/compose_send_corners_bg"
+            android:gravity="center"
+            android:text="原图"
+            android:textColor="#494949"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

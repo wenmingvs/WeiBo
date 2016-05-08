@@ -13,7 +13,6 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 
 import static com.wenming.weiswift.R.id.noneLayout;
 
@@ -71,8 +70,8 @@ public class OriginPicTextHeaderView extends LinearLayout {
     }
 
     private void initWeiBoContent(Context context, Status status) {
-        imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillContent.fillTitleBar(mContext,status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        //imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+        FillContent.fillTitleBar(mContext, status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillContent.fillWeiBoContent(status.text, context, weibo_content);
         FillContent.fillWeiBoImgList(status, context, imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);

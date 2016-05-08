@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addpic"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
+    android:layout_margin="2dp"
+    android:scaleType="fitCenter"
+    android:src="@drawable/compose_photo_add_auto" />
+
+

@@ -13,7 +13,6 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
-import com.wenming.weiswift.fragment.home.imagelist.ImageItemSapce;
 
 import static com.wenming.weiswift.R.id.noneLayout;
 
@@ -75,7 +74,7 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     }
 
     private void initWeiBoContent(Context context, Status status) {
-        retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
+        //retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
         FillContent.fillTitleBar(mContext,status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillContent.fillWeiBoContent(status.text, context, retweet_content);
         FillContent.fillRetweetContent(status, context, origin_nameAndcontent);

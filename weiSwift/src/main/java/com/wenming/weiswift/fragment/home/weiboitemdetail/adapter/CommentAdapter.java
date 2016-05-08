@@ -50,7 +50,7 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillContent.fillProfileImg(mContext,user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
+            FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
             ((CommentViewHolder) holder).profile_name.setText(user.name);
             FillContent.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
             FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
