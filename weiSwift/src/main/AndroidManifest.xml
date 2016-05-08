@@ -24,9 +24,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/ToolbarTheme">
-
-        </activity>
+            android:theme="@style/blackstatusbar" />
 
         <activity
             android:name=".fragment.profile.setting.SettingActivity"

@@ -202,7 +202,7 @@ public class HomeFragment extends MainFragment {
                 Log.d("wenming", "the state is Loading, just wait..");
                 return;
             }
-            if (!mNoMoreData && mDatas != null) {
+            if (!mNoMoreData && mDatas != null && mDatas.size() > 0) {
                 // loading more
                 RecyclerViewStateUtils.setFooterViewState(mActivity, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();

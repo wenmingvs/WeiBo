@@ -88,6 +88,7 @@ public class ProfileFragment extends Fragment {
         mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.yyweibo_layout);
         mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
         mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
+        mSettings = (TextView) mView.findViewById(R.id.setting);
 
 
         mUid = Long.parseLong(mAccessToken.getUid());
@@ -136,6 +137,12 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+            }
+        });
 
 
     }
@@ -151,15 +158,6 @@ public class ProfileFragment extends Fragment {
 
     private void initToolBar() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_profile);
-        mToolBar = mActivity.findViewById(R.id.toolbar_profile);
-        mSettings = (TextView) mToolBar.findViewById(R.id.setting);
-        mSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SettingActivity.class));
-            }
-        });
-
     }
 
 
@@ -168,12 +166,12 @@ public class ProfileFragment extends Fragment {
         if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.profilefragment_layout, null);
             initAccessToken();
-            initToolBar();
+            //initToolBar();
             initUser();
         } else {
             mView = inflater.inflate(R.layout.profilefragment_layout, null);
             initAccessToken();
-            initToolBar();
+            // initToolBar();
         }
 
         return mView;
@@ -183,23 +181,23 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolBar.setVisibility(View.VISIBLE);
+        //mToolBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            hideToolBar();
+            // hideToolBar();
         } else {
-            showToolBar();
+            //showToolBar();
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mToolBar.setVisibility(View.GONE);
+        //mToolBar.setVisibility(View.GONE);
     }
 
 

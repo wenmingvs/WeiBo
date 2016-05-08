@@ -44,14 +44,14 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
-            initToolBar();
+            //initToolBar();
             initRefreshLayout();
             setUpListener();
             return mView;
 
         } else {
             mView = inflater.inflate(R.layout.messagefragment_unlogin_layout, container, false);
-            initToolBar();
+            //initToolBar();
             return mView;
         }
     }
@@ -130,26 +130,26 @@ public class MessageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolBar.setVisibility(View.VISIBLE);
+        //mToolBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            hideToolBar();
+            //hideToolBar();
             if(mSwipeRefreshLayout != null){
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {
-            showToolBar();
+            //showToolBar();
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mToolBar.setVisibility(View.GONE);
+        //mToolBar.setVisibility(View.GONE);
     }
 
     public void hideToolBar() {

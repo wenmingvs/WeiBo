@@ -75,13 +75,13 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
             initTimeTask();
-            initLoginStateTitleBar();
+            //initLoginStateTitleBar();
             initRecyclerView();
             initRefreshLayout();
             return mView;
         } else {
             mView = inflater.inflate(R.layout.mainfragment_unlogin_layout, container, false);
-            initunLoginStateTitleBar();
+            //initunLoginStateTitleBar();
             return mView;
         }
     }
@@ -91,7 +91,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         LogUtil.d("onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         if (NewFeature.LOGIN == true) {
-            mToolBar.setVisibility(View.VISIBLE);
+            //mToolBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -106,7 +106,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         LogUtil.d("onDestroyView");
         super.onDestroyView();
         if (NewFeature.LOGIN == true) {
-            mToolBar.setVisibility(View.GONE);
+            //mToolBar.setVisibility(View.GONE);
             mFirstLoad = false;
         }
     }
@@ -142,12 +142,12 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
 
         super.onHiddenChanged(hidden);
         if (hidden) {
-            hideToolBar();
+            //hideToolBar();
             if(mSwipeRefreshLayout != null){
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {
-            showToolBar();
+            //showToolBar();
         }
     }
 

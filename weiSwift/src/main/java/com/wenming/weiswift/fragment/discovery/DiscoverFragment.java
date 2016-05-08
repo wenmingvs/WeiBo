@@ -54,23 +54,23 @@ public class DiscoverFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            hideToolBar();
+            //hideToolBar();
         } else {
-            showToolBar();
+            //showToolBar();
         }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolBar.setVisibility(View.VISIBLE);
+        //mToolBar.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mToolBar.setVisibility(View.GONE);
+        //mToolBar.setVisibility(View.GONE);
     }
 
     public void hideToolBar() {
