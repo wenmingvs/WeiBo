@@ -1,11 +1,11 @@
-package com.wenming.weiswift;
+package com.wenming.weiswift.common;
 
 /**
  * Created by wenmingvs on 2016/1/6.
  */
 public class NewFeature {
 
-    public static boolean LOGIN = false;
+    
 
     //每次刷新微博获取的数量
     public static int GET_WEIBO_NUMS = 40;

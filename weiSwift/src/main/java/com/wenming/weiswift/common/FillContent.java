@@ -23,7 +23,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
-import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.emojitextview.EmojiTextView;
 import com.wenming.weiswift.common.util.DateUtils;

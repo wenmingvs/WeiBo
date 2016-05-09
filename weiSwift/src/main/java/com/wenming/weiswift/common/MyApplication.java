@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.wenming.weiswift;
+package com.wenming.weiswift.common;
 
 import android.app.Activity;
 import android.app.Application;
@@ -30,9 +30,7 @@ import com.wenming.weiswift.common.util.LogUtil;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
- */
+
 public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
     private List<Activity> mActivityList = new LinkedList<Activity>();
@@ -101,4 +99,6 @@ public class MyApplication extends Application implements Application.ActivityLi
     public void onActivityDestroyed(Activity activity) {
         LogUtil.d("OnDestroyed = " + activity.getLocalClassName());
     }
+
+
 }

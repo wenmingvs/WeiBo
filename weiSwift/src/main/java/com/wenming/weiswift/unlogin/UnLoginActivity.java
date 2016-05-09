@@ -1,8 +1,8 @@
-package com.wenming.weiswift.fragment;
+package com.wenming.weiswift.unlogin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,14 +12,17 @@ import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.fragment.discovery.DiscoverFragment;
-import com.wenming.weiswift.fragment.home.HomeFragment;
-import com.wenming.weiswift.fragment.message.MessageFragment;
-import com.wenming.weiswift.fragment.post.PostActivity;
-import com.wenming.weiswift.fragment.profile.ProfileFragment;
+import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.unlogin.fragment.DiscoverFragment;
+import com.wenming.weiswift.unlogin.fragment.HomeFragment;
+import com.wenming.weiswift.unlogin.fragment.MessageFragment;
+import com.wenming.weiswift.unlogin.fragment.ProfileFragment;
 
 
-public class MainActivity extends FragmentActivity {
+/**
+ * Created by wenmingvs on 16/5/9.
+ */
+public class UnLoginActivity extends FragmentActivity {
 
     private static final int HOME_FRAGMENT = 0X001;
     private static final int MESSAGE_FRAGMENT = 0X002;
@@ -41,59 +44,20 @@ public class MainActivity extends FragmentActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity_layout);
+        setContentView(R.layout.unlogin_mainactivity_layout);
+        mContext = this;
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (FrameLayout) findViewById(R.id.fl_post);
-        mContext = this;
+
         mFragmentManager = getSupportFragmentManager();
         setTabFragment(HOME_FRAGMENT);
         setUpListener();
     }
-
-    private void setUpListener() {
-        mHomeTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(HOME_FRAGMENT);
-
-            }
-        });
-        mMessageTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(MESSAGE_FRAGMENT);
-            }
-        });
-
-        mPostTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PostActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(DISCOVERY_FRAGMENT);
-            }
-        });
-
-        mProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(PROFILE_FRAGMENT);
-            }
-        });
-
-    }
-
 
     private void setTabFragment(int index) {
         if (mCurrentIndex != index) {
@@ -107,7 +71,6 @@ public class MainActivity extends FragmentActivity {
                         transaction.add(R.id.contentLayout, mHomeFragment);
                     } else {
                         transaction.show(mHomeFragment);
-
                     }
                     mCurrentIndex = HOME_FRAGMENT;
                     break;
@@ -145,9 +108,8 @@ public class MainActivity extends FragmentActivity {
             }
             transaction.commit();
         } else if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-            mHomeFragment.scrollToTop(false);
-        }
 
+        }
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -170,13 +132,38 @@ public class MainActivity extends FragmentActivity {
         mProfile.setSelected(false);
     }
 
+    private void setUpListener() {
+        mHomeTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(HOME_FRAGMENT);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mHomeFragment != null) {
-            mHomeFragment.onActivityResult(requestCode, resultCode, data);
-        }
+            }
+        });
+        mMessageTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(MESSAGE_FRAGMENT);
+            }
+        });
+        mPostTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showShort(mContext, "请先登录");
+            }
+        });
+        mDiscoeryTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(DISCOVERY_FRAGMENT);
+
+            }
+        });
+        mProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(PROFILE_FRAGMENT);
+            }
+        });
     }
-
 }

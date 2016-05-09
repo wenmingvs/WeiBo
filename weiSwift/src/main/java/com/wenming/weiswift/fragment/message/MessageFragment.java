@@ -5,16 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.RelativeLayout;
 
-import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.message.comment.CommentActivity;
@@ -35,27 +32,13 @@ public class MessageFragment extends Fragment {
     private RelativeLayout mAttitude_layout;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (NewFeature.LOGIN == true) {
-            mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
-            mActivity = getActivity();
-            mContext = mActivity;
-            //initToolBar();
-            initRefreshLayout();
-            setUpListener();
-            return mView;
-
-        } else {
-            mView = inflater.inflate(R.layout.messagefragment_unlogin_layout, container, false);
-            //initToolBar();
-            return mView;
-        }
+        mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
+        mActivity = getActivity();
+        mContext = mActivity;
+        initRefreshLayout();
+        setUpListener();
+        return mView;
     }
 
     private void setUpListener() {
@@ -87,24 +70,6 @@ public class MessageFragment extends Fragment {
 
     }
 
-    private void initToolBar() {
-        if (NewFeature.LOGIN == true) {
-            initLoginState();
-        } else {
-            initUnLoginState();
-        }
-    }
-
-    private void initUnLoginState() {
-        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_unlogin);
-        mToolBar = mActivity.findViewById(R.id.toolbar_message_unlogin);
-    }
-
-    private void initLoginState() {
-        mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_login);
-        //mToolBar = mActivity.findViewById(R.id.toolbar_message_login);
-    }
-
 
     private void initRefreshLayout() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.message_pulltorefresh);
@@ -126,36 +91,14 @@ public class MessageFragment extends Fragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //mToolBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            //hideToolBar();
             if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        } else {
-            //showToolBar();
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //mToolBar.setVisibility(View.GONE);
-    }
-
-    public void hideToolBar() {
-        mToolBar.setVisibility(View.GONE);
-    }
-
-    public void showToolBar() {
-        mToolBar.setVisibility(View.VISIBLE);
-    }
 
 }

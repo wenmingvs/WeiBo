@@ -1,38 +1,61 @@
 package com.wenming.weiswift.fragment.home;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.UsersAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
-import com.wenming.weiswift.NewFeature;
+import com.sina.weibo.sdk.openapi.models.User;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.common.NewFeature;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.home.weiboitem.IWeiboListRecyclerView;
 import com.wenming.weiswift.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.fragment.home.weiboitem.WeiboItemSapce;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HomeFragment extends MainFragment {
+public class HomeFragment extends Fragment implements IWeiboListRecyclerView {
 
     public RecyclerView mRecyclerView;
     public WeiboAdapter mAdapter;
@@ -40,7 +63,32 @@ public class HomeFragment extends MainFragment {
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private ArrayList<Status> mDatas;
     private boolean mNoMoreData;
+    public AuthInfo mAuthInfo;
+    public Oauth2AccessToken mAccessToken;
+    public StatusesAPI mStatusesAPI;
+    public UsersAPI mUsersAPI;
+    public SsoHandler mSsoHandler;
+    public Context mContext;
+    public Activity mActivity;
+    public TextView mUserName;
+    public View mView;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
+    public boolean mRefrshAllData;
+    private Timer mTimer;
+    private TimerTask mTimeTask;
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mActivity = getActivity();
+        mContext = getActivity();
+        initAccessToken();
+        mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
+        initTimeTask();
+        initRecyclerView();
+        initRefreshLayout();
+        return mView;
+    }
 
     @Override
     public void initRecyclerView() {
@@ -52,14 +100,12 @@ public class HomeFragment extends MainFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
-        if (mFirstLoad == true) {
-            mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
-        }
+        mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
     @Override
     public void firstLoadData() {
-        String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
+        String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
         if (response != null) {
             mDatas = StatusList.parse(response).statusList;
             updateList();
@@ -68,6 +114,131 @@ public class HomeFragment extends MainFragment {
         }
     }
 
+
+    /**
+     * 发起 SSO 登陆的 Activity 必须重写 onActivityResults
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.d("onActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            if (mSwipeRefreshLayout != null) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+    }
+
+    @Override
+    public void initTimeTask() {
+        mTimeTask = new TimerTask() {
+            @Override
+            public void run() {
+                mRefrshAllData = true;
+            }
+        };
+        mTimer = new Timer();
+        mTimer.schedule(mTimeTask, 0, 15 * 60 * 1000);
+    }
+
+    private void initAccessToken() {
+        Context context = mContext;
+        mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
+                Constants.REDIRECT_URL, Constants.SCOPE);
+        mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
+        mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+        mStatusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, mAccessToken);
+        mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, mAccessToken);
+    }
+
+    private void refreshUserName() {
+        long uid = Long.parseLong(mAccessToken.getUid());
+        mUsersAPI.show(uid, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                // 调用 User#parse 将JSON串解析成User对象
+                User user = User.parse(response);
+                if (user != null) {
+                    mUserName.setText(user.name);
+                }
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ErrorInfo info = ErrorInfo.parse(e.getMessage());
+                ToastUtil.showShort(mContext, info.toString());
+            }
+        });
+    }
+
+
+    /**
+     * 初始化下拉刷新控件
+     * 1. 设置下拉刷新执行的逻辑
+     * 2. 第一次进来就自动下拉刷新
+     */
+    private void initRefreshLayout() {
+        mRefrshAllData = true;
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefreshData(mRefrshAllData);
+            }
+        });
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                firstLoadData();
+            }
+        });
+
+    }
+
+    class AuthListener implements WeiboAuthListener {
+        @Override
+        public void onComplete(Bundle values) {
+            mAccessToken = Oauth2AccessToken.parseAccessToken(values);// 从 Bundle 中解析 Token
+            if (mAccessToken.isSessionValid()) {
+                AccessTokenKeeper.writeAccessToken(mContext,
+                        mAccessToken);//保存Token
+                Toast.makeText(mContext, "授权成功,请重启App", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                Toast.makeText(mContext, "授权失败", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            Toast.makeText(mContext,
+                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(mContext, "取消授权",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void pullToRefreshData(boolean refrshAllData) {
@@ -166,7 +337,7 @@ public class HomeFragment extends MainFragment {
                 if (!TextUtils.isEmpty(response)) {
                     LogUtil.d("wenming", "全部刷新");
                     if (NewFeature.CACHE_WEIBOLIST) {
-                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt", response);
+                        SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", response);
                     }
                     mDatas = StatusList.parse(response).statusList;
                     updateList();
@@ -179,7 +350,7 @@ public class HomeFragment extends MainFragment {
             @Override
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
-                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存.txt");
+                    String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
                     if (response != null) {
                         mDatas = StatusList.parse(response).statusList;
                         updateList();
@@ -234,7 +405,6 @@ public class HomeFragment extends MainFragment {
                 }
             });
         }
-
     }
 
 }

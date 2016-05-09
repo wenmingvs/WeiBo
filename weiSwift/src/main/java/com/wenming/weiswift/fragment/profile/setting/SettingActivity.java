@@ -6,14 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.wenming.weiswift.MyApplication;
-import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.util.ToastUtil;
@@ -33,7 +30,6 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
         mContext = this;
-        //initToolBar();
         initContent();
     }
 
@@ -50,8 +46,7 @@ public class SettingActivity extends Activity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 AccessTokenKeeper.clear(getApplicationContext());
-                                NewFeature.LOGIN = false;
-                                ((MyApplication) getApplication()).finishAll();
+                                ((com.wenming.weiswift.common.MyApplication) getApplication()).finishAll();
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -81,7 +76,5 @@ public class SettingActivity extends Activity {
 
     }
 
-    private void initToolBar() {
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_settings);
-    }
+
 }
