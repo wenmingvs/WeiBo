@@ -20,7 +20,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.ToastUtil;
-import com.wenming.weiswift.login.fragment.MainActivity;
+import com.wenming.weiswift.login.activity.MainActivity;
 import com.wenming.weiswift.login.fragment.post.picselect.bean.ImageInfo;
 
 import java.io.FileInputStream;

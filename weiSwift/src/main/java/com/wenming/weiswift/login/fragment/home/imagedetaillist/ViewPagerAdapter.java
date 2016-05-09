@@ -120,6 +120,12 @@ public class ViewPagerAdapter extends PagerAdapter {
                     donutProgress.setVisibility(View.GONE);
                 }
 
+                /**
+                 * 点击图片后，识别是否是长微博，如果是，则使用PhotoView进行加载
+                 * @param s
+                 * @param view
+                 * @param bitmap
+                 */
                 @Override
                 public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
                     donutProgress.setProgress(100);
@@ -154,7 +160,6 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onProgressUpdate(String s, View view, int current, int total) {
                     donutProgress.setProgress((int) 100.0f * current / total);
-                    LogUtil.d("onProgressUpdate = " + (int) 100.0f * current / total);
                 }
             });
 

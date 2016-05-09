@@ -15,6 +15,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
@@ -23,6 +24,7 @@
             android:text="红楼"
             android:textColor="@color/home_weiboitem_title_profile_name"
             android:textSize="@dimen/home_weiboitem_title_profile_name" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,11 +48,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/popover_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/message_toolbar_popover_arrow" />
 
 </LinearLayout>

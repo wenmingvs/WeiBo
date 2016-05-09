@@ -1,4 +1,4 @@
-package com.wenming.weiswift.login.fragment;
+package com.wenming.weiswift.login.activity;
 
 import android.content.Context;
 import android.content.Intent;

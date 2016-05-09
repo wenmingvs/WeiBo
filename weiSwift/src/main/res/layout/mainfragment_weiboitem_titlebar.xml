@@ -8,20 +8,36 @@
     <include layout="@layout/mainfragment_weiboitem_titlebar_profileimg" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="红楼"
-            android:textColor="@color/home_weiboitem_title_profile_name"
-            android:textSize="@dimen/home_weiboitem_title_profile_name" />
+            android:layout_marginRight="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="红楼"
+                android:textColor="@color/home_weiboitem_title_profile_name"
+                android:textSize="@dimen/home_weiboitem_title_profile_name" />
+
+            <ImageView
+                android:id="@+id/popover_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/timeline_icon_more" />
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +59,8 @@
                 android:textColor="@color/home_weiboitem_title_profile_time"
                 android:textSize="@dimen/home_weiboitem_title_weibocomefrom" />
         </LinearLayout>
+
     </LinearLayout>
+
 
 </LinearLayout>

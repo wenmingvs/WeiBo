@@ -35,9 +35,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".unlogin.UnLoginActivity" />
+        <activity android:name=".unlogin.activity.UnLoginActivity" />
 
-        <activity android:name=".login.fragment.MainActivity" />
+        <activity android:name=".login.activity.MainActivity" />
 
         <activity android:name=".login.fragment.profile.setting.SettingActivity" />
 

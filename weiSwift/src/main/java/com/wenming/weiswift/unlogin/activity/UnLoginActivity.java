@@ -1,4 +1,4 @@
-package com.wenming.weiswift.unlogin;
+package com.wenming.weiswift.unlogin.activity;
 
 import android.content.Context;
 import android.os.Bundle;
