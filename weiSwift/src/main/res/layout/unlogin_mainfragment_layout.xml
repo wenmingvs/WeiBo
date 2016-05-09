@@ -14,22 +14,30 @@
         android:orientation="vertical">
 
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp">
 
             <ImageView
+                android:id="@+id/homeview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="42dp"
-                android:layout_marginTop="35dp"
+                android:layout_centerInParent="true"
                 android:src="@drawable/visitordiscover_feed_image_house" />
 
             <ImageView
+                android:id="@+id/circleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:src="@drawable/visitordiscover_feed_image_smallicon" />
-        </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/homeview"
+                android:background="#f2f2f2" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -45,6 +53,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="帐号：529208204@qq.com"
+            android:textColor="#909090"
             android:textSize="15sp" />
 
         <TextView
@@ -52,6 +61,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="密码：weibotest123              "
+            android:textColor="#909090"
             android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>
