@@ -8,7 +8,7 @@ import android.os.Message;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.fragment.MainActivity;
+import com.wenming.weiswift.login.fragment.MainActivity;
 import com.wenming.weiswift.unlogin.UnLoginActivity;
 
 import java.util.Timer;

@@ -12,7 +12,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
-import com.wenming.weiswift.fragment.MainActivity;
+import com.wenming.weiswift.login.fragment.MainActivity;
 
 /**
  * Created by wenmingvs on 16/5/10.

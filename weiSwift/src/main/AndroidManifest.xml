@@ -37,39 +37,39 @@
 
         <activity android:name=".unlogin.UnLoginActivity" />
 
-        <activity android:name=".fragment.MainActivity" />
+        <activity android:name=".login.fragment.MainActivity" />
 
-        <activity android:name=".fragment.profile.setting.SettingActivity" />
-
-
-        <activity android:name=".fragment.home.imagedetaillist.ImageDetailsActivity" />
-
-        <activity android:name=".fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity" />
-
-        <activity android:name=".fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity" />
-
-        <activity android:name=".fragment.message.mention.MentionActivity" />
-
-        <activity android:name=".fragment.message.comment.CommentActivity" />
-
-        <activity android:name=".fragment.profile.myweibo.MyWeiBoActivity" />
-
-        <activity android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity" />
-
-        <activity android:name=".fragment.profile.followers.FollowerActivity" />
-
-        <activity android:name=".fragment.profile.friends.FriendsActivity" />
-
-        <activity android:name=".fragment.home.userdetail.UserActivity" />
-
-        <activity android:name=".fragment.post.PostActivity" />
-
-        <activity android:name=".fragment.post.idea.IdeaActivity" />
+        <activity android:name=".login.fragment.profile.setting.SettingActivity" />
 
 
-        <activity android:name=".fragment.post.picselect.activity.AlbumActivity" />
+        <activity android:name=".login.fragment.home.imagedetaillist.ImageDetailsActivity" />
 
-        <service android:name=".fragment.post.PostService" />
+        <activity android:name=".login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity" />
+
+        <activity android:name=".login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity" />
+
+        <activity android:name=".login.fragment.message.mention.MentionActivity" />
+
+        <activity android:name=".login.fragment.message.comment.CommentActivity" />
+
+        <activity android:name=".login.fragment.profile.myweibo.MyWeiBoActivity" />
+
+        <activity android:name=".login.fragment.discovery.popularweibo.PopularWeiBoActivity" />
+
+        <activity android:name=".login.fragment.profile.followers.FollowerActivity" />
+
+        <activity android:name=".login.fragment.profile.friends.FriendsActivity" />
+
+        <activity android:name=".login.fragment.home.userdetail.UserActivity" />
+
+        <activity android:name=".login.fragment.post.PostActivity" />
+
+        <activity android:name=".login.fragment.post.idea.IdeaActivity" />
+
+
+        <activity android:name=".login.fragment.post.picselect.activity.AlbumActivity" />
+
+        <service android:name=".login.fragment.post.PostService" />
 
         <!-- 登录web界面-->
         <activity

@@ -37,11 +37,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="15dp" />
+
+            <include layout="@layout/compose_repost_layout" />
         </LinearLayout>
+
 
     </ScrollView>
 
-    <include layout="@layout/compose_repost_layout" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -14,7 +14,7 @@
         android:src="@drawable/navigationbar_friendattention_auto" />
 
     <LinearLayout
-        android:id="@+id/folder"
+        android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -25,7 +25,7 @@
         android:padding="3dp">
 
         <TextView
-            android:id="@+id/foldername"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="闭关写代码"
@@ -33,7 +33,7 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/folder_arrow"
+            android:id="@+id/arrow"
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginLeft="5dp"
