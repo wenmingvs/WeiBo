@@ -20,87 +20,10 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:largeHeap="true">
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/blackstatusbar" />
-
-        <activity
-            android:name=".fragment.profile.setting.SettingActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- 手机短信注册页面 -->
-        <activity
-            android:name="com.sina.weibo.sdk.register.mobile.MobileRegisterActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- 注册选择国家页面 -->
-        <activity
-            android:name="com.sina.weibo.sdk.register.mobile.SelectCountryActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".fragment.home.imagedetaillist.ImageDetailsActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.message.mention.MentionActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.message.comment.CommentActivity"
-            android:theme="@style/ToolbarTheme" />
-        <activity
-            android:name=".fragment.profile.myweibo.MyWeiBoActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.profile.followers.FollowerActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.profile.friends.FriendsActivity"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".fragment.home.userdetail.UserActivity"
-            android:theme="@style/blackstatusbar" />
-
-        <activity
-            android:name=".fragment.post.PostActivity"
-            android:theme="@style/blackstatusbar" />
-
-        <activity
-            android:name=".fragment.post.idea.IdeaActivity"
-            android:theme="@style/blackstatusbar"
-            android:windowSoftInputMode="adjustResize" />
+        android:largeHeap="true"
+        android:screenOrientation="portrait"
+        android:theme="@style/WeiBoHolo"
+        android:windowSoftInputMode="adjustResize">
 
         <activity
             android:name=".WelcomeActivity"
@@ -111,13 +34,55 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".fragment.post.picselect.activity.AlbumActivity"
-            android:theme="@style/blackstatusbar" />
+
+        <activity android:name=".fragment.MainActivity" />
+
+        <activity android:name=".fragment.profile.setting.SettingActivity" />
+
+
+        <activity android:name=".fragment.home.imagedetaillist.ImageDetailsActivity" />
+
+        <activity android:name=".fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity" />
+
+        <activity android:name=".fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity" />
+
+        <activity android:name=".fragment.message.mention.MentionActivity" />
+
+        <activity android:name=".fragment.message.comment.CommentActivity" />
+
+        <activity android:name=".fragment.profile.myweibo.MyWeiBoActivity" />
+
+        <activity android:name=".fragment.discovery.popularweibo.PopularWeiBoActivity" />
+
+        <activity android:name=".fragment.profile.followers.FollowerActivity" />
+
+        <activity android:name=".fragment.profile.friends.FriendsActivity" />
+
+        <activity android:name=".fragment.home.userdetail.UserActivity" />
+
+        <activity android:name=".fragment.post.PostActivity" />
+
+        <activity android:name=".fragment.post.idea.IdeaActivity" />
+
+
+        <activity android:name=".fragment.post.picselect.activity.AlbumActivity" />
 
         <service android:name=".fragment.post.PostService" />
 
+        <!-- 登录web界面-->
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation" />
 
+        <!-- 手机短信注册页面 -->
+        <activity
+            android:name="com.sina.weibo.sdk.register.mobile.MobileRegisterActivity"
+            android:configChanges="keyboardHidden|orientation" />
+
+        <!-- 注册选择国家页面 -->
+        <activity
+            android:name="com.sina.weibo.sdk.register.mobile.SelectCountryActivity"
+            android:configChanges="keyboardHidden|orientation" />
     </application>
 
 </manifest>

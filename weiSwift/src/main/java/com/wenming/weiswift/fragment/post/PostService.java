@@ -16,11 +16,11 @@ import android.support.v7.app.NotificationCompat;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
-import com.wenming.weiswift.MainActivity;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.ToastUtil;
+import com.wenming.weiswift.fragment.MainActivity;
 import com.wenming.weiswift.fragment.post.picselect.bean.ImageInfo;
 
 import java.io.FileInputStream;

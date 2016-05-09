@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:background="@color/white">
 
-    <ImageView
+    <TextView
+        android:id="@+id/cancal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-
-        android:src="@drawable/navigationbar_friendattention_auto" />
+        android:layout_marginLeft="13dp"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/toolbar_textview_background_auto"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/folder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_centerInParent="true"
         android:background="@drawable/compose_toolbar_foldername_auto"
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp">
 
         <TextView
             android:id="@+id/foldername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="闭关写代码"
+            android:text="相机胶卷"
             android:textColor="#545454"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/folder_arrow"
@@ -41,14 +46,21 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/getData"
+
+    <TextView
+        android:id="@+id/next"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="31dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:src="@drawable/navigationbar_icon_radar_auto" />
+        android:layout_marginRight="12dp"
+        android:background="@drawable/compose_send_corners_bg"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="下一步"
+        android:textColor="#b3b3b3"
+        android:textSize="16sp" />
 
     <ImageView
         android:layout_width="match_parent"

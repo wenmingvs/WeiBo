@@ -31,7 +31,7 @@ public class DiscoverFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_discover);
-        mToolBar = mActivity.findViewById(R.id.toolbar_discover);
+        //mToolBar = mActivity.findViewById(R.id.toolbar_discover);
         mContext = getContext();
     }
 

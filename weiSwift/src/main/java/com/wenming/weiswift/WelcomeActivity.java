@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.wenming.weiswift.fragment.MainActivity;
+
 import java.util.Timer;
 import java.util.TimerTask;
 

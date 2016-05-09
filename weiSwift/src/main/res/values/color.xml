@@ -35,5 +35,7 @@
     <color name="color_00">#8A000000</color>
     <color name="foldername_highlight">#e7e7e7</color>
 
+    <color name="weibo_holo_bg">#f2f2f2</color>
+
 
 </resources>

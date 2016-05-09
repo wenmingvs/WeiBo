@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar_home_unlogin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="45dp"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -11,9 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
         android:text="注册"
-
         android:textColor="@color/orange"
         android:textSize="18sp" />
 
@@ -33,10 +33,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="8dp"
+        android:layout_marginRight="8dp"
         android:text="登陆"
         android:textColor="@color/orange"
         android:textSize="18sp" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e3e3e3" />
 
 </RelativeLayout>

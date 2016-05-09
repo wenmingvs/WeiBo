@@ -5,13 +5,14 @@
     android:background="@color/white">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-
-        android:src="@drawable/navigationbar_friendattention_auto" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/navigationbar_back_auto" />
 
     <LinearLayout
         android:id="@+id/folder"
@@ -28,7 +29,7 @@
             android:id="@+id/foldername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="闭关写代码"
+            android:text="所有微博"
             android:textColor="#545454"
             android:textSize="20sp" />
 
@@ -41,14 +42,16 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/getData"
+    <TextView
+        android:id="@+id/setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
-        android:src="@drawable/navigationbar_icon_radar_auto" />
+        android:text="设置"
+        android:textColor="@color/toolbar_textview_background_auto"
+        android:textSize="18sp" />
 
     <ImageView
         android:layout_width="match_parent"

@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar_home_weiboitem_detail_title"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="45dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/toolbar_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/navigationbar_back_auto" />
 
     <TextView
@@ -33,8 +34,12 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:text="设置"
-        android:textColor="#525252"
+        android:textColor="@color/toolbar_textview_background_auto"
         android:textSize="18sp" />
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e3e3e3" />
 </RelativeLayout>

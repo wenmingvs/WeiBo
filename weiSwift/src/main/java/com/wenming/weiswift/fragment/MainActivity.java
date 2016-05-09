@@ -1,4 +1,4 @@
-package com.wenming.weiswift;
+package com.wenming.weiswift.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.wenming.weiswift.NewFeature;
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.discovery.DiscoverFragment;

@@ -44,6 +44,8 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (NewFeature.LOGIN == true) {
             mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
+            mActivity = getActivity();
+            mContext = mActivity;
             //initToolBar();
             initRefreshLayout();
             setUpListener();
@@ -94,17 +96,13 @@ public class MessageFragment extends Fragment {
     }
 
     private void initUnLoginState() {
-        mActivity = getActivity();
-        mContext = mActivity;
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_unlogin);
         mToolBar = mActivity.findViewById(R.id.toolbar_message_unlogin);
     }
 
     private void initLoginState() {
-        mActivity = getActivity();
-        mContext = mActivity;
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_login);
-        mToolBar = mActivity.findViewById(R.id.toolbar_message_login);
+        //mToolBar = mActivity.findViewById(R.id.toolbar_message_login);
     }
 
 
@@ -138,7 +136,7 @@ public class MessageFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //hideToolBar();
-            if(mSwipeRefreshLayout != null){
+            if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {

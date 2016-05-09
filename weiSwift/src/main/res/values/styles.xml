@@ -37,8 +37,9 @@
     </style>
 
 
-    <style name="blackstatusbar" parent="android:Theme.Holo.Light.NoActionBar">
+    <style name="WeiBoHolo" parent="android:Theme.Holo.Light.NoActionBar">
 
+        <item name="android:windowBackground">@color/weibo_holo_bg</item>
         <item name="android:statusBarColor">@color/black</item>
 
     </style>

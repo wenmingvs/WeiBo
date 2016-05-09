@@ -1,26 +1,32 @@
 package com.wenming.weiswift.fragment.profile.friends;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.sina.weibo.sdk.openapi.models.UserList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.wenming.weiswift.common.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
@@ -30,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FriendsActivity extends DetailActivity {
+public class FriendsActivity extends Activity implements IEndlessRecyclerView {
 
     public RecyclerView mRecyclerView;
     public FriendsAdapter mAdapter;
@@ -40,19 +46,49 @@ public class FriendsActivity extends DetailActivity {
     private boolean mNoMoreData;
     private String mNext_cursor;
 
+    public Context mContext;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
+    public CommentsAPI mCommentsAPI;
+    public StatusesAPI mStatusesAPI;
+    public FriendshipsAPI mFriendshipsAPI;
+    public boolean mRefrshAllData;
+
+
     @Override
-    public void initTitleBar() {
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_detail_base);
-        mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
-        mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);
-        mBackIcon.setOnClickListener(new View.OnClickListener() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_friends_layout);
+        mContext = this;
+        initAccessToken();
+        initRefreshLayout();
+        initRecyclerView();
+
+    }
+
+    public void initAccessToken() {
+        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+    }
+
+    protected void initRefreshLayout() {
+        mRefrshAllData = true;
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void onRefresh() {
+                pullToRefreshData();
             }
         });
-        ((TextView) mToolBar.findViewById(R.id.toolbar_title)).setText("全部关注");
-        mToolBar.findViewById(R.id.setting).setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                pullToRefreshData();
+            }
+        });
     }
 
     @Override
@@ -71,7 +107,7 @@ public class FriendsActivity extends DetailActivity {
     public void pullToRefreshData() {
         mSwipeRefreshLayout.setRefreshing(true);
         mNext_cursor = "0";
-        mFriendshipsAPI.friends(Long.parseLong(mAccessToken.getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
+        mFriendshipsAPI.friends(Long.parseLong(AccessTokenKeeper.readAccessToken(this).getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 //短时间内疯狂请求数据，服务器会返回数据，但是是空数据。为了防止这种情况出现，要在这里要判空
@@ -107,7 +143,7 @@ public class FriendsActivity extends DetailActivity {
 
     @Override
     public void requestMoreData() {
-        mFriendshipsAPI.friends(Long.parseLong(mAccessToken.getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
+        mFriendshipsAPI.friends(Long.parseLong(AccessTokenKeeper.readAccessToken(this).getUid()), 50, Integer.valueOf(mNext_cursor), false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {

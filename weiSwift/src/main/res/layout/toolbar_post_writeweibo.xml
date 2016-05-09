@@ -1,54 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="44dp"
     android:background="@color/white">
 
-    <ImageView
+    <TextView
+        android:id="@+id/idea_cancal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-
-        android:src="@drawable/navigationbar_friendattention_auto" />
+        android:layout_marginLeft="13dp"
+        android:clickable="true"
+        android:text="取消"
+        android:textColor="@color/toolbar_textview_background_auto"
+        android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/folder"
-        android:layout_width="wrap_content"
+        android:layout_width="116dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/compose_toolbar_foldername_auto"
         android:clickable="true"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="3dp">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/foldername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发微博"
+            android:textColor="#545454"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/idea_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="闭关写代码"
-            android:textColor="#545454"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/folder_arrow"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/navigationbar_arrow_down" />
+            android:textColor="#b6b6b6"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/getData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <TextView
+        android:id="@+id/idea_send"
+        android:layout_width="48dp"
+        android:layout_height="31dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:src="@drawable/navigationbar_icon_radar_auto" />
+        android:layout_marginRight="12dp"
+        android:background="@drawable/compose_send_corners_bg"
+        android:gravity="center"
+        android:text="发送"
+        android:textColor="#b3b3b3"
+        android:textSize="16sp" />
 
     <ImageView
         android:layout_width="match_parent"

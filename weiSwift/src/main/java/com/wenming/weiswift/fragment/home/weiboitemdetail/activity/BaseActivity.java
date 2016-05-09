@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -19,7 +17,6 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
@@ -29,7 +26,6 @@ import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.CommentAdapter;
-import com.wenming.weiswift.fragment.home.weiboitemdetail.adapter.RetweetAdapter;
 import com.wenming.weiswift.fragment.home.weiboitemdetail.headview.OnDetailButtonClickListener;
 
 import org.json.JSONArray;
@@ -57,28 +53,12 @@ public abstract class BaseActivity extends DetailActivity {
     public int mLastestReposts;
     public int mLastestAttitudes;
 
-    public RetweetAdapter mRetweetAdapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
         super.onCreate(savedInstanceState);
     }
 
-
-    @Override
-    public void initTitleBar() {
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_weiboitem_detail_title);
-        mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
-        mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);
-        mBackIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
 
     /**
      * 第一次初始化recyclerview

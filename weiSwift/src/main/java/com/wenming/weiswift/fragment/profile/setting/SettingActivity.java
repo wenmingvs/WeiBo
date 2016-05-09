@@ -31,16 +31,15 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.settings_layout);
         mContext = this;
-        initToolBar();
+        //initToolBar();
         initContent();
     }
 
     private void initContent() {
         mExitLayout = (RelativeLayout) findViewById(R.id.exitLayout);
-        mBackImageView = (ImageView) findViewById(R.id.backarrow);
+        mBackImageView = (ImageView) findViewById(R.id.toolbar_back);
         mClearCache = (RelativeLayout) findViewById(R.id.clearCache_layout);
         mExitLayout.setOnClickListener(new View.OnClickListener() {
             @Override

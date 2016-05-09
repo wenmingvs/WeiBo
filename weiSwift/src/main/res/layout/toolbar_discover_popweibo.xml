@@ -2,40 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar_home_weiboitem_detail_title"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="45dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/toolbar_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/navigationbar_back_auto" />
 
     <TextView
-        android:id="@+id/toolbar_title"
+        android:id="@+id/toolbar_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="全部微博"
+        android:text="热门微博"
         android:textColor="#525252"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/toolbar_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:text="设置"
-        android:textColor="#525252"
-        android:textSize="18sp"
-        android:visibility="invisible" />
+        android:layout_marginRight="8dp"
+        android:src="@drawable/navigationbar_more_auto" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e3e3e3" />
 
 </RelativeLayout>

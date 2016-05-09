@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar_message_unlogin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="45dp"
+    android:background="@color/white">
 
 
     <TextView
@@ -15,6 +15,10 @@
         android:text="消息"
         android:textColor="#525252"
         android:textSize="20sp" />
-    
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e3e3e3" />
 </RelativeLayout>

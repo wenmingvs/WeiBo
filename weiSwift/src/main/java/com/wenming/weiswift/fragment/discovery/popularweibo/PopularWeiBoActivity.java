@@ -1,27 +1,33 @@
 package com.wenming.weiswift.fragment.discovery.popularweibo;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.wenming.weiswift.NewFeature;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.common.DetailActivity;
 import com.wenming.weiswift.common.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.common.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.wenming.weiswift.common.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.common.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.common.endlessrecyclerview.weight.LoadingFooter;
+import com.wenming.weiswift.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.common.util.NetUtil;
 import com.wenming.weiswift.common.util.SDCardUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
@@ -34,9 +40,8 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class PopularWeiBoActivity extends DetailActivity {
+public class PopularWeiBoActivity extends Activity implements IEndlessRecyclerView {
 
-    public RecyclerView mRecyclerView;
     public WeiboAdapter mAdapter;
     public LinearLayoutManager mLayoutManager;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
@@ -44,23 +49,50 @@ public class PopularWeiBoActivity extends DetailActivity {
     private boolean mNoMoreData;
 
 
+    public Context mContext;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
+    public RecyclerView mRecyclerView;
+    public CommentsAPI mCommentsAPI;
+    public StatusesAPI mStatusesAPI;
+    public FriendshipsAPI mFriendshipsAPI;
+    public boolean mRefrshAllData;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.discover_popweibo_layout);
+        mContext = this;
+        initAccessToken();
+        initRefreshLayout();
+        initRecyclerView();
+
     }
 
-    @Override
-    public void initTitleBar() {
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_message_detail_base);
-        mToolBar = findViewById(R.id.toolbar_home_weiboitem_detail_title);
-        mBackIcon = (ImageView) mToolBar.findViewById(R.id.toolbar_back);
-        mBackIcon.setOnClickListener(new View.OnClickListener() {
+    public void initAccessToken() {
+        mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+    }
+
+    protected void initRefreshLayout() {
+        mRefrshAllData = true;
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void onRefresh() {
+                pullToRefreshData();
             }
         });
-        mToolBar.findViewById(R.id.setting).setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                pullToRefreshData();
+            }
+        });
     }
 
 
@@ -100,7 +132,7 @@ public class PopularWeiBoActivity extends DetailActivity {
             public void onWeiboException(WeiboException e) {
                 if (NewFeature.CACHE_MESSAGE_COMMENT) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "我的微博列表缓存.txt");
-                    if(response != null){
+                    if (response != null) {
                         mDatas = StatusList.parse(response).statusList;
                         updateList();
                     }

@@ -81,6 +81,24 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
             return mView;
         } else {
             mView = inflater.inflate(R.layout.mainfragment_unlogin_layout, container, false);
+            mLogin = (TextView) mView.findViewById(R.id.login);
+            mRegister = (TextView) mView.findViewById(R.id.register);
+            mLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSsoHandler.authorizeWeb(new AuthListener());
+                }
+            });
+
+            mRegister.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * @param view
+                 */
+                @Override
+                public void onClick(View view) {
+                    mSsoHandler.registerOrLoginByMobile("验证码登陆", new AuthListener());
+                }
+            });
             //initunLoginStateTitleBar();
             return mView;
         }
@@ -143,7 +161,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         super.onHiddenChanged(hidden);
         if (hidden) {
             //hideToolBar();
-            if(mSwipeRefreshLayout != null){
+            if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {
@@ -168,7 +186,6 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
         Context context = mContext;
 
 
-
         mAuthInfo = new AuthInfo(mContext, Constants.APP_KEY,
                 Constants.REDIRECT_URL, Constants.SCOPE);
         mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
@@ -179,7 +196,7 @@ public abstract class MainFragment extends Fragment implements IWeiboListRecycle
 
     private void initLoginStateTitleBar() {
         mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.toolbar_home_login);
-        mToolBar = mActivity.findViewById(R.id.toolbar_home_login);
+        //mToolBar = mActivity.findViewById(R.id.toolbar_home_login);
         mUserName = (TextView) mToolBar.findViewById(R.id.toolbar_username);
         refreshUserName();
     }
