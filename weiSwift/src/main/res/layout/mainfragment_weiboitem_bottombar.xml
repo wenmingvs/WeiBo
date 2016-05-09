@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bottombar_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="36dp"
     android:orientation="vertical">
 
     <ImageView
@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -42,6 +42,12 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="#f2f2f2" />
+
         <LinearLayout
             android:id="@+id/bottombar_comment"
             android:layout_width="wrap_content"
@@ -67,6 +73,12 @@
                 android:textSize="@dimen/home_weiboitem_bottombar_font" />
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="#f2f2f2" />
 
         <LinearLayout
             android:id="@+id/bottombar_attitude"
