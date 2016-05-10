@@ -24,7 +24,7 @@
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/mention_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:layout_marginBottom="0.3dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
@@ -32,8 +32,8 @@
 
                 <ImageView
                     android:id="@+id/mention_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="10dp"
@@ -57,13 +57,14 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/weibobrowser_goforward_disabled" />
+                    android:src="@drawable/common_icon_arrow" />
+
             </RelativeLayout>
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/comment_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:layout_marginBottom="0.3dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
@@ -71,8 +72,8 @@
 
                 <ImageView
                     android:id="@+id/commment_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="10dp"
@@ -96,13 +97,13 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/weibobrowser_goforward_disabled" />
+                    android:src="@drawable/common_icon_arrow" />
             </RelativeLayout>
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/attitude_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:layout_marginBottom="0.3dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
@@ -110,8 +111,8 @@
 
                 <ImageView
                     android:id="@+id/attitude_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="10dp"
@@ -135,7 +136,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/weibobrowser_goforward_disabled" />
+                    android:src="@drawable/common_icon_arrow" />
             </RelativeLayout>
 
             <ScrollView

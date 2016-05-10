@@ -1,11 +1,9 @@
 package com.wenming.weiswift.login.fragment.post.idea;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +28,6 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.FillContent;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
-import com.wenming.weiswift.common.util.LogUtil;
 import com.wenming.weiswift.common.util.ToastUtil;
 import com.wenming.weiswift.login.fragment.home.util.WeiBoContentTextUtil;
 import com.wenming.weiswift.login.fragment.post.PostService;
@@ -132,7 +129,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             return;
         }
 
-
         mRepostlayout.setVisibility(View.VISIBLE);
         mEditText.setHint("说说分享的心得");
 
@@ -140,16 +136,19 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         if (mStatus.retweeted_status != null) {
             mEditText.setText(WeiBoContentTextUtil.getWeiBoContent("//@" + mStatus.user.name + ":" + mStatus.text, mContext, mEditText));
             FillContent.FillCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
-            changeSendButtonBg(mEditText.getText().toString().length());
+            mEditText.setSelection(0);
 
         }
         //2. 转发的内容是原创微博
         else if (mStatus.retweeted_status == null) {
             FillContent.FillCenterContent(mStatus, repostImg, repostName, repostContent);
+            String content = mEditText.getText().toString();
+            if (content.trim().isEmpty()) {
+                mEditText.getText().append("转发微博");
+            }
+
         }
-
-        mEditText.setSelection(0);
-
+        changeSendButtonBg(mEditText.getText().toString().length());
     }
 
     private void refreshUserName() {
@@ -167,42 +166,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             public void onWeiboException(WeiboException e) {
                 ErrorInfo info = ErrorInfo.parse(e.getMessage());
                 ToastUtil.showShort(mContext, info.toString());
-            }
-        });
-    }
-
-    /**
-     * 根据输入的文本数量，决定发送按钮的背景
-     *
-     * @param length
-     */
-    private void changeSendButtonBg(int length) {
-
-        if (length > 0) {
-            mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_bg));
-            mSendButton.setTextColor(Color.parseColor("#fbffff"));
-            mSendButton.setEnabled(true);
-        } else {
-            mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_bg));
-            mSendButton.setTextColor(Color.parseColor("#b3b3b3"));
-            mSendButton.setEnabled(false);
-        }
-    }
-
-    /**
-     * 转发一条微博
-     */
-    private void repost() {
-        mStatusesAPI.repost(Long.valueOf(mStatus.id), mEditText.getText().toString(), 0, new RequestListener() {
-            @Override
-            public void onComplete(String s) {
-                ToastUtil.showShort(mContext, "转发成功");
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(mContext, "转发失败");
-                LogUtil.d(e.toString());
             }
         });
     }
@@ -256,6 +219,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //没有图片，且也没有文本内容，识别为空
                 if (mSelectImgList.size() == 0 && (mEditText.getText().toString().isEmpty() || mEditText.getText().toString().length() == 0)) {
                     ToastUtil.showShort(mContext, "发送的内容不能为空");
@@ -275,6 +239,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 Intent intent = new Intent(mContext, PostService.class);
                 intent.putParcelableArrayListExtra("select_img", mSelectImgList);
                 intent.putExtra("content", mEditText.getText().toString());
+                intent.putExtra("status", mStatus);
                 startService(intent);
                 finish();
 
@@ -300,7 +265,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
 
         @Override
         public void afterTextChanged(Editable s) {
-            changeSendButtonBg(mSendButton, inputString.toString().length());
+            changeSendButtonBg(inputString.toString().length());
             if (inputString.length() > 140) {
                 int outofnum = inputString.length() - 140;
                 mLimitTextView.setText("-" + outofnum + "");
@@ -310,26 +275,32 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         }
     };
 
-
     /**
      * 根据输入的文本数量，决定发送按钮的背景
      *
-     * @param textView
      * @param length
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void changeSendButtonBg(TextView textView, int length) {
+    private void changeSendButtonBg(int length) {
 
         if (length > 0) {
-            textView.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_bg));
-            textView.setTextColor(Color.parseColor("#fbffff"));
-            textView.setEnabled(true);
+            highlightSendButton();
         } else {
-            textView.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_bg));
-            textView.setTextColor(Color.parseColor("#b3b3b3"));
-            textView.setEnabled(false);
+            sendNormal();
         }
     }
+
+    private void highlightSendButton() {
+        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_bg));
+        mSendButton.setTextColor(Color.parseColor("#fbffff"));
+        mSendButton.setEnabled(true);
+    }
+
+    private void sendNormal() {
+        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_bg));
+        mSendButton.setTextColor(Color.parseColor("#b3b3b3"));
+        mSendButton.setEnabled(false);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -338,7 +309,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 if (data != null) {
                     mSelectImgList = data.getParcelableArrayListExtra("selectImgList");
                     initImgList();
-                    changeSendButtonBg(mSendButton, mSelectImgList.size());
+                    changeSendButtonBg(mSelectImgList.size());
                 }
                 break;
         }

@@ -16,6 +16,7 @@ import android.support.v7.app.NotificationCompat;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.sina.weibo.sdk.openapi.models.Status;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
@@ -37,6 +38,7 @@ public class PostService extends Service {
     private ArrayList<ImageInfo> mSelectImgList;
     private String mContent;
     private NotificationManager mSendNotifity;
+    private Status mStatus;
 
     private static final int SEND_STATUS_SUCCESS = 1;
     private static final int SEND_STATUS_ERROR = 2;
@@ -59,12 +61,19 @@ public class PostService extends Service {
         mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
         mSelectImgList = intent.getParcelableArrayListExtra("select_img");
         mContent = intent.getStringExtra("content").trim();
+        mStatus = intent.getParcelableExtra("status");
         showSendNotifiy();
-        if (mSelectImgList == null || mSelectImgList.size() == 0) {
-            sendTextContent();
+
+        if (mStatus != null) {
+            repost();
         } else {
-            sendImgTextContent();
+            if (mSelectImgList == null || mSelectImgList.size() == 0) {
+                sendTextContent();
+            } else {
+                sendImgTextContent();
+            }
         }
+
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -158,6 +167,44 @@ public class PostService extends Service {
         });
 
     }
+
+    /**
+     * 转发一条微博
+     */
+    private void repost() {
+        mStatusesAPI.repost(Long.valueOf(mStatus.id), mContent.toString(), 0, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                ToastUtil.showShort(PostService.this, "转发成功");
+                mSendNotifity.cancel(SEND_STATUS_SEND);
+                showSuccessNotifiy();
+                final Message message = Message.obtain();
+                message.what = SEND_STATUS_SEND;
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.sendMessage(message);
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(PostService.this, "转发失败");
+                mSendNotifity.cancel(SEND_STATUS_SEND);
+                showErrorNotifiy();
+                final Message message = Message.obtain();
+                message.what = SEND_STATUS_ERROR;
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.sendMessage(message);
+                    }
+                }, 2000);
+            }
+        });
+    }
+
 
     /**
      * 获取本地的图片
