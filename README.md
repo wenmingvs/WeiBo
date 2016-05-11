@@ -81,6 +81,7 @@ Gif样式
 -----
 - 支持注销
 - 支持图片缓存清空
+
 ![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrxcf3wkj21401z4jvu.jpg)
 
 
