@@ -41,8 +41,8 @@ Gif样式
 - 支持查看@消息
 - 支持查看评论消息
 
-![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrjifsyfj21401z442a.jpg)
-![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrjqp8odj21401z4dsn.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rtmzbx9wj207i0dct8y.jpg)
+![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rtn03imbj207i0dcwff.jpg)
 
 
 发微博模块
@@ -50,9 +50,9 @@ Gif样式
 - 支持发送图文微博
 - 支持图片选择器
 
-![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rroyv6onj21401z4agh.jpg)
-![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrre2u6vj21401z4hdt.jpg)
-![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrqw7xb9j21401z44qp.jpg)
+![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rto9lrqxj207i0dcaam.jpg)
+![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rtoap9iqj207i0dcjta.jpg)
+![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rtod80m4j207i0dcmzk.jpg)
 
 
 
