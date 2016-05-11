@@ -60,8 +60,8 @@ Gif样式
 -----
 - 支持查看热门微博
 
-![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrw7znd9j21401z413t.jpg)
-![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rrwdv6szj21401z44dp.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rtt81jtej207i0dcjsd.jpg)
+![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rttbzds5j207i0dcgmm.jpg)
 
 
 
@@ -69,10 +69,10 @@ Gif样式
 -----
 - 支持查看我的微博，粉丝，关注
 
-![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrxirlp0j21401z4470.jpg)
-![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrye81xkj21401z47kj.jpg)
-![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rry291w1j21401z4k32.jpg)
-![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrydr1b4j21401z4177.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rtuexvdsj207i0dcwf6.jpg)
+![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rtufmek0j207i0dc75d.jpg)
+![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rtudxkiuj207i0dcjs7.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rtuen83aj207i0dcmy7.jpg)
 
 
 
@@ -82,7 +82,7 @@ Gif样式
 - 支持注销
 - 支持图片缓存清空
 
-![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrxcf3wkj21401z4jvu.jpg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rtuch9cmj207i0dc0sx.jpg)
 
 
 Gradle 构建
