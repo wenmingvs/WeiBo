@@ -59,6 +59,7 @@ Gif样式
 发现模块
 -----
 - 支持查看热门微博
+
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrw7znd9j21401z413t.jpg)
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rrwdv6szj21401z44dp.jpg)
 
