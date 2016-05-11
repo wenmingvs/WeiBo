@@ -10,7 +10,6 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-
         android:src="@drawable/navigationbar_friendattention_auto" />
 
     <LinearLayout
@@ -22,15 +21,16 @@
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:padding="3dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="闭关写代码"
             android:textColor="#545454"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+             />
 
         <ImageView
             android:id="@+id/arrow"

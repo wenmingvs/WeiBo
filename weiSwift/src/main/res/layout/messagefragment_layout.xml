@@ -25,7 +25,7 @@
                 android:id="@+id/mention_layout"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:layout_marginBottom="0.3dp"
+                android:layout_marginBottom="1dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
                 android:orientation="horizontal">
@@ -65,7 +65,7 @@
                 android:id="@+id/comment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:layout_marginBottom="0.3dp"
+                android:layout_marginBottom="1dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
                 android:orientation="horizontal">
@@ -104,7 +104,7 @@
                 android:id="@+id/attitude_layout"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:layout_marginBottom="0.3dp"
+                android:layout_marginBottom="1dp"
                 android:background="@drawable/message_item_auto"
                 android:clickable="true"
                 android:orientation="horizontal">

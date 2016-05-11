@@ -453,13 +453,20 @@ public class FillContent {
     }
 
     public static void FillCenterContent(Status status, ImageView profile_img, TextView profile_name, TextView content) {
-        if (status.origin_pic_urls == null || status.origin_pic_urls.size() == 0) {
-            ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img);
-        } else {
-            ImageLoader.getInstance().displayImage(status.origin_pic_urls.get(0), profile_img);
+        if (status.user != null) {
+            if (status.origin_pic_urls == null || status.origin_pic_urls.size() == 0) {
+                ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img);
+            } else {
+                ImageLoader.getInstance().displayImage(status.origin_pic_urls.get(0), profile_img);
+            }
+            profile_name.setText(status.user.name);
+            content.setText(status.text);
+        }else {
+            profile_img.setVisibility(View.GONE);
+            content.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
         }
-        profile_name.setText(status.user.name);
-        content.setText(status.text);
+
+
     }
 
 

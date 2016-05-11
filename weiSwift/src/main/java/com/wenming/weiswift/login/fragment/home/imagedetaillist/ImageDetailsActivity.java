@@ -99,7 +99,9 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
     private void setOutBackground(float alpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = alpha;
+
         getWindow().setAttributes(lp);
+
     }
 
     /**

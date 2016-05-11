@@ -29,8 +29,6 @@ import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.legacy.GroupAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
-import com.sina.weibo.sdk.openapi.models.Group;
-import com.sina.weibo.sdk.openapi.models.GroupList;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
@@ -100,24 +98,29 @@ public class HomeFragment extends Fragment implements IWeiboListRecyclerView {
     }
 
     private void initGroupWindows() {
+
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
+        mUserName = (TextView) mView.findViewById(R.id.name);
 
         mGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGroupAPI.groups(new RequestListener() {
-                    @Override
-                    public void onComplete(String s) {
-                        LogUtil.d(s);
-                        ArrayList<Group> groupList = GroupList.parse(s).groupList;
-                    }
 
-                    @Override
-                    public void onWeiboException(WeiboException e) {
-                        ToastUtil.showShort(mContext, e.getMessage());
-                        LogUtil.d(e.getMessage());
-                    }
-                });
+                ToastUtil.showShort(getActivity(), "正在开发中...");
+
+//                mGroupAPI.groups(new RequestListener() {
+//                    @Override
+//                    public void onComplete(String s) {
+//                        LogUtil.d(s);
+//                        ArrayList<Group> groupList = GroupList.parse(s).groupList;
+//                    }
+//
+//                    @Override
+//                    public void onWeiboException(WeiboException e) {
+//                        ToastUtil.showShort(mContext, e.getMessage());
+//                        LogUtil.d(e.getMessage());
+//                    }
+//                });
             }
         });
     }
@@ -198,11 +201,14 @@ public class HomeFragment extends Fragment implements IWeiboListRecyclerView {
     }
 
     private void refreshUserName() {
+
+
         long uid = Long.parseLong(mAccessToken.getUid());
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 // 调用 User#parse 将JSON串解析成User对象
+                mGroup.setVisibility(View.VISIBLE);
                 User user = User.parse(response);
                 if (user != null) {
                     mUserName.setText(user.name);
@@ -238,6 +244,7 @@ public class HomeFragment extends Fragment implements IWeiboListRecyclerView {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
+                refreshUserName();
                 firstLoadData();
             }
         });
