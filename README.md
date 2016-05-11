@@ -34,7 +34,7 @@ Gif样式
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rtkpgpebj207i0dcgmy.jpg)
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rtknwh7kj207i0dcdgx.jpg)
 ![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rtksehzwj207i0dct9z.jpg)
-![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rzww0zf8j207i0dcaav.jpgg)
+![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rzww0zf8j207i0dcaav.jpg)
 
 
 消息模块
