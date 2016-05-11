@@ -38,8 +38,8 @@ Gif样式
 
 消息模块
 ------
-- **支持查看@消息**
-- **支持查看评论消息**
+- 支持查看@消息
+- 支持查看评论消息
 
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrjifsyfj21401z442a.jpg)
 ![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrjqp8odj21401z4dsn.jpg)
@@ -47,8 +47,8 @@ Gif样式
 
 发微博模块
 -----
-- **支持发送图文微博**
-- **支持图片选择器**
+- 支持发送图文微博
+- 支持图片选择器
 
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rroyv6onj21401z4agh.jpg)
 ![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrre2u6vj21401z4hdt.jpg)
@@ -58,7 +58,7 @@ Gif样式
 
 发现模块
 -----
-- **支持查看热门微博**
+- 支持查看热门微博
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrw7znd9j21401z413t.jpg)
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rrwdv6szj21401z44dp.jpg)
 
@@ -66,7 +66,7 @@ Gif样式
 
 关于我模块
 -----
-- **支持查看我的微博，粉丝，关注**
+- 支持查看我的微博，粉丝，关注
 
 ![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrxirlp0j21401z4470.jpg)
 ![enter image description here](http://ww4.sinaimg.cn/mw690/691cc151gw1f3rrye81xkj21401z47kj.jpg)
@@ -78,8 +78,8 @@ Gif样式
 
 设置模块（支持注销，图片缓存清空）
 -----
-- **支持注销**
-- **支持图片缓存清空**
+- 支持注销
+- 支持图片缓存清空
 ![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3rrxcf3wkj21401z4jvu.jpg)
 
 
