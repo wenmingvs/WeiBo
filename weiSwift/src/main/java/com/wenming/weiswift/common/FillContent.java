@@ -461,12 +461,10 @@ public class FillContent {
             }
             profile_name.setText(status.user.name);
             content.setText(status.text);
-        }else {
-            profile_img.setVisibility(View.GONE);
+        } else {
+            profile_img.setImageResource(R.drawable.photo_filter_image_empty);
             content.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
         }
-
-
     }
 
 

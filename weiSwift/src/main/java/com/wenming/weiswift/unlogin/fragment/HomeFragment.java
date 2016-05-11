@@ -10,9 +10,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.wenming.weiswift.R;
 
 /**
@@ -23,7 +20,6 @@ public class HomeFragment extends BaseFragment {
     public TextView mLogin;
     public TextView mRegister;
     private ImageView mCircleView;
-
 
 
     @Override
