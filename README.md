@@ -22,7 +22,7 @@ weibotest123
 
 Gif样式
 -----
-![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f317wztszhg20810g2e87.gif)
+![enter image description here](http://ww2.sinaimg.cn/mw690/691cc151gw1f3s0kcwng4g20dc0hs4qv.gif)
 
 主页模块
 -----
