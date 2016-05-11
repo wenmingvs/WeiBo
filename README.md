@@ -56,7 +56,7 @@ Gif样式
 
 
 
-发现模块（支持热门微博刷新）
+发现模块
 -----
 - **支持查看热门微博**
 ![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3rrw7znd9j21401z413t.jpg)
