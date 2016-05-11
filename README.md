@@ -26,9 +26,9 @@ Gif样式
 
 主页模块
 -----
-- **支持浏览图文微博，图片支持长微博，Gif等**
-- **支持转发微博**
-- **支持浏览评论**
+- 支持浏览图文微博，图片支持长微博，Gif等
+- 支持转发微博
+- 支持浏览评论
 
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rrf8ys6lj21401z44ia.jpg)
 ![enter image description here](http://ww1.sinaimg.cn/mw690/691cc151gw1f3rrevh0ayj21401z4wxq.jpg)
