@@ -22,7 +22,4 @@ public class MyClickableSpan extends ClickableSpan {
         ds.setUnderlineText(false);
     }
 
-
-
-
 }

@@ -1,6 +1,8 @@
 package com.wenming.weiswift.login.fragment.home.util;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -72,7 +74,9 @@ public class WeiBoContentTextUtil {
 
                     @Override
                     public void onClick(View widget) {
-                        Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        context.startActivity(browserIntent);
+                        //Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
                     }
                 };
                 spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

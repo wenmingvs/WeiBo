@@ -3,6 +3,7 @@ package com.wenming.weiswift.common;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -564,6 +565,8 @@ public class FillContent {
         } else {
             userCoverimg.setImageResource(R.drawable.cover_image);
         }
+
+        userCoverimg.setColorFilter(Color.parseColor("#1e000000"));
 
         FillContent.fillProfileImg(context, user, userImg, userVerified);
         userName.setText(user.name);
