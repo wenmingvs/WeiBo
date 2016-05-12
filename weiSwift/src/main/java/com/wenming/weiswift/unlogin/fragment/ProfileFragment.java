@@ -31,14 +31,14 @@ public class ProfileFragment extends BaseFragment {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSsoHandler.authorizeWeb(new AuthListener());
+                openLoginWebView();
             }
         });
 
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSsoHandler.registerOrLoginByMobile("验证码登陆", new AuthListener());
+                openLoginWebView();
             }
         });
     }

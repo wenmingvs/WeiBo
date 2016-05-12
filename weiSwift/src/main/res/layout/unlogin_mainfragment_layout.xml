@@ -46,23 +46,10 @@
             android:gravity="center"
             android:text="由于App还在开发的原因，请使用GitHub上提供的测试账号体验"
             android:textColor="#909090"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="帐号：529208204@qq.com"
-            android:textColor="#909090"
-            android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="密码：weibotest123              "
-            android:textColor="#909090"
-            android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>
 
