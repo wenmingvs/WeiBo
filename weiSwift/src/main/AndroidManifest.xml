@@ -85,6 +85,8 @@
         <activity
             android:name="com.sina.weibo.sdk.register.mobile.SelectCountryActivity"
             android:configChanges="keyboardHidden|orientation" />
+
+        <activity android:name=".unlogin.activity.WebViewActivity" />
     </application>
 
 </manifest>

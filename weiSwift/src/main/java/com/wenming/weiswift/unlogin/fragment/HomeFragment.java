@@ -38,19 +38,17 @@ public class HomeFragment extends BaseFragment {
         LinearInterpolator lin = new LinearInterpolator();
         rotateAnim.setInterpolator(lin);
         mCircleView.setAnimation(rotateAnim);
-
-
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSsoHandler.authorizeWeb(new AuthListener());
+                openLoginWebView();
             }
         });
 
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSsoHandler.registerOrLoginByMobile("验证码登陆", new AuthListener());
+                openLoginWebView();
             }
         });
     }

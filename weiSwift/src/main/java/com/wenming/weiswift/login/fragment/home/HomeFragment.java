@@ -29,6 +29,8 @@ import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.legacy.GroupAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
+import com.sina.weibo.sdk.openapi.models.Group;
+import com.sina.weibo.sdk.openapi.models.GroupList;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
@@ -106,21 +108,21 @@ public class HomeFragment extends Fragment implements IWeiboListRecyclerView {
             @Override
             public void onClick(View v) {
 
-                ToastUtil.showShort(getActivity(), "正在开发中...");
+                //ToastUtil.showShort(getActivity(), "正在开发中...");
 
-//                mGroupAPI.groups(new RequestListener() {
-//                    @Override
-//                    public void onComplete(String s) {
-//                        LogUtil.d(s);
-//                        ArrayList<Group> groupList = GroupList.parse(s).groupList;
-//                    }
-//
-//                    @Override
-//                    public void onWeiboException(WeiboException e) {
-//                        ToastUtil.showShort(mContext, e.getMessage());
-//                        LogUtil.d(e.getMessage());
-//                    }
-//                });
+                mGroupAPI.groups(new RequestListener() {
+                    @Override
+                    public void onComplete(String s) {
+                        LogUtil.d(s);
+                        ArrayList<Group> groupList = GroupList.parse(s).groupList;
+                    }
+
+                    @Override
+                    public void onWeiboException(WeiboException e) {
+                        ToastUtil.showShort(mContext, e.getMessage());
+                        LogUtil.d(e.getMessage());
+                    }
+                });
             }
         });
     }

@@ -3,6 +3,7 @@ package com.wenming.weiswift.unlogin.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -13,6 +14,7 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.wenming.weiswift.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.common.login.Constants;
 import com.wenming.weiswift.login.activity.MainActivity;
+import com.wenming.weiswift.unlogin.activity.WebViewActivity;
 
 /**
  * Created by wenmingvs on 16/5/10.
@@ -57,4 +59,18 @@ public class BaseFragment extends Fragment {
             Toast.makeText(getContext(), "取消授权", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void openLoginWebView() {
+        String authurl = "https://open.weibo.cn/oauth2/authorize" + "?" + "client_id=" + Constants.APP_KEY
+                + "&response_type=token&redirect_uri=" + Constants.REDIRECT_URL
+                + "&key_hash=" + Constants.AppSecret + (TextUtils.isEmpty(Constants.PackageName) ? "" : "&packagename=" + Constants.PackageName)
+                + "&display=mobile" + "&scope=" + Constants.SCOPE;
+
+        Intent intent = new Intent(getContext(), WebViewActivity.class);
+        intent.putExtra("url", authurl);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+
 }
