@@ -1,5 +1,6 @@
 package com.wenming.weiswift.login.fragment.home.imagedetaillist;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -84,7 +85,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                     mPopupWindow.dismiss();
                 } else {
                     mPopupWindow.showAtLocation(findViewById(R.id.frameLayout), Gravity.BOTTOM, 0, 0);
-                    setOutBackground(0.5f);
+                    setOutBackground(1.0f,0.5f);
                 }
             }
         });
@@ -92,16 +93,22 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
     }
 
     /**
-     * 设置popwindow外部的alpha值
-     *
-     * @param alpha
+     * 调整窗口的透明度
+     * @param from
+     * @param to
      */
-    private void setOutBackground(float alpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = alpha;
-
-        getWindow().setAttributes(lp);
-
+    private void setOutBackground(float from, float to) {
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
+        valueAnimator.setDuration(600);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                lp.alpha = (float) animation.getAnimatedValue();
+                getWindow().setAttributes(lp);
+            }
+        });
+        valueAnimator.start();
     }
 
     /**
@@ -113,7 +120,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                setOutBackground(1.0f);
+                setOutBackground(0.5f, 1.0f);
             }
         });
     }
