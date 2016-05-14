@@ -10,7 +10,7 @@
 
     <include layout="@layout/message_commentitem_titlebar" />
 
-    <com.wenming.weiswift.common.emojitextview.EmojiTextView
+    <com.wenming.weiswift.widget.emojitextview.EmojiTextView
         android:id="@+id/mention_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
-        android:name=".common.MyApplication"
+        android:name=".ui.common.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -26,7 +26,7 @@
         android:windowSoftInputMode="adjustResize">
 
         <activity
-            android:name=".welcome.WelcomeActivity"
+            android:name=".ui.welcome.WelcomeActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
 
             <intent-filter>
@@ -35,41 +35,41 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".unlogin.activity.UnLoginActivity" />
+        <activity android:name=".ui.unlogin.activity.UnLoginActivity" />
 
-        <activity android:name=".login.activity.MainActivity" />
+        <activity android:name=".ui.login.activity.MainActivity" />
 
-        <activity android:name=".login.fragment.profile.setting.SettingActivity" />
-
-
-        <activity android:name=".login.fragment.home.imagedetaillist.ImageDetailsActivity" />
-
-        <activity android:name=".login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity" />
-
-        <activity android:name=".login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity" />
-
-        <activity android:name=".login.fragment.message.mention.MentionActivity" />
-
-        <activity android:name=".login.fragment.message.comment.CommentActivity" />
-
-        <activity android:name=".login.fragment.profile.myweibo.MyWeiBoActivity" />
-
-        <activity android:name=".login.fragment.discovery.popularweibo.PopularWeiBoActivity" />
-
-        <activity android:name=".login.fragment.profile.followers.FollowerActivity" />
-
-        <activity android:name=".login.fragment.profile.friends.FriendsActivity" />
-
-        <activity android:name=".login.fragment.home.userdetail.UserActivity" />
-
-        <activity android:name=".login.fragment.post.PostActivity" />
-
-        <activity android:name=".login.fragment.post.idea.IdeaActivity" />
+        <activity android:name=".ui.login.fragment.profile.setting.SettingActivity" />
 
 
-        <activity android:name=".login.fragment.post.picselect.activity.AlbumActivity" />
+        <activity android:name=".ui.login.fragment.home.imagedetaillist.ImageDetailsActivity" />
 
-        <service android:name=".login.fragment.post.PostService" />
+        <activity android:name=".ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity" />
+
+        <activity android:name=".ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity" />
+
+        <activity android:name=".ui.login.fragment.message.mention.MentionActivity" />
+
+        <activity android:name=".ui.login.fragment.message.comment.CommentActivity" />
+
+        <activity android:name=".ui.login.fragment.profile.myweibo.MyWeiBoActivity" />
+
+        <activity android:name=".ui.login.fragment.discovery.popularweibo.PopularWeiBoActivity" />
+
+        <activity android:name=".ui.login.fragment.profile.followers.FollowerActivity" />
+
+        <activity android:name=".ui.login.fragment.profile.friends.FriendsActivity" />
+
+        <activity android:name=".ui.login.fragment.home.userdetail.UserActivity" />
+
+        <activity android:name=".ui.login.fragment.post.PostActivity" />
+
+        <activity android:name=".ui.login.fragment.post.idea.IdeaActivity" />
+
+
+        <activity android:name=".ui.login.fragment.post.picselect.activity.AlbumActivity" />
+
+        <service android:name=".ui.login.fragment.post.PostService" />
 
         <!-- 登录web界面-->
         <activity
@@ -86,7 +86,7 @@
             android:name="com.sina.weibo.sdk.register.mobile.SelectCountryActivity"
             android:configChanges="keyboardHidden|orientation" />
 
-        <activity android:name=".unlogin.activity.WebViewActivity" />
+        <activity android:name=".ui.unlogin.activity.WebViewActivity" />
     </application>
 
 </manifest>

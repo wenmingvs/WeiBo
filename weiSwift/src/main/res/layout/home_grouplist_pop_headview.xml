@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/allweibo"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:background="@drawable/home_groupitem_bg_auto"
+        android:gravity="center_vertical"
+        android:padding="7dp"
+        android:text="首页"
+        android:textColor="#ffa600"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/bestfriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_groupitem_bg_auto"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:gravity="center_vertical"
+            android:padding="7dp"
+            android:text="好友圈"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/friendcircle_popover_cell_friendcircle" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="7.5dp"
+            android:layout_height="2dp"
+            android:background="#4d4d4d" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3.5dp"
+            android:layout_marginRight="3.5dp"
+            android:text="我的分组"
+            android:textColor="#323232"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#4d4d4d" />
+    </LinearLayout>
+
+</LinearLayout>

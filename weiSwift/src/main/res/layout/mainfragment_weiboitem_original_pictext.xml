@@ -10,7 +10,7 @@
 
     <include layout="@layout/mainfragment_weiboitem_titlebar" />
 
-    <com.wenming.weiswift.common.emojitextview.EmojiTextView
+    <com.wenming.weiswift.widget.emojitextview.EmojiTextView
         android:id="@+id/weibo_Content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

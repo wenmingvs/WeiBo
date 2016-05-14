@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="185dp"
+    android:layout_height="320dp"
+    android:background="@drawable/popover_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/home_grouplist_pop_item" />
+
+    <TextView
+        android:id="@+id/editgroup"
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:background="@drawable/home_groupedit_bg_auto"
+        android:gravity="center"
+        android:text="编辑我的分组"
+        android:textColor="@color/white" />
+
+</LinearLayout>

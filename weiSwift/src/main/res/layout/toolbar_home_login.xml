@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_home"
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:background="@color/white">
@@ -21,16 +22,19 @@
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp"
-        android:visibility="gone">
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="闭关写代码"
             android:textColor="#545454"
-            android:textSize="20sp"
-             />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/arrow"
