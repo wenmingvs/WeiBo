@@ -42,7 +42,6 @@ public class StatusListModelImp implements StatusListModel {
         if (mRefrshAllData) {
             mFirstWeiboId = 0;
         }
-        ToastUtil.showShort(context, mFirstWeiboId + "");
         mStatusesAPI.friendsTimeline(mFirstWeiboId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -56,7 +55,7 @@ public class StatusListModelImp implements StatusListModel {
                     updateId();
                     onRequestFinishedListener.onDataFinish(mStatusList);
                 } else {
-                    ToastUtil.showShort(context, "返回的数据为空");
+                    ToastUtil.showShort(context, "没有更新的内容了");
                     onRequestFinishedListener.noMoreDate();
                 }
                 mRefrshAllData = false;
@@ -64,7 +63,7 @@ public class StatusListModelImp implements StatusListModel {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                onRequestFinishedListener.onError(e.getMessage());
+                ToastUtil.showShort(context, e.getMessage());
             }
         });
     }
@@ -72,16 +71,18 @@ public class StatusListModelImp implements StatusListModel {
     @Override
     public void getNextPageWeiBo(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
         setTimeTask();
-        ToastUtil.showShort(context, mLastWeiboId + "");
         if (mStatusesAPI == null) {
             mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        }
+        if (mNoMoreData == true) {
+            return;
         }
         mStatusesAPI.friendsTimeline(0, mLastWeiboId, NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId))) {
+                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId)))) {
                         mNoMoreData = true;
                         onRequestFinishedListener.noMoreDate();
                     } else if (temp.size() > 1) {
@@ -98,6 +99,7 @@ public class StatusListModelImp implements StatusListModel {
 
             @Override
             public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(context, e.getMessage());
                 onRequestFinishedListener.onError(e.getMessage());
             }
         });

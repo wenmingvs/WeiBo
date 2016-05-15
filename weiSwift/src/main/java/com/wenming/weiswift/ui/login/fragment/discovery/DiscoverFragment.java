@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.ui.login.fragment.discovery.popularweibo.PopularWeiBoActivity;
+import com.wenming.weiswift.ui.login.fragment.discovery.hotweibo.HotWeiBoActivity;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -29,7 +29,7 @@ public class DiscoverFragment extends Fragment {
         mPublicWeibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PopularWeiBoActivity.class);
+                Intent intent = new Intent(getActivity(), HotWeiBoActivity.class);
                 getContext().startActivity(intent);
             }
         });

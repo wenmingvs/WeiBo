@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,7 +26,6 @@ public class WebViewActivity extends Activity {
     private String sRedirectUri;
     private WebView mWeb;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,24 @@ public class WebViewActivity extends Activity {
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWeb.setWebViewClient(new MyWebViewClient());
         mWeb.loadUrl(url);
+        mWeb.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                    if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+                        if (mWeb.canGoBack()) {
+                            mWeb.goBack();
+                        } else {
+                            Intent intent = new Intent(WebViewActivity.this, UnLoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -64,6 +83,7 @@ public class WebViewActivity extends Activity {
             super.onPageStarted(view, url, favicon);
         }
     }
+
 
     public boolean isUrlRedirected(String url) {
         return url.startsWith(sRedirectUri);
@@ -101,5 +121,6 @@ public class WebViewActivity extends Activity {
 
         }
     }
+
 
 }

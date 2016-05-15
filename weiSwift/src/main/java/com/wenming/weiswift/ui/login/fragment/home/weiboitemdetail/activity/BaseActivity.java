@@ -4,29 +4,27 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.wenming.weiswift.entity.Comment;
-import com.wenming.weiswift.entity.list.CommentList;
-import com.wenming.weiswift.entity.Status;
-import com.wenming.weiswift.entity.list.StatusList;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.list.CommentList;
+import com.wenming.weiswift.entity.list.StatusList;
 import com.wenming.weiswift.ui.common.NewFeature;
-import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
-import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
-import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview.OnDetailButtonClickListener;
 import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview.OnDetailButtonClickListener;
+import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
+import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
+import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +74,11 @@ public abstract class BaseActivity extends DetailActivity {
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         addHeaderView(mCommentDatas == null ? 0 : mCommentDatas.size());
         refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
+    }
+
+
+    public void onArrorClick(View view) {
+        finish();
     }
 
     @Override
@@ -194,31 +197,11 @@ public abstract class BaseActivity extends DetailActivity {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if (state == LoadingFooter.State.Loading) {
-                Log.d("wenming", "the state is Loading, just wait..");
-                return;
-            }
             if (!mNoMoreData && mCommentDatas != null) {
-                // loading more
                 RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Loading, null);
                 requestMoreData();
             }
         }
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            switch (newState) {
-                case RecyclerView.SCROLL_STATE_DRAGGING:
-                    ImageLoader.getInstance().pause();
-                    break;
-                case RecyclerView.SCROLL_STATE_IDLE:
-                    ImageLoader.getInstance().resume();
-                    break;
-            }
-        }
-
 
     };
 

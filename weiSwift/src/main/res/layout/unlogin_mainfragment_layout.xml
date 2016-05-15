@@ -13,7 +13,6 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:layout_width="200dp"
             android:layout_height="200dp">
@@ -39,17 +38,33 @@
                 android:background="#f2f2f2" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            android:text="由于App还在开发的原因，请使用GitHub上提供的测试账号体验"
-            android:textColor="#909090"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="140dp"
+                android:layout_height="42dp"
+                android:layout_marginRight="14dp"
+                android:background="@drawable/unlogin_register_corners_bg"
+                android:gravity="center"
+                android:text="注册"
+                android:onClick="openLoginWebView"
+                android:textColor="#f18312" />
 
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="140dp"
+                android:layout_height="42dp"
+                android:background="@drawable/unlogin_register_corners_bg"
+                android:gravity="center"
+                android:text="登录"
+                android:onClick="openLoginWebView"
+                android:textColor="#777777" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 

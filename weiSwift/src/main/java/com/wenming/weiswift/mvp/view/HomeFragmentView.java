@@ -1,15 +1,18 @@
 package com.wenming.weiswift.mvp.view;
 
-import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
 
 /**
- * Created by wenmingvs on 16/5/15.
+ * Created by wenmingvs on 16/5/14.
  */
-public interface CommentActivityView {
+public interface HomeFragmentView {
+    /**
+     * 刷新数据集
+     */
+    public void updateListView(ArrayList<Status> statuselist);
 
-    public void updateListView(ArrayList<Comment> commentlist);
 
     /**
      * 显示loading动画
@@ -41,4 +44,9 @@ public interface CommentActivityView {
      */
     public void showErrorFooterView();
 
+
+    /**
+     * 设置用户名
+     */
+    public void setUserName(String userName);
 }

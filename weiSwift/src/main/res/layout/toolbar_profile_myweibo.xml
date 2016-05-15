@@ -13,6 +13,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:scaleType="centerCrop"
+        android:onClick="onArrorClick"
         android:src="@drawable/navigationbar_back_auto" />
 
     <LinearLayout

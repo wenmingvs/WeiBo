@@ -8,17 +8,18 @@ import com.wenming.weiswift.mvp.model.StatusListModel;
 import com.wenming.weiswift.mvp.model.UserModel;
 import com.wenming.weiswift.mvp.model.imp.StatusListModelImp;
 import com.wenming.weiswift.mvp.model.imp.UserModelImp;
-import com.wenming.weiswift.mvp.presenter.HomePresent;
-import com.wenming.weiswift.mvp.view.HomeView;
+import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
+import com.wenming.weiswift.mvp.view.HomeFragmentView;
+import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 
 import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 16/5/14.
  */
-public class HomePresentImp implements HomePresent {
+public class HomeFragmentPresentImp implements HomeFragmentPresent {
 
-    private HomeView mHomeView;
+    private HomeFragmentView mHomeView;
     private StatusListModel mStatusListModel;
     private UserModel mUserModel;
 
@@ -28,7 +29,7 @@ public class HomePresentImp implements HomePresent {
      *
      * @param homeView
      */
-    public HomePresentImp(HomeView homeView) {
+    public HomeFragmentPresentImp(HomeFragmentView homeView) {
         this.mHomeView = homeView;
         this.mStatusListModel = new StatusListModelImp();
         this.mUserModel = new UserModelImp();
@@ -42,7 +43,7 @@ public class HomePresentImp implements HomePresent {
      */
     @Override
     public void refreshUserName(Context context) {
-        mUserModel.getUserName(context, new UserModel.OnUserRequestFinish() {
+        mUserModel.getUserName(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserTextRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mHomeView.setUserName(user.name);
@@ -50,7 +51,6 @@ public class HomePresentImp implements HomePresent {
 
             @Override
             public void onError(String error) {
-                mHomeView.showToast(error);
                 mHomeView.setUserName("我的首页");
             }
         });
@@ -73,7 +73,6 @@ public class HomePresentImp implements HomePresent {
         mStatusListModel.getWeiBoFromCache(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
-                mHomeView.showToast("没有缓存数据");
             }
 
             @Override
@@ -105,7 +104,6 @@ public class HomePresentImp implements HomePresent {
             @Override
             public void onError(String error) {
                 mHomeView.showErrorFooterView();
-                mHomeView.showToast(error);
             }
         });
     }
@@ -123,7 +121,6 @@ public class HomePresentImp implements HomePresent {
             @Override
             public void noMoreDate() {
                 mHomeView.hideLoadingIcon();
-                mHomeView.showToast("没有更新的内容了");
             }
 
             @Override
@@ -136,7 +133,6 @@ public class HomePresentImp implements HomePresent {
             public void onError(String error) {
                 mHomeView.hideLoadingIcon();
                 mHomeView.showErrorFooterView();
-                mHomeView.showToast(error);
             }
         });
     }

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.model.MentionModel;
 import com.wenming.weiswift.mvp.model.imp.MentionModelImp;
-import com.wenming.weiswift.mvp.presenter.MentionPresent;
+import com.wenming.weiswift.mvp.presenter.MentionActivityPresent;
 import com.wenming.weiswift.mvp.view.MentionActivityView;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/15.
  */
-public class MentionPresentImp implements MentionPresent {
+public class MentionActivityPresentImp implements MentionActivityPresent {
 
     private MentionActivityView mMentionActivityView;
     private MentionModel mMentionModel;
 
-    public MentionPresentImp(MentionActivityView MentionActivityView) {
+    public MentionActivityPresentImp(MentionActivityView MentionActivityView) {
         this.mMentionActivityView = MentionActivityView;
         this.mMentionModel = new MentionModelImp();
     }

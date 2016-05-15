@@ -10,9 +10,9 @@ import com.sina.weibo.sdk.openapi.CommentsAPI;
 import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.widget.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.widget.endlessrecyclerview.IEndlessRecyclerView;
 
 /**
  * 主要用于完成一些网络请求的初始化操作，以及顶部bar的初始化
@@ -36,7 +36,6 @@ public abstract class DetailActivity extends Activity implements IEndlessRecycle
         initAccessToken();
         initRefreshLayout();
         initRecyclerView();
-
     }
 
     public void initAccessToken() {

@@ -15,6 +15,7 @@
         android:layout_marginLeft="8dp"
         android:text="注册"
         android:textColor="@color/orange"
+        android:onClick="openLoginWebView"
         android:textSize="18sp" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_marginRight="8dp"
         android:text="登陆"
         android:textColor="@color/orange"
+        android:onClick="openLoginWebView"
         android:textSize="18sp" />
 
     <ImageView

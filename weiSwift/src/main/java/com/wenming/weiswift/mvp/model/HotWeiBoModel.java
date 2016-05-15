@@ -2,19 +2,19 @@ package com.wenming.weiswift.mvp.model;
 
 import android.content.Context;
 
-import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
 
 /**
- * Created by wenmingvs on 16/5/15.
+ * Created by wenmingvs on 16/5/16.
  */
-public interface CommentModel {
+public interface HotWeiBoModel {
 
     interface OnDataFinishedListener {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Comment> commentlist);
+        void onDataFinish(ArrayList<Status> statuslist);
 
         void onError(String error);
 
@@ -24,10 +24,6 @@ public interface CommentModel {
     public void getLatestComment(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void getNextPageComment(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void saveCommentCache(Context context, String response);
-
-    public ArrayList<Comment> getCommentCache(Context context);
 
 
 }

@@ -29,4 +29,5 @@ public interface StatusListModel {
     public void saveWeiBoCache(Context context, String response);
 
 
+
 }

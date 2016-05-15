@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
+        android:onClick="onArrorClick"
         android:scaleType="centerCrop"
         android:src="@drawable/navigationbar_back_auto" />
 

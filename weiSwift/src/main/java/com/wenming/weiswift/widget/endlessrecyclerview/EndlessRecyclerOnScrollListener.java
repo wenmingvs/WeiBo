@@ -4,7 +4,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
+import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
 
 /**
  * Created by cundong on 2015/10/9.
@@ -73,12 +78,26 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
+
         currentScrollState = newState;
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
         if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE && (lastVisibleItemPosition) >= totalItemCount - 1)) {
+            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(recyclerView);
+            if (state == LoadingFooter.State.Loading || state == LoadingFooter.State.TheEnd) {
+                Log.d("wenming", "the state is Loading/The End, just wait..");
+                return;
+            }
             onLoadNextPage(recyclerView);
+        }
+        switch (newState) {
+            case RecyclerView.SCROLL_STATE_DRAGGING:
+                ImageLoader.getInstance().pause();
+                break;
+            case RecyclerView.SCROLL_STATE_IDLE:
+                ImageLoader.getInstance().resume();
+                break;
         }
     }
 
@@ -101,6 +120,7 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
 
     @Override
     public void onLoadNextPage(final View view) {
+
     }
 
     public static enum LayoutManagerType {

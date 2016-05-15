@@ -1,15 +1,14 @@
 package com.wenming.weiswift.mvp.view;
 
-import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.User;
 
 import java.util.ArrayList;
 
 /**
- * Created by wenmingvs on 16/5/15.
+ * Created by wenmingvs on 16/5/16.
  */
-public interface CommentActivityView {
-
-    public void updateListView(ArrayList<Comment> commentlist);
+public interface FriendActivityView {
+    public void updateListView(ArrayList<User> userlist);
 
     /**
      * 显示loading动画
@@ -40,5 +39,4 @@ public interface CommentActivityView {
      * 显示FooterView，提示没有网络
      */
     public void showErrorFooterView();
-
 }

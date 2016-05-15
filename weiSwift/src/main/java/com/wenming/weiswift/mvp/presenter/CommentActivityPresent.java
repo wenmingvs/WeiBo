@@ -5,9 +5,7 @@ import android.content.Context;
 /**
  * Created by wenmingvs on 16/5/15.
  */
-public interface MentionPresent {
-
-
+public interface CommentActivityPresent {
     public void pullToRefreshData(Context context);
 
     public void requestMoreData(Context context);

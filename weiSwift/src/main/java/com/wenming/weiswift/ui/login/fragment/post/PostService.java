@@ -16,13 +16,13 @@ import android.support.v7.app.NotificationCompat;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
-import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.utils.ToastUtil;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -97,7 +97,7 @@ public class PostService extends Service {
         mStatusesAPI.upload(mContent, bitmap, "0", "0", new RequestListener() {
             @Override
             public void onComplete(String s) {
-                ToastUtil.showShort(PostService.this, "发送成功！");
+                //ToastUtil.showShort(PostService.this, "发送成功！");
                 mSendNotifity.cancel(SEND_STATUS_SEND);
                 showSuccessNotifiy();
                 final Message message = Message.obtain();
@@ -137,7 +137,7 @@ public class PostService extends Service {
         mStatusesAPI.update(mContent.toString(), "0.0", "0.0", new RequestListener() {
             @Override
             public void onComplete(String s) {
-                ToastUtil.showShort(PostService.this, "发送成功");
+                //ToastUtil.showShort(PostService.this, "发送成功");
                 mSendNotifity.cancel(SEND_STATUS_SEND);
                 showSuccessNotifiy();
                 final Message message = Message.obtain();
@@ -152,7 +152,7 @@ public class PostService extends Service {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(PostService.this, "发送失败！");
+                //ToastUtil.showShort(PostService.this, "发送失败！");
                 mSendNotifity.cancel(SEND_STATUS_SEND);
                 showErrorNotifiy();
                 final Message message = Message.obtain();
@@ -175,7 +175,7 @@ public class PostService extends Service {
         mStatusesAPI.repost(Long.valueOf(mStatus.id), mContent.toString(), 0, new RequestListener() {
             @Override
             public void onComplete(String s) {
-                ToastUtil.showShort(PostService.this, "转发成功");
+                //ToastUtil.showShort(PostService.this, "转发成功");
                 mSendNotifity.cancel(SEND_STATUS_SEND);
                 showSuccessNotifiy();
                 final Message message = Message.obtain();

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/14.
  */
-public interface GroupPopView {
+public interface GroupPopWindowView {
 
     /**
      * 将网络请求返回的数据，添加到ListView上,需要返回返回

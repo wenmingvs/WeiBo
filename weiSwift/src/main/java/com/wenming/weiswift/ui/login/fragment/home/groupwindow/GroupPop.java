@@ -12,7 +12,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Group;
 import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.presenter.imp.GroupListPresenterImp;
-import com.wenming.weiswift.mvp.view.GroupPopView;
+import com.wenming.weiswift.mvp.view.GroupPopWindowView;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/12.
  */
-public class GroupPop extends PopupWindow implements GroupPopView {
+public class GroupPop extends PopupWindow implements GroupPopWindowView {
 
     private RecyclerView mRecyclerView;
     private Context mContext;

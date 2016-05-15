@@ -39,7 +39,7 @@ public class MentionModelImp implements MentionModel {
         if (mRefrshAllData) {
             mFirstWeiboId = 0;
         }
-        ToastUtil.showShort(context, mFirstWeiboId + "");
+        //ToastUtil.showShort(context, mFirstWeiboId + "");
 
         mStatusesAPI.mentions(mFirstWeiboId, 0, NewFeature.GET_MENTION_ITEM, 1, 0, 0, 0, true, new RequestListener() {
             @Override
@@ -70,7 +70,7 @@ public class MentionModelImp implements MentionModel {
 
     @Override
     public void getNextPageMention(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        ToastUtil.showShort(context, mLastWeiboId + "");
+        //ToastUtil.showShort(context, mLastWeiboId + "");
         if (mStatusesAPI == null) {
             mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         }
@@ -84,7 +84,7 @@ public class MentionModelImp implements MentionModel {
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId))) {
+                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId)))) {
                         mNoMoreData = true;
                         onDataFinishedListener.noMoreDate();
                     } else if (temp.size() > 1) {

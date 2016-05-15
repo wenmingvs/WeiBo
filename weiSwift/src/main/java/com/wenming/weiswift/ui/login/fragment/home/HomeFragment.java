@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +16,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
-import com.wenming.weiswift.mvp.presenter.HomePresent;
-import com.wenming.weiswift.mvp.presenter.imp.HomePresentImp;
-import com.wenming.weiswift.mvp.view.HomeView;
+import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
+import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
+import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPop;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -41,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeFragmentView {
 
     private ArrayList<Status> mDatas;
     public Context mContext;
@@ -53,13 +50,13 @@ public class HomeFragment extends Fragment implements HomeView {
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public WeiboAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
-    private HomePresent mHomePresent;
+    private HomeFragmentPresent mHomePresent;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = getActivity();
-        mHomePresent = new HomePresentImp(this);
+        mHomePresent = new HomeFragmentPresentImp(this);
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
@@ -172,36 +169,13 @@ public class HomeFragment extends Fragment implements HomeView {
         mGroup.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void showToast(String content) {
-        ToastUtil.showShort(mContext, content);
-    }
-
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if (state == LoadingFooter.State.Loading || state == LoadingFooter.State.TheEnd) {
-                Log.d("wenming", "the state is Loading, just wait..");
-                return;
-            }
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
                 mHomePresent.requestMoreData(mContext);
-            }
-        }
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            switch (newState) {
-                case RecyclerView.SCROLL_STATE_DRAGGING:
-                    ImageLoader.getInstance().pause();
-                    break;
-                case RecyclerView.SCROLL_STATE_IDLE:
-                    ImageLoader.getInstance().resume();
-                    break;
             }
         }
     };

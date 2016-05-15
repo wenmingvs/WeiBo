@@ -6,7 +6,7 @@ import com.wenming.weiswift.entity.Group;
 import com.wenming.weiswift.mvp.model.GroupListModel;
 import com.wenming.weiswift.mvp.model.imp.GroupListModelImp;
 import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
-import com.wenming.weiswift.mvp.view.GroupPopView;
+import com.wenming.weiswift.mvp.view.GroupPopWindowView;
 
 import java.util.ArrayList;
 
@@ -15,10 +15,10 @@ import java.util.ArrayList;
  */
 public class GroupListPresenterImp implements GroupListPresenter {
 
-    private GroupPopView mGroupPopView;
+    private GroupPopWindowView mGroupPopView;
     private GroupListModel mGroupListModel;
 
-    public GroupListPresenterImp(GroupPopView groupPopView) {
+    public GroupListPresenterImp(GroupPopWindowView groupPopView) {
         this.mGroupPopView = groupPopView;
         this.mGroupListModel = new GroupListModelImp();
     }
