@@ -18,7 +18,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void getUserName(Context context, final OnUserRequestFinish onUserRequestFinish) {
-        long uid = Long.parseLong(AccessTokenKeeper.readAccessToken(context).getUid());
+        long uid = Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid());
         UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mUsersAPI.show(uid, new RequestListener() {
             @Override

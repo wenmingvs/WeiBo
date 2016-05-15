@@ -11,7 +11,7 @@ public class NewFeature {
     public static int GET_WEIBO_NUMS = 10;
 
     //滑动到底部，获取评论的数量
-    public static int LOAD_WEIBO_ITEM = 5;
+    public static int LOADMORE_WEIBO_ITEM = 5;
 
     //每次刷新微博，获取评论的数量
     public static int GET_COMMENT_ITEM = 40;
@@ -26,10 +26,10 @@ public class NewFeature {
     public static int LOADMORE_RETWEET_ITEM = 30;
 
     //每次刷新，获取@的数量
-    public static int GET_MENTION_ITEM = 40;
+    public static int GET_MENTION_ITEM = 10;
 
     //滑动到底部，获取@的数量
-    public static int LOADMORE_MENTION_ITEM = 30;
+    public static int LOADMORE_MENTION_ITEM = 10;
 
     //每次刷新，获取公共微博的数量
     public static int GET_PUBLICWEIBO_NUMS = 40;

@@ -12,8 +12,8 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
+import com.wenming.weiswift.utils.LogUtil;
 
 /**
  * Created by wenmingvs on 16/5/12.
@@ -95,6 +95,7 @@ public class WebViewActivity extends Activity {
             mAccessToken.setUid(uid);
             AccessTokenKeeper.writeAccessToken(WebViewActivity.this, mAccessToken);
             Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
+            intent.putExtra("fisrtstart", true);
             startActivity(intent);
             finish();
 

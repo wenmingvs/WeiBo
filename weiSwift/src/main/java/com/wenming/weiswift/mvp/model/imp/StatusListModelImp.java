@@ -29,15 +29,16 @@ public class StatusListModelImp implements StatusListModel {
     private long mLastWeiboId;
     private boolean mNoMoreData;
     private boolean mRefrshAllData;
-
+    private TimerTask mTimeTask;
     private static final int refreshAllDateTime = 15 * 60 * 1000;
 
-    private TimerTask mTimeTask;
-
     @Override
-    public void getLatestDatas(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
+    public void getLatestWeiBo(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
         setTimeTask();
-        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        if (mStatusesAPI == null) {
+            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        }
+
         if (mRefrshAllData) {
             mFirstWeiboId = 0;
         }
@@ -50,13 +51,12 @@ public class StatusListModelImp implements StatusListModel {
                     if (mStatusList != null) {
                         mStatusList.clear();
                     }
-                    if (NewFeature.CACHE_WEIBOLIST) {
-                        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
-                    }
+                    saveWeiBoCache(context, response);
                     mStatusList = temp;
                     updateId();
                     onRequestFinishedListener.onDataFinish(mStatusList);
                 } else {
+                    ToastUtil.showShort(context, "返回的数据为空");
                     onRequestFinishedListener.noMoreDate();
                 }
                 mRefrshAllData = false;
@@ -70,16 +70,18 @@ public class StatusListModelImp implements StatusListModel {
     }
 
     @Override
-    public void getNextPageDatas(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
+    public void getNextPageWeiBo(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
         setTimeTask();
         ToastUtil.showShort(context, mLastWeiboId + "");
-        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mStatusesAPI.friendsTimeline(0, mLastWeiboId, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+        if (mStatusesAPI == null) {
+            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        }
+        mStatusesAPI.friendsTimeline(0, mLastWeiboId, NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id)) {
+                    if (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId))) {
                         mNoMoreData = true;
                         onRequestFinishedListener.noMoreDate();
                     } else if (temp.size() > 1) {
@@ -102,17 +104,26 @@ public class StatusListModelImp implements StatusListModel {
     }
 
     @Override
-    public void getDatasFromCache(Context context, OnDataFinishedListener onDataFinishedListener) {
+    public void getWeiBoFromCache(Context context, OnDataFinishedListener onDataFinishedListener) {
         String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
-        ArrayList<Status> temp = StatusList.parse(response).statusList;
-        if (temp == null || temp.size() == 0) {
-            onDataFinishedListener.noMoreDate();
-        } else {
-            mStatusList = temp;
-            updateId();
-            onDataFinishedListener.onDataFinish(mStatusList);
+        if (response != null) {
+            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            if (temp == null || temp.size() == 0) {
+                onDataFinishedListener.noMoreDate();
+            } else {
+                mStatusList = temp;
+                updateId();
+                onDataFinishedListener.onDataFinish(mStatusList);
+            }
         }
 
+    }
+
+    @Override
+    public void saveWeiBoCache(Context context, String response) {
+        if (NewFeature.CACHE_WEIBOLIST) {
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+        }
     }
 
 

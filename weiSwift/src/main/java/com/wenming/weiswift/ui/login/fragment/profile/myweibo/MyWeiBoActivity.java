@@ -145,7 +145,7 @@ public class MyWeiBoActivity extends Activity implements IEndlessRecyclerView {
 
     @Override
     public void requestMoreData() {
-        mStatusesAPI.userTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.LOAD_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.userTimeline(0, Long.valueOf(mDatas.get(mDatas.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {

@@ -21,13 +21,10 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
-import com.wenming.weiswift.R;
-import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
-import com.wenming.weiswift.utils.DateUtils;
-import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
@@ -36,6 +33,9 @@ import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.Orig
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
+import com.wenming.weiswift.utils.DateUtils;
+import com.wenming.weiswift.utils.NetUtil;
+import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -453,15 +453,15 @@ public class FillContent {
         recyclerView.setAdapter(commentAdapter);
     }
 
-    public static void FillCenterContent(Status status, ImageView profile_img, TextView profile_name, TextView content) {
-        if (status.user != null) {
-            if (status.origin_pic_urls == null || status.origin_pic_urls.size() == 0) {
-                ImageLoader.getInstance().displayImage(status.user.avatar_hd, profile_img);
+    public static void FillCenterContent(Status retweetstatus, ImageView profile_img, TextView profile_name, TextView content) {
+        if (retweetstatus != null && retweetstatus.user != null) {
+            if (retweetstatus.origin_pic_urls == null || retweetstatus.origin_pic_urls.size() == 0) {
+                ImageLoader.getInstance().displayImage(retweetstatus.user.avatar_hd, profile_img);
             } else {
-                ImageLoader.getInstance().displayImage(status.origin_pic_urls.get(0), profile_img);
+                ImageLoader.getInstance().displayImage(retweetstatus.origin_pic_urls.get(0), profile_img);
             }
-            profile_name.setText(status.user.name);
-            content.setText(status.text);
+            profile_name.setText(retweetstatus.user.name);
+            content.setText(retweetstatus.text);
         } else {
             profile_img.setImageResource(R.drawable.photo_filter_image_empty);
             content.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");

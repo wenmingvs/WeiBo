@@ -136,15 +136,6 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void toggleRefreshIcon() {
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        } else {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-    }
-
-    @Override
     public void showLoadingIcon() {
         mSwipeRefreshLayout.setRefreshing(true);
     }
@@ -191,12 +182,11 @@ public class HomeFragment extends Fragment implements HomeView {
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
             LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if (state == LoadingFooter.State.Loading) {
+            if (state == LoadingFooter.State.Loading || state == LoadingFooter.State.TheEnd) {
                 Log.d("wenming", "the state is Loading, just wait..");
                 return;
             }
             if (mDatas != null && mDatas.size() > 0) {
-                // loading more
                 showLoadFooterView();
                 mHomePresent.requestMoreData(mContext);
             }

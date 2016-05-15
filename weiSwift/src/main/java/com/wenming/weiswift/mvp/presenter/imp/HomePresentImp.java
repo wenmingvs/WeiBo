@@ -70,7 +70,7 @@ public class HomePresentImp implements HomePresent {
             return;
         }
 
-        mStatusListModel.getDatasFromCache(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.getWeiBoFromCache(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHomeView.showToast("没有缓存数据");
@@ -90,7 +90,7 @@ public class HomePresentImp implements HomePresent {
 
     @Override
     public void requestMoreData(Context context) {
-        mStatusListModel.getNextPageDatas(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.getNextPageWeiBo(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHomeView.showEndFooterView();
@@ -119,7 +119,7 @@ public class HomePresentImp implements HomePresent {
     @Override
     public void pullToRefreshData(Context context) {
         mHomeView.showLoadingIcon();
-        mStatusListModel.getLatestDatas(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.getLatestWeiBo(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHomeView.hideLoadingIcon();

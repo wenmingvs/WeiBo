@@ -14,24 +14,22 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
-import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.list.CommentList;
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.NewFeature;
+import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.NetUtil;
+import com.wenming.weiswift.utils.SDCardUtil;
+import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.IEndlessRecyclerView;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
-import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.utils.DensityUtil;
-import com.wenming.weiswift.utils.NetUtil;
-import com.wenming.weiswift.utils.SDCardUtil;
-import com.wenming.weiswift.utils.ToastUtil;
-import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 
 import java.util.ArrayList;
 
@@ -50,8 +48,6 @@ public class CommentActivity extends Activity implements IEndlessRecyclerView {
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
     public CommentsAPI mCommentsAPI;
-    public StatusesAPI mStatusesAPI;
-    public FriendshipsAPI mFriendshipsAPI;
     public boolean mRefrshAllData;
 
 
@@ -115,7 +111,7 @@ public class CommentActivity extends Activity implements IEndlessRecyclerView {
     }
 
     /**
-     * 下拉刷新逻辑
+     * 加载更多逻辑
      */
     @Override
     public void requestMoreData() {
@@ -204,8 +200,6 @@ public class CommentActivity extends Activity implements IEndlessRecyclerView {
 
     public void initAccessToken() {
         mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
-        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
-        mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
     }
 
     protected void initRefreshLayout() {
