@@ -36,7 +36,7 @@ public interface UserModel {
     }
 
 
-    public void getUserName(long uid, Context context, OnUserTextRequestFinish onUserTextRequestFinish);
+    public void getUserDetail(long uid, Context context, OnUserTextRequestFinish onUserTextRequestFinish);
 
     public void getUserWeiBo(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 

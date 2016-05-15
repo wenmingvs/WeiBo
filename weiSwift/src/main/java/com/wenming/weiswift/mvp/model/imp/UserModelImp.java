@@ -34,7 +34,7 @@ public class UserModelImp implements UserModel {
     private int mFriendsCursor;
 
     @Override
-    public void getUserName(long uid, Context context, final OnUserTextRequestFinish onUserRequestFinish) {
+    public void getUserDetail(long uid, Context context, final OnUserTextRequestFinish onUserRequestFinish) {
         if (mUsersAPI == null) {
             mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         }
@@ -217,7 +217,7 @@ public class UserModelImp implements UserModel {
         if (mFriendshipsAPI == null) {
             mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         }
-        mFriendshipsAPI.followers(uid, 20, mFriendsCursor, false, new RequestListener() {
+        mFriendshipsAPI.friends(uid, 20, mFriendsCursor, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
