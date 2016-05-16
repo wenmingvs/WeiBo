@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.sina.weibo.sdk.openapi;
+package com.wenming.weiswift.api;
 
 import android.content.Context;
 import android.util.SparseArray;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.net.WeiboParameters;
+import com.sina.weibo.sdk.openapi.AbsOpenAPI;
 
 /**
  * 此类封装了评论的接口。
@@ -78,8 +79,10 @@ public class CommentsAPI extends AbsOpenAPI {
     
     /**
      * 构造函数，使用各个 API 接口提供的服务前必须先获取 Token。
-     * 
-     * @param accesssToken 访问令牌
+     *
+     * @param context
+     * @param appKey
+     * @param accessToken
      */
 	public CommentsAPI(Context context, String appKey, Oauth2AccessToken accessToken) {
         super(context, appKey, accessToken);

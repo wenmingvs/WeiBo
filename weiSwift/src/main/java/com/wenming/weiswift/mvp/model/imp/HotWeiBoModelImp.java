@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.list.StatusList;
 import com.wenming.weiswift.mvp.model.HotWeiBoModel;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/5/16.
  */
 public class HotWeiBoModelImp implements HotWeiBoModel {
-    private StatusesAPI mStatusesAPI;
+
     private ArrayList<Status> mStatusList = new ArrayList<>();
     private static final int HOT_COMMENTS_DAILY = 0;
     private static final int HOT_COMMENTS_WEEKLY = 1;
@@ -28,9 +28,9 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
 
     @Override
     public void getLatestComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+
         if (mStatusList != null) {
             mStatusList.clear();
         }
@@ -40,14 +40,12 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
 
     @Override
     public void getNextPageComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         getPublicWeiBo(context, onDataFinishedListener);
-
     }
 
     private void getPublicWeiBo(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -69,97 +67,5 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
         });
     }
 
-
-    @Deprecated
-    private void getHotCommentsWeekly(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-
-        mStatusesAPI.hotCommentsWeekly(50, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    mStatusList.addAll(temp);
-                    onDataFinishedListener.onDataFinish(mStatusList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
-    }
-
-    private void getHotCommentsDaily(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        mStatusesAPI.hotCommentsDaily(50, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    mStatusList.addAll(temp);
-                    onDataFinishedListener.onDataFinish(mStatusList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
-    }
-
-    @Deprecated
-    private void getHotRetweetsWeekly(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        mStatusesAPI.hotRepostWeekly(50, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    mStatusList.addAll(temp);
-                    onDataFinishedListener.onDataFinish(mStatusList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
-    }
-
-    @Deprecated
-    private void getHotRetweetsDaily(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        mStatusesAPI.hotRepostDaily(50, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    mStatusList.addAll(temp);
-                    onDataFinishedListener.onDataFinish(mStatusList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
-    }
 
 }

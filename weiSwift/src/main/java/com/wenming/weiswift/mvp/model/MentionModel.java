@@ -21,11 +21,11 @@ public interface MentionModel {
     }
 
 
-    public void getLatestMention(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void mentions(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void getNextPageMention(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void mentionsNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void saveMentionCache(Context context, String response);
+    public void mentionCacheSave(Context context, String response);
 
-    public ArrayList<Status> getMentionCache(Context context);
+    public void mentionCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
 }

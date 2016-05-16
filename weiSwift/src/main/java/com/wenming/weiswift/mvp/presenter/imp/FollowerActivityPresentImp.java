@@ -26,7 +26,7 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
     @Override
     public void pullToRefreshData(long uid, Context context) {
         mFollowActivityView.showLoadingIcon();
-        mUserModel.getFollowers(uid, context, new UserModel.OnUserListRequestFinish() {
+        mUserModel.followers(uid, context, new UserModel.OnUserListRequestFinish() {
             @Override
             public void noMoreDate() {
                 mFollowActivityView.hideLoadingIcon();
@@ -49,7 +49,7 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
 
     @Override
     public void requestMoreData(long uid, Context context) {
-        mUserModel.getFollowersNextPage(uid, context, new UserModel.OnUserListRequestFinish() {
+        mUserModel.followersNextPage(uid, context, new UserModel.OnUserListRequestFinish() {
             @Override
             public void noMoreDate() {
                 mFollowActivityView.showEndFooterView();

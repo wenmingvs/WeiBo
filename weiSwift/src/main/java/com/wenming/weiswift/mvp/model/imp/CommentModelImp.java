@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.wenming.weiswift.api.CommentsAPI;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.list.CommentList;
 import com.wenming.weiswift.mvp.model.CommentModel;
@@ -21,24 +21,21 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/5/15.
  */
 public class CommentModelImp implements CommentModel {
-    private CommentsAPI mCommentsAPI;
-    private ArrayList<Comment> mCommentList;
-    private long mFirstWeiboId;
-    private long mLastWeiboId;
+    private ArrayList<Comment> mCommentList = new ArrayList<>();
     private boolean mRefrshAllData = true;
-    private boolean mNoMoreData;
 
 
     @Override
-    public void getLatestComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        if (mCommentsAPI == null) {
-            mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+    public void toMe(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        long sinceId = 0;
+        if (mCommentList.size() > 0) {
+            sinceId = Long.valueOf(mCommentList.get(0).id);
         }
-
         if (mRefrshAllData) {
-            mFirstWeiboId = 0;
+            sinceId = 0;
         }
-        mCommentsAPI.toME(mFirstWeiboId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, 0, new RequestListener() {
+        mCommentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<Comment> temp = CommentList.parse(response).commentList;
@@ -46,9 +43,8 @@ public class CommentModelImp implements CommentModel {
                     if (mCommentList != null) {
                         mCommentList.clear();
                     }
-                    saveCommentCache(context, response);
+                    toMeCacheSave(context, response);
                     mCommentList = temp;
-                    updateId();
                     onDataFinishedListener.onDataFinish(mCommentList);
                 } else {
                     ToastUtil.showShort(context, "没有更新的内容了");
@@ -60,40 +56,31 @@ public class CommentModelImp implements CommentModel {
             @Override
             public void onWeiboException(WeiboException e) {
                 ToastUtil.showShort(context, e.getMessage());
-                onDataFinishedListener.onDataFinish(getCommentCache(context));
+                ToMeCacheLoad(context, onDataFinishedListener);
             }
         });
     }
 
     @Override
-    public void getNextPageComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        if (mCommentsAPI == null) {
-            mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
-
-        if (mNoMoreData == true) {
-            return;
-
-        }
-
-        mCommentsAPI.mentions(0, mLastWeiboId, NewFeature.LOADMORE_MENTION_ITEM, 1, 0, 0, new RequestListener() {
+    public void toMeNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        final String maxId = mCommentList.get(mCommentList.size() - 1).id;
+        mCommentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     ArrayList<Comment> temp = CommentList.parse(response).commentList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId)))) {
-                        mNoMoreData = true;
+                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(maxId))) {
+
                         onDataFinishedListener.noMoreDate();
                     } else if (temp.size() > 1) {
                         temp.remove(0);
                         mCommentList.addAll(temp);
-                        updateId();
                         onDataFinishedListener.onDataFinish(mCommentList);
                     }
                 } else {
                     ToastUtil.showShort(context, "内容已经加载完了");
                     onDataFinishedListener.noMoreDate();
-                    mNoMoreData = true;
                 }
             }
 
@@ -106,28 +93,20 @@ public class CommentModelImp implements CommentModel {
     }
 
     @Override
-    public void saveCommentCache(Context context, String response) {
+    public void toMeCacheSave(Context context, String response) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
         }
     }
 
     @Override
-    public ArrayList<Comment> getCommentCache(Context context) {
+    public void ToMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
             if (response != null) {
                 mCommentList = CommentList.parse(response).commentList;
-                updateId();
-                return mCommentList;
+                onDataFinishedListener.onDataFinish(mCommentList);
             }
         }
-        return null;
     }
-
-    public void updateId() {
-        mFirstWeiboId = Long.valueOf(mCommentList.get(0).id);
-        mLastWeiboId = Long.valueOf(mCommentList.get(mCommentList.size() - 1).id);
-    }
-
 }

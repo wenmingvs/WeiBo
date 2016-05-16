@@ -15,7 +15,7 @@ import android.support.v7.app.NotificationCompat;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;

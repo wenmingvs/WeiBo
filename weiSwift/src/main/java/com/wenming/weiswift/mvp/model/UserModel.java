@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public interface UserModel {
 
-    interface OnUserTextRequestFinish {
+    interface OnUserDetailRequestFinish {
         void onComplete(User user);
 
         void onError(String error);
@@ -36,18 +36,18 @@ public interface UserModel {
     }
 
 
-    public void getUserDetail(long uid, Context context, OnUserTextRequestFinish onUserTextRequestFinish);
+    public void showUserDetail(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
 
-    public void getUserWeiBo(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimeline(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
-    public void getUserWeiBoNextPage(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimelineNextPage(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
-    public void getFollowers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
+    public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
-    public void getFollowersNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
+    public void followersNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
-    public void getFriends(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
+    public void friends(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
-    public void getFriendsNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
+    public void friendsNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
 }

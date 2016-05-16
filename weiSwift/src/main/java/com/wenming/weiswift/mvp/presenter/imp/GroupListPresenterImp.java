@@ -26,7 +26,7 @@ public class GroupListPresenterImp implements GroupListPresenter {
 
     @Override
     public void updateListView(final Context context) {
-        mGroupListModel.getGroupList(context, new GroupListModel.OnDataFinishedListener() {
+        mGroupListModel.groups(context, new GroupListModel.OnDataFinishedListener() {
             @Override
             public void onComplete(ArrayList<Group> groupslist) {
                 mGroupPopView.updateListView(groupslist);

@@ -27,7 +27,7 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
     @Override
     public void pullToRefreshData(Context context) {
         mCommentActivityView.showLoadingIcon();
-        mCommentModel.getLatestComment(context, new CommentModel.OnDataFinishedListener() {
+        mCommentModel.toMe(context, new CommentModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mCommentActivityView.hideLoadingIcon();
@@ -50,7 +50,7 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
 
     @Override
     public void requestMoreData(Context context) {
-        mCommentModel.getNextPageComment(context, new CommentModel.OnDataFinishedListener() {
+        mCommentModel.toMeNextPage(context, new CommentModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mCommentActivityView.showEndFooterView();

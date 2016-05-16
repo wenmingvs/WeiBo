@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.list.StatusList;
 import com.wenming.weiswift.mvp.model.StatusListModel;
@@ -24,76 +24,67 @@ import java.util.TimerTask;
  */
 public class StatusListModelImp implements StatusListModel {
     private StatusesAPI mStatusesAPI;
-    private ArrayList<Status> mStatusList = new ArrayList<>();
-    private long mFirstWeiboId;
-    private long mLastWeiboId;
-    private boolean mNoMoreData;
-    private boolean mRefrshAllData;
-    private TimerTask mTimeTask;
-    private static final int refreshAllDateTime = 15 * 60 * 1000;
+    private ArrayList<Status> mFriendsTimeline = new ArrayList<>();
+    private boolean mRefrshFriendsTimeline;
+    private TimerTask mRefrshFriendsTimelineTask;
+    private static final int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
 
     @Override
-    public void getLatestWeiBo(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
-        setTimeTask();
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+    public void friendsTimeline(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        setRefrshFriendsTimelineTask();
+        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        long sinceId = 0;
+        if (mFriendsTimeline.size() > 0) {
+            sinceId = Long.valueOf(mFriendsTimeline.get(0).id);
         }
-
-        if (mRefrshAllData) {
-            mFirstWeiboId = 0;
+        if (mRefrshFriendsTimeline) {
+            sinceId = 0;
         }
-        mStatusesAPI.friendsTimeline(mFirstWeiboId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
+        mStatusesAPI.friendsTimeline(sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<Status> temp = StatusList.parse(response).statusList;
                 if (temp != null && temp.size() > 0) {
-                    if (mStatusList != null) {
-                        mStatusList.clear();
+                    if (mFriendsTimeline != null) {
+                        mFriendsTimeline.clear();
                     }
-                    saveWeiBoCache(context, response);
-                    mStatusList = temp;
-                    updateId();
-                    onRequestFinishedListener.onDataFinish(mStatusList);
+                    friendsTimelineCacheSave(context, response);
+                    mFriendsTimeline = temp;
+                    onDataFinishedListener.onDataFinish(mFriendsTimeline);
                 } else {
                     ToastUtil.showShort(context, "没有更新的内容了");
-                    onRequestFinishedListener.noMoreDate();
+                    onDataFinishedListener.noMoreDate();
                 }
-                mRefrshAllData = false;
+                mRefrshFriendsTimeline = false;
             }
 
             @Override
             public void onWeiboException(WeiboException e) {
                 ToastUtil.showShort(context, e.getMessage());
+                onDataFinishedListener.onError(e.getMessage());
             }
         });
     }
 
     @Override
-    public void getNextPageWeiBo(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
-        setTimeTask();
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
-        if (mNoMoreData == true) {
-            return;
-        }
-        mStatusesAPI.friendsTimeline(0, mLastWeiboId, NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
+    public void friendsTimelineNextPage(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
+        setRefrshFriendsTimelineTask();
+        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        final String maxId = mFriendsTimeline.get(mFriendsTimeline.size() - 1).id;
+        mStatusesAPI.friendsTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mLastWeiboId)))) {
-                        mNoMoreData = true;
+                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(maxId))) {
                         onRequestFinishedListener.noMoreDate();
                     } else if (temp.size() > 1) {
                         temp.remove(0);
-                        mStatusList.addAll(temp);
-                        updateId();
-                        onRequestFinishedListener.onDataFinish(mStatusList);
+                        mFriendsTimeline.addAll(temp);
+                        onRequestFinishedListener.onDataFinish(mFriendsTimeline);
                     }
                 } else {
                     onRequestFinishedListener.noMoreDate();
-                    mNoMoreData = true;
                 }
             }
 
@@ -106,44 +97,39 @@ public class StatusListModelImp implements StatusListModel {
     }
 
     @Override
-    public void getWeiBoFromCache(Context context, OnDataFinishedListener onDataFinishedListener) {
+    public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
         String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         if (response != null) {
             ArrayList<Status> temp = StatusList.parse(response).statusList;
             if (temp == null || temp.size() == 0) {
                 onDataFinishedListener.noMoreDate();
             } else {
-                mStatusList = temp;
-                updateId();
-                onDataFinishedListener.onDataFinish(mStatusList);
+                mFriendsTimeline = temp;
+                onDataFinishedListener.onDataFinish(mFriendsTimeline);
             }
         }
 
     }
 
     @Override
-    public void saveWeiBoCache(Context context, String response) {
+    public void friendsTimelineCacheSave(Context context, String response) {
         if (NewFeature.CACHE_WEIBOLIST) {
             SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
         }
     }
 
 
-    public void setTimeTask() {
-        if (mTimeTask == null) {
-            mTimeTask = new TimerTask() {
+    public void setRefrshFriendsTimelineTask() {
+        if (mRefrshFriendsTimelineTask == null) {
+            mRefrshFriendsTimelineTask = new TimerTask() {
                 @Override
                 public void run() {
-                    mRefrshAllData = true;
+                    mRefrshFriendsTimeline = true;
                 }
             };
-            new Timer().schedule(mTimeTask, 0, refreshAllDateTime);
+            new Timer().schedule(mRefrshFriendsTimelineTask, 0, REFRESH_FRIENDS_TIMELINE_TASK);
         }
     }
 
-    public void updateId() {
-        mFirstWeiboId = Long.valueOf(mStatusList.get(0).id);
-        mLastWeiboId = Long.valueOf(mStatusList.get(mStatusList.size() - 1).id);
-    }
 
 }

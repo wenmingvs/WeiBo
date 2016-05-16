@@ -5,9 +5,9 @@ import android.text.TextUtils;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.UsersAPI;
-import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.api.FriendshipsAPI;
+import com.wenming.weiswift.api.StatusesAPI;
+import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.entity.list.StatusList;
@@ -27,17 +27,12 @@ public class UserModelImp implements UserModel {
     private ArrayList<Status> mStatusList = new ArrayList<>();
     private ArrayList<User> mFollowersList = new ArrayList<>();
     private ArrayList<User> mFriendsList = new ArrayList<>();
-    private StatusesAPI mStatusesAPI;
-    private FriendshipsAPI mFriendshipsAPI;
-    private UsersAPI mUsersAPI;
     private int mFollowersCursor;
     private int mFriendsCursor;
 
     @Override
-    public void getUserDetail(long uid, Context context, final OnUserTextRequestFinish onUserRequestFinish) {
-        if (mUsersAPI == null) {
-            mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void showUserDetail(long uid, final Context context, final OnUserDetailRequestFinish onUserRequestFinish) {
+        UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -47,16 +42,15 @@ public class UserModelImp implements UserModel {
 
             @Override
             public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(context, e.getMessage());
                 onUserRequestFinish.onError(e.getMessage());
             }
         });
     }
 
     @Override
-    public void getUserWeiBo(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void userTimeline(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mStatusesAPI.userTimeline(uid, 0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -76,16 +70,14 @@ public class UserModelImp implements UserModel {
             @Override
             public void onWeiboException(WeiboException e) {
                 ToastUtil.showShort(context, e.getMessage());
+                onStatusFinishedListener.onError(e.getMessage());
             }
         });
     }
 
     @Override
-    public void getUserWeiBoNextPage(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
-        if (mStatusesAPI == null) {
-            mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
-
+    public void userTimelineNextPage(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mStatusesAPI.userTimeline(uid, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -112,15 +104,14 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void getFollowers(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        if (mFriendshipsAPI == null) {
-            mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void followers(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+
         mFriendshipsAPI.followers(uid, 30, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<User> temp = UserList.parse(response).usersList;
-
                 if (temp != null && temp.size() > 0) {
                     if (mFollowersList != null) {
                         mFollowersList.clear();
@@ -143,10 +134,8 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void getFollowersNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        if (mFriendshipsAPI == null) {
-            mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void followersNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mFriendshipsAPI.followers(uid, 20, mFollowersCursor, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -175,10 +164,9 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void getFriends(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        if (mFriendshipsAPI == null) {
-            mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void friends(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+
         mFriendshipsAPI.friends(uid, 30, 0, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -213,10 +201,8 @@ public class UserModelImp implements UserModel {
      * @param onUserListRequestFinish
      */
     @Override
-    public void getFriendsNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        if (mFriendshipsAPI == null) {
-            mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        }
+    public void friendsNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mFriendshipsAPI.friends(uid, 20, mFriendsCursor, false, new RequestListener() {
             @Override
             public void onComplete(String response) {

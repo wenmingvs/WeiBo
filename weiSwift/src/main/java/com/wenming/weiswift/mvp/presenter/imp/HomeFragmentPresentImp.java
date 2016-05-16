@@ -43,7 +43,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      */
     @Override
     public void refreshUserName(Context context) {
-        mUserModel.getUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserTextRequestFinish() {
+        mUserModel.showUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mHomeView.setUserName(user.name);
@@ -70,26 +70,28 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
             return;
         }
 
-        mStatusListModel.getWeiBoFromCache(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.friendsTimelineCacheLoad(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
+                mHomeView.hideLoadingIcon();
             }
 
             @Override
             public void onDataFinish(ArrayList<Status> statuslist) {
+                mHomeView.hideLoadingIcon();
                 mHomeView.updateListView(statuslist);
             }
 
             @Override
             public void onError(String error) {
-
+                mHomeView.hideLoadingIcon();
             }
         });
     }
 
     @Override
     public void requestMoreData(Context context) {
-        mStatusListModel.getNextPageWeiBo(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.friendsTimelineNextPage(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHomeView.showEndFooterView();
@@ -117,7 +119,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
     @Override
     public void pullToRefreshData(Context context) {
         mHomeView.showLoadingIcon();
-        mStatusListModel.getLatestWeiBo(context, new StatusListModel.OnDataFinishedListener() {
+        mStatusListModel.friendsTimeline(context, new StatusListModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHomeView.hideLoadingIcon();

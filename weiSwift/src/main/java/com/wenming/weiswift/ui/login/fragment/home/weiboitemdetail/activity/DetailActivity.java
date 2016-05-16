@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
-import com.sina.weibo.sdk.openapi.CommentsAPI;
-import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
+import com.wenming.weiswift.api.CommentsAPI;
+import com.wenming.weiswift.api.FriendshipsAPI;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;

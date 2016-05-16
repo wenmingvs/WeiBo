@@ -21,13 +21,13 @@ public interface CommentModel {
     }
 
 
-    public void getLatestComment(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMe(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void getNextPageComment(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void saveCommentCache(Context context, String response);
+    public void toMeCacheSave(Context context, String response);
 
-    public ArrayList<Comment> getCommentCache(Context context);
+    public void ToMeCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
 
 
 }

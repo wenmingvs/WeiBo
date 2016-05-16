@@ -23,7 +23,7 @@ public class ProfileFragmentPresentImp implements ProfileFragmentPresent {
 
     @Override
     public void refreshUserDetail(long uid, Context context) {
-        mUserModel.getUserDetail(uid, context, new UserModel.OnUserTextRequestFinish() {
+        mUserModel.showUserDetail(uid, context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mProfileFragmentView.setUserDetail(user);

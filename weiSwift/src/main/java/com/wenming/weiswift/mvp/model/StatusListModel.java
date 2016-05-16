@@ -20,14 +20,13 @@ public interface StatusListModel {
     }
 
 
-    public void getLatestWeiBo(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void getNextPageWeiBo(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void friendsTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void getWeiBoFromCache(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void saveWeiBoCache(Context context, String response);
-
+    public void friendsTimelineCacheSave(Context context, String response);
 
 
 }

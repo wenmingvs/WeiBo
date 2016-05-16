@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.legacy.GroupAPI;
+import com.wenming.weiswift.api.GroupAPI;
 import com.wenming.weiswift.entity.Group;
 import com.wenming.weiswift.entity.list.GroupList;
 import com.wenming.weiswift.mvp.model.GroupListModel;
@@ -20,9 +20,9 @@ public class GroupListModelImp implements GroupListModel {
 
 
     @Override
-    public void getGroupList(Context context, final OnDataFinishedListener onDataFinishedListener) {
-        final GroupAPI groupapi = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        groupapi.groups(new RequestListener() {
+    public void groups(Context context, final OnDataFinishedListener onDataFinishedListener) {
+        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        groupAPI.groups(new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<Group> groupslist = GroupList.parse(response).groupList;
@@ -34,5 +34,17 @@ public class GroupListModelImp implements GroupListModel {
                 onDataFinishedListener.onError(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void timeline(Context context, OnTimeLineListener onTimeLineListener) {
+        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+
+    }
+
+    @Override
+    public void timelineNextPage(Context context, OnTimeLineListener onTimeLineListener) {
+        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+
     }
 }

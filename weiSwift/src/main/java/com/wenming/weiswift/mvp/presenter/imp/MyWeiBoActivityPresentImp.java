@@ -25,7 +25,7 @@ public class MyWeiBoActivityPresentImp implements MyWeiBoActivityPresent {
     @Override
     public void pullToRefreshData(long uid, Context context) {
         mMyWeiBoActivityView.showLoadingIcon();
-        mUserModel.getUserWeiBo(uid, context, new UserModel.OnStatusListFinishedListener() {
+        mUserModel.userTimeline(uid, context, new UserModel.OnStatusListFinishedListener() {
             @Override
             public void noMoreDate() {
                 mMyWeiBoActivityView.hideLoadingIcon();
@@ -48,7 +48,7 @@ public class MyWeiBoActivityPresentImp implements MyWeiBoActivityPresent {
 
     @Override
     public void requestMoreData(long uid, Context context) {
-        mUserModel.getUserWeiBoNextPage(uid, context, new UserModel.OnStatusListFinishedListener() {
+        mUserModel.userTimelineNextPage(uid, context, new UserModel.OnStatusListFinishedListener() {
             @Override
             public void noMoreDate() {
                 mMyWeiBoActivityView.showEndFooterView();

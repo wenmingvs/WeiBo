@@ -26,7 +26,7 @@ public class MentionActivityPresentImp implements MentionActivityPresent {
     @Override
     public void pullToRefreshData(Context context) {
         mMentionActivityView.showLoadingIcon();
-        mMentionModel.getLatestMention(context, new MentionModel.OnDataFinishedListener() {
+        mMentionModel.mentions(context, new MentionModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mMentionActivityView.hideLoadingIcon();
@@ -49,7 +49,7 @@ public class MentionActivityPresentImp implements MentionActivityPresent {
 
     @Override
     public void requestMoreData(Context context) {
-        mMentionModel.getNextPageMention(context, new MentionModel.OnDataFinishedListener() {
+        mMentionModel.mentionsNextPage(context, new MentionModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mMentionActivityView.showEndFooterView();

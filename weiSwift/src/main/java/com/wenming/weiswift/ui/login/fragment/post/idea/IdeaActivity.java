@@ -19,22 +19,22 @@ import android.widget.TextView;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.UsersAPI;
-import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
+import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
+import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.ui.login.fragment.home.util.WeiBoContentTextUtil;
 import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.imagelist.ImgListAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.activity.AlbumActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.AlbumFolderInfo;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.ArrayList;
 

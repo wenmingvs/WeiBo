@@ -26,7 +26,7 @@ public class FriendActivityPresentImp implements FriendActivityPresent {
     @Override
     public void pullToRefreshData(long uid, Context context) {
         mFriendActivityView.showLoadingIcon();
-        mUserModel.getFriends(uid, context, new UserModel.OnUserListRequestFinish() {
+        mUserModel.friends(uid, context, new UserModel.OnUserListRequestFinish() {
             @Override
             public void noMoreDate() {
                 mFriendActivityView.hideLoadingIcon();
@@ -49,7 +49,7 @@ public class FriendActivityPresentImp implements FriendActivityPresent {
 
     @Override
     public void requestMoreData(long uid, Context context) {
-        mUserModel.getFriendsNextPage(uid, context, new UserModel.OnUserListRequestFinish() {
+        mUserModel.friendsNextPage(uid, context, new UserModel.OnUserListRequestFinish() {
             @Override
             public void noMoreDate() {
                 mFriendActivityView.showEndFooterView();

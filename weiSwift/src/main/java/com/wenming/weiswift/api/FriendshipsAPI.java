@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sina.weibo.sdk.openapi.legacy;
+package com.wenming.weiswift.api;
 
 import android.content.Context;
 
