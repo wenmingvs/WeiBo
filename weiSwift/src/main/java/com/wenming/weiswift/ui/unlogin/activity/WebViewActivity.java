@@ -91,15 +91,22 @@ public class WebViewActivity extends Activity {
 
     private void handleRedirectedUrl(String url) {
         if (!url.contains("error")) {
+            url = url + "&scope=friendships_groups_read%2Cfriendships_groups_write%2Cdirect_messages_read";
             int tokenIndex = url.indexOf("access_token=");
             int expiresIndex = url.indexOf("expires_in=");
             int refresh_token_Index = url.indexOf("refresh_token=");
             int uid_Index = url.indexOf("uid=");
+            int scope_Index = url.indexOf("scope=");
 
             String token = url.substring(tokenIndex + 13, url.indexOf("&", tokenIndex));
             String expiresIn = url.substring(expiresIndex + 11, url.indexOf("&", expiresIndex));
             String refresh_token = url.substring(refresh_token_Index + 14, url.indexOf("&", refresh_token_Index));
-            String uid = url.substring(uid_Index + 4);
+            String uid = new String();
+            if (url.contains("scope=")) {
+                uid = url.substring(uid_Index + 4, url.indexOf("&", uid_Index));
+            } else {
+                uid = url.substring(uid_Index + 4);
+            }
 
 
             LogUtil.d("url = " + url);
