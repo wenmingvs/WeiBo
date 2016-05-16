@@ -1,9 +1,11 @@
 package com.wenming.weiswift.ui.login.fragment.home.groupwindow;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -52,9 +54,18 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
         this.setWidth(mWidth);
         this.setHeight(mHeight);
         this.setFocusable(true);
-        this.setBackgroundDrawable(null);
         this.setOutsideTouchable(true);
-
+        this.setBackgroundDrawable(new BitmapDrawable());
+        this.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initListView() {
