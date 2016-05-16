@@ -23,16 +23,15 @@ import java.util.TimerTask;
  * Created by wenmingvs on 16/5/14.
  */
 public class StatusListModelImp implements StatusListModel {
-    private StatusesAPI mStatusesAPI;
+    private static final int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
     private ArrayList<Status> mFriendsTimeline = new ArrayList<>();
     private boolean mRefrshFriendsTimeline;
     private TimerTask mRefrshFriendsTimelineTask;
-    private static final int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
-
+    
     @Override
     public void friendsTimeline(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         setRefrshFriendsTimelineTask();
-        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         long sinceId = 0;
         if (mFriendsTimeline.size() > 0) {
             sinceId = Long.valueOf(mFriendsTimeline.get(0).id);
@@ -69,7 +68,7 @@ public class StatusListModelImp implements StatusListModel {
     @Override
     public void friendsTimelineNextPage(final Context context, final OnDataFinishedListener onRequestFinishedListener) {
         setRefrshFriendsTimelineTask();
-        mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         final String maxId = mFriendsTimeline.get(mFriendsTimeline.size() - 1).id;
         mStatusesAPI.friendsTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
             @Override

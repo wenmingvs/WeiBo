@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/12.
  */
-public class GroupPop extends PopupWindow implements GroupPopWindowView {
+public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
 
     private RecyclerView mRecyclerView;
     private Context mContext;
@@ -32,8 +32,9 @@ public class GroupPop extends PopupWindow implements GroupPopWindowView {
     private GroupAdapter mAdapter;
     private int mWidth;
     private int mHeight;
+    private final GroupListPresenter mGroupListPresenter;
 
-    public GroupPop(Context context, int width, int height) {
+    public GroupPopWindow(Context context, int width, int height) {
         super(context);
         this.mContext = context;
         mView = LayoutInflater.from(context).inflate(R.layout.home_grouplist_pop, null);
@@ -43,8 +44,8 @@ public class GroupPop extends PopupWindow implements GroupPopWindowView {
         initPopWindow();
         initListView();
         setUpListener();
-        GroupListPresenter groupListPresenter = new GroupListPresenterImp(this);
-        groupListPresenter.updateListView(mContext);
+        mGroupListPresenter = new GroupListPresenterImp(this);
+        mGroupListPresenter.updateListView(mContext);
     }
 
     private void initPopWindow() {

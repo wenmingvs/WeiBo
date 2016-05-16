@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MentionModelImp implements MentionModel {
 
     private ArrayList<Status> mMentionList = new ArrayList<>();
-    private boolean mRefrshAllData = true;
+    private boolean mRefrshMentionList = true;
 
     @Override
     public void mentions(final Context context, final OnDataFinishedListener onDataFinishedListener) {
@@ -32,7 +32,7 @@ public class MentionModelImp implements MentionModel {
         if (mMentionList.size() > 0) {
             sinceId = Long.valueOf(mMentionList.get(0).id);
         }
-        if (mRefrshAllData) {
+        if (mRefrshMentionList) {
             sinceId = 0;
         }
         mStatusesAPI.mentions(sinceId, 0, NewFeature.GET_MENTION_ITEM, 1, 0, 0, 0, true, new RequestListener() {
@@ -50,7 +50,7 @@ public class MentionModelImp implements MentionModel {
                     ToastUtil.showShort(context, "没有更新的内容了");
                     onDataFinishedListener.noMoreDate();
                 }
-                mRefrshAllData = false;
+                mRefrshMentionList = false;
             }
 
             @Override

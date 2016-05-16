@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/12.
  */
-public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> implements IGroupItemClick {
 
     private ArrayList<Group> mDatas;
     private Context mContext;
@@ -41,6 +41,8 @@ public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
         ((GroupViewHolder) holder).groupitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 ToastUtil.showShort(mContext, "...");
             }
         });
@@ -55,6 +57,11 @@ public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public void onGroupItemClick(int groupId) {
+
     }
 
 

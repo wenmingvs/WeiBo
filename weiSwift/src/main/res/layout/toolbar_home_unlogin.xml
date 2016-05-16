@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_home_unlogin"
     android:layout_width="match_parent"
     android:layout_height="45dp"
@@ -14,6 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:onClick="openLoginWebView"
+        android:clickable="true"
         android:text="注册"
         android:textColor="@color/orange"
         android:textSize="18sp" />
@@ -37,6 +39,7 @@
         android:layout_marginRight="8dp"
         android:onClick="openLoginWebView"
         android:text="登陆"
+        android:clickable="true"
         android:textColor="@color/orange"
         android:textSize="18sp" />
 

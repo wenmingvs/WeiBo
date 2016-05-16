@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class CommentModelImp implements CommentModel {
     private ArrayList<Comment> mCommentList = new ArrayList<>();
-    private boolean mRefrshAllData = true;
+    private boolean mRefrshCommentList = true;
 
 
     @Override
@@ -32,7 +32,7 @@ public class CommentModelImp implements CommentModel {
         if (mCommentList.size() > 0) {
             sinceId = Long.valueOf(mCommentList.get(0).id);
         }
-        if (mRefrshAllData) {
+        if (mRefrshCommentList) {
             sinceId = 0;
         }
         mCommentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, 0, new RequestListener() {
@@ -50,7 +50,7 @@ public class CommentModelImp implements CommentModel {
                     ToastUtil.showShort(context, "没有更新的内容了");
                     onDataFinishedListener.noMoreDate();
                 }
-                mRefrshAllData = false;
+                mRefrshCommentList = false;
             }
 
             @Override

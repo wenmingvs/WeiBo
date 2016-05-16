@@ -21,7 +21,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
-import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPop;
+import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 Rect rect = new Rect();
                 getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                 int statusBarHeight = rect.top;
-                GroupPop popWindow = new GroupPop(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                GroupPopWindow popWindow = new GroupPopWindow(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
                 popWindow.showAtLocation(mUserName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
             }
         });

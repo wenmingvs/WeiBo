@@ -40,6 +40,7 @@
             android:gravity="center"
             android:text="注册"
             android:onClick="openLoginWebView"
+            android:clickable="true"
             android:textColor="#f18312" />
 
         <TextView
@@ -49,6 +50,7 @@
             android:background="@drawable/unlogin_register_corners_bg"
             android:gravity="center"
             android:text="登录"
+            android:clickable="true"
             android:onClick="openLoginWebView"
             android:textColor="#777777" />
     </LinearLayout>

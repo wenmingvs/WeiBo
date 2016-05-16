@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
@@ -35,7 +34,6 @@ public class MainActivity extends FragmentActivity {
 
 
     private FragmentManager mFragmentManager;
-    private Oauth2AccessToken mAccessToken;
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private FrameLayout mPostTab;
 
