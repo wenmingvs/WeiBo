@@ -91,7 +91,6 @@ public class WebViewActivity extends Activity {
 
     private void handleRedirectedUrl(String url) {
         if (!url.contains("error")) {
-            url = url + "&scope=friendships_groups_read%2Cfriendships_groups_write%2Cdirect_messages_read";
             int tokenIndex = url.indexOf("access_token=");
             int expiresIndex = url.indexOf("expires_in=");
             int refresh_token_Index = url.indexOf("refresh_token=");

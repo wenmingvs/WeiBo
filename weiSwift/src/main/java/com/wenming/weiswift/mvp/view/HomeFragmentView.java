@@ -49,4 +49,21 @@ public interface HomeFragmentView {
      * 设置用户名
      */
     public void setUserName(String userName);
+
+    /**
+     * 滑动到顶部
+     */
+    public void scrollToTop(boolean refreshData);
+
+
+    public void showRecyclerView();
+
+    public void hideRecyclerView();
+
+    public void showEmptyBackground();
+
+    public void hideEmptyBackground();
+
+    public void popWindowsDestory();
+
 }

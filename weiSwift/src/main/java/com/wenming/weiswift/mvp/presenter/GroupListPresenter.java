@@ -7,5 +7,7 @@ import android.content.Context;
  */
 public interface GroupListPresenter {
 
-    public void updateListView(Context context);
+    public void updateGroupList(Context context);
+    
+
 }

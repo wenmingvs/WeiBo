@@ -7,6 +7,7 @@ import com.wenming.weiswift.mvp.model.GroupListModel;
 import com.wenming.weiswift.mvp.model.imp.GroupListModelImp;
 import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.view.GroupPopWindowView;
+import com.wenming.weiswift.mvp.view.HomeFragmentView;
 
 import java.util.ArrayList;
 
@@ -17,18 +18,23 @@ public class GroupListPresenterImp implements GroupListPresenter {
 
     private GroupPopWindowView mGroupPopView;
     private GroupListModel mGroupListModel;
+    private HomeFragmentView mHomeFragmentView;
 
     public GroupListPresenterImp(GroupPopWindowView groupPopView) {
         this.mGroupPopView = groupPopView;
         this.mGroupListModel = new GroupListModelImp();
     }
 
-
     @Override
-    public void updateListView(final Context context) {
-        mGroupListModel.groups(context, new GroupListModel.OnDataFinishedListener() {
+    public void updateGroupList(final Context context) {
+        mGroupListModel.groupsOnlyOnce(context, new GroupListModel.OnGroupListFinishedListener() {
             @Override
-            public void onComplete(ArrayList<Group> groupslist) {
+            public void noMoreDate() {
+
+            }
+
+            @Override
+            public void onDataFinish(ArrayList<Group> groupslist) {
                 mGroupPopView.updateListView(groupslist);
             }
 
@@ -39,4 +45,6 @@ public class GroupListPresenterImp implements GroupListPresenter {
 
         });
     }
+
+
 }

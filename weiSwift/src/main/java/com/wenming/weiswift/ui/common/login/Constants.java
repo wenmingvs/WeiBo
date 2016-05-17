@@ -30,5 +30,8 @@ public interface Constants {
     public static final String AppSecret = "1e6e33db08f9192306c4afa0a61ad56c";
     public static final String PackageName = "com.eico.weico";
 
+    public static final int GROUP_TYPE_ALL = 0;
+    public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;
+
 
 }

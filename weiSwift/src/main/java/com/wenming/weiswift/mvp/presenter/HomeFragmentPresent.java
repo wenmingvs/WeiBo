@@ -9,11 +9,10 @@ public interface HomeFragmentPresent {
 
     public void refreshUserName(Context context);
 
-    public void pullToRefreshData(Context context);
-
     public void firstLoadData(Context context, boolean firstStart);
 
-    public void requestMoreData(Context context);
+    public void pullToRefreshData(long groupId, Context context);
 
+    public void requestMoreData(long groupId, Context context);
 
 }

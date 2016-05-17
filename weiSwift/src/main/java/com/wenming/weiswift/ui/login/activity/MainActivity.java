@@ -143,7 +143,7 @@ public class MainActivity extends FragmentActivity {
             }
             transaction.commit();
         } else if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-            mHomeFragment.scrollToTop();
+            mHomeFragment.scrollToTop(true);
         }
 
     }

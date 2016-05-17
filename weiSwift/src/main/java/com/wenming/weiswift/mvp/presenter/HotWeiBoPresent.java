@@ -9,4 +9,7 @@ public interface HotWeiBoPresent {
     public void pullToRefreshData(Context context);
 
     public void requestMoreData(Context context);
+
+
+
 }

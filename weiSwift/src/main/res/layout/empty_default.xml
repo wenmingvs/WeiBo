@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emptydeault_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/headsearchview" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:drawablePadding="27dp"
+        android:drawableTop="@drawable/empty_default"
+        android:gravity="center"
+        android:text="你还没有为此分组增加成员"
+        android:textColor="#bcbcbc" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/empty_add_corners_bg"
+        android:padding="12.5dp"
+        android:text="加人到该组"
+        android:textColor="#777777" />
+</LinearLayout>

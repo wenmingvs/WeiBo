@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public interface StatusListModel {
 
     interface OnDataFinishedListener {
-        void noMoreDate();
+        void noMoreData();
+
+        void noDataInFirstLoad();
 
         void onDataFinish(ArrayList<Status> statuslist);
 
@@ -27,6 +29,14 @@ public interface StatusListModel {
     public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void friendsTimelineCacheSave(Context context, String response);
+
+    public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void bilateralTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void timeline(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
 
 
 }

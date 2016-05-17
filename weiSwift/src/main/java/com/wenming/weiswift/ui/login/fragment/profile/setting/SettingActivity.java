@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +12,8 @@ import android.widget.RelativeLayout;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.MyApplication;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
-import com.wenming.weiswift.ui.unlogin.activity.UnLoginActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 
 /**
@@ -43,13 +42,14 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("确定要注销？")
+                builder.setMessage("确定要注销并且退出？")
                         .setCancelable(false)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                ((MyApplication) getApplication()).finishAll();
                                 AccessTokenKeeper.clear(getApplicationContext());
-                                Intent intent = new Intent(SettingActivity.this, UnLoginActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(SettingActivity.this, UnLoginActivity.class);
+//                                startActivity(intent);
 
                             }
                         })

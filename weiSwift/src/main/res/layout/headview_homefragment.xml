@@ -15,6 +15,19 @@
         android:background="@drawable/rect_white"
         android:searchIcon="@drawable/searchbar_second_textfield_search_icon" />
 
-
+    <TextView
+        android:id="@+id/weibotype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="8dp"
+        android:drawableLeft="@drawable/userinfo_icon_screening"
+        android:drawablePadding="2dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:text="筛选"
+        android:textColor="#4c7cac"
+        android:textSize="11.5dp"
+        android:visibility="gone" />
 
 </LinearLayout>

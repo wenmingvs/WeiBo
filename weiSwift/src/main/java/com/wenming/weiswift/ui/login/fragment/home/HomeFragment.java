@@ -18,14 +18,19 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
+import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
+import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.HomeHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -51,6 +56,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     public WeiboAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private HomeFragmentPresent mHomePresent;
+    private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
+    private LinearLayout mEmptyLayout;
+    private GroupPopWindow mPopWindow;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
         mUserName = (TextView) mView.findViewById(R.id.name);
+        mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         initRecyclerView();
         initRefreshLayout();
@@ -83,7 +92,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-        RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
+        RecyclerViewUtils.setHeaderView(mRecyclerView, new HomeHeadView(mContext));
         mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
@@ -95,7 +104,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mHomePresent.pullToRefreshData(mContext);
+                mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
     }
@@ -107,20 +116,73 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 Rect rect = new Rect();
                 getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                 int statusBarHeight = rect.top;
-                GroupPopWindow popWindow = new GroupPopWindow(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
-                popWindow.showAtLocation(mUserName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
+                mPopWindow = GroupPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                mPopWindow.showAtLocation(mUserName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
+                mPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
+                    @Override
+                    public void onGroupItemClick(long groupId, String groupName) {
+                        mCurrentGroup = groupId;
+                        if (groupId != Constants.GROUP_TYPE_ALL) {
+                            setUserName(groupName);
+                        } else {
+                            String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "username_" + AccessTokenKeeper.readAccessToken(mContext).getUid());
+                            setUserName(User.parse(response).name);
+                        }
+                        mPopWindow.dismiss();
+                        mHomePresent.pullToRefreshData(groupId, mContext);
+                    }
+                });
             }
         });
     }
 
-    public void scrollToTop() {
+    @Override
+    public void scrollToTop(boolean refreshData) {
         mRecyclerView.scrollToPosition(0);
-        mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                mHomePresent.pullToRefreshData(mContext);
-            }
-        });
+        if (refreshData) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showRecyclerView() {
+        if (mSwipeRefreshLayout.getVisibility() != View.VISIBLE) {
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideRecyclerView() {
+        if (mSwipeRefreshLayout.getVisibility() != View.GONE) {
+            mSwipeRefreshLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showEmptyBackground() {
+        if (mEmptyLayout.getVisibility() != View.VISIBLE) {
+            mEmptyLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideEmptyBackground() {
+        if (mEmptyLayout.getVisibility() != View.GONE) {
+            mEmptyLayout.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void popWindowsDestory() {
+        if (mPopWindow != null) {
+            mPopWindow.onDestory();
+        }
     }
 
 
@@ -134,12 +196,16 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showLoadingIcon() {
-        mSwipeRefreshLayout.setRefreshing(true);
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Override
     public void hideLoadingIcon() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -166,7 +232,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     @Override
     public void setUserName(String userName) {
         mUserName.setText(userName);
-        mGroup.setVisibility(View.VISIBLE);
+        if (mGroup.getVisibility() != View.VISIBLE) {
+            mGroup.setVisibility(View.VISIBLE);
+        }
     }
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
@@ -175,8 +243,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mHomePresent.requestMoreData(mContext);
+                mHomePresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
     };
+
+
 }

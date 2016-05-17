@@ -16,6 +16,7 @@ import com.wenming.weiswift.mvp.model.UserModel;
 import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class UserModelImp implements UserModel {
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "username_" + AccessTokenKeeper.readAccessToken(context).getUid(), response);
                 User user = User.parse(response);
                 onUserRequestFinish.onComplete(user);
             }

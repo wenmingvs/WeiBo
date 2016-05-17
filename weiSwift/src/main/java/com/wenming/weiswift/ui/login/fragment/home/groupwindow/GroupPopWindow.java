@@ -15,6 +15,7 @@ import com.wenming.weiswift.entity.Group;
 import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.presenter.imp.GroupListPresenterImp;
 import com.wenming.weiswift.mvp.view.GroupPopWindowView;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageOptionPopupWindow;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 
@@ -35,8 +36,26 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     private int mWidth;
     private int mHeight;
     private final GroupListPresenter mGroupListPresenter;
+    private IGroupItemClick mIGroupItemClick;
 
-    public GroupPopWindow(Context context, int width, int height) {
+
+    /**
+     * 使用单例模式创建ImageOPtionPopupWindow
+     */
+    private static volatile GroupPopWindow mGroupPopWindow;
+
+    public static GroupPopWindow getInstance(Context context, int width, int height) {
+        if (mGroupPopWindow == null) {
+            synchronized (ImageOptionPopupWindow.class) {
+                if (mGroupPopWindow == null) {
+                    mGroupPopWindow = new GroupPopWindow(context.getApplicationContext(), width, height);
+                }
+            }
+        }
+        return mGroupPopWindow;
+    }
+
+    private GroupPopWindow(Context context, int width, int height) {
         super(context);
         this.mContext = context;
         mView = LayoutInflater.from(context).inflate(R.layout.home_grouplist_pop, null);
@@ -47,7 +66,7 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
         initListView();
         setUpListener();
         mGroupListPresenter = new GroupListPresenterImp(this);
-        mGroupListPresenter.updateListView(mContext);
+        mGroupListPresenter.updateGroupList(mContext);
     }
 
     private void initPopWindow() {
@@ -72,12 +91,17 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
         mDatas = new ArrayList<Group>();
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mAdapter = new GroupAdapter(mContext, mDatas);
+
         mHeaderAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        mHeaderAdapter.addHeaderView(new GroupHeadView(mContext));
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAdapter);
-
+        mAdapter.setOnGroupItemClickListener(new IGroupItemClick() {
+            @Override
+            public void onGroupItemClick(long groupId, String groupName) {
+                mIGroupItemClick.onGroupItemClick(groupId, groupName);
+            }
+        });
     }
 
 
@@ -103,5 +127,12 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
         ToastUtil.showShort(mContext, error);
     }
 
+    public void setOnGroupItemClickListener(IGroupItemClick groupItemClickListener) {
+        this.mIGroupItemClick = groupItemClickListener;
+    }
+
+    public void onDestory() {
+        mGroupPopWindow = null;
+    }
 
 }

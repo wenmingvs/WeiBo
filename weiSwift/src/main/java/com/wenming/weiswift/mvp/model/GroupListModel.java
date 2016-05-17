@@ -3,7 +3,6 @@ package com.wenming.weiswift.mvp.model;
 import android.content.Context;
 
 import com.wenming.weiswift.entity.Group;
-import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
 
@@ -12,24 +11,20 @@ import java.util.ArrayList;
  */
 public interface GroupListModel {
 
-    interface OnDataFinishedListener {
-        void onComplete(ArrayList<Group> groupslist);
-
-        void onError(String error);
-    }
-
-
-    interface OnTimeLineListener {
+    interface OnGroupListFinishedListener {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Status> statuslist);
+        void onDataFinish(ArrayList<Group> groupslist);
 
         void onError(String error);
     }
 
-    public void groups(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void timeline(Context context, OnTimeLineListener onTimeLineListener);
+    public void groupsOnlyOnce(Context context, OnGroupListFinishedListener onDataFinishedListener);
 
-    public void timelineNextPage(Context context, OnTimeLineListener onTimeLineListener);
+    public void groupsCacheSave(Context context, String response);
+
+    public void groupsCacheLoad(Context context, OnGroupListFinishedListener onDataFinishedListener);
+
+
 }

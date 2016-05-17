@@ -11,7 +11,7 @@
         android:gravity="center_vertical"
         android:padding="7dp"
         android:text="首页"
-        android:textColor="#ffa600"
+        android:textColor="@color/home_groupitem_textview_background_auto"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -19,9 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/home_groupitem_bg_auto"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/friendcircle"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:gravity="center_vertical"

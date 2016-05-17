@@ -19,9 +19,12 @@ import java.util.ArrayList;
  */
 public class HomeFragmentPresentImp implements HomeFragmentPresent {
 
-    private HomeFragmentView mHomeView;
+    private HomeFragmentView mHomeFragmentView;
     private StatusListModel mStatusListModel;
     private UserModel mUserModel;
+
+    private static final int GROUP_TYPE_ALL = 0;
+    private static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;
 
 
     /**
@@ -30,7 +33,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      * @param homeView
      */
     public HomeFragmentPresentImp(HomeFragmentView homeView) {
-        this.mHomeView = homeView;
+        this.mHomeFragmentView = homeView;
         this.mStatusListModel = new StatusListModelImp();
         this.mUserModel = new UserModelImp();
     }
@@ -46,12 +49,13 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         mUserModel.showUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
-                mHomeView.setUserName(user.name);
+                mHomeFragmentView.setUserName(user.name);
+                mHomeFragmentView.popWindowsDestory();
             }
 
             @Override
             public void onError(String error) {
-                mHomeView.setUserName("我的首页");
+                mHomeFragmentView.setUserName("我的首页");
             }
         });
     }
@@ -64,80 +68,89 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      */
     @Override
     public void firstLoadData(Context context, boolean comefromlogin) {
-
         if (comefromlogin) {
-            pullToRefreshData(context);
+            mStatusListModel.friendsTimeline(context, onPullFinishedListener);
             return;
         }
-
-        mStatusListModel.friendsTimelineCacheLoad(context, new StatusListModel.OnDataFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mHomeView.hideLoadingIcon();
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Status> statuslist) {
-                mHomeView.hideLoadingIcon();
-                mHomeView.updateListView(statuslist);
-            }
-
-            @Override
-            public void onError(String error) {
-                mHomeView.hideLoadingIcon();
-            }
-        });
+        mStatusListModel.friendsTimelineCacheLoad(context, onPullFinishedListener);
     }
 
     @Override
-    public void requestMoreData(Context context) {
-        mStatusListModel.friendsTimelineNextPage(context, new StatusListModel.OnDataFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mHomeView.showEndFooterView();
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Status> statuslist) {
-                mHomeView.hideFooterView();
-                mHomeView.updateListView(statuslist);
-            }
-
-            @Override
-            public void onError(String error) {
-                mHomeView.showErrorFooterView();
-            }
-        });
+    public void pullToRefreshData(long groupId, Context context) {
+        mHomeFragmentView.showLoadingIcon();
+        if (groupId == GROUP_TYPE_ALL) {
+            mStatusListModel.friendsTimeline(context, onPullFinishedListener);
+        } else if (groupId == GROUP_TYPE_FRIENDS_CIRCLE) {
+            mStatusListModel.bilateralTimeline(context, onPullFinishedListener);
+        } else {
+            mStatusListModel.timeline(groupId, context, onPullFinishedListener);
+        }
     }
 
-
-    /**
-     * 下拉刷新操作
-     *
-     * @param context
-     */
     @Override
-    public void pullToRefreshData(Context context) {
-        mHomeView.showLoadingIcon();
-        mStatusListModel.friendsTimeline(context, new StatusListModel.OnDataFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mHomeView.hideLoadingIcon();
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Status> statuslist) {
-                mHomeView.hideLoadingIcon();
-                mHomeView.updateListView(statuslist);
-            }
-
-            @Override
-            public void onError(String error) {
-                mHomeView.hideLoadingIcon();
-                mHomeView.showErrorFooterView();
-            }
-        });
+    public void requestMoreData(long groupId, Context context) {
+        if (groupId == GROUP_TYPE_ALL) {
+            mStatusListModel.friendsTimelineNextPage(context, onRequestMoreFinishedListener);
+        } else if (groupId == GROUP_TYPE_FRIENDS_CIRCLE) {
+            mStatusListModel.bilateralTimelineNextPage(context, onRequestMoreFinishedListener);
+        } else {
+            mStatusListModel.timelineNextPage(groupId, context, onRequestMoreFinishedListener);
+        }
     }
 
 
+    public StatusListModel.OnDataFinishedListener onPullFinishedListener = new StatusListModel.OnDataFinishedListener() {
+        @Override
+        public void noMoreData() {
+            mHomeFragmentView.hideLoadingIcon();
+            mHomeFragmentView.showRecyclerView();
+            mHomeFragmentView.hideEmptyBackground();
+        }
+
+        @Override
+        public void noDataInFirstLoad() {
+            mHomeFragmentView.hideLoadingIcon();
+            mHomeFragmentView.hideRecyclerView();
+            mHomeFragmentView.showEmptyBackground();
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Status> statuslist) {
+            mHomeFragmentView.hideLoadingIcon();
+            mHomeFragmentView.scrollToTop(false);
+            mHomeFragmentView.updateListView(statuslist);
+            mHomeFragmentView.showRecyclerView();
+            mHomeFragmentView.hideEmptyBackground();
+        }
+
+        @Override
+        public void onError(String error) {
+            mHomeFragmentView.hideLoadingIcon();
+            mHomeFragmentView.showRecyclerView();
+            mHomeFragmentView.showErrorFooterView();
+            mHomeFragmentView.hideEmptyBackground();
+        }
+    };
+
+    public StatusListModel.OnDataFinishedListener onRequestMoreFinishedListener = new StatusListModel.OnDataFinishedListener() {
+        @Override
+        public void noMoreData() {
+            mHomeFragmentView.showEndFooterView();
+        }
+
+        @Override
+        public void noDataInFirstLoad() {
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Status> statuslist) {
+            mHomeFragmentView.hideFooterView();
+            mHomeFragmentView.updateListView(statuslist);
+        }
+
+        @Override
+        public void onError(String error) {
+            mHomeFragmentView.showErrorFooterView();
+        }
+    };
 }
