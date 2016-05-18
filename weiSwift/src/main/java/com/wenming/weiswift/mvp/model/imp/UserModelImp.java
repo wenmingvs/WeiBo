@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model.imp;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.api.FriendshipsAPI;
@@ -243,6 +244,10 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void getUserDetailList(final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+        String jsonstring = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt");
+        if (jsonstring == null && AccessTokenKeeper.readAccessToken(context).isSessionValid()) {
+            cacheCurrentOuthToken(context);
+        }
         final ArrayList<Token> tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt")).tokenList;
         if (tokenList == null || tokenList.size() == 0) {
             return;
@@ -281,6 +286,20 @@ public class UserModelImp implements UserModel {
         } else {
             onUserDeleteListener.onSuccess(mUserArrayList);
         }
+    }
+
+    public void cacheCurrentOuthToken(Context context) {
+        String tokenString = AccessTokenKeeper.readAccessToken(context).getToken();
+        String expiresIn = String.valueOf(AccessTokenKeeper.readAccessToken(context).getExpiresTime());
+        String refresh_token = AccessTokenKeeper.readAccessToken(context).getRefreshToken();
+        String uid = AccessTokenKeeper.readAccessToken(context).getUid();
+        Token token = new Token(tokenString, expiresIn, refresh_token, uid);
+        TokenList tokenList = new TokenList();
+        tokenList.tokenList.add(token);
+        tokenList.current_uid = uid;
+        tokenList.total_number = tokenList.tokenList.size();
+        Gson gson = new Gson();
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
     }
 
 
