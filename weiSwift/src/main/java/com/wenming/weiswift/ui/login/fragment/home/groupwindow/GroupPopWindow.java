@@ -132,7 +132,9 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     }
 
     public void onDestory() {
-        mGroupPopWindow = null;
+        if (mGroupPopWindow != null) {
+            mGroupPopWindow = null;
+        }
     }
 
 }

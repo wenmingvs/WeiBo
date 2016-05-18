@@ -34,4 +34,5 @@ dependencies {
     compile 'com.cesards.android:cropimageview:1.0.2.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+    compile 'com.google.code.gson:gson:2.3.1'
 }

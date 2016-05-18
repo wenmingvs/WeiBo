@@ -11,6 +11,7 @@ import com.wenming.weiswift.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      */
     @Override
     public void refreshUserName(Context context) {
+        LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
+        ;
         mUserModel.showUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
@@ -64,15 +67,16 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      * 刚进来，如果有缓存数据，而且不是第一次登录的，则不进行下拉刷新操作，否则进行下拉刷新操作
      *
      * @param context
-     * @param comefromlogin
+     * @param comefromlogin 刚刚登录成功
      */
     @Override
     public void firstLoadData(Context context, boolean comefromlogin) {
         if (comefromlogin) {
+            mHomeFragmentView.showLoadingIcon();
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
-            return;
+        } else {
+            mStatusListModel.friendsTimelineCacheLoad(context, onPullFinishedListener);
         }
-        mStatusListModel.friendsTimelineCacheLoad(context, onPullFinishedListener);
     }
 
     @Override

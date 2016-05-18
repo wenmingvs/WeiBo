@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.unlogin.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,36 +11,47 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.mvp.presenter.WebViewActivityPresent;
+import com.wenming.weiswift.mvp.presenter.imp.WebViewActivityPresentImp;
+import com.wenming.weiswift.mvp.view.WebViewActivityView;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
-import com.wenming.weiswift.utils.LogUtil;
 
 /**
  * Created by wenmingvs on 16/5/12.
  */
 
-public class WebViewActivity extends Activity {
+public class WebViewActivity extends Activity implements WebViewActivityView {
 
+    private Context mContext;
     private String sRedirectUri;
     private WebView mWeb;
+    private String mLoginURL;
+    private WebViewActivityPresent mWebViewActivityPresent;
+    private boolean mComeFromAccoutActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.webview_layout);
-        String url = getIntent().getStringExtra("url");
+        mLoginURL = getIntent().getStringExtra("url");
+        mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
         sRedirectUri = Constants.REDIRECT_URL;
         mWeb = (WebView) findViewById(R.id.webview);
+        mWebViewActivityPresent = new WebViewActivityPresentImp(this);
+        initWebView();
+    }
+
+    private void initWebView() {
         WebSettings settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setSaveFormData(false);
         settings.setSavePassword(false);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWeb.setWebViewClient(new MyWebViewClient());
-        mWeb.loadUrl(url);
+        mWeb.loadUrl(mLoginURL);
         mWeb.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -48,9 +60,14 @@ public class WebViewActivity extends Activity {
                         if (mWeb.canGoBack()) {
                             mWeb.goBack();
                         } else {
-                            Intent intent = new Intent(WebViewActivity.this, UnLoginActivity.class);
-                            startActivity(intent);
-                            finish();
+                            if (!mComeFromAccoutActivity) {
+                                Intent intent = new Intent(WebViewActivity.this, UnLoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finish();
+                            }
+
                         }
                         return true;
                     }
@@ -60,13 +77,25 @@ public class WebViewActivity extends Activity {
         });
     }
 
+    @Override
+    public void startMainActivity() {
+        Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
+        intent.putExtra("fisrtstart", true);
+        if (mComeFromAccoutActivity) {
+            intent.putExtra("comeFromAccoutActivity", true);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        startActivity(intent);
+        finish();
+    }
+
     private class MyWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (isUrlRedirected(url)) {
                 view.stopLoading();
-                handleRedirectedUrl(url);
+                mWebViewActivityPresent.handleRedirectedUrl(mContext, url);
             } else {
                 view.loadUrl(url);
             }
@@ -77,7 +106,7 @@ public class WebViewActivity extends Activity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             if (!url.equals("about:blank") && isUrlRedirected(url)) {
                 view.stopLoading();
-                handleRedirectedUrl(url);
+                mWebViewActivityPresent.handleRedirectedUrl(mContext, url);
                 return;
             }
             super.onPageStarted(view, url, favicon);
@@ -87,45 +116,6 @@ public class WebViewActivity extends Activity {
 
     public boolean isUrlRedirected(String url) {
         return url.startsWith(sRedirectUri);
-    }
-
-    private void handleRedirectedUrl(String url) {
-        if (!url.contains("error")) {
-            int tokenIndex = url.indexOf("access_token=");
-            int expiresIndex = url.indexOf("expires_in=");
-            int refresh_token_Index = url.indexOf("refresh_token=");
-            int uid_Index = url.indexOf("uid=");
-            int scope_Index = url.indexOf("scope=");
-
-            String token = url.substring(tokenIndex + 13, url.indexOf("&", tokenIndex));
-            String expiresIn = url.substring(expiresIndex + 11, url.indexOf("&", expiresIndex));
-            String refresh_token = url.substring(refresh_token_Index + 14, url.indexOf("&", refresh_token_Index));
-            String uid = new String();
-            if (url.contains("scope=")) {
-                uid = url.substring(uid_Index + 4, url.indexOf("&", uid_Index));
-            } else {
-                uid = url.substring(uid_Index + 4);
-            }
-
-
-            LogUtil.d("url = " + url);
-            LogUtil.d("token = " + token);
-            LogUtil.d("expires_in = " + expiresIn);
-            LogUtil.d("refresh_token = " + refresh_token);
-            LogUtil.d("uid = " + uid);
-
-            Oauth2AccessToken mAccessToken = new Oauth2AccessToken();
-            mAccessToken.setToken(token);
-            mAccessToken.setExpiresIn(expiresIn);
-            mAccessToken.setRefreshToken(refresh_token);
-            mAccessToken.setUid(uid);
-            AccessTokenKeeper.writeAccessToken(WebViewActivity.this, mAccessToken);
-            Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
-            intent.putExtra("fisrtstart", true);
-            startActivity(intent);
-            finish();
-
-        }
     }
 
 

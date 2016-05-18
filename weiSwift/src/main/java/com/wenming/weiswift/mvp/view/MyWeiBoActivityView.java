@@ -39,4 +39,10 @@ public interface MyWeiBoActivityView {
      * 显示FooterView，提示没有网络
      */
     public void showErrorFooterView();
+
+    /**
+     * Created by wenmingvs on 16/5/18.
+     */
+    class SettingActivityView {
+    }
 }

@@ -1,21 +1,26 @@
 package com.wenming.weiswift.ui.login.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
 import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
+import com.wenming.weiswift.utils.LogUtil;
 
 
 public class MainActivity extends FragmentActivity {
@@ -37,11 +42,14 @@ public class MainActivity extends FragmentActivity {
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private FrameLayout mPostTab;
 
+    private boolean mComeFromAccoutActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
+        mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
@@ -101,7 +109,7 @@ public class MainActivity extends FragmentActivity {
                 case HOME_FRAGMENT:
                     mHomeTab.setSelected(true);
                     if (mHomeFragment == null) {
-                        mHomeFragment = new HomeFragment();
+                        mHomeFragment = new HomeFragment(mComeFromAccoutActivity);
                         transaction.add(R.id.contentLayout, mHomeFragment);
                     } else {
                         transaction.show(mHomeFragment);
@@ -177,4 +185,32 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage("确定要退出？")
+                    .setCancelable(true)
+                    .setIcon(R.drawable.logo)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ((MyApplication) getApplication()).finishAll();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        LogUtil.d("MainActivity被销毁");
+        super.onDestroy();
+    }
 }

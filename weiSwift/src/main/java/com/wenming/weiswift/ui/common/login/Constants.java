@@ -16,6 +16,8 @@
 
 package com.wenming.weiswift.ui.common.login;
 
+import android.text.TextUtils;
+
 public interface Constants {
 
 //    public static final String APP_KEY = "4037909131";
@@ -32,6 +34,11 @@ public interface Constants {
 
     public static final int GROUP_TYPE_ALL = 0;
     public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;
+
+    public static final String authurl = "https://open.weibo.cn/oauth2/authorize" + "?" + "client_id=" + Constants.APP_KEY
+            + "&response_type=token&redirect_uri=" + Constants.REDIRECT_URL
+            + "&key_hash=" + Constants.AppSecret + (TextUtils.isEmpty(Constants.PackageName) ? "" : "&packagename=" + Constants.PackageName)
+            + "&display=mobile" + "&scope=" + Constants.SCOPE;
 
 
 }

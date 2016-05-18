@@ -35,8 +35,18 @@ public interface UserModel {
         void onError(String error);
     }
 
+    interface OnUserDeleteListener {
+        void onSuccess(ArrayList<User> userlist);
+
+        void onEmpty();
+
+        void onError(String error);
+    }
+
 
     public void showUserDetail(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+
+    public User showUserDetailSync(long uid, Context context);
 
     public void userTimeline(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
@@ -50,4 +60,9 @@ public interface UserModel {
 
     public void friendsNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
+    public void getUserDetailList(Context context, OnUserListRequestFinish onUserListRequestFinish);
+
+    public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener);
 }
+
+
