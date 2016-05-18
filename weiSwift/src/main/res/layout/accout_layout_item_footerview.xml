@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="71dp"
+    android:layout_marginBottom="1dp"
+    android:background="@drawable/message_item_auto"
+    android:clickable="true"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/add_img"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/group_edit_member_add_highlighted" />
+    
+    <TextView
+        android:id="@+id/friend_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:text="添加帐号"
+        android:textColor="#343434"
+        android:textSize="17sp" />
+
+</LinearLayout>
+
+

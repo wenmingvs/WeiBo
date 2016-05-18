@@ -27,8 +27,8 @@ public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<Boolean> mSelectList = new ArrayList<Boolean>();
     private ArrayList<Boolean> mHeadSelectList = new ArrayList<Boolean>();
 
-    private int ITEM_TYPE_HEAD = 0;
-    private int ITEM_TYPE_GROUP = 1;
+    private static final int ITEM_TYPE_HEAD = 0;
+    private static final int ITEM_TYPE_GROUP = 1;
 
     public GroupAdapter(Context mContext, ArrayList<Group> datas) {
         this.mDatas = datas;

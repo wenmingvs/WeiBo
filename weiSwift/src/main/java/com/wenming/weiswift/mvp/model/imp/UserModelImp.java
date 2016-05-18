@@ -9,8 +9,10 @@ import com.wenming.weiswift.api.FriendshipsAPI;
 import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.Token;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.entity.list.StatusList;
+import com.wenming.weiswift.entity.list.TokenList;
 import com.wenming.weiswift.entity.list.UserList;
 import com.wenming.weiswift.mvp.model.UserModel;
 import com.wenming.weiswift.ui.common.NewFeature;
@@ -30,6 +32,7 @@ public class UserModelImp implements UserModel {
     private ArrayList<User> mFriendsList = new ArrayList<>();
     private int mFollowersCursor;
     private int mFriendsCursor;
+    private ArrayList<User> mUserArrayList;
 
     @Override
     public void showUserDetail(long uid, final Context context, final OnUserDetailRequestFinish onUserRequestFinish) {
@@ -48,6 +51,12 @@ public class UserModelImp implements UserModel {
                 onUserRequestFinish.onError(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public User showUserDetailSync(long uid, final Context context) {
+        UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        return User.parse(mUsersAPI.showSync(uid));
     }
 
     @Override
@@ -230,6 +239,48 @@ public class UserModelImp implements UserModel {
                 onUserListRequestFinish.onError(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void getUserDetailList(final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+        final ArrayList<Token> tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt")).tokenList;
+        if (tokenList == null || tokenList.size() == 0) {
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserArrayList = new ArrayList<User>();
+                for (Token token : tokenList) {
+                    mUserArrayList.add(showUserDetailSync(Long.valueOf(token.getUid()), context));
+                }
+                onUserListRequestFinish.onDataFinish(mUserArrayList);
+            }
+        }).start();
+    }
+
+    @Override
+    public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener) {
+        int i = 0;
+        for (i = 0; i < mUserArrayList.size(); i++) {
+            if (mUserArrayList.get(i).id.equals(String.valueOf(uid))) {
+                mUserArrayList.remove(i);
+                i--;
+                break;
+            }
+        }
+
+        if (mUserArrayList.size() == 0) {
+            onUserDeleteListener.onEmpty();
+            return;
+        }
+
+
+        if (i >= mUserArrayList.size()) {
+            onUserDeleteListener.onError("没有找到对应的账户");
+        } else {
+            onUserDeleteListener.onSuccess(mUserArrayList);
+        }
     }
 
 

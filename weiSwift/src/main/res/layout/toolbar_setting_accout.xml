@@ -13,6 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
+        android:onClick="exit"
         android:scaleType="centerCrop"
         android:src="@drawable/navigationbar_back_auto" />
 
@@ -23,7 +24,7 @@
         android:layout_centerInParent="true"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="设置"
+        android:text="帐号管理"
         android:textColor="#525252"
         android:textSize="20sp" />
 

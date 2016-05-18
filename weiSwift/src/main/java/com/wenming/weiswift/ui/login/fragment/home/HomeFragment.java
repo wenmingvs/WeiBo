@@ -59,12 +59,18 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     private LinearLayout mEmptyLayout;
     private GroupPopWindow mPopWindow;
+    private boolean mComeFromAccoutActivity;
+
+    public HomeFragment(boolean comeFromAccoutActivity) {
+        mComeFromAccoutActivity = comeFromAccoutActivity;
+    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = getActivity();
         mHomePresent = new HomeFragmentPresentImp(this);
+
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
@@ -78,7 +84,11 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
             @Override
             public void run() {
                 mHomePresent.refreshUserName(mContext);
-                mHomePresent.firstLoadData(mContext, mActivity.getIntent().getBooleanExtra("fisrtstart", false));
+                if (mComeFromAccoutActivity) {
+                    mHomePresent.firstLoadData(mContext, true);
+                } else {
+                    mHomePresent.firstLoadData(mContext, mActivity.getIntent().getBooleanExtra("fisrtstart", false));
+                }
             }
         });
         return mView;
@@ -248,5 +258,11 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         }
     };
 
-
+    @Override
+    public void onDestroyView() {
+        if (mPopWindow != null) {
+            mPopWindow.onDestory();
+        }
+        super.onDestroyView();
+    }
 }
