@@ -2,11 +2,12 @@ package com.wenming.weiswift.ui.login.fragment.home.groupwindow;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -16,8 +17,8 @@ import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.presenter.imp.GroupListPresenterImp;
 import com.wenming.weiswift.mvp.view.GroupPopWindowView;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageOptionPopupWindow;
+import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ToastUtil;
-import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -26,23 +27,25 @@ import java.util.ArrayList;
  */
 public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
 
-    private RecyclerView mRecyclerView;
+    private static ListView mListView;
     private Context mContext;
     private ArrayList<Group> mDatas;
     private View mView;
-    private HeaderAndFooterRecyclerViewAdapter mHeaderAdapter;
     private TextView mGroupEdit;
     private GroupAdapter mAdapter;
     private int mWidth;
     private int mHeight;
     private final GroupListPresenter mGroupListPresenter;
     private IGroupItemClick mIGroupItemClick;
+    private int mSelectIndex = 0;
 
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
      */
-    private static volatile GroupPopWindow mGroupPopWindow;
+    private static GroupPopWindow mGroupPopWindow;
+    private static int scrolledX;
+    private static int scrolledY;
 
     public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
@@ -65,11 +68,13 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
         initPopWindow();
         initListView();
         setUpListener();
+        mListView.scrollTo(scrolledX, scrolledY);
         mGroupListPresenter = new GroupListPresenterImp(this);
         mGroupListPresenter.updateGroupList(mContext);
     }
 
     private void initPopWindow() {
+        this.setWindowLayoutMode(mWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setWidth(mWidth);
         this.setHeight(mHeight);
         this.setFocusable(true);
@@ -89,19 +94,46 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
 
     private void initListView() {
         mDatas = new ArrayList<Group>();
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        mDatas.add(new Group());
+        mDatas.add(new Group());
+        mListView = (ListView) mView.findViewById(R.id.listview);
         mAdapter = new GroupAdapter(mContext, mDatas);
 
-        mHeaderAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mHeaderAdapter);
         mAdapter.setOnGroupItemClickListener(new IGroupItemClick() {
             @Override
-            public void onGroupItemClick(long groupId, String groupName) {
-                mIGroupItemClick.onGroupItemClick(groupId, groupName);
+            public void onGroupItemClick(int position, long groupId, String groupName) {
+                mSelectIndex = position;
+                mIGroupItemClick.onGroupItemClick(position, groupId, groupName);
             }
         });
+        mListView.setAdapter(mAdapter);
+        mListView.setDivider(null);
+        mListView.setItemsCanFocus(true);
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            /**
+             * 滚动状态改变时调用
+             */
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // 不滚动时保存当前滚动到的位置
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    scrolledX = mListView.getScrollX();
+                    scrolledY = mListView.getScrollY();
+                }
+            }
+
+            /**
+             * 滚动时调用
+             */
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
+    }
+
+    public void scrollToSelectIndex() {
+        mListView.scrollTo(scrolledX, scrolledY);
     }
 
 
@@ -119,7 +151,14 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     @Override
     public void updateListView(ArrayList<Group> datas) {
         mDatas.addAll(datas);
-        mHeaderAdapter.notifyDataSetChanged();
+        int height = 0;
+        if (datas.size() > 5) {
+            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (5 + 3);//最多显示5个
+        } else {
+            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (datas.size() + 3);
+        }
+        mAdapter.setDatas(mDatas);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

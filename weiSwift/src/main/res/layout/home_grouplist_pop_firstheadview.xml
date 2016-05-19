@@ -1,17 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/groupitem"
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/allweibo"
         android:layout_width="match_parent"
         android:layout_height="37dp"
-        android:gravity="center_vertical"
         android:background="@drawable/home_groupitem_bg_auto"
-        android:padding="5dp"
-        android:text="特别关注"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="7dp"
+        android:text="首页"
         android:textColor="@color/home_groupitem_textview_background_auto"
         android:textSize="18sp" />
 </LinearLayout>

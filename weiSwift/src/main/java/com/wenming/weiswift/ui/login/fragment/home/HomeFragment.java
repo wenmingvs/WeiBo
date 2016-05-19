@@ -130,7 +130,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 mPopWindow.showAtLocation(mUserName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
                 mPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override
-                    public void onGroupItemClick(long groupId, String groupName) {
+                    public void onGroupItemClick(int position, long groupId, String groupName) {
                         mCurrentGroup = groupId;
                         if (groupId != Constants.GROUP_TYPE_ALL) {
                             setUserName(groupName);
@@ -142,6 +142,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                         mHomePresent.pullToRefreshData(groupId, mContext);
                     }
                 });
+                if (mPopWindow.isShowing()) {
+                    mPopWindow.scrollToSelectIndex();
+                }
+
             }
         });
     }

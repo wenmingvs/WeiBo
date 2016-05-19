@@ -14,7 +14,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
-import com.wenming.weiswift.ui.login.fragment.profile.setting.accouts.AccoutActivity;
+import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
 
 /**
  * Created by wenmingvs on 2016/1/7.

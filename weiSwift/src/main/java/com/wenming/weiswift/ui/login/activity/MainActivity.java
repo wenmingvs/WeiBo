@@ -66,7 +66,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(HOME_FRAGMENT);
-
+                if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
+                    mHomeFragment.scrollToTop(false);
+                }
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +97,11 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(PROFILE_FRAGMENT);
+                if (mCurrentIndex == PROFILE_FRAGMENT && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
+                    mProfileFragment.refreshUserDetail(mContext, false);
+                }
             }
         });
-
     }
 
 
@@ -113,7 +117,6 @@ public class MainActivity extends FragmentActivity {
                         transaction.add(R.id.contentLayout, mHomeFragment);
                     } else {
                         transaction.show(mHomeFragment);
-
                     }
                     mCurrentIndex = HOME_FRAGMENT;
                     break;
@@ -150,10 +153,7 @@ public class MainActivity extends FragmentActivity {
                     break;
             }
             transaction.commit();
-        } else if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-            mHomeFragment.scrollToTop(true);
         }
-
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {

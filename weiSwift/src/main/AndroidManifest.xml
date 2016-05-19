@@ -87,7 +87,7 @@
             android:configChanges="keyboardHidden|orientation" />
 
         <activity android:name=".ui.unlogin.activity.WebViewActivity" />
-        <activity android:name=".ui.login.fragment.profile.setting.accouts.AccoutActivity" />
+        <activity android:name=".ui.login.fragment.profile.setting.accoutlist.AccoutActivity" />
     </application>
 
 </manifest>

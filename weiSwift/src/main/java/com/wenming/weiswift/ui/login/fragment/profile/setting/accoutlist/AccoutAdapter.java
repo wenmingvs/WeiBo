@@ -1,4 +1,4 @@
-package com.wenming.weiswift.ui.login.fragment.profile.setting.accouts;
+package com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist;
 
 import android.content.Context;
 import android.graphics.Bitmap;

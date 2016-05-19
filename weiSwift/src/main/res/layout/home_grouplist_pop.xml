@@ -2,20 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="185dp"
-    android:layout_height="320dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/popover_background"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="15dp">
+    android:paddingRight="10dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         tools:listitem="@layout/home_grouplist_pop_item" />

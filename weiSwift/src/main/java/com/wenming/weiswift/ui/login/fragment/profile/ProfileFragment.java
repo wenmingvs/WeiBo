@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -27,6 +28,7 @@ import com.wenming.weiswift.ui.login.fragment.profile.followers.FollowerActivity
 import com.wenming.weiswift.ui.login.fragment.profile.friends.FriendsActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.SettingActivity;
+import com.wenming.weiswift.widget.mdprogressbar.CircleProgressBar;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -48,12 +50,14 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private LinearLayout mFollowers_Layout;
     private LinearLayout mFriends_Layout;
     private ProfileFragmentPresent mProfileFragmentPresent;
+    private CircleProgressBar mProgressBar;
+    private ScrollView mScrollView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        mContext = mActivity;
+        mContext = getContext();
         mProfileFragmentPresent = new ProfileFragmentPresentImp(this);
 
         options = new DisplayImageOptions.Builder()
@@ -70,6 +74,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.profilefragment_layout, null);
+        mScrollView = (ScrollView) mView.findViewById(R.id.scrollview);
         mProfile_myimg = (ImageView) mView.findViewById(R.id.profile_myimg);
         mProfile_myname = (TextView) mView.findViewById(R.id.profile_myname);
         mProfile_mydescribe = (TextView) mView.findViewById(R.id.profile_mydescribe);
@@ -80,9 +85,33 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
         mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
         mSettings = (TextView) mView.findViewById(R.id.setting);
-        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+        mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);
+        mProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        refreshUserDetail(mContext, true);
         setUpListener();
         return mView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (mProfile_myname == null || mProfile_myname.getText() == null || mProfile_myname.getText().length() == 0) {
+                refreshUserDetail(mContext, false);
+            }
+        }
+    }
+
+    public void refreshUserDetail(Context context, boolean loadicon) {
+        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenKeeper.readAccessToken(context).getUid()), context, loadicon);
+    }
+
+    public boolean haveAlreadyRefresh() {
+        if (mProfile_myname == null || mProfile_myname.getText().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void setUpListener() {
@@ -127,6 +156,27 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
             mFriends_count.setText(user.friends_count + "");
             mFollowers_count.setText(user.followers_count + "");
         }
-
     }
+
+    @Override
+    public void showScrollView() {
+        mScrollView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideScrollView() {
+        mScrollView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
 }

@@ -22,16 +22,22 @@ public class ProfileFragmentPresentImp implements ProfileFragmentPresent {
     }
 
     @Override
-    public void refreshUserDetail(long uid, Context context) {
+    public void refreshUserDetail(long uid, Context context, boolean loadIcon) {
+        if (loadIcon) {
+            mProfileFragmentView.showProgressDialog();
+        }
         mUserModel.showUserDetail(uid, context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
+                mProfileFragmentView.showScrollView();
+                mProfileFragmentView.hideProgressDialog();
                 mProfileFragmentView.setUserDetail(user);
             }
 
             @Override
             public void onError(String error) {
-
+                mProfileFragmentView.showScrollView();
+                mProfileFragmentView.hideProgressDialog();
             }
         });
     }

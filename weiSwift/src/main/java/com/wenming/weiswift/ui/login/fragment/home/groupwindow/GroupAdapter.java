@@ -1,11 +1,10 @@
 package com.wenming.weiswift.ui.login.fragment.home.groupwindow;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,153 +15,211 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import java.util.ArrayList;
 
 /**
- * Created by wenmingvs on 16/5/12.
+ * Created by wenmingvs on 16/5/19.
  */
-public class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class GroupAdapter extends BaseAdapter {
 
-    private ArrayList<Group> mDatas;
-    private Context mContext;
-    private View mView;
+    private ArrayList<Group> mDatas = new ArrayList<>();
+    private LayoutInflater layoutInflater;
     private IGroupItemClick mIGroupItemClick;
+    private static final int ITEM_TYPE_HEAD_FIRST = 0;
+    private static final int ITEM_TYPE_HEAD_SECOND = 1;
+    private static final int ITEM_TYPE_GROUP = 2;
     private ArrayList<Boolean> mSelectList = new ArrayList<Boolean>();
-    private ArrayList<Boolean> mHeadSelectList = new ArrayList<Boolean>();
+    private ArrayList<Group> datas;
 
-    private static final int ITEM_TYPE_HEAD = 0;
-    private static final int ITEM_TYPE_GROUP = 1;
-
-    public GroupAdapter(Context mContext, ArrayList<Group> datas) {
-        this.mDatas = datas;
-        this.mContext = mContext;
+    public GroupAdapter(Context context, ArrayList<Group> mDatas) {
+        this.mDatas = mDatas;
+        initSelectList();
+        this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_TYPE_HEAD) {
-            mView = LayoutInflater.from(mContext).inflate(R.layout.home_grouplist_pop_headview, parent, false);
-            HeadViewHolder headViewHolder = new HeadViewHolder(mView);
-            mHeadSelectList.add(true);
-            mHeadSelectList.add(false);
-            return headViewHolder;
-        } else if (viewType == ITEM_TYPE_GROUP) {
-            mView = LayoutInflater.from(mContext).inflate(R.layout.home_grouplist_pop_item, parent, false);
-            GroupViewHolder groupViewHolder = new GroupViewHolder(mView);
-            initSelectListt();
-            return groupViewHolder;
-        }
-
-        return null;
+    public int getCount() {
+        return mDatas.size();
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        if (holder instanceof HeadViewHolder) {
-            ((HeadViewHolder) holder).home.setSelected(mHeadSelectList.get(0));
-            ((HeadViewHolder) holder).friendCircle.setSelected(mHeadSelectList.get(1));
-            ((HeadViewHolder) holder).home.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mIGroupItemClick.onGroupItemClick(Constants.GROUP_TYPE_ALL, "首页");
-                    deSelectAll();
-                    ((HeadViewHolder) holder).home.setSelected(true);
-                    mHeadSelectList.set(0, true);
-                    notifyDataSetChanged();
-                }
-            });
-
-            ((HeadViewHolder) holder).friendCircle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mIGroupItemClick.onGroupItemClick(Constants.GROUP_TYPE_FRIENDS_CIRCLE, "好友圈");
-                    deSelectAll();
-                    ((HeadViewHolder) holder).friendCircle.setSelected(true);
-                    mHeadSelectList.set(1, true);
-                    notifyDataSetChanged();
-                }
-            });
-
-        } else if (holder instanceof GroupViewHolder) {
-            final int newPosition = position - 1;
-            ((GroupViewHolder) holder).groupitem.setText(mDatas.get(newPosition).name);
-            if (mSelectList.size() > 0 && mSelectList.get(newPosition).compareTo(Boolean.FALSE) == 0) {
-                ((GroupViewHolder) holder).groupitem.setSelected(false);
-            } else {
-                ((GroupViewHolder) holder).groupitem.setSelected(true);
-            }
-            ((GroupViewHolder) holder).groupitem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mIGroupItemClick.onGroupItemClick(Long.valueOf(mDatas.get(newPosition).id), mDatas.get(newPosition).name);
-                    ((GroupViewHolder) holder).groupitem.setSelected(true);
-                    deSelectAll();
-                    mSelectList.set(newPosition, true);
-                }
-            });
-        }
-
+    public Group getItem(int position) {
+        return mDatas.get(position);
     }
 
     @Override
-    public int getItemCount() {
-        if (mDatas != null) {
-            return mDatas.size() + 1;
-        } else {
-            return 1;
-        }
+    public long getItemId(int position) {
+        return position;
     }
 
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
-            return ITEM_TYPE_HEAD;
+            return ITEM_TYPE_HEAD_FIRST;
+        } else if (position == 1) {
+            return ITEM_TYPE_HEAD_SECOND;
         } else {
             return ITEM_TYPE_GROUP;
         }
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return 3;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        FirstHeadHolder firstHeadHolder = null;
+        SecondHeadHolder secondHeadHolder = null;
+        GroupViewHolder groupViewHolder = null;
+        final int type = getItemViewType(position);
+        if (convertView == null) {
+            switch (type) {
+                case ITEM_TYPE_HEAD_FIRST:
+                    convertView = layoutInflater.inflate(R.layout.home_grouplist_pop_firstheadview, parent, false);
+                    firstHeadHolder = new FirstHeadHolder(convertView);
+                    convertView.setTag(firstHeadHolder);
+                    break;
+                case ITEM_TYPE_HEAD_SECOND:
+                    convertView = layoutInflater.inflate(R.layout.home_grouplist_pop_secondheadview, parent, false);
+                    secondHeadHolder = new SecondHeadHolder(convertView);
+                    convertView.setTag(secondHeadHolder);
+                    break;
+
+                case ITEM_TYPE_GROUP:
+                    convertView = layoutInflater.inflate(R.layout.home_grouplist_pop_item, parent, false);
+                    groupViewHolder = new GroupViewHolder(convertView);
+                    convertView.setTag(groupViewHolder);
+            }
+        } else {
+            switch (type) {
+                case ITEM_TYPE_HEAD_FIRST:
+                    firstHeadHolder = (FirstHeadHolder) convertView.getTag();
+                    break;
+
+                case ITEM_TYPE_HEAD_SECOND:
+                    secondHeadHolder = (SecondHeadHolder) convertView.getTag();
+                    break;
+
+                case ITEM_TYPE_GROUP:
+                    groupViewHolder = (GroupViewHolder) convertView.getTag();
+                    break;
+            }
+        }
+
+        switch (type) {
+            case ITEM_TYPE_HEAD_FIRST:
+                firstHeadHolder.home.setSelected(mSelectList.get(0));
+                firstHeadHolder.home.setFocusable(mSelectList.get(0));
+                firstHeadHolder.home.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIGroupItemClick.onGroupItemClick(position, Constants.GROUP_TYPE_ALL, "首页");
+                        deSelectAll();
+                        ((TextView) v).setSelected(true);
+                        ((TextView) v).setFocusable(true);
+                        mSelectList.set(0, true);
+                        notifyDataSetChanged();
+                    }
+                });
+                break;
+            case ITEM_TYPE_HEAD_SECOND:
+                secondHeadHolder.friendCircle.setSelected(mSelectList.get(1));
+                secondHeadHolder.friendCircle.setFocusable(mSelectList.get(1));
+                secondHeadHolder.friendCircle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIGroupItemClick.onGroupItemClick(position, Constants.GROUP_TYPE_FRIENDS_CIRCLE, "好友圈");
+                        deSelectAll();
+                        ((LinearLayout) v).setSelected(true);
+                        mSelectList.set(1, true);
+                        notifyDataSetChanged();
+                    }
+                });
+                break;
+
+            case ITEM_TYPE_GROUP:
+                groupViewHolder.groupitem.setText(mDatas.get(position).name);
+                if (mSelectList.size() > 2 && mSelectList.get(position).compareTo(Boolean.FALSE) == 0) {
+                    groupViewHolder.groupitem.setSelected(false);
+                    groupViewHolder.groupitem.setFocusable(false);
+                } else {
+                    groupViewHolder.groupitem.setSelected(true);
+                    groupViewHolder.groupitem.setFocusable(true);
+                }
+                groupViewHolder.groupitem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIGroupItemClick.onGroupItemClick(position, Long.valueOf(mDatas.get(position).id), mDatas.get(position).name);
+                        deSelectAll();
+                        ((TextView) v).setSelected(true);
+                        ((TextView) v).setFocusable(true);
+                        mSelectList.set(position, true);
+                        notifyDataSetChanged();
+                    }
+                });
+                break;
+        }
+        return convertView;
+    }
+
+
     public void setOnGroupItemClickListener(IGroupItemClick groupItemClickListener) {
         this.mIGroupItemClick = groupItemClickListener;
     }
 
-
     private void deSelectAll() {
-        mHeadSelectList.set(0, false);
-        mHeadSelectList.set(1, false);
-        for (int i = 0; i < mDatas.size(); i++) {
+        for (int i = 0; i < mSelectList.size(); i++) {
             mSelectList.set(i, false);
         }
-        notifyDataSetChanged();
     }
 
-    public void initSelectListt() {
+
+    public void initSelectList() {
+        if (mSelectList.size() == mDatas.size()) {
+            return;
+        }
         if (mDatas.size() > 0 && mSelectList.size() < mDatas.size()) {
+            mSelectList.clear();
             for (int i = 0; i < mDatas.size(); i++) {
-                mSelectList.add(false);
+                if (i == 0) {
+                    mSelectList.add(i, true);
+                } else {
+                    mSelectList.add(false);
+                }
             }
         }
     }
 
-    public class HeadViewHolder extends RecyclerView.ViewHolder {
+    public void setDatas(ArrayList<Group> datas) {
+        this.datas = datas;
+        initSelectList();
+    }
+
+    public class FirstHeadHolder {
+        public TextView home;
+
+        public FirstHeadHolder(View view) {
+            home = (TextView) view.findViewById(R.id.allweibo);
+        }
+    }
+
+    public class SecondHeadHolder {
         public TextView home;
         public LinearLayout friendCircle;
-        public TextView friendtext;
 
-        public HeadViewHolder(View v) {
-            super(v);
-            home = (TextView) mView.findViewById(R.id.allweibo);
-            friendCircle = (LinearLayout) mView.findViewById(R.id.bestfriend);
-            friendtext = (TextView) mView.findViewById(R.id.friendcircle);
+        public SecondHeadHolder(View view) {
+            home = (TextView) view.findViewById(R.id.allweibo);
+            friendCircle = (LinearLayout) view.findViewById(R.id.bestfriend);
         }
     }
 
+    protected class GroupViewHolder {
+        private TextView groupitem;
 
-    public class GroupViewHolder extends RecyclerView.ViewHolder {
-        public TextView groupitem;
-
-        public GroupViewHolder(View v) {
-            super(v);
-            groupitem = (TextView) v.findViewById(R.id.groupitem);
+        public GroupViewHolder(View view) {
+            groupitem = (TextView) view.findViewById(R.id.groupitem);
         }
     }
+
 
 }

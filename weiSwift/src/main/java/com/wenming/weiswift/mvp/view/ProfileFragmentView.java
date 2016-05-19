@@ -9,5 +9,12 @@ public interface ProfileFragmentView {
 
     public void setUserDetail(User user);
 
+    public void showScrollView();
+
+    public void hideScrollView();
+
+    public void showProgressDialog();
+
+    public void hideProgressDialog();
 
 }
