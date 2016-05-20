@@ -8,8 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HotWeiBoPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HotWeiBoPresentImp;
@@ -29,9 +29,8 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/4/27.
  */
 public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
-
+    private ArrayList<Status> mDatas = new ArrayList<Status>();
     public WeiboAdapter mAdapter;
-    private ArrayList<Status> mDatas;
     public Context mContext;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
@@ -101,11 +100,15 @@ public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
     }
 
     @Override
-    public void updateListView(ArrayList<Status> statuselist) {
+    public void updateListView(final ArrayList<Status> statuselist) {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
-        mDatas = statuselist;
-        mAdapter.setData(statuselist);
+        if (mDatas != null && mDatas.size() > 0) {
+            mDatas.clear();
+            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+        }
+        mDatas.addAll(statuselist);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(0);
     }
 
     @Override

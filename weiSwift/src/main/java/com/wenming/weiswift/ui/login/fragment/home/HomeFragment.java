@@ -61,6 +61,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private GroupPopWindow mPopWindow;
     private boolean mComeFromAccoutActivity;
 
+    public HomeFragment() {
+    }
+
     public HomeFragment(boolean comeFromAccoutActivity) {
         mComeFromAccoutActivity = comeFromAccoutActivity;
     }

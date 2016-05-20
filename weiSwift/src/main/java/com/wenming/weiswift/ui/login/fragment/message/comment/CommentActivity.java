@@ -77,12 +77,6 @@ public class CommentActivity extends Activity implements CommentActivityView {
         mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
-
-    public void onArrorClick(View view) {
-        finish();
-    }
-
-
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
@@ -94,6 +88,9 @@ public class CommentActivity extends Activity implements CommentActivityView {
         }
     };
 
+    public void onArrorClick(View view) {
+        finish();
+    }
 
     @Override
     public void updateListView(ArrayList<Comment> commentlist) {
