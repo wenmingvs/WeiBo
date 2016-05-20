@@ -49,6 +49,10 @@ public class NewFeature {
     public static int SEND_IMG_QUANTITY_HIGT = 1;
     public static int SEND_IMG_QUANTITY_NORMAL = 2;
 
+    /**
+     * 显示多少个分组
+     */
+    public static int SHOW_GROUP_ITEM = 7;
 
     //缓存微博数据
     public static boolean CACHE_WEIBOLIST = true;
