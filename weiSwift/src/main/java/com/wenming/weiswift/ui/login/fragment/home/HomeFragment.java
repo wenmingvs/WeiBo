@@ -145,7 +145,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 if (mPopWindow.isShowing()) {
                     mPopWindow.scrollToSelectIndex();
                 }
-
             }
         });
     }

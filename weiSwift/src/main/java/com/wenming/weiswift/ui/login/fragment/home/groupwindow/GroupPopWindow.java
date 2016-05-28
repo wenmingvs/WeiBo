@@ -16,6 +16,7 @@ import com.wenming.weiswift.entity.Group;
 import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.presenter.imp.GroupListPresenterImp;
 import com.wenming.weiswift.mvp.view.GroupPopWindowView;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageOptionPopupWindow;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ToastUtil;
@@ -152,8 +153,8 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     public void updateListView(ArrayList<Group> datas) {
         mDatas.addAll(datas);
         int height = 0;
-        if (datas.size() > 5) {
-            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (5 + 3);//最多显示5个
+        if (datas.size() > NewFeature.GROUP_SHOW_NUM) {
+            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (NewFeature.GROUP_SHOW_NUM + 3);//最多显示7个
         } else {
             mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (datas.size() + 3);
         }

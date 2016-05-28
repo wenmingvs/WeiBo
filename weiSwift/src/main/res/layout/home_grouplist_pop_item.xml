@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/groupitem"
         android:layout_width="match_parent"
         android:layout_height="37dp"
-        android:gravity="center_vertical"
         android:background="@drawable/home_groupitem_bg_auto"
+        android:gravity="center_vertical"
         android:padding="5dp"
         android:text="特别关注"
         android:textColor="@color/home_groupitem_textview_background_auto"

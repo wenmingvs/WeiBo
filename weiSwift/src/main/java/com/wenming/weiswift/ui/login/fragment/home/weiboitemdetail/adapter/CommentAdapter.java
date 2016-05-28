@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.User;
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -52,7 +52,7 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
             ((CommentViewHolder) holder).profile_name.setText(user.name);
-            FillContent.setWeiBoTime(((CommentViewHolder) holder).profile_time, time);
+            FillContent.setWeiBoTime(mContext, ((CommentViewHolder) holder).profile_time, time);
             FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
         }
     }

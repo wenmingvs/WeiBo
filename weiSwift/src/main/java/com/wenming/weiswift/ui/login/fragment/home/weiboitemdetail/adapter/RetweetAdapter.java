@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -50,9 +50,9 @@ public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
-            FillContent.fillProfileImg(mContext,user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
+            FillContent.fillProfileImg(mContext, user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
             ((RetweetViewHolder) holder).profile_name.setText(user.name);
-            FillContent.setWeiBoTime(((RetweetViewHolder) holder).profile_time, time);
+            FillContent.setWeiBoTime(mContext, ((RetweetViewHolder) holder).profile_time, time);
             FillContent.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);
         }
     }

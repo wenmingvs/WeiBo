@@ -19,6 +19,7 @@ import com.wenming.weiswift.mvp.model.UserModel;
 import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -250,6 +251,12 @@ public class UserModelImp implements UserModel {
         }
         final ArrayList<Token> tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt")).tokenList;
         if (tokenList == null || tokenList.size() == 0) {
+            return;
+        }
+        if (!NetUtil.isConnected(context)) {
+
+            onUserListRequestFinish.onError("无法连接网络");
+
             return;
         }
         new Thread(new Runnable() {

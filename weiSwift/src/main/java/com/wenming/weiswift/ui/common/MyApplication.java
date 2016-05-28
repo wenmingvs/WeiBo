@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.squareup.leakcanary.LeakCanary;
 import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.LinkedList;
@@ -49,6 +50,7 @@ public class MyApplication extends Application implements Application.ActivityLi
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
         Fresco.initialize(getApplicationContext());

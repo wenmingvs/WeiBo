@@ -2,19 +2,26 @@ package com.wenming.weiswift.ui.login.fragment.message.comment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.mvp.presenter.CommentActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.CommentActivityPresentImp;
 import com.wenming.weiswift.mvp.view.CommentActivityView;
+import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
+import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
@@ -34,16 +41,25 @@ public class CommentActivity extends Activity implements CommentActivityView {
     public RecyclerView mRecyclerView;
     public boolean mRefrshAllData;
     private CommentActivityPresent mCommentPresent;
+    private LinearLayout mGroup;
+    private TextView mGroupName;
+    private CommentPopWindow mCommentPopWindow;
+    private String userName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.messagefragment_comment_layout);
         mContext = this;
+        setContentView(R.layout.messagefragment_comment_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
+        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
+        mGroup = (LinearLayout) findViewById(R.id.commment_gourp);
+        mGroupName = (TextView) findViewById(R.id.commment_name);
         mCommentPresent = new CommentActivityPresentImp(this);
         initRefreshLayout();
         initRecyclerView();
+        initGroupWindows();
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -52,9 +68,31 @@ public class CommentActivity extends Activity implements CommentActivityView {
         });
     }
 
+    private void initGroupWindows() {
+        mGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Rect rect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+                int statusBarHeight = rect.top;
+                mCommentPopWindow = CommentPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                mCommentPopWindow.showAtLocation(mGroupName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mGroupName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
+                mCommentPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
+                    @Override
+                    public void onGroupItemClick(long groupId, String groupName) {
+                        setGroupName(groupName);
+                        mCommentPopWindow.dismiss();
+                        ToastUtil.showShort(mContext, groupName);
+                        //mHomePresent.pullToRefreshData(groupId, mContext);
+                    }
+
+                });
+            }
+        });
+    }
+
     protected void initRefreshLayout() {
         mRefrshAllData = true;
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -68,7 +106,6 @@ public class CommentActivity extends Activity implements CommentActivityView {
 
 
     private void initRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
         mAdapter = new CommentAdapter(mContext, mDatas);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -133,4 +170,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
 
+    public void setGroupName(String groupName) {
+        mGroupName.setText(groupName);
+    }
 }

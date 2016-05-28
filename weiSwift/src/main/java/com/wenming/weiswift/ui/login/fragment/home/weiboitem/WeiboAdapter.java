@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
+import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
 

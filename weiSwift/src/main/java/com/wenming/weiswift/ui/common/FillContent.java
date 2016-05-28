@@ -35,9 +35,9 @@ import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.Comme
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
+import com.wenming.weiswift.utils.TimeUtils;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -128,15 +128,16 @@ public class FillContent {
     public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
         profile_name.setText(status.user.name);
-        setWeiBoTime(profile_time, status.created_at);
+        setWeiBoTime(context, profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
     }
 
-    public static void setWeiBoTime(TextView textView, String created_at) {
+    public static void setWeiBoTime(Context context, TextView textView, String created_at) {
         Date data = DateUtils.parseDate(created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
-        SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
-        String time = df.format(data);
-        textView.setText(time + "   ");
+        TimeUtils timeUtils = TimeUtils.instance(context);
+        //SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+        //String time = df.format(data);
+        textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
 
     public static void setWeiBoComeFrom(TextView textView, String content) {
@@ -225,9 +226,9 @@ public class FillContent {
     public static void fillWeiBoImgList(Status status, Context context, RecyclerView imageList) {
         imageList.setVisibility(View.GONE);
         imageList.setVisibility(View.VISIBLE);
-        ArrayList<String> imageDatas = status.origin_pic_urls;
+        ArrayList<String> imageDatas = status.bmiddle_pic_urls;
         GridLayoutManager gridLayoutManager = initGridLayoutManager(imageDatas, context);
-        ImageAdapter imageAdapter = new ImageAdapter(imageDatas, context);
+        ImageAdapter imageAdapter = new ImageAdapter(status, context);
         imageList.setHasFixedSize(true);
         imageList.setAdapter(imageAdapter);
         imageList.setLayoutManager(gridLayoutManager);
@@ -292,11 +293,15 @@ public class FillContent {
      * 填充微博列表图片
      *
      * @param context
-     * @param datas
+     * @param status
      * @param position
      * @param imageView
+     * @param imageType
      */
-    public static void fillImageList(final Context context, final ArrayList<String> datas, final int position, final ImageView imageView, final ImageView imageType) {
+    public static void fillImageList(final Context context, final Status status, final int position, final ImageView imageView, final ImageView imageType) {
+
+        final ArrayList<String> datas = status.bmiddle_pic_urls;
+
         ImageLoader.getInstance().displayImage(datas.get(position), imageView, mImageItemOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
@@ -366,7 +371,7 @@ public class FillContent {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImageDetailsActivity.class);
-                intent.putExtra("imagelist_url", datas);
+                intent.putExtra("imagelist_url", status.bmiddle_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);
             }
@@ -482,7 +487,7 @@ public class FillContent {
     public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         FillContent.fillProfileImg(context, comment.user, profile_img, profile_verified);
         profile_name.setText(comment.user.name);
-        FillContent.setWeiBoTime(profile_time, comment.created_at);
+        FillContent.setWeiBoTime(context, profile_time, comment.created_at);
         FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
     }
 

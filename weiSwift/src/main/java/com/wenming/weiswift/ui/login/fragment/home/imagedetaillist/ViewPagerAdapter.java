@@ -55,7 +55,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         this.mDatas = datas;
         this.mContext = context;
 
-
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
