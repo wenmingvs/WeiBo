@@ -170,5 +170,12 @@ public class MentionActivity extends Activity implements MentionActivityView {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mMentionPopWindow != null) {
+            mMentionPopWindow.onDestory();
+        }
+        super.onDestroy();
+    }
 
 }

@@ -100,6 +100,7 @@ public class MyApplication extends Application implements Application.ActivityLi
     @Override
     public void onActivityDestroyed(Activity activity) {
         LogUtil.d("OnDestroyed = " + activity.getLocalClassName());
+        mActivityList.remove(activity);
     }
 
 

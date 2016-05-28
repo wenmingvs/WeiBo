@@ -177,4 +177,12 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mMyWeiBoPopWindow != null) {
+            mMyWeiBoPopWindow.onDestory();
+        }
+        super.onDestroy();
+    }
 }

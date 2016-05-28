@@ -173,4 +173,12 @@ public class CommentActivity extends Activity implements CommentActivityView {
     public void setGroupName(String groupName) {
         mGroupName.setText(groupName);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mCommentPopWindow != null) {
+            mCommentPopWindow.onDestory();
+        }
+        super.onDestroy();
+    }
 }

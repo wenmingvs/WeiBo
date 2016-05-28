@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
 
-    private static ListView mListView;
+    private ListView mListView;
     private Context mContext;
     private ArrayList<Group> mDatas;
     private View mView;
@@ -39,14 +39,14 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     private final GroupListPresenter mGroupListPresenter;
     private IGroupItemClick mIGroupItemClick;
     private int mSelectIndex = 0;
-
+    private int scrolledX;
+    private int scrolledY;
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
      */
     private static GroupPopWindow mGroupPopWindow;
-    private static int scrolledX;
-    private static int scrolledY;
+
 
     public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {

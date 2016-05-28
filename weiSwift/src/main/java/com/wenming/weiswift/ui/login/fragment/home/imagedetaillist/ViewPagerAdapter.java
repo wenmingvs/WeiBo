@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.photoviewlib.PhotoView;
 import com.example.photoviewlib.PhotoViewAttacher;
@@ -78,9 +79,17 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
+        RelativeLayout imageViewItemLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
         final PhotoView photoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
         final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
         final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
+
+        imageViewItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
 
         if (mDatas.get(position).endsWith(".gif")) {
             donutProgress.setVisibility(View.GONE);
