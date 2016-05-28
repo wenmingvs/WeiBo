@@ -9,7 +9,9 @@ import android.widget.ImageView;
 
 import com.cesards.cropimageview.CropImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
 
 import java.util.ArrayList;
@@ -21,14 +23,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private ArrayList<String> mData;
     private Context mContext;
     private DisplayImageOptions options;
+    private Status mStatus;
 
-    public ImageAdapter(ArrayList<String> mData, Context mContext) {
-        this.mData = mData;
-        this.mContext = mContext;
+    public ImageAdapter(Status status, Context context) {
+        this.mStatus = status;
+        this.mData = status.bmiddle_pic_urls;
+        this.mContext = context;
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.message_image_default)
                 .showImageForEmptyUri(R.drawable.message_image_default)
                 .showImageOnFail(R.drawable.message_image_default)
+                .imageScaleType(ImageScaleType.NONE_SAFE)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -44,7 +49,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        FillContent.fillImageList(mContext, mData, position, holder.imageItem, holder.imageType);
+        FillContent.fillImageList(mContext, mStatus, position, holder.imageItem, holder.imageType);
     }
 
     @Override

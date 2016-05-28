@@ -66,5 +66,7 @@ public class NewFeature {
     //缓存message模块的评论数据
     public static boolean CACHE_MESSAGE_COMMENT = true;
 
+    public static int GROUP_SHOW_NUM = 7;
+
 
 }

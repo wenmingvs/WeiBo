@@ -2,11 +2,13 @@ package com.wenming.weiswift.mvp.presenter.imp;
 
 import android.content.Context;
 
+import com.wenming.weiswift.api.CommentsAPI;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.mvp.model.CommentModel;
 import com.wenming.weiswift.mvp.model.imp.CommentModelImp;
 import com.wenming.weiswift.mvp.presenter.CommentActivityPresent;
 import com.wenming.weiswift.mvp.view.CommentActivityView;
+import com.wenming.weiswift.ui.common.login.Constants;
 
 import java.util.ArrayList;
 
@@ -25,47 +27,74 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
     }
 
     @Override
-    public void pullToRefreshData(Context context) {
+    public void pullToRefreshData(int sourceType, Context context) {
         mCommentActivityView.showLoadingIcon();
-        mCommentModel.toMe(context, new CommentModel.OnDataFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mCommentActivityView.hideLoadingIcon();
-
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Comment> commentlist) {
-                mCommentActivityView.hideLoadingIcon();
-                mCommentActivityView.updateListView(commentlist);
-            }
-
-            @Override
-            public void onError(String error) {
-                mCommentActivityView.hideLoadingIcon();
-                mCommentActivityView.showErrorFooterView();
-            }
-        });
+        switch (sourceType) {
+            case Constants.GROUP_COMMENT_TYPE_ALL:
+                mCommentModel.toMe(CommentsAPI.AUTHOR_FILTER_ALL, context, pullToRefreshListener);
+                break;
+            case Constants.GROUP_COMMENT_TYPE_FRIENDS:
+                mCommentModel.toMe(CommentsAPI.AUTHOR_FILTER_ATTENTIONS, context, pullToRefreshListener);
+                break;
+            case Constants.GROUP_COMMENT_TYPE_BYME:
+                mCommentModel.byMe(context, pullToRefreshListener);
+                break;
+        }
     }
+
 
     @Override
-    public void requestMoreData(Context context) {
-        mCommentModel.toMeNextPage(context, new CommentModel.OnDataFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mCommentActivityView.showEndFooterView();
-            }
+    public void requestMoreData(int sourceType, Context context) {
+        switch (sourceType) {
+            case Constants.GROUP_COMMENT_TYPE_ALL:
+                mCommentModel.toMeNextPage(CommentsAPI.AUTHOR_FILTER_ALL, context, requestMoreListener);
+                break;
+            case Constants.GROUP_COMMENT_TYPE_FRIENDS:
+                mCommentModel.toMeNextPage(CommentsAPI.AUTHOR_FILTER_ATTENTIONS, context, pullToRefreshListener);
+                break;
+            case Constants.GROUP_COMMENT_TYPE_BYME:
+                mCommentModel.byMeNextPage(context, pullToRefreshListener);
+                break;
 
-            @Override
-            public void onDataFinish(ArrayList<Comment> commentlist) {
-                mCommentActivityView.hideFooterView();
-                mCommentActivityView.updateListView(commentlist);
-            }
-
-            @Override
-            public void onError(String error) {
-                mCommentActivityView.showErrorFooterView();
-            }
-        });
+        }
     }
+
+
+    private CommentModel.OnDataFinishedListener pullToRefreshListener = new CommentModel.OnDataFinishedListener() {
+        @Override
+        public void noMoreDate() {
+            mCommentActivityView.hideLoadingIcon();
+
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Comment> commentlist) {
+            mCommentActivityView.hideLoadingIcon();
+            mCommentActivityView.updateListView(commentlist);
+        }
+
+        @Override
+        public void onError(String error) {
+            mCommentActivityView.hideLoadingIcon();
+            mCommentActivityView.showErrorFooterView();
+        }
+    };
+
+    private CommentModel.OnDataFinishedListener requestMoreListener = new CommentModel.OnDataFinishedListener() {
+        @Override
+        public void noMoreDate() {
+            mCommentActivityView.showEndFooterView();
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Comment> commentlist) {
+            mCommentActivityView.hideFooterView();
+            mCommentActivityView.updateListView(commentlist);
+        }
+
+        @Override
+        public void onError(String error) {
+            mCommentActivityView.showErrorFooterView();
+        }
+    };
 }

@@ -76,6 +76,7 @@ public class AccoutActivityPresentImp implements AccoutActivityPresent {
             @Override
             public void onError(String error) {
                 ToastUtil.showShort(context, error);
+                accoutActivityView.hideProgressDialog();
             }
         });
     }
@@ -106,7 +107,8 @@ public class AccoutActivityPresentImp implements AccoutActivityPresent {
 
             @Override
             public void onError(String error) {
-
+                accoutActivityView.hideProgressDialog();
+                ToastUtil.showShort(context, error);
             }
         });
     }

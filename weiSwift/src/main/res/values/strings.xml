@@ -19,4 +19,15 @@
     <string name="list_footer_network_error">点击重新加载</string>
     <string name="list_footer_end">已经到底了</string>
 
+    <!-- Time -->
+    <string name="just_now">刚刚</string>
+    <string name="min">分钟前</string>
+    <string name="hour">小时前</string>
+    <string name="day">天前</string>
+    <string name="month">月前</string>
+    <string name="year">年前</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+
 </resources>

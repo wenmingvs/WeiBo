@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
@@ -22,13 +23,15 @@ public class WeiBoContentTextUtil {
     private static final String AT = "@[\u4e00-\u9fa5\\w]+";// @人
     private static final String TOPIC = "#[\u4e00-\u9fa5\\w]+#";// ##话题
     private static final String URL = "http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";// url
-    private static final String ALL = "(@[\u4e00-\u9fa5\\w]+)|(#[\u4e00-\u9fa5\\w]+#)|(http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])";
+    //private static final String ALL = "(@[\u4e00-\u9fa5\\w]+)|(#[\u4e00-\u9fa5\\w]+#)|(http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])";
 
-    public static SpannableString getWeiBoContent(String source, final Context context, TextView textView) {
-        SpannableString spannableString = new SpannableString(source);
+    private static final String ALL = "(" + AT + ")" + "|" + "(" + TOPIC + ")" + "|" + "(" + URL + ")";
+
+    public static SpannableStringBuilder getWeiBoContent(String source, final Context context, TextView textView) {
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(source);
         //设置正则
         Pattern pattern = Pattern.compile(ALL);
-        Matcher matcher = pattern.matcher(spannableString);
+        Matcher matcher = pattern.matcher(spannableStringBuilder);
 
         if (matcher.find()) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -50,7 +53,7 @@ public class WeiBoContentTextUtil {
                         Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
                     }
                 };
-                spannableString.setSpan(myClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(myClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             //处理##话题
             if (topic != null) {
@@ -63,7 +66,7 @@ public class WeiBoContentTextUtil {
                         Toast.makeText(context, "点击了话题：" + topic, Toast.LENGTH_LONG).show();
                     }
                 };
-                spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             // 处理url地址
@@ -79,11 +82,14 @@ public class WeiBoContentTextUtil {
                         //Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
                     }
                 };
-                spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                //String urlname = "网页链接";
+                //spannableStringBuilder.replace(start, end, urlname);
+                spannableStringBuilder.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             }
 
         }
-        return spannableString;
+        return spannableStringBuilder;
     }
 
     public static SpannableString getWeiBoContent(String source, final Context context, EditText editText) {

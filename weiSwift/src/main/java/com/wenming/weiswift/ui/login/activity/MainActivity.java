@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -22,15 +23,17 @@ import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
 
+import java.lang.reflect.Field;
+
 
 public class MainActivity extends FragmentActivity {
 
-    private static final int HOME_FRAGMENT = 0X001;
-    private static final int MESSAGE_FRAGMENT = 0X002;
-    private static final int DISCOVERY_FRAGMENT = 0X004;
-    private static final int PROFILE_FRAGMENT = 0X005;
+    private static final String HOME_FRAGMENT = "home";
+    private static final String MESSAGE_FRAGMENT = "message";
+    private static final String DISCOVERY_FRAGMENT = "discovery";
+    private static final String PROFILE_FRAGMENT = "profile";
 
-    private int mCurrentIndex;
+    private String mCurrentIndex;
     private Context mContext;
     private HomeFragment mHomeFragment;
     private MessageFragment mMessageFragment;
@@ -57,8 +60,24 @@ public class MainActivity extends FragmentActivity {
         mPostTab = (FrameLayout) findViewById(R.id.fl_post);
         mContext = this;
         mFragmentManager = getSupportFragmentManager();
-        setTabFragment(HOME_FRAGMENT);
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getString("index");
+            mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(HOME_FRAGMENT);
+            mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(MESSAGE_FRAGMENT);
+            mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(DISCOVERY_FRAGMENT);
+            mProfileFragment = (ProfileFragment) mFragmentManager.findFragmentByTag(PROFILE_FRAGMENT);
+            setTabFragment(mCurrentIndex);
+        } else {
+            setTabFragment(HOME_FRAGMENT);
+        }
         setUpListener();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("index", mCurrentIndex);
+        super.onSaveInstanceState(outState);
     }
 
     private void setUpListener() {
@@ -66,9 +85,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(HOME_FRAGMENT);
-                if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-                    mHomeFragment.scrollToTop(false);
-                }
+
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +122,7 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    private void setTabFragment(int index) {
+    private void setTabFragment(String index) {
         if (mCurrentIndex != index) {
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
             hideAllFragments(transaction);
@@ -114,17 +131,21 @@ public class MainActivity extends FragmentActivity {
                     mHomeTab.setSelected(true);
                     if (mHomeFragment == null) {
                         mHomeFragment = new HomeFragment(mComeFromAccoutActivity);
-                        transaction.add(R.id.contentLayout, mHomeFragment);
+                        transaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
                     } else {
                         transaction.show(mHomeFragment);
+                        if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
+                            mHomeFragment.scrollToTop(false);
+                        }
                     }
+
                     mCurrentIndex = HOME_FRAGMENT;
                     break;
                 case MESSAGE_FRAGMENT:
                     mMessageTab.setSelected(true);
                     if (mMessageFragment == null) {
                         mMessageFragment = new MessageFragment();
-                        transaction.add(R.id.contentLayout, mMessageFragment);
+                        transaction.add(R.id.contentLayout, mMessageFragment, MESSAGE_FRAGMENT);
                     } else {
                         transaction.show(mMessageFragment);
                     }
@@ -135,7 +156,7 @@ public class MainActivity extends FragmentActivity {
                     mDiscoeryTab.setSelected(true);
                     if (mDiscoverFragment == null) {
                         mDiscoverFragment = new DiscoverFragment();
-                        transaction.add(R.id.contentLayout, mDiscoverFragment);
+                        transaction.add(R.id.contentLayout, mDiscoverFragment, DISCOVERY_FRAGMENT);
                     } else {
                         transaction.show(mDiscoverFragment);
                     }
@@ -145,7 +166,7 @@ public class MainActivity extends FragmentActivity {
                     mProfile.setSelected(true);
                     if (mProfileFragment == null) {
                         mProfileFragment = new ProfileFragment();
-                        transaction.add(R.id.contentLayout, mProfileFragment);
+                        transaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
                     } else {
                         transaction.show(mProfileFragment);
                     }
@@ -153,6 +174,26 @@ public class MainActivity extends FragmentActivity {
                     break;
             }
             transaction.commit();
+        } else {
+            //如果在当前页
+            switch (mCurrentIndex) {
+                case HOME_FRAGMENT:
+                    if (mHomeFragment != null) {
+                        mHomeFragment.scrollToTop(true);
+                    }
+                    break;
+                case MESSAGE_FRAGMENT:
+                    break;
+                case DISCOVERY_FRAGMENT:
+                    break;
+                case PROFILE_FRAGMENT:
+                    break;
+            }
+
+
+            if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
+
+            }
         }
     }
 
@@ -194,6 +235,7 @@ public class MainActivity extends FragmentActivity {
                     .setIcon(R.drawable.logo)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+
                             ((MyApplication) getApplication()).finishAll();
                         }
                     })
@@ -210,7 +252,44 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
-        LogUtil.d("MainActivity被销毁");
+        fixInputMethodManagerLeak(this);
         super.onDestroy();
+    }
+
+    public void fixInputMethodManagerLeak(Context destContext) {
+        if (destContext == null) {
+            return;
+        }
+
+        InputMethodManager imm = (InputMethodManager) destContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) {
+            return;
+        }
+
+        String[] arr = new String[]{"mCurRootView", "mServedView", "mNextServedView"};
+        Field f = null;
+        Object obj_get = null;
+        for (int i = 0; i < arr.length; i++) {
+            String param = arr[i];
+            try {
+                f = imm.getClass().getDeclaredField(param);
+                if (f.isAccessible() == false) {
+                    f.setAccessible(true);
+                } // author: sodino mail:sodino@qq.com
+                obj_get = f.get(imm);
+                if (obj_get != null && obj_get instanceof View) {
+                    View v_get = (View) obj_get;
+                    if (v_get.getContext() == destContext) { // 被InputMethodManager持有引用的context是想要目标销毁的
+                        f.set(imm, null); // 置空，破坏掉path to gc节点
+                    } else {
+                        // 不是想要目标销毁的，即为又进了另一层界面了，不要处理，避免影响原逻辑,也就不用继续for循环了
+                        LogUtil.d("fixInputMethodManagerLeak break, context is not suitable, get_context=" + v_get.getContext() + " dest_context=" + destContext);
+                        break;
+                    }
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
     }
 }

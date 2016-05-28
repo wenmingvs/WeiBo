@@ -14,6 +14,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
+import com.wenming.weiswift.ui.common.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
 
 /**
@@ -46,11 +47,13 @@ public class SettingActivity extends Activity implements SettingActivityView {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("确定要注销并且退出？")
+                builder.setMessage("确定要退出微博？")
                         .setCancelable(false)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                mSettingActivityPresent.logout(mContext);
+                                //mSettingActivityPresent.logout(mContext);
+                                ((MyApplication) getApplication()).finishAll();
+
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -22,6 +22,7 @@ import android.os.Parcelable;
 
 import com.sina.weibo.sdk.openapi.models.Geo;
 import com.sina.weibo.sdk.openapi.models.Visible;
+import com.sina.weibo.sdk.utils.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,7 +135,10 @@ public class Status implements Parcelable {
     /**
      * 微博配图地址。多图时返回多图链接。无配图返回"[]"
      */
-    public ArrayList<String> pic_urls;
+    public ArrayList<String> thumbnail_pic_urls;
+
+    public ArrayList<String> bmiddle_pic_urls;
+
     public ArrayList<String> origin_pic_urls;
 
 
@@ -191,24 +195,24 @@ public class Status implements Parcelable {
         JSONArray picUrlsArray = jsonObject.optJSONArray("pic_urls");
         if (picUrlsArray != null && picUrlsArray.length() > 0) {
             int length = picUrlsArray.length();
-            status.pic_urls = new ArrayList<String>(length);
+            status.thumbnail_pic_urls = new ArrayList<String>(length);
+            status.bmiddle_pic_urls = new ArrayList<String>(length);
             status.origin_pic_urls = new ArrayList<String>(length);
             JSONObject tmpObject = null;
-            String tmpUrl;
+            String thumbnailUrl;
             for (int ix = 0; ix < length; ix++) {
                 tmpObject = picUrlsArray.optJSONObject(ix);
                 if (tmpObject != null) {
-                    tmpUrl = tmpObject.optString("thumbnail_pic");
-                    status.pic_urls.add(tmpUrl);
-                    //Log.d("wenming","origin_pic_urls = " + getOriginUrl(tmpUrl));
-                    status.origin_pic_urls.add(getOriginUrl(tmpUrl));
+                    thumbnailUrl = tmpObject.optString("thumbnail_pic");
+                    status.thumbnail_pic_urls.add(thumbnailUrl);
+                    status.bmiddle_pic_urls.add(thumbnailUrl.replace("thumbnail", "bmiddle"));
+                    LogUtil.d("wenming", thumbnailUrl.replace("thumbnail", "bmiddle"));
+                    status.origin_pic_urls.add(thumbnailUrl.replace("thumbnail", "large"));
                 }
             }
         }
 
-
         //status.ad = jsonObject.optString("ad", "");
-
         return status;
     }
 
@@ -230,6 +234,21 @@ public class Status implements Parcelable {
     }
 
 
+    public Status() {
+    }
+
+
+    public static String StringFilter(String str) {
+//        str = str.replaceAll("【", "[").replaceAll("】", "]").replaceAll("！", "!");//替换中文标号
+//        String regEx = "[『』]"; // 清除掉特殊字符
+//        Pattern p = Pattern.compile(regEx);
+//        Matcher m = p.matcher(str);
+//        return m.replaceAll("").trim();
+
+
+        return str;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -243,8 +262,8 @@ public class Status implements Parcelable {
         dest.writeString(this.idstr);
         dest.writeString(this.text);
         dest.writeString(this.source);
-        dest.writeByte(favorited ? (byte) 1 : (byte) 0);
-        dest.writeByte(truncated ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.favorited ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.truncated ? (byte) 1 : (byte) 0);
         dest.writeString(this.in_reply_to_status_id);
         dest.writeString(this.in_reply_to_user_id);
         dest.writeString(this.in_reply_to_screen_name);
@@ -259,11 +278,9 @@ public class Status implements Parcelable {
         dest.writeInt(this.attitudes_count);
         dest.writeInt(this.mlevel);
         dest.writeParcelable(this.visible, flags);
-        dest.writeStringList(this.pic_urls);
+        dest.writeStringList(this.thumbnail_pic_urls);
+        dest.writeStringList(this.bmiddle_pic_urls);
         dest.writeStringList(this.origin_pic_urls);
-    }
-
-    public Status() {
     }
 
     protected Status(Parcel in) {
@@ -289,11 +306,12 @@ public class Status implements Parcelable {
         this.attitudes_count = in.readInt();
         this.mlevel = in.readInt();
         this.visible = in.readParcelable(Visible.class.getClassLoader());
-        this.pic_urls = in.createStringArrayList();
+        this.thumbnail_pic_urls = in.createStringArrayList();
+        this.bmiddle_pic_urls = in.createStringArrayList();
         this.origin_pic_urls = in.createStringArrayList();
     }
 
-    public static final Parcelable.Creator<Status> CREATOR = new Parcelable.Creator<Status>() {
+    public static final Creator<Status> CREATOR = new Creator<Status>() {
         @Override
         public Status createFromParcel(Parcel source) {
             return new Status(source);
@@ -304,16 +322,4 @@ public class Status implements Parcelable {
             return new Status[size];
         }
     };
-
-
-    public static String StringFilter(String str) {
-//        str = str.replaceAll("【", "[").replaceAll("】", "]").replaceAll("！", "!");//替换中文标号
-//        String regEx = "[『』]"; // 清除掉特殊字符
-//        Pattern p = Pattern.compile(regEx);
-//        Matcher m = p.matcher(str);
-//        return m.replaceAll("").trim();
-
-
-        return str;
-    }
 }

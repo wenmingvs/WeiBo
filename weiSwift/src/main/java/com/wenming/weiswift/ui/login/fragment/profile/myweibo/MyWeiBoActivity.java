@@ -2,14 +2,18 @@ package com.wenming.weiswift.ui.login.fragment.profile.myweibo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.MyWeiBoActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MyWeiBoActivityPresentImp;
@@ -18,6 +22,10 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
+import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
+import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -38,18 +46,26 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     public RecyclerView mRecyclerView;
     public StatusesAPI mStatusesAPI;
     public boolean mRefrshAllData;
+    private LinearLayout mGroup;
+    private TextView mGroupName;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private MyWeiBoActivityPresent mMyWeiBoActivityPresent;
+    private MyWeiBoPopWindow mMyWeiBoPopWindow;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profilefragment_myweibo_layout);
         mContext = this;
+        setContentView(R.layout.profilefragment_myweibo_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
+        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
+        mGroup = (LinearLayout) findViewById(R.id.myweibo_group);
+        mGroupName = (TextView) findViewById(R.id.myweibo_name);
         mMyWeiBoActivityPresent = new MyWeiBoActivityPresentImp(this);
         initRefreshLayout();
         initRecyclerView();
+        initGroupWindows();
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +76,6 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
 
     protected void initRefreshLayout() {
         mRefrshAllData = true;
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -74,7 +89,7 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
 
 
     public void initRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
+
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -84,6 +99,31 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
         mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
+    private void initGroupWindows() {
+        mGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Rect rect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+                int statusBarHeight = rect.top;
+                mMyWeiBoPopWindow = MyWeiBoPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                mMyWeiBoPopWindow.showAtLocation(mGroupName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mGroupName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
+                mMyWeiBoPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
+                    @Override
+                    public void onGroupItemClick(long groupId, String groupName) {
+                        setGroupName(groupName);
+                        mMyWeiBoPopWindow.dismiss();
+                        ToastUtil.showShort(mContext, groupName);
+                    }
+                });
+            }
+        });
+    }
+
+
+    public void setGroupName(String groupName) {
+        mGroupName.setText(groupName);
+    }
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
@@ -136,5 +176,13 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     @Override
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mMyWeiBoPopWindow != null) {
+            mMyWeiBoPopWindow.onDestory();
+        }
+        super.onDestroy();
     }
 }

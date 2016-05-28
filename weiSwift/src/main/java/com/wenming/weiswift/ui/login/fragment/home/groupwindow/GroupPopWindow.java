@@ -39,14 +39,14 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     private final GroupListPresenter mGroupListPresenter;
     private IGroupItemClick mIGroupItemClick;
     private int mSelectIndex = 0;
-
+    private int scrolledX;
+    private int scrolledY;
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
      */
     private static GroupPopWindow mGroupPopWindow;
-    private static int scrolledX;
-    private static int scrolledY;
+
 
     public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
@@ -153,8 +153,8 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
     public void updateListView(ArrayList<Group> datas) {
         mDatas.addAll(datas);
         int height = 0;
-        if (datas.size() > 5) {
-            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (NewFeature.SHOW_GROUP_ITEM + 3);//最多显示7个
+        if (datas.size() > NewFeature.GROUP_SHOW_NUM) {
+            mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (NewFeature.GROUP_SHOW_NUM + 3);//最多显示7个
         } else {
             mListView.getLayoutParams().height = DensityUtil.dp2px(mContext, 37) * (datas.size() + 3);
         }

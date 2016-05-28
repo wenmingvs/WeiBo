@@ -24,72 +24,57 @@ public class CommentModelImp implements CommentModel {
     private ArrayList<Comment> mCommentList = new ArrayList<>();
     private boolean mRefrshCommentList = true;
 
+    //统一接口
+    private Context mContext;
+    private OnDataFinishedListener mOnDataFinishedListener;
+
+    /**
+     * 用于标识当前分组
+     */
+    private int mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
+
+
 
     @Override
-    public void toMe(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+    public void toMe(int sourceType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
+        mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
-        if (mCommentList.size() > 0) {
-            sinceId = Long.valueOf(mCommentList.get(0).id);
+        if (sourceType == CommentsAPI.AUTHOR_FILTER_ALL) {
+            sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_ALL);
+        } else {
+            sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_FRIENDS);
         }
-        if (mRefrshCommentList) {
-            sinceId = 0;
-        }
-        mCommentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, 0, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Comment> temp = CommentList.parse(response).commentList;
-                if (temp != null && temp.size() > 0) {
-                    if (mCommentList != null) {
-                        mCommentList.clear();
-                    }
-                    toMeCacheSave(context, response);
-                    mCommentList = temp;
-                    onDataFinishedListener.onDataFinish(mCommentList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-                mRefrshCommentList = false;
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                ToMeCacheLoad(context, onDataFinishedListener);
-            }
-        });
+        commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, sourceType, 0, pullToRefreshListener);
     }
 
     @Override
-    public void toMeNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI mCommentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        final String maxId = mCommentList.get(mCommentList.size() - 1).id;
-        mCommentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, 0, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Comment> temp = CommentList.parse(response).commentList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(maxId))) {
+    public void byMe(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
+        mOnDataFinishedListener = onDataFinishedListener;
+        long sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_BYME);
+        commentsAPI.byME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, pullToRefreshListener);
+    }
 
-                        onDataFinishedListener.noMoreDate();
-                    } else if (temp.size() > 1) {
-                        temp.remove(0);
-                        mCommentList.addAll(temp);
-                        onDataFinishedListener.onDataFinish(mCommentList);
-                    }
-                } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
 
-            @Override
-            public void onWeiboException(WeiboException e) {
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
+    @Override
+    public void toMeNextPage(int sourceType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
+        String maxId = mCommentList.get(mCommentList.size() - 1).id;
+        mOnDataFinishedListener = onDataFinishedListener;
+        commentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, sourceType, 0, requestMoreListener);
+    }
 
+    @Override
+    public void byMeNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
+        String maxId = mCommentList.get(mCommentList.size() - 1).id;
+        mOnDataFinishedListener = onDataFinishedListener;
+        commentsAPI.byME(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, requestMoreListener);
     }
 
     @Override
@@ -104,9 +89,77 @@ public class CommentModelImp implements CommentModel {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
             if (response != null) {
+                mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
                 mCommentList = CommentList.parse(response).commentList;
                 onDataFinishedListener.onDataFinish(mCommentList);
             }
         }
     }
+
+
+    private long checkout(Context context, int grouptype) {
+        long sinceId = 0;
+        if (mCurrentGroup != grouptype) {
+            mRefrshCommentList = true;
+        }
+        //如果是局部刷新，更新一下sinceId的值为第一条微博的id
+        if (mCommentList.size() > 0 && mCurrentGroup == grouptype && mRefrshCommentList == false) {
+            sinceId = Long.valueOf(mCommentList.get(0).id);
+        }
+        //如果是全局刷新，把sinceId设置为0，去请求
+        if (mRefrshCommentList) {
+            sinceId = 0;
+        }
+        mCurrentGroup = grouptype;
+        return sinceId;
+    }
+
+    private RequestListener pullToRefreshListener = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            ArrayList<Comment> temp = CommentList.parse(response).commentList;
+            if (temp != null && temp.size() > 0) {
+                if (mCommentList != null) {
+                    mCommentList.clear();
+                }
+                toMeCacheSave(mContext, response);
+                mCommentList = temp;
+                mOnDataFinishedListener.onDataFinish(mCommentList);
+            } else {
+                ToastUtil.showShort(mContext, "没有更新的内容了");
+                mOnDataFinishedListener.noMoreDate();
+            }
+            mRefrshCommentList = false;
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            ToMeCacheLoad(mContext, mOnDataFinishedListener);
+        }
+    };
+
+    public RequestListener requestMoreListener = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                ArrayList<Comment> temp = CommentList.parse(response).commentList;
+                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mCommentList.get(mCommentList.size() - 1).id))) {
+                    mOnDataFinishedListener.noMoreDate();
+                } else if (temp.size() > 1) {
+                    temp.remove(0);
+                    mCommentList.addAll(temp);
+                    mOnDataFinishedListener.onDataFinish(mCommentList);
+                }
+            } else {
+                ToastUtil.showShort(mContext, "内容已经加载完了");
+                mOnDataFinishedListener.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            mOnDataFinishedListener.onError(e.getMessage());
+        }
+    };
 }

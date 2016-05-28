@@ -16,7 +16,7 @@
         android:src="@drawable/navigationbar_back_auto" />
 
     <LinearLayout
-        android:id="@+id/folder"
+        android:id="@+id/commment_gourp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -24,10 +24,13 @@
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp">
 
         <TextView
-            android:id="@+id/foldername"
+            android:id="@+id/commment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所有评论"
@@ -35,7 +38,7 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/folder_arrow"
+            android:id="@+id/comment_arrow"
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginLeft="5dp"

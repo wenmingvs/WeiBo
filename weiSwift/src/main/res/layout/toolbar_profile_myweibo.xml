@@ -12,12 +12,12 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-        android:scaleType="centerCrop"
         android:onClick="onArrorClick"
+        android:scaleType="centerCrop"
         android:src="@drawable/navigationbar_back_auto" />
 
     <LinearLayout
-        android:id="@+id/folder"
+        android:id="@+id/myweibo_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -25,10 +25,13 @@
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp">
 
         <TextView
-            android:id="@+id/foldername"
+            android:id="@+id/myweibo_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部微博"

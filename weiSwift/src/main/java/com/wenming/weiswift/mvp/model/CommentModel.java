@@ -21,13 +21,16 @@ public interface CommentModel {
     }
 
 
-    public void toMe(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMe(int sourceType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void toMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeNextPage(int sourceType, Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void toMeCacheSave(Context context, String response);
 
-    public void ToMeCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
+    public void ToMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void byMe(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
 }
