@@ -95,7 +95,7 @@ public class CommentPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mFriendsComment.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "关注的人");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_FRIENDS, "关注的人");
             }
         });
         mCommentToSend.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class CommentPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mCommentToSend.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "我发出的");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_BYME, "我发出的");
             }
         });
     }

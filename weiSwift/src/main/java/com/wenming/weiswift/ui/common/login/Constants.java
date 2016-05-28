@@ -43,7 +43,7 @@ public interface Constants {
 
     public static final int GROUP_COMMENT_TYPE_ALL = 0x12;
     public static final int GROUP_COMMENT_TYPE_FRIENDS = 0x13;
-    public static final int GROUP_COMMENT_TYPE_TOSEND = 0x14;
+    public static final int GROUP_COMMENT_TYPE_BYME = 0x14;
 
     public static final int GROUP_RETWEET_TYPE_ALL = 0x15;
     public static final int GROUP_RETWEET_TYPE_FRIENDS = 0x16;

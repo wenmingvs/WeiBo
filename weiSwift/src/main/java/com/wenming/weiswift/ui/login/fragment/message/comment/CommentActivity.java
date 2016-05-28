@@ -17,6 +17,7 @@ import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.mvp.presenter.CommentActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.CommentActivityPresentImp;
 import com.wenming.weiswift.mvp.view.CommentActivityView;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
@@ -44,8 +45,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
     private LinearLayout mGroup;
     private TextView mGroupName;
     private CommentPopWindow mCommentPopWindow;
-    private String userName;
-
+    private int mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mCommentPresent.pullToRefreshData(mContext);
+                mCommentPresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
     }
@@ -80,10 +80,11 @@ public class CommentActivity extends Activity implements CommentActivityView {
                 mCommentPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override
                     public void onGroupItemClick(long groupId, String groupName) {
+                        mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mCommentPopWindow.dismiss();
                         ToastUtil.showShort(mContext, groupName);
-                        //mHomePresent.pullToRefreshData(groupId, mContext);
+                        mCommentPresent.pullToRefreshData(mCurrentGroup, mContext);
                     }
 
                 });
@@ -99,7 +100,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCommentPresent.pullToRefreshData(mContext);
+                mCommentPresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
     }
@@ -126,7 +127,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mCommentPresent.requestMoreData(mContext);
+                mCommentPresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
     };
