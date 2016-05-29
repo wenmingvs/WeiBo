@@ -21,9 +21,9 @@ public interface CommentModel {
     }
 
 
-    public void toMe(int sourceType, Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMe(int authorType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void toMeNextPage(int sourceType, Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeNextPage(int authorType, Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void toMeCacheSave(Context context, String response);
 

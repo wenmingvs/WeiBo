@@ -13,7 +13,7 @@ public class NewFeature {
     public static int LOADMORE_WEIBO_ITEM = 20;
 
     //每次刷新微博，获取评论的数量
-    public static int GET_COMMENT_ITEM = 30;
+    public static int GET_COMMENT_ITEM = 10;
 
     //滑动到底部，获取评论的数量
     public static int LOADMORE_COMMENT_ITEM = 20;

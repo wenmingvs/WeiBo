@@ -50,10 +50,10 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
                 mCommentModel.toMeNextPage(CommentsAPI.AUTHOR_FILTER_ALL, context, requestMoreListener);
                 break;
             case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                mCommentModel.toMeNextPage(CommentsAPI.AUTHOR_FILTER_ATTENTIONS, context, pullToRefreshListener);
+                mCommentModel.toMeNextPage(CommentsAPI.AUTHOR_FILTER_ATTENTIONS, context, requestMoreListener);
                 break;
             case Constants.GROUP_COMMENT_TYPE_BYME:
-                mCommentModel.byMeNextPage(context, pullToRefreshListener);
+                mCommentModel.byMeNextPage(context, requestMoreListener);
                 break;
 
         }

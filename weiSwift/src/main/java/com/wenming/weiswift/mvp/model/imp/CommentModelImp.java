@@ -34,19 +34,18 @@ public class CommentModelImp implements CommentModel {
     private int mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
 
 
-
     @Override
-    public void toMe(int sourceType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void toMe(int authorType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
-        if (sourceType == CommentsAPI.AUTHOR_FILTER_ALL) {
+        if (authorType == CommentsAPI.AUTHOR_FILTER_ALL) {
             sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_ALL);
         } else {
             sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_FRIENDS);
         }
-        commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, sourceType, 0, pullToRefreshListener);
+        commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, authorType, 0, pullToRefreshListener);
     }
 
     @Override
@@ -60,12 +59,12 @@ public class CommentModelImp implements CommentModel {
 
 
     @Override
-    public void toMeNextPage(int sourceType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void toMeNextPage(int authorType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
         mOnDataFinishedListener = onDataFinishedListener;
-        commentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, sourceType, 0, requestMoreListener);
+        commentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_COMMENT_ITEM, 1, authorType, 0, requestMoreListener);
     }
 
     @Override
@@ -97,20 +96,20 @@ public class CommentModelImp implements CommentModel {
     }
 
 
-    private long checkout(Context context, int grouptype) {
+    private long checkout(Context context, int authorType) {
         long sinceId = 0;
-        if (mCurrentGroup != grouptype) {
+        if (mCurrentGroup != authorType) {
             mRefrshCommentList = true;
         }
         //如果是局部刷新，更新一下sinceId的值为第一条微博的id
-        if (mCommentList.size() > 0 && mCurrentGroup == grouptype && mRefrshCommentList == false) {
+        if (mCommentList.size() > 0 && mCurrentGroup == authorType && mRefrshCommentList == false) {
             sinceId = Long.valueOf(mCommentList.get(0).id);
         }
         //如果是全局刷新，把sinceId设置为0，去请求
         if (mRefrshCommentList) {
             sinceId = 0;
         }
-        mCurrentGroup = grouptype;
+        mCurrentGroup = authorType;
         return sinceId;
     }
 
@@ -144,7 +143,7 @@ public class CommentModelImp implements CommentModel {
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
                 ArrayList<Comment> temp = CommentList.parse(response).commentList;
-                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mCommentList.get(mCommentList.size() - 1).id))) {
+                if ((temp != null && temp.size() == 1 && temp.get(0).id.equals(mCommentList.get(mCommentList.size() - 1).id)) || temp.size() == 0) {
                     mOnDataFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {
                     temp.remove(0);
