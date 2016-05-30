@@ -87,8 +87,9 @@ public class StatusListModelImp implements StatusListModel {
      * @param onDataFinishedListener
      */
     @Override
-    public void friendsTimelineNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void friendsTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener) {
         setRefrshFriendsTimelineTask();
+        mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
@@ -105,6 +106,7 @@ public class StatusListModelImp implements StatusListModel {
     @Override
     public void bilateralTimelineNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         setRefrshFriendsTimelineTask();
+        mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
@@ -122,6 +124,7 @@ public class StatusListModelImp implements StatusListModel {
     @Override
     public void timelineNextPage(long groundId, final Context context, final OnDataFinishedListener onDataFinishedListener) {
         GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         setRefrshFriendsTimelineTask();
         String maxId = mStatusList.get(mStatusList.size() - 1).id;

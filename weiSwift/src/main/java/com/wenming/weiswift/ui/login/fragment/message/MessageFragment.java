@@ -35,7 +35,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
         mActivity = getActivity();
-        mContext = mActivity;
+        mContext = getContext();
         initRefreshLayout();
         setUpListener();
         return mView;

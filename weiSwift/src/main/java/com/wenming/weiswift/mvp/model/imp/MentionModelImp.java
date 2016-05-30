@@ -24,70 +24,56 @@ public class MentionModelImp implements MentionModel {
 
     private ArrayList<Status> mMentionList = new ArrayList<>();
     private boolean mRefrshMentionList = true;
+    private OnDataFinishedListener mOnDataFinishedListener;
+    private Context mContext;
+    private int mCurrentGroup;
+
 
     @Override
-    public void mentions(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void mentions(int groupType, Context context, final OnDataFinishedListener onDataFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        long sinceId = 0;
-        if (mMentionList.size() > 0) {
-            sinceId = Long.valueOf(mMentionList.get(0).id);
+        long sinceId = checkout(groupType);
+        mContext = context;
+        mOnDataFinishedListener = onDataFinishedListener;
+        switch (groupType) {
+            case Constants.GROUP_RETWEET_TYPE_ALL:
+                mStatusesAPI.mentions(sinceId, 0, NewFeature.GET_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ALL, 0, 0, true, pullToRefreshListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_FRIENDS:
+                mStatusesAPI.mentions(sinceId, 0, NewFeature.GET_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ATTENTIONS, 0, 0, true, pullToRefreshListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
+                mStatusesAPI.mentions(sinceId, 0, NewFeature.GET_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ALL, 0, StatusesAPI.TYPE_FILTER_ORIGAL, true, pullToRefreshListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
+                break;
+            case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
+                break;
         }
-        if (mRefrshMentionList) {
-            sinceId = 0;
-        }
-        mStatusesAPI.mentions(sinceId, 0, NewFeature.GET_MENTION_ITEM, 1, 0, 0, 0, true, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    if (mMentionList != null) {
-                        mMentionList.clear();
-                    }
-                    mentionCacheSave(context, response);
-                    mMentionList = temp;
-                    onDataFinishedListener.onDataFinish(mMentionList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onDataFinishedListener.noMoreDate();
-                }
-                mRefrshMentionList = false;
-            }
 
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                mentionCacheLoad(context, onDataFinishedListener);
-            }
-        });
     }
 
     @Override
-    public void mentionsNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void mentionsNextPage(int groupType, Context context, final OnDataFinishedListener onDataFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        final String maxId = mMentionList.get(mMentionList.size() - 1).id;
-        mStatusesAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, 0, 0, true, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(maxId)))) {
-                        onDataFinishedListener.noMoreDate();
-                    } else if (temp.size() > 1) {
-                        temp.remove(0);
-                        mMentionList.addAll(temp);
-                        onDataFinishedListener.onDataFinish(mMentionList);
-                    }
-                } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
-                    onDataFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
+        String maxId = mMentionList.get(mMentionList.size() - 1).id;
+        mContext = context;
+        mOnDataFinishedListener = onDataFinishedListener;
+        switch (groupType) {
+            case Constants.GROUP_RETWEET_TYPE_ALL:
+                mStatusesAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ALL, 0, 0, true, nextPageListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_FRIENDS:
+                mStatusesAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ATTENTIONS, 0, 0, true, nextPageListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
+                mStatusesAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, StatusesAPI.AUTHOR_FILTER_ALL, 0, StatusesAPI.TYPE_FILTER_ORIGAL, true, nextPageListener);
+                break;
+            case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
+                break;
+            case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
+                break;
+        }
 
     }
 
@@ -107,7 +93,73 @@ public class MentionModelImp implements MentionModel {
                 onDataFinishedListener.onDataFinish(mMentionList);
             }
         }
-
     }
+
+    private long checkout(int groupType) {
+        long sinceId = 0;
+        if (mCurrentGroup != groupType) {
+            mRefrshMentionList = true;
+        }
+        //如果是局部刷新，更新一下sinceId的值为第一条微博的id
+        if (mMentionList.size() > 0 && mCurrentGroup == groupType && mRefrshMentionList == false) {
+            sinceId = Long.valueOf(mMentionList.get(0).id);
+        }
+        //如果是全局刷新，把sinceId设置为0，去请求
+        if (mRefrshMentionList) {
+            sinceId = 0;
+        }
+        mCurrentGroup = groupType;
+        return sinceId;
+    }
+
+
+    public RequestListener pullToRefreshListener = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            if (temp != null && temp.size() > 0) {
+                if (mMentionList != null) {
+                    mMentionList.clear();
+                }
+                mentionCacheSave(mContext, response);
+                mMentionList = temp;
+                mOnDataFinishedListener.onDataFinish(mMentionList);
+            } else {
+                ToastUtil.showShort(mContext, "没有更新的内容了");
+                mOnDataFinishedListener.noMoreDate();
+            }
+            mRefrshMentionList = false;
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            mentionCacheLoad(mContext, mOnDataFinishedListener);
+        }
+    };
+
+    public RequestListener nextPageListener = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mMentionList.get(mMentionList.size() - 1).id)))) {
+                    mOnDataFinishedListener.noMoreDate();
+                } else if (temp.size() > 1) {
+                    temp.remove(0);
+                    mMentionList.addAll(temp);
+                    mOnDataFinishedListener.onDataFinish(mMentionList);
+                }
+            } else {
+                ToastUtil.showShort(mContext, "内容已经加载完了");
+                mOnDataFinishedListener.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            mOnDataFinishedListener.onError(e.getMessage());
+        }
+    };
 
 }

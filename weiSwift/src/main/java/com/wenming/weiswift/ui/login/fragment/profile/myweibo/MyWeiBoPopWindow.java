@@ -87,7 +87,7 @@ public class MyWeiBoPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mAllWeibo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "全部微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_MYWEIBO_TYPE_ALL, "全部微博");
             }
         });
         mOriginWeibo.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class MyWeiBoPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mOriginWeibo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "原创微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_MYWEIBO_TYPE_ORIGIN, "原创微博");
             }
         });
         mImgWeibo.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class MyWeiBoPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mImgWeibo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "图片微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_MYWEIBO_TYPE_PICWEIBO, "图片微博");
             }
         });
     }

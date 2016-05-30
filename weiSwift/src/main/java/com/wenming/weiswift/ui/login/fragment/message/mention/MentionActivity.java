@@ -17,11 +17,11 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.MentionActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MentionActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MentionActivityView;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
@@ -43,6 +43,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
     private LinearLayout mGroup;
     private TextView mGroupName;
     private MentionPopWindow mMentionPopWindow;
+    private int mCurrentGroup = Constants.GROUP_RETWEET_TYPE_ALL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mMentionPresent.pullToRefreshData(mContext);
+                mMentionPresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
     }
@@ -77,12 +78,11 @@ public class MentionActivity extends Activity implements MentionActivityView {
                 mMentionPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override
                     public void onGroupItemClick(long groupId, String groupName) {
+                        mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mMentionPopWindow.dismiss();
-                        ToastUtil.showShort(mContext, groupName);
-                        //mHomePresent.pullToRefreshData(groupId, mContext);
+                        mMentionPresent.pullToRefreshData(mCurrentGroup, mContext);
                     }
-
                 });
             }
         });
@@ -99,7 +99,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mMentionPresent.pullToRefreshData(mContext);
+                mMentionPresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
     }
@@ -121,7 +121,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mMentionPresent.requestMoreData(mContext);
+                mMentionPresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
     };
@@ -139,6 +139,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
         mAdapter.setData(statuselist);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void showLoadingIcon() {
@@ -168,6 +169,19 @@ public class MentionActivity extends Activity implements MentionActivityView {
     @Override
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
+    }
+
+    @Override
+    public void scrollToTop(boolean refreshData) {
+        mRecyclerView.scrollToPosition(0);
+        if (refreshData) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mMentionPresent.pullToRefreshData(mCurrentGroup, mContext);
+                }
+            });
+        }
     }
 
     @Override

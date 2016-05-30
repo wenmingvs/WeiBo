@@ -32,21 +32,32 @@ public interface Constants {
     public static final String AppSecret = "1e6e33db08f9192306c4afa0a61ad56c";
     public static final String PackageName = "com.eico.weico";
 
-    public static final int GROUP_TYPE_ALL = 0;
-    public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;
 
     public static final String authurl = "https://open.weibo.cn/oauth2/authorize" + "?" + "client_id=" + Constants.APP_KEY
             + "&response_type=token&redirect_uri=" + Constants.REDIRECT_URL
             + "&key_hash=" + Constants.AppSecret + (TextUtils.isEmpty(Constants.PackageName) ? "" : "&packagename=" + Constants.PackageName)
             + "&display=mobile" + "&scope=" + Constants.SCOPE;
 
+    //首页分组
+    public static final int GROUP_TYPE_ALL = 0;//全部微博
+    public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;//好友圈
 
-    public static final int GROUP_COMMENT_TYPE_ALL = 0x12;
-    public static final int GROUP_COMMENT_TYPE_FRIENDS = 0x13;
-    public static final int GROUP_COMMENT_TYPE_BYME = 0x14;
 
-    public static final int GROUP_RETWEET_TYPE_ALL = 0x15;
-    public static final int GROUP_RETWEET_TYPE_FRIENDS = 0x16;
-    public static final int GROUP_RETWEET_TYPE_TOSEND = 0x17;
+    //评论页分组
+    public static final int GROUP_COMMENT_TYPE_ALL = 0x12;//全部评论
+    public static final int GROUP_COMMENT_TYPE_FRIENDS = 0x13;//关注的人
+    public static final int GROUP_COMMENT_TYPE_BYME = 0x14;//我发出的
+
+    //@我的分组
+    public static final int GROUP_RETWEET_TYPE_ALL = 0x15;//所有微博
+    public static final int GROUP_RETWEET_TYPE_FRIENDS = 0x16;//关注人的微博
+    public static final int GROUP_RETWEET_TYPE_ORIGINWEIBO = 0x17;//原创微博
+    public static final int GROUP_RETWEET_TYPE_ALLCOMMENT = 0x18;//所有评论
+    public static final int GROUP_RETWEET_TYPE_FRIEDNSCOMMENT = 0x19;//关注人的评论
+
+    //我的微博
+    public static final int GROUP_MYWEIBO_TYPE_ALL = 0;
+    public static final int GROUP_MYWEIBO_TYPE_ORIGIN = 1;
+    public static final int GROUP_MYWEIBO_TYPE_PICWEIBO = 2;
 
 }

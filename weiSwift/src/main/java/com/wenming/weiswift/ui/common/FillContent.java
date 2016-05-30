@@ -47,6 +47,10 @@ import java.util.Random;
  */
 public class FillContent {
 
+    public static final int IMAGE_TYPE_LONG_TEXT = 1;//长微博
+    public static final int IMAGE_TYPE_LONG_PIC = 2;//比较长的微博（但是不至于像长微博那么长）
+    public static final int IMAGE_TYPE_WIDTH_PIC = 3;//比较宽的微博
+    public static final int IMAGE_TYPE_GIF = 4;
     private static DisplayImageOptions mAvatorOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.avator_default)
             .showImageForEmptyUri(R.drawable.avator_default)
@@ -58,8 +62,6 @@ public class FillContent {
             .considerExifParams(true)
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
-
-
     /**
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
@@ -73,12 +75,6 @@ public class FillContent {
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();
-
-
-    public static final int IMAGE_TYPE_LONG_TEXT = 1;//长微博
-    public static final int IMAGE_TYPE_LONG_PIC = 2;//比较长的微博（但是不至于像长微博那么长）
-    public static final int IMAGE_TYPE_WIDTH_PIC = 3;//比较宽的微博
-    public static final int IMAGE_TYPE_GIF = 4;
 
     /**
      * 设置头像的认证icon，记住要手动刷新icon，不然icon会被recycleriview重用，导致显示出错
@@ -127,9 +123,17 @@ public class FillContent {
      */
     public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
-        profile_name.setText(status.user.name);
+        setName(profile_name, status);
         setWeiBoTime(context, profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
+    }
+
+    public static void setName(TextView textView, Status status) {
+        if (status.user.remark != null && status.user.remark.length() > 0) {
+            textView.setText(status.user.remark);
+        } else {
+            textView.setText(status.user.name);
+        }
     }
 
     public static void setWeiBoTime(Context context, TextView textView, String created_at) {
@@ -160,9 +164,30 @@ public class FillContent {
      * @param feedlike
      */
     public static void fillButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude, TextView comment, TextView redirect, TextView feedlike) {
-        comment.setText(status.comments_count + "");
-        redirect.setText(status.reposts_count + "");
-        feedlike.setText(status.attitudes_count + "");
+        if (status.comments_count != 0) {
+            comment.setText(status.comments_count + "");
+        } else {
+            comment.setText("评论");
+        }
+
+        if (status.reposts_count != 0) {
+            redirect.setText(status.reposts_count + "");
+        } else {
+            redirect.setText("转发");
+        }
+
+        if (status.attitudes_count != 0) {
+            feedlike.setText(status.attitudes_count + "");
+        } else {
+            feedlike.setText("赞");
+        }
+
+        //如果转发的内容已经被删除,则不允许转发
+        if (status.retweeted_status != null && status.retweeted_status.user == null) {
+            bottombar_retweet.setEnabled(false);
+        } else {
+            bottombar_retweet.setEnabled(true);
+        }
 
 
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +205,6 @@ public class FillContent {
 
             }
         });
-
 
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,21 +482,65 @@ public class FillContent {
         recyclerView.setAdapter(commentAdapter);
     }
 
-    public static void FillCenterContent(Status retweetstatus, ImageView profile_img, TextView profile_name, TextView content) {
+    /**
+     * 填充转发中的内容区域
+     *
+     * @param retweetstatus
+     * @param profile_img
+     * @param profile_name
+     * @param content
+     */
+    public static void fillMentionCenterContent(Status retweetstatus, ImageView profile_img, TextView profile_name, TextView content) {
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.message_image_default)
+                .showImageForEmptyUri(R.drawable.message_image_default)
+                .showImageOnFail(R.drawable.timeline_image_failure)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .considerExifParams(true)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        profile_img.setVisibility(View.GONE);
+        profile_img.setVisibility(View.VISIBLE);
+
+        //转发的内容存在且没有被删除
         if (retweetstatus != null && retweetstatus.user != null) {
-            if (retweetstatus.origin_pic_urls == null || retweetstatus.origin_pic_urls.size() == 0) {
-                ImageLoader.getInstance().displayImage(retweetstatus.user.avatar_hd, profile_img);
+            if (retweetstatus.bmiddle_pic != null && retweetstatus.bmiddle_pic.length() > 0) {
+                ImageLoader.getInstance().displayImage(retweetstatus.bmiddle_pic, profile_img, options);
             } else {
-                ImageLoader.getInstance().displayImage(retweetstatus.origin_pic_urls.get(0), profile_img);
+                ImageLoader.getInstance().displayImage(retweetstatus.user.avatar_hd, profile_img, options);
             }
-            profile_name.setText(retweetstatus.user.name);
+            profile_name.setVisibility(View.VISIBLE);
+            profile_name.setText("@" + retweetstatus.user.name);
             content.setText(retweetstatus.text);
-        } else {
-            profile_img.setImageResource(R.drawable.photo_filter_image_empty);
-            content.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
         }
+        //转发的内容已经被删除
+        else {
+            profile_img.setImageResource(R.drawable.photo_filter_image_empty);
+            profile_name.setVisibility(View.GONE);
+            content.setText(retweetstatus.text);
+        }
+
     }
 
+    public static void fillCommentCenterContent(Context context, Comment comment, LinearLayout bg_layout, LinearLayout comment_weibolayout, EmojiTextView mycomment, ImageView profile_img, TextView profile_name, TextView content) {
+        if (comment.reply_comment != null) {
+            mycomment.setVisibility(View.VISIBLE);
+            bg_layout.setBackgroundColor(Color.parseColor("#f7f7f7"));
+            comment_weibolayout.setBackgroundColor(Color.parseColor("#fefefe"));
+
+            String mycommenttext = "@" + comment.reply_comment.user.name + ":" + comment.reply_comment.text;
+            fillWeiBoContent(mycommenttext, context, mycomment);
+        } else {
+            mycomment.setVisibility(View.GONE);
+            bg_layout.setBackgroundColor(Color.parseColor("#fefefe"));
+            comment_weibolayout.setBackgroundColor(Color.parseColor("#f7f7f7"));
+        }
+        //fillMentionCenterContent(comment.status, profile_img, profile_name, content);
+    }
 
     /**
      * 填充顶部微博用户信息数据

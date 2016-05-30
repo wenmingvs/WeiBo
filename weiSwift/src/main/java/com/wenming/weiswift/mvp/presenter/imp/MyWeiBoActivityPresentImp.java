@@ -23,47 +23,51 @@ public class MyWeiBoActivityPresentImp implements MyWeiBoActivityPresent {
     }
 
     @Override
-    public void pullToRefreshData(long uid, Context context) {
+    public void pullToRefreshData(long uid, int groupId, Context context) {
         mMyWeiBoActivityView.showLoadingIcon();
-        mUserModel.userTimeline(uid, context, new UserModel.OnStatusListFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mMyWeiBoActivityView.hideLoadingIcon();
-
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Status> list) {
-                mMyWeiBoActivityView.hideLoadingIcon();
-                mMyWeiBoActivityView.updateListView(list);
-            }
-
-            @Override
-            public void onError(String error) {
-                mMyWeiBoActivityView.hideLoadingIcon();
-                mMyWeiBoActivityView.showErrorFooterView();
-            }
-        });
+        mUserModel.userTimeline(uid, groupId, context, pullToRefreshListener);
     }
 
     @Override
-    public void requestMoreData(long uid, Context context) {
-        mUserModel.userTimelineNextPage(uid, context, new UserModel.OnStatusListFinishedListener() {
-            @Override
-            public void noMoreDate() {
-                mMyWeiBoActivityView.showEndFooterView();
-            }
-
-            @Override
-            public void onDataFinish(ArrayList<Status> list) {
-                mMyWeiBoActivityView.hideFooterView();
-                mMyWeiBoActivityView.updateListView(list);
-            }
-
-            @Override
-            public void onError(String error) {
-                mMyWeiBoActivityView.showErrorFooterView();
-            }
-        });
+    public void requestMoreData(long uid, int groupId, Context context) {
+        mUserModel.userTimelineNextPage(uid, groupId, context, requestMoreDataListener);
     }
+
+    public UserModel.OnStatusListFinishedListener pullToRefreshListener = new UserModel.OnStatusListFinishedListener() {
+        @Override
+        public void noMoreDate() {
+            mMyWeiBoActivityView.hideLoadingIcon();
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Status> list) {
+            mMyWeiBoActivityView.hideLoadingIcon();
+            mMyWeiBoActivityView.scrollToTop(false);
+            mMyWeiBoActivityView.updateListView(list);
+        }
+
+        @Override
+        public void onError(String error) {
+            mMyWeiBoActivityView.hideLoadingIcon();
+            mMyWeiBoActivityView.showErrorFooterView();
+        }
+    };
+
+    public UserModel.OnStatusListFinishedListener requestMoreDataListener = new UserModel.OnStatusListFinishedListener() {
+        @Override
+        public void noMoreDate() {
+            mMyWeiBoActivityView.showEndFooterView();
+        }
+
+        @Override
+        public void onDataFinish(ArrayList<Status> list) {
+            mMyWeiBoActivityView.hideFooterView();
+            mMyWeiBoActivityView.updateListView(list);
+        }
+
+        @Override
+        public void onError(String error) {
+            mMyWeiBoActivityView.showErrorFooterView();
+        }
+    };
 }

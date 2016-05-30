@@ -71,8 +71,8 @@ public class CommentModelImp implements CommentModel {
     public void byMeNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
-        String maxId = mCommentList.get(mCommentList.size() - 1).id;
         mOnDataFinishedListener = onDataFinishedListener;
+        String maxId = mCommentList.get(mCommentList.size() - 1).id;
         commentsAPI.byME(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, requestMoreListener);
     }
 
@@ -143,12 +143,15 @@ public class CommentModelImp implements CommentModel {
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
                 ArrayList<Comment> temp = CommentList.parse(response).commentList;
-                if ((temp != null && temp.size() == 1 && temp.get(0).id.equals(mCommentList.get(mCommentList.size() - 1).id)) || temp.size() == 0) {
+                if (temp.size() == 1) {
                     mOnDataFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {
                     temp.remove(0);
                     mCommentList.addAll(temp);
                     mOnDataFinishedListener.onDataFinish(mCommentList);
+                } else {
+                    ToastUtil.showShort(mContext, "数据异常");
+                    mOnDataFinishedListener.onError("数据异常");
                 }
             } else {
                 ToastUtil.showShort(mContext, "内容已经加载完了");

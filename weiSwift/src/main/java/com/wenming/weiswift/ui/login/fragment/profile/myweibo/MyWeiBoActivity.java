@@ -19,13 +19,13 @@ import com.wenming.weiswift.mvp.presenter.MyWeiBoActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MyWeiBoActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MyWeiBoActivityView;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -51,6 +51,7 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private MyWeiBoActivityPresent mMyWeiBoActivityPresent;
     private MyWeiBoPopWindow mMyWeiBoPopWindow;
+    private int mCurrentGroup = Constants.GROUP_MYWEIBO_TYPE_ALL;
 
 
     @Override
@@ -69,7 +70,7 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
             }
         });
     }
@@ -82,14 +83,13 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
             }
         });
     }
 
 
     public void initRecyclerView() {
-
         mAdapter = new WeiboAdapter(mDatas, mContext);
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -111,9 +111,10 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
                 mMyWeiBoPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override
                     public void onGroupItemClick(long groupId, String groupName) {
+                        mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mMyWeiBoPopWindow.dismiss();
-                        ToastUtil.showShort(mContext, groupName);
+                        mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
                     }
                 });
             }
@@ -131,7 +132,7 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
             }
         }
     };
@@ -176,6 +177,19 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     @Override
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
+    }
+
+    @Override
+    public void scrollToTop(boolean refreshData) {
+        mRecyclerView.scrollToPosition(0);
+        if (refreshData) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                }
+            });
+        }
     }
 
     @Override

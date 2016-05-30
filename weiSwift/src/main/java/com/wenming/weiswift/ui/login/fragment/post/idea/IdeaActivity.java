@@ -135,18 +135,17 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         //1. 转发的内容是转发微博
         if (mStatus.retweeted_status != null) {
             mEditText.setText(WeiBoContentTextUtil.getWeiBoContent("//@" + mStatus.user.name + ":" + mStatus.text, mContext, mEditText));
-            FillContent.FillCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
+            FillContent.fillMentionCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
             mEditText.setSelection(0);
 
         }
         //2. 转发的内容是原创微博
         else if (mStatus.retweeted_status == null) {
-            FillContent.FillCenterContent(mStatus, repostImg, repostName, repostContent);
+            FillContent.fillMentionCenterContent(mStatus, repostImg, repostName, repostContent);
             String content = mEditText.getText().toString();
             if (content.trim().isEmpty()) {
                 mEditText.getText().append("转发微博");
             }
-
         }
         changeSendButtonBg(mEditText.getText().toString().length());
     }

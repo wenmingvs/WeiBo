@@ -117,6 +117,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         } else {
             photoView.setVisibility(View.VISIBLE);
             simpleDraweeView.setVisibility(View.INVISIBLE);
+            //后台下载高质量的图片
             ImageLoader.getInstance().displayImage(mDatas.get(position), photoView, options, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
@@ -126,6 +127,9 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
                     donutProgress.setVisibility(View.GONE);
+                    //展示中等质量的图片
+                    String bmiddle = mDatas.get(position).replace("large", "bmiddle");
+                    ImageLoader.getInstance().displayImage(bmiddle, photoView, options);
                 }
 
                 /**

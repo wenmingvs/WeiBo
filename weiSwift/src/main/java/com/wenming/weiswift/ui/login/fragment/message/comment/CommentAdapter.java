@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
+import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
 
@@ -44,9 +44,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        FillContent.fillTitleBar(mContext,mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
-        FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((CommentViewHolder) holder).mention_content);
-        FillContent.FillCenterContent(mDatas.get(position).status, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
+        FillContent.fillTitleBar(mContext, mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
+        FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((CommentViewHolder) holder).comment_content);
+        FillContent.fillCommentCenterContent(mContext, mDatas.get(position), ((CommentViewHolder) holder).bg_layout, ((CommentViewHolder) holder).comment_weibolayout, ((CommentViewHolder) holder).comment_reply, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
+
+        //整个背景的点击事件
         ((CommentViewHolder) holder).comment_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,12 +89,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView weibo_comefrom;
         public ImageView popover_arrow;
 
-        public EmojiTextView mention_content;
+
+        public EmojiTextView comment_content;
 
         //长方形内的内容
+        public LinearLayout bg_layout;
+        public EmojiTextView comment_reply;
         public ImageView mentionitem_img;
+        public LinearLayout comment_weibolayout;
         public TextView mentionitem_name;
         public TextView mentionitem_content;
+
 
         public CommentViewHolder(View v) {
             super(v);
@@ -104,11 +111,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             weibo_comefrom = (TextView) v.findViewById(R.id.weiboComeFrom);
             popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
 
-            mention_content = (EmojiTextView) v.findViewById(R.id.mention_content);
+            comment_content = (EmojiTextView) v.findViewById(R.id.commentitem_content);
 
-            mentionitem_img = (ImageView) v.findViewById(R.id.mentionitem_img);
-            mentionitem_name = (TextView) v.findViewById(R.id.mentionitem_name);
-            mentionitem_content = (TextView) v.findViewById(R.id.mentionitem_content);
+
+            bg_layout = (LinearLayout) v.findViewById(R.id.bg_layout);
+            comment_reply = (EmojiTextView) v.findViewById(R.id.commentitem_reply);
+            mentionitem_img = (ImageView) v.findViewById(R.id.commentitem_img);
+            comment_weibolayout = (LinearLayout) v.findViewById(R.id.comment_weibolayout);
+            mentionitem_name = (TextView) v.findViewById(R.id.commentitem_name);
+            mentionitem_content = (TextView) v.findViewById(R.id.comment_weibocontent);
         }
     }
 }

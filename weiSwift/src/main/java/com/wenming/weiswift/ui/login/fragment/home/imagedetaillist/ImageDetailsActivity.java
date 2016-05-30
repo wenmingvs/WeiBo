@@ -29,6 +29,17 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
     private int mImgNum;
     private ViewPagerAdapter mAdapter;
     private Context mContext;
+    private PhotoViewAttacher.OnPhotoTapListener mPhotoTapListener = new PhotoViewAttacher.OnPhotoTapListener() {
+        @Override
+        public void onPhotoTap(View view, float v, float v1) {
+            finish();
+        }
+
+        @Override
+        public void onOutsidePhotoTap() {
+            finish();
+        }
+    };
 
     /**
      * @param savedInstanceState
@@ -125,20 +136,6 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
             }
         });
     }
-
-
-    private PhotoViewAttacher.OnPhotoTapListener mPhotoTapListener = new PhotoViewAttacher.OnPhotoTapListener() {
-        @Override
-        public void onPhotoTap(View view, float v, float v1) {
-            finish();
-        }
-
-        @Override
-        public void onOutsidePhotoTap() {
-            finish();
-        }
-    };
-
 
     @Override
     public void onTag() {

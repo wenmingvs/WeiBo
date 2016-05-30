@@ -27,9 +27,9 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
     }
 
     @Override
-    public void pullToRefreshData(int sourceType, Context context) {
+    public void pullToRefreshData(int groupId, Context context) {
         mCommentActivityView.showLoadingIcon();
-        switch (sourceType) {
+        switch (groupId) {
             case Constants.GROUP_COMMENT_TYPE_ALL:
                 mCommentModel.toMe(CommentsAPI.AUTHOR_FILTER_ALL, context, pullToRefreshListener);
                 break;
@@ -70,6 +70,7 @@ public class CommentActivityPresentImp implements CommentActivityPresent {
         @Override
         public void onDataFinish(ArrayList<Comment> commentlist) {
             mCommentActivityView.hideLoadingIcon();
+            mCommentActivityView.scrollToTop(false);
             mCommentActivityView.updateListView(commentlist);
         }
 

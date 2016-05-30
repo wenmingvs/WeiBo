@@ -20,12 +20,11 @@ public interface MentionModel {
 
     }
 
+    public void mentions(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void mentions(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void mentionsNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void mentionsNextPage(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void mentionCacheSave(Context context, String response);
 
-    public void mentionCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
+    public void mentionCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
 }

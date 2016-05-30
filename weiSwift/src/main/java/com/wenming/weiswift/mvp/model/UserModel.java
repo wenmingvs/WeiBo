@@ -48,9 +48,9 @@ public interface UserModel {
 
     public User showUserDetailSync(long uid, Context context);
 
-    public void userTimeline(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
-    public void userTimelineNextPage(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimelineNextPage(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
     public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 

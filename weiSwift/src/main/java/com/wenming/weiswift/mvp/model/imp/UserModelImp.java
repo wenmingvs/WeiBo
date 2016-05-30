@@ -30,11 +30,13 @@ import java.util.ArrayList;
  */
 public class UserModelImp implements UserModel {
     private ArrayList<Status> mStatusList = new ArrayList<>();
-    private ArrayList<User> mFollowersList = new ArrayList<>();
-    private ArrayList<User> mFriendsList = new ArrayList<>();
+    private ArrayList<User> mUsersList = new ArrayList<>();
     private int mFollowersCursor;
     private int mFriendsCursor;
     private ArrayList<User> mUserArrayList;
+    private OnStatusListFinishedListener mOnStatusListFinishedListener;
+    private OnUserListRequestFinish mOnUserListRequestFinish;
+    private Context mContext;
 
     @Override
     public void showUserDetail(long uid, final Context context, final OnUserDetailRequestFinish onUserRequestFinish) {
@@ -62,185 +64,51 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void userTimeline(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+    public void userTimeline(final long uid, int groupId, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mStatusesAPI.userTimeline(uid, 0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
-                if (temp != null && temp.size() > 0) {
-                    if (mStatusList != null) {
-                        mStatusList.clear();
-                    }
-                    mStatusList = temp;
-                    onStatusFinishedListener.onDataFinish(mStatusList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onStatusFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onStatusFinishedListener.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnStatusListFinishedListener = onStatusFinishedListener;
+        mStatusesAPI.userTimeline(uid, 0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statusPullToRefresh);
     }
 
     @Override
-    public void userTimelineNextPage(final long uid, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+    public void userTimelineNextPage(final long uid, int groupId, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mStatusesAPI.userTimeline(uid, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Status> temp = StatusList.parse(response).statusList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
-                        onStatusFinishedListener.noMoreDate();
-                    } else if (temp.size() > 1) {
-                        temp.remove(0);
-                        mStatusList.addAll(temp);
-                        onStatusFinishedListener.onDataFinish(mStatusList);
-                    }
-                } else {
-                    onStatusFinishedListener.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onStatusFinishedListener.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnStatusListFinishedListener = onStatusFinishedListener;
+        mStatusesAPI.userTimeline(uid, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, groupId, false, statusNextPage);
     }
 
     @Override
     public void followers(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-
-        mFriendshipsAPI.followers(uid, 30, 0, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<User> temp = UserList.parse(response).usersList;
-                if (temp != null && temp.size() > 0) {
-                    if (mFollowersList != null) {
-                        mFollowersList.clear();
-                    }
-                    mFollowersList = temp;
-                    mFollowersCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
-                    onUserListRequestFinish.onDataFinish(mFollowersList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onUserListRequestFinish.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onUserListRequestFinish.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnUserListRequestFinish = onUserListRequestFinish;
+        mFriendshipsAPI.followers(uid, 30, 0, false, userPullToRefresh);
     }
 
     @Override
     public void followersNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mFriendshipsAPI.followers(uid, 20, mFollowersCursor, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                if (!TextUtils.isEmpty(response)) {
-                    ArrayList<User> temp = UserList.parse(response).usersList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mFollowersList.get(mFollowersList.size() - 1).id))) {
-                        onUserListRequestFinish.noMoreDate();
-                    } else if (temp.size() > 1) {
-                        temp.remove(0);
-                        mFollowersList.addAll(temp);
-                        mFollowersCursor = Integer.valueOf(UserList.parse(response).next_cursor);
-                        onUserListRequestFinish.onDataFinish(mFollowersList);
-                    }
-                } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
-                    onUserListRequestFinish.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onUserListRequestFinish.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnUserListRequestFinish = onUserListRequestFinish;
+        mFriendshipsAPI.followers(uid, 20, mFollowersCursor, false, userNextPage);
     }
 
     @Override
     public void friends(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-
-        mFriendshipsAPI.friends(uid, 30, 0, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                ArrayList<User> temp = UserList.parse(response).usersList;
-
-                if (temp != null && temp.size() > 0) {
-                    if (mFriendsList != null) {
-                        mFriendsList.clear();
-                    }
-                    mFriendsList = temp;
-                    mFriendsCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
-                    onUserListRequestFinish.onDataFinish(mFriendsList);
-                } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
-                    onUserListRequestFinish.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onUserListRequestFinish.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnUserListRequestFinish = onUserListRequestFinish;
+        mFriendshipsAPI.friends(uid, 30, 0, false, userPullToRefresh);
     }
 
-    /**
-     * 获取指定用户的粉丝列表
-     *
-     * @param uid
-     * @param context
-     * @param onUserListRequestFinish
-     */
     @Override
     public void friendsNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mFriendshipsAPI.friends(uid, 20, mFriendsCursor, false, new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                if (!TextUtils.isEmpty(response)) {
-                    ArrayList<User> temp = UserList.parse(response).usersList;
-                    if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mFriendsList.get(mFriendsList.size() - 1).id))) {
-                        onUserListRequestFinish.noMoreDate();
-                    } else if (temp.size() > 1) {
-                        temp.remove(0);
-                        mFriendsList.addAll(temp);
-                        mFriendsCursor = Integer.valueOf(UserList.parse(response).next_cursor);
-                        onUserListRequestFinish.onDataFinish(mFriendsList);
-                    }
-                } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
-                    onUserListRequestFinish.noMoreDate();
-                }
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(context, e.getMessage());
-                onUserListRequestFinish.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnUserListRequestFinish = onUserListRequestFinish;
+        mFriendshipsAPI.friends(uid, 20, mFriendsCursor, false, userNextPage);
     }
 
     @Override
@@ -309,5 +177,101 @@ public class UserModelImp implements UserModel {
         SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
     }
 
+    public RequestListener statusPullToRefresh = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            if (temp != null && temp.size() > 0) {
+                if (mStatusList != null) {
+                    mStatusList.clear();
+                }
+                mStatusList = temp;
+                mOnStatusListFinishedListener.onDataFinish(mStatusList);
+            } else {
+                ToastUtil.showShort(mContext, "没有更新的内容了");
+                mOnStatusListFinishedListener.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            mOnStatusListFinishedListener.onError(e.getMessage());
+        }
+    };
+
+    public RequestListener statusNextPage = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
+                    mOnStatusListFinishedListener.noMoreDate();
+                } else if (temp.size() > 1) {
+                    temp.remove(0);
+                    mStatusList.addAll(temp);
+                    mOnStatusListFinishedListener.onDataFinish(mStatusList);
+                }
+            } else {
+                mOnStatusListFinishedListener.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            mOnStatusListFinishedListener.onError(e.getMessage());
+        }
+    };
+
+    public RequestListener userPullToRefresh = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            ArrayList<User> temp = UserList.parse(response).usersList;
+            if (temp != null && temp.size() > 0) {
+                if (mUsersList != null) {
+                    mUsersList.clear();
+                }
+                mUsersList = temp;
+                mFollowersCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
+                mOnUserListRequestFinish.onDataFinish(mUsersList);
+            } else {
+                ToastUtil.showShort(mContext, "没有更新的内容了");
+                mOnUserListRequestFinish.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            mOnUserListRequestFinish.onError(e.getMessage());
+        }
+    };
+
+    public RequestListener userNextPage = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                ArrayList<User> temp = UserList.parse(response).usersList;
+                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mUsersList.get(mUsersList.size() - 1).id))) {
+                    mOnUserListRequestFinish.noMoreDate();
+                } else if (temp.size() > 1) {
+                    temp.remove(0);
+                    mUsersList.addAll(temp);
+                    mFollowersCursor = Integer.valueOf(UserList.parse(response).next_cursor);
+                    mOnUserListRequestFinish.onDataFinish(mUsersList);
+                }
+            } else {
+                ToastUtil.showShort(mContext, "内容已经加载完了");
+                mOnUserListRequestFinish.noMoreDate();
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            ToastUtil.showShort(mContext, e.getMessage());
+            mOnUserListRequestFinish.onError(e.getMessage());
+        }
+    };
 
 }

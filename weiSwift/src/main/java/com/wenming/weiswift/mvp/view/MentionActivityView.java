@@ -11,6 +11,7 @@ public interface MentionActivityView {
 
     public void updateListView(ArrayList<Status> statuselist);
 
+
     /**
      * 显示loading动画
      */
@@ -40,6 +41,11 @@ public interface MentionActivityView {
      * 显示FooterView，提示没有网络
      */
     public void showErrorFooterView();
+
+    /**
+     * 滑动到顶部
+     */
+    public void scrollToTop(boolean refreshData);
 
 
 }

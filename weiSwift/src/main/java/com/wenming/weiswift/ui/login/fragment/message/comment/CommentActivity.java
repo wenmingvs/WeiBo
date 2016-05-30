@@ -22,7 +22,6 @@ import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
@@ -83,7 +82,6 @@ public class CommentActivity extends Activity implements CommentActivityView {
                         mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mCommentPopWindow.dismiss();
-                        ToastUtil.showShort(mContext, groupName);
                         mCommentPresent.pullToRefreshData(mCurrentGroup, mContext);
                     }
 
@@ -166,6 +164,19 @@ public class CommentActivity extends Activity implements CommentActivityView {
     @Override
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
+    }
+
+    @Override
+    public void scrollToTop(boolean refreshData) {
+        mRecyclerView.scrollToPosition(0);
+        if (refreshData) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCommentPresent.pullToRefreshData(mCurrentGroup, mContext);
+                }
+            });
+        }
     }
 
     public void setGroupName(String groupName) {

@@ -19,6 +19,10 @@ import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
  */
 public class MentionPopWindow extends PopupWindow {
 
+    /**
+     * 使用单例模式创建ImageOPtionPopupWindow
+     */
+    private static MentionPopWindow mGroupPopWindow;
     private Context mContext;
     private View mView;
     private int mWidth;
@@ -30,23 +34,6 @@ public class MentionPopWindow extends PopupWindow {
     private TextView mOrigin_Weibo;
     private TextView mAll_Comment;
     private TextView mFriends_Comment;
-
-
-    /**
-     * 使用单例模式创建ImageOPtionPopupWindow
-     */
-    private static MentionPopWindow mGroupPopWindow;
-
-    public static MentionPopWindow getInstance(Context context, int width, int height) {
-        if (mGroupPopWindow == null) {
-            synchronized (ImageOptionPopupWindow.class) {
-                if (mGroupPopWindow == null) {
-                    mGroupPopWindow = new MentionPopWindow(context.getApplicationContext(), width, height);
-                }
-            }
-        }
-        return mGroupPopWindow;
-    }
 
     private MentionPopWindow(Context context, int width, int height) {
         super(context);
@@ -62,6 +49,17 @@ public class MentionPopWindow extends PopupWindow {
         mFriends_Comment = (TextView) mView.findViewById(R.id.friends_comment);
         initPopWindow();
         setUpListener();
+    }
+
+    public static MentionPopWindow getInstance(Context context, int width, int height) {
+        if (mGroupPopWindow == null) {
+            synchronized (ImageOptionPopupWindow.class) {
+                if (mGroupPopWindow == null) {
+                    mGroupPopWindow = new MentionPopWindow(context.getApplicationContext(), width, height);
+                }
+            }
+        }
+        return mGroupPopWindow;
     }
 
     private void initPopWindow() {
@@ -91,7 +89,7 @@ public class MentionPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mAllWeiBo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "所有微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_RETWEET_TYPE_ALL, "所有微博");
             }
         });
         mFriends_Weibo.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +97,7 @@ public class MentionPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mFriends_Weibo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "关注人的微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_RETWEET_TYPE_FRIENDS, "关注人的微博");
             }
         });
         mOrigin_Weibo.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +105,7 @@ public class MentionPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mOrigin_Weibo.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "原创微博");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO, "原创微博");
             }
         });
 
@@ -116,7 +114,7 @@ public class MentionPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mAll_Comment.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "所有评论");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_RETWEET_TYPE_ALLCOMMENT, "所有评论");
             }
         });
         mFriends_Comment.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +122,7 @@ public class MentionPopWindow extends PopupWindow {
             public void onClick(View v) {
                 disSelectedAll();
                 mFriends_Comment.setSelected(true);
-                mIGroupItemClick.onGroupItemClick(Constants.GROUP_COMMENT_TYPE_ALL, "关注人的评论");
+                mIGroupItemClick.onGroupItemClick(Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT, "关注人的评论");
             }
         });
 

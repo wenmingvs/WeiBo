@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
-        mContext = getActivity();
+        mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
 
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
