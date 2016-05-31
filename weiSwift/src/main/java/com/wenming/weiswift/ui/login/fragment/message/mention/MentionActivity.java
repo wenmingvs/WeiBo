@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.MentionActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MentionActivityPresentImp;
@@ -20,6 +21,7 @@ import com.wenming.weiswift.mvp.view.MentionActivityView;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
+import com.wenming.weiswift.ui.login.fragment.message.comment.CommentAdapter;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -33,9 +35,12 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/4/26.
  */
 public class MentionActivity extends Activity implements MentionActivityView {
-    private ArrayList<Status> mDatas;
-    private MentionAdapter mAdapter;
-    private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
+    private ArrayList<Status> mMentionDatas;
+    private ArrayList<Comment> mCommentDatas;
+    private MentionAdapter mMentionAdapter;
+    private CommentAdapter mCommentAdapter;
+    private HeaderAndFooterRecyclerViewAdapter mMentionFooterAdapter;
+    private HeaderAndFooterRecyclerViewAdapter mCommentFooterAdapter;
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
@@ -106,21 +111,32 @@ public class MentionActivity extends Activity implements MentionActivityView {
 
 
     private void initRecyclerView() {
-        mAdapter = new MentionAdapter(mContext, mDatas);
-        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        mMentionAdapter = new MentionAdapter(mContext, mMentionDatas);
+        mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+        mRecyclerView.setAdapter(mMentionFooterAdapter);
         mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
 
-    private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+    private EndlessRecyclerOnScrollListener mOnMentionScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            if (mDatas != null && mDatas.size() > 0) {
-                showLoadFooterView();
+            if (mMentionDatas != null && mMentionDatas.size() > 0) {
+                showLoadFooterView(mCurrentGroup);
+                mMentionPresent.requestMoreData(mCurrentGroup, mContext);
+            }
+        }
+    };
+
+    public EndlessRecyclerOnScrollListener mOnCommentScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            if (mCommentDatas != null && mCommentDatas.size() > 0) {
+                showLoadFooterView(mCurrentGroup);
                 mMentionPresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
@@ -133,13 +149,42 @@ public class MentionActivity extends Activity implements MentionActivityView {
 
 
     @Override
-    public void updateListView(ArrayList<Status> statuselist) {
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
-        mDatas = statuselist;
-        mAdapter.setData(statuselist);
-        mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+    public void updateMentionListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
+        if (resetAdapter) {
+            mMentionAdapter = new MentionAdapter(mContext, mMentionDatas);
+            mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setAdapter(mMentionFooterAdapter);
+        }
+
+
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(mOnMentionScrollListener);
+        mMentionDatas = mentionlist;
+        mMentionAdapter.setData(mentionlist);
+        mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
+        mMentionFooterAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void updateCommentListView(ArrayList<Comment> commentlist, boolean resetAdapter) {
+        if (resetAdapter) {
+            mCommentAdapter = new CommentAdapter(mContext, commentlist);
+            mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setAdapter(mCommentFooterAdapter);
+        }
+
+
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
+        mCommentDatas = commentlist;
+        mCommentAdapter.setData(commentlist);
+        mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
+        mCommentFooterAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void showLoadingIcon() {
@@ -152,8 +197,12 @@ public class MentionActivity extends Activity implements MentionActivityView {
     }
 
     @Override
-    public void showLoadFooterView() {
-        RecyclerViewStateUtils.setFooterViewState(MentionActivity.this, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
+    public void showLoadFooterView(int currentGroup) {
+        if (currentGroup == Constants.GROUP_RETWEET_TYPE_ALL || currentGroup == Constants.GROUP_RETWEET_TYPE_FRIENDS || currentGroup == Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO) {
+            RecyclerViewStateUtils.setFooterViewState(MentionActivity.this, mRecyclerView, mMentionDatas.size(), LoadingFooter.State.Loading, null);
+        } else if (currentGroup == Constants.GROUP_RETWEET_TYPE_ALLCOMMENT || currentGroup == Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT) {
+            RecyclerViewStateUtils.setFooterViewState(MentionActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Loading, null);
+        }
     }
 
     @Override

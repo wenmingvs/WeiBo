@@ -17,7 +17,6 @@ public interface CommentModel {
         void onDataFinish(ArrayList<Comment> commentlist);
 
         void onError(String error);
-
     }
 
 
@@ -27,10 +26,11 @@ public interface CommentModel {
 
     public void toMeCacheSave(Context context, String response);
 
-    public void ToMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void byMe(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+
 
 }

@@ -70,7 +70,31 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<AlbumFolderInfo>();
     private ArrayList<ImageInfo> mSelectImgList = new ArrayList<ImageInfo>();
     private Status mStatus;
+    private TextWatcher watcher = new TextWatcher() {
+        private CharSequence inputString;
 
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            inputString = s;
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            changeSendButtonBg(inputString.toString().length());
+            if (inputString.length() > 140) {
+                int outofnum = inputString.length() - 140;
+                mLimitTextView.setText("-" + outofnum + "");
+            } else {
+                mLimitTextView.setText("");
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +139,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, mAccessToken);
     }
 
-
     /**
      * 填充内容，
      * 1. 转发的内容是转发微博，
@@ -137,7 +160,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             mEditText.setText(WeiBoContentTextUtil.getWeiBoContent("//@" + mStatus.user.name + ":" + mStatus.text, mContext, mEditText));
             FillContent.fillMentionCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
             mEditText.setSelection(0);
-
         }
         //2. 转发的内容是原创微博
         else if (mStatus.retweeted_status == null) {
@@ -168,7 +190,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             }
         });
     }
-
 
     /**
      * 设置监听事件
@@ -246,33 +267,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         });
 
     }
-
-
-    private TextWatcher watcher = new TextWatcher() {
-        private CharSequence inputString;
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            inputString = s;
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            changeSendButtonBg(inputString.toString().length());
-            if (inputString.length() > 140) {
-                int outofnum = inputString.length() - 140;
-                mLimitTextView.setText("-" + outofnum + "");
-            } else {
-                mLimitTextView.setText("");
-            }
-        }
-    };
 
     /**
      * 根据输入的文本数量，决定发送按钮的背景

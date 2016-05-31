@@ -16,10 +16,8 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/5/15.
  */
 public class CommentActivityPresentImp implements CommentActivityPresent {
-
     private CommentModel mCommentModel;
     private CommentActivityView mCommentActivityView;
-
 
     public CommentActivityPresentImp(CommentActivityView commentActivityView) {
         this.mCommentActivityView = commentActivityView;

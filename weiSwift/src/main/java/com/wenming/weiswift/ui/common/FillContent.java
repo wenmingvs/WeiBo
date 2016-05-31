@@ -115,6 +115,24 @@ public class FillContent {
     /**
      * 填充顶部微博用户信息数据
      *
+     * @param comment
+     * @param profile_img
+     * @param profile_verified
+     * @param profile_name
+     * @param profile_time
+     * @param weibo_comefrom
+     */
+    public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        FillContent.fillProfileImg(context, comment.user, profile_img, profile_verified);
+        setWeiBoName(profile_name, comment.user);
+        FillContent.setWeiBoTime(context, profile_time, comment.created_at);
+        FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
+    }
+
+
+    /**
+     * 填充顶部微博用户信息数据
+     *
      * @param status
      * @param profile_img
      * @param profile_name
@@ -123,16 +141,16 @@ public class FillContent {
      */
     public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
-        setName(profile_name, status);
+        setWeiBoName(profile_name, status.user);
         setWeiBoTime(context, profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
     }
 
-    public static void setName(TextView textView, Status status) {
-        if (status.user.remark != null && status.user.remark.length() > 0) {
-            textView.setText(status.user.remark);
+    public static void setWeiBoName(TextView textView, User user) {
+        if (user.remark != null && user.remark.length() > 0) {
+            textView.setText(user.remark);
         } else {
-            textView.setText(status.user.name);
+            textView.setText(user.name);
         }
     }
 
@@ -542,22 +560,6 @@ public class FillContent {
         //fillMentionCenterContent(comment.status, profile_img, profile_name, content);
     }
 
-    /**
-     * 填充顶部微博用户信息数据
-     *
-     * @param comment
-     * @param profile_img
-     * @param profile_verified
-     * @param profile_name
-     * @param profile_time
-     * @param weibo_comefrom
-     */
-    public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        FillContent.fillProfileImg(context, comment.user, profile_img, profile_verified);
-        profile_name.setText(comment.user.name);
-        FillContent.setWeiBoTime(context, profile_time, comment.created_at);
-        FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
-    }
 
     /**
      * 填充粉丝的内容

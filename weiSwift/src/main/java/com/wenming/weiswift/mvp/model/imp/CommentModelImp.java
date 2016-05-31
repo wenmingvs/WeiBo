@@ -41,9 +41,9 @@ public class CommentModelImp implements CommentModel {
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
         if (authorType == CommentsAPI.AUTHOR_FILTER_ALL) {
-            sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_ALL);
+            sinceId = checkout(Constants.GROUP_COMMENT_TYPE_ALL);
         } else {
-            sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_FRIENDS);
+            sinceId = checkout(Constants.GROUP_COMMENT_TYPE_FRIENDS);
         }
         commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, authorType, 0, pullToRefreshListener);
     }
@@ -53,10 +53,9 @@ public class CommentModelImp implements CommentModel {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
-        long sinceId = checkout(context, Constants.GROUP_COMMENT_TYPE_BYME);
+        long sinceId = checkout(Constants.GROUP_COMMENT_TYPE_BYME);
         commentsAPI.byME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, pullToRefreshListener);
     }
-
 
     @Override
     public void toMeNextPage(int authorType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
@@ -64,7 +63,7 @@ public class CommentModelImp implements CommentModel {
         mContext = context;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
         mOnDataFinishedListener = onDataFinishedListener;
-        commentsAPI.mentions(0, Long.valueOf(maxId), NewFeature.LOADMORE_COMMENT_ITEM, 1, authorType, 0, requestMoreListener);
+        commentsAPI.toME(0, Long.valueOf(maxId), NewFeature.LOADMORE_COMMENT_ITEM, 1, authorType, 0, nextPageListener);
     }
 
     @Override
@@ -73,8 +72,9 @@ public class CommentModelImp implements CommentModel {
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
-        commentsAPI.byME(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, requestMoreListener);
+        commentsAPI.byME(0, Long.valueOf(maxId), NewFeature.LOADMORE_MENTION_ITEM, 1, 0, nextPageListener);
     }
+
 
     @Override
     public void toMeCacheSave(Context context, String response) {
@@ -84,7 +84,7 @@ public class CommentModelImp implements CommentModel {
     }
 
     @Override
-    public void ToMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
+    public void toMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
             if (response != null) {
@@ -96,7 +96,7 @@ public class CommentModelImp implements CommentModel {
     }
 
 
-    private long checkout(Context context, int authorType) {
+    private long checkout(int authorType) {
         long sinceId = 0;
         if (mCurrentGroup != authorType) {
             mRefrshCommentList = true;
@@ -134,11 +134,11 @@ public class CommentModelImp implements CommentModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
-            ToMeCacheLoad(mContext, mOnDataFinishedListener);
+            toMeCacheLoad(mContext, mOnDataFinishedListener);
         }
     };
 
-    public RequestListener requestMoreListener = new RequestListener() {
+    public RequestListener nextPageListener = new RequestListener() {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
