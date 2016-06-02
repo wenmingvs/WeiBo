@@ -21,14 +21,15 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
-import com.wenming.weiswift.ui.login.fragment.home.util.WeiBoContentTextUtil;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
@@ -37,10 +38,10 @@ import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.TimeUtils;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
+import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by wenmingvs on 16/4/21.
@@ -115,6 +116,7 @@ public class FillContent {
     /**
      * 填充顶部微博用户信息数据
      *
+     * @param context
      * @param comment
      * @param profile_img
      * @param profile_verified
@@ -123,7 +125,7 @@ public class FillContent {
      * @param weibo_comefrom
      */
     public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        FillContent.fillProfileImg(context, comment.user, profile_img, profile_verified);
+        fillProfileImg(context, comment.user, profile_img, profile_verified);
         setWeiBoName(profile_name, comment.user);
         FillContent.setWeiBoTime(context, profile_time, comment.created_at);
         FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
@@ -133,8 +135,10 @@ public class FillContent {
     /**
      * 填充顶部微博用户信息数据
      *
+     * @param context
      * @param status
      * @param profile_img
+     * @param profile_verified
      * @param profile_name
      * @param profile_time
      * @param weibo_comefrom
@@ -157,8 +161,6 @@ public class FillContent {
     public static void setWeiBoTime(Context context, TextView textView, String created_at) {
         Date data = DateUtils.parseDate(created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
         TimeUtils timeUtils = TimeUtils.instance(context);
-        //SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
-        //String time = df.format(data);
         textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
 
@@ -347,26 +349,25 @@ public class FillContent {
         ImageLoader.getInstance().displayImage(datas.get(position), imageView, mImageItemOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-
                 //单张图片的时候，从预设的3种图片尺寸中随机选一种
                 if (datas.size() == 1) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
-                    Random random = new Random();
-                    //int randomnum = random.nextInt(0);
-                    int randomnum = 1;
-                    //在0，1,2中随机取一个数
-                    if (randomnum == 0) {
-                        //竖直方向的长方形尺寸
-                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
-                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-                    } else if (randomnum == 1) {
-                        //水平方向的长方形尺寸
-                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
-                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
-                    } else {
-                        //正方形尺寸
-                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_height);
-                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_width);
+                    switch (status.singleImgSizeType) {
+                        case Constants.IMGSIZE_VERTICAL:
+                            //竖直方向的长方形尺寸
+                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
+                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+                            break;
+                        case Constants.IMGSIZE_HORIZONTAL:
+                            //水平方向的长方形尺寸
+                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+                            break;
+                        case Constants.IMGSIZE_SQUARE:
+                            //正方形尺寸
+                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_height);
+                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_width);
+                            break;
                     }
                 }
 
@@ -384,23 +385,21 @@ public class FillContent {
                 if (type == IMAGE_TYPE_LONG_TEXT) {
                     imageType.setImageResource(R.drawable.timeline_image_longimage);
                 }
-
                 //根据请求的URL，判断是否是Gif，设置右下角的图片类型icon
                 if (returnImageType(context, datas.get(position)) == IMAGE_TYPE_GIF) {
                     imageType.setImageResource(R.drawable.timeline_image_gif);
                 }
-
                 //若是长微博
                 if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT) {
                     ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
                 }
-
-                //若是长微博，还需要纠正尺寸
+                //若只存在单张图片，且图片是长微博，还需要纠正尺寸
                 if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT && datas.size() == 1) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
                     layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
                     layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
                     ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
+                    status.singleImgSizeType = Constants.IMGSIZE_VERTICAL;
                 }
             }
 
@@ -409,11 +408,13 @@ public class FillContent {
 
             }
         });
+
+        //设置图片的点击时间
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImageDetailsActivity.class);
-                intent.putExtra("imagelist_url", status.origin_pic_urls);
+                intent.putExtra("imagelist_url", status.bmiddle_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);
             }
@@ -544,7 +545,8 @@ public class FillContent {
 
     }
 
-    public static void fillCommentCenterContent(Context context, Comment comment, LinearLayout bg_layout, LinearLayout comment_weibolayout, EmojiTextView mycomment, ImageView profile_img, TextView profile_name, TextView content) {
+    public static void fillCommentCenterContent(final Context context, Comment comment, LinearLayout bg_layout, LinearLayout comment_weibolayout, EmojiTextView mycomment, final CropImageView mentionitem_img, TextView profile_name, TextView content) {
+        //填充我回复的评论
         if (comment.reply_comment != null) {
             mycomment.setVisibility(View.VISIBLE);
             bg_layout.setBackgroundColor(Color.parseColor("#f7f7f7"));
@@ -557,7 +559,64 @@ public class FillContent {
             bg_layout.setBackgroundColor(Color.parseColor("#fefefe"));
             comment_weibolayout.setBackgroundColor(Color.parseColor("#f7f7f7"));
         }
-        //fillMentionCenterContent(comment.status, profile_img, profile_name, content);
+
+        //填充我所评论的微博的内容，包括微博的主人名，微博图片，微博文本内容
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.message_image_default)
+                .showImageForEmptyUri(R.drawable.message_image_default)
+                .showImageOnFail(R.drawable.timeline_image_failure)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .considerExifParams(true)
+                .cacheInMemory(true)
+                .build();
+
+        mentionitem_img.setVisibility(View.GONE);
+        mentionitem_img.setVisibility(View.VISIBLE);
+
+        //评论的微博存在且没有被删除
+        if (comment.status != null && comment.status.user != null) {
+            //评论的微博是转发微博且包含图片
+            if (comment.status.retweeted_status != null && comment.status.retweeted_status.bmiddle_pic.length() > 0) {
+                ImageLoader.getInstance().displayImage(comment.status.retweeted_status.bmiddle_pic, mentionitem_img, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (returnImageType(context, loadedImage) == IMAGE_TYPE_LONG_TEXT) {
+                            mentionitem_img.setCropType(CropImageView.CropType.CENTER_TOP);
+                        }
+                    }
+                });
+            }
+            //评论的微博是转发微博，但是没有图片
+            else if (comment.status.retweeted_status != null && comment.status.retweeted_status.bmiddle_pic == null) {
+                ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
+            }
+            //评论的微博是原创微博，且存在图片
+            else if (comment.status.bmiddle_pic != null && comment.status.bmiddle_pic.length() > 0) {
+                ImageLoader.getInstance().displayImage(comment.status.bmiddle_pic, mentionitem_img, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (returnImageType(context, loadedImage) == IMAGE_TYPE_LONG_TEXT) {
+                            mentionitem_img.setCropType(CropImageView.CropType.CENTER_TOP);
+                        }
+                    }
+                });
+            }
+            //评论的微博是原创微博，但是没有图片
+            else {
+                ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
+            }
+
+            profile_name.setVisibility(View.VISIBLE);
+            profile_name.setText("@" + comment.status.user.name);
+            content.setText(comment.status.text);
+        }
+        //评论的微博已经被删除
+        else {
+            mentionitem_img.setImageResource(R.drawable.photo_filter_image_empty);
+            profile_name.setVisibility(View.GONE);
+            content.setText(comment.status.text);
+        }
     }
 
 

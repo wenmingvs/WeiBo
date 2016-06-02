@@ -27,12 +27,12 @@ public class StatusListModelImp implements StatusListModel {
     /**
      * 全局刷新的间隔时间
      */
-    private static final int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
+    private static int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
     private ArrayList<Status> mStatusList = new ArrayList<>();
     private Context mContext;
     private OnDataFinishedListener mOnDataFinishedListener;
-
-    private TimerTask mRefrshFriendsTimelineTask;
+    private Timer mTimer;
+    private TimerTask mTimerTask;
     /**
      * 当前的分组位置
      */
@@ -60,7 +60,7 @@ public class StatusListModelImp implements StatusListModel {
 
 
     @Override
-    public void bilateralTimeline(final Context context, OnDataFinishedListener onDataFinishedListener) {
+    public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         setRefrshFriendsTimelineTask();
         mContext = context;
@@ -104,7 +104,7 @@ public class StatusListModelImp implements StatusListModel {
      * @param onDataFinishedListener
      */
     @Override
-    public void bilateralTimelineNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void bilateralTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener) {
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
@@ -122,7 +122,7 @@ public class StatusListModelImp implements StatusListModel {
      * @param onDataFinishedListener
      */
     @Override
-    public void timelineNextPage(long groundId, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener) {
         GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
@@ -155,15 +155,30 @@ public class StatusListModelImp implements StatusListModel {
         }
     }
 
+
+    @Override
     public void setRefrshFriendsTimelineTask() {
-        if (mRefrshFriendsTimelineTask == null) {
-            mRefrshFriendsTimelineTask = new TimerTask() {
+        if (mTimerTask == null) {
+            mTimerTask = new TimerTask() {
                 @Override
                 public void run() {
                     mRefrshFriendsTimeline = true;
                 }
             };
-            new Timer().schedule(mRefrshFriendsTimelineTask, 0, REFRESH_FRIENDS_TIMELINE_TASK);
+            mTimer = new Timer();
+            mTimer.schedule(mTimerTask, 0, REFRESH_FRIENDS_TIMELINE_TASK);
+        }
+    }
+
+    @Override
+    public void cancelTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
         }
     }
 
@@ -203,13 +218,11 @@ public class StatusListModelImp implements StatusListModel {
                 mFirstLoad = false;
             } else {
                 if (mFirstLoad == false) {//局部刷新，get不到数据
-                    ToastUtil.showShort(mContext, "局部刷新，get不到数据");
+                    ToastUtil.showShort(mContext, "没有更新的内容了");
                     mOnDataFinishedListener.noMoreData();
                 } else {//全局刷新，get不到数据
-                    ToastUtil.showShort(mContext, "全局刷新，get不到数据");
                     mOnDataFinishedListener.noDataInFirstLoad();
                 }
-
             }
             mRefrshFriendsTimeline = false;
         }

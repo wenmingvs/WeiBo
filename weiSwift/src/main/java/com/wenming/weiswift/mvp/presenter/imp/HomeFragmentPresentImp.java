@@ -102,6 +102,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
     }
 
+    @Override
+    public void cancelTimer() {
+        mStatusListModel.cancelTimer();
+    }
+
 
     public StatusListModel.OnDataFinishedListener onPullFinishedListener = new StatusListModel.OnDataFinishedListener() {
         @Override

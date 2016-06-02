@@ -38,5 +38,9 @@ public interface StatusListModel {
 
     public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void setRefrshFriendsTimelineTask();
+
+    public void cancelTimer();
+
 
 }

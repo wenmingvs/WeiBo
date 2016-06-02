@@ -266,6 +266,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void onDestroyView() {
+        mHomePresent.cancelTimer();
         if (mPopWindow != null) {
             mPopWindow.onDestory();
         }

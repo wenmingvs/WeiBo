@@ -30,7 +30,6 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
             @Override
             public void noMoreDate() {
                 mFollowActivityView.hideLoadingIcon();
-
             }
 
             @Override

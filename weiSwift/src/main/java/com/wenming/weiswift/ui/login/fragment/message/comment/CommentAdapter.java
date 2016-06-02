@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cesards.cropimageview.CropImageView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.ui.common.FillContent;
@@ -95,7 +96,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //长方形内的内容
         public LinearLayout bg_layout;
         public EmojiTextView comment_reply;
-        public ImageView mentionitem_img;
+        public CropImageView mentionitem_img;
         public LinearLayout comment_weibolayout;
         public TextView mentionitem_name;
         public TextView mentionitem_content;
@@ -116,7 +117,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             bg_layout = (LinearLayout) v.findViewById(R.id.bg_layout);
             comment_reply = (EmojiTextView) v.findViewById(R.id.commentitem_reply);
-            mentionitem_img = (ImageView) v.findViewById(R.id.commentitem_img);
+            mentionitem_img = (CropImageView) v.findViewById(R.id.commentitem_img);
             comment_weibolayout = (LinearLayout) v.findViewById(R.id.comment_weibolayout);
             mentionitem_name = (TextView) v.findViewById(R.id.commentitem_name);
             mentionitem_content = (TextView) v.findViewById(R.id.comment_weibocontent);

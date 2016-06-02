@@ -38,6 +38,12 @@ public interface Constants {
             + "&key_hash=" + Constants.AppSecret + (TextUtils.isEmpty(Constants.PackageName) ? "" : "&packagename=" + Constants.PackageName)
             + "&display=mobile" + "&scope=" + Constants.SCOPE;
 
+    //图片形状
+    public static final int IMGSIZE_HORIZONTAL = 0; //水平方向的长方形尺寸
+    public static final int IMGSIZE_VERTICAL = 1;//竖直方向的长方形尺寸
+    public static final int IMGSIZE_SQUARE = 2;//正方形尺寸
+
+
     //首页分组
     public static final int GROUP_TYPE_ALL = 0;//全部微博
     public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;//好友圈

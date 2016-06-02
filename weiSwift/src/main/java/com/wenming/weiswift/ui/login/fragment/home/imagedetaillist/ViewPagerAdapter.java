@@ -127,9 +127,9 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
                     donutProgress.setVisibility(View.GONE);
-                    //展示中等质量的图片
-                    String bmiddle = mDatas.get(position).replace("large", "bmiddle");
-                    ImageLoader.getInstance().displayImage(bmiddle, photoView, options);
+//                    //展示中等质量的图片
+//                    String bmiddle = mDatas.get(position).replace("large", "bmiddle");
+//                    ImageLoader.getInstance().displayImage(bmiddle, photoView, options);
                 }
 
                 /**

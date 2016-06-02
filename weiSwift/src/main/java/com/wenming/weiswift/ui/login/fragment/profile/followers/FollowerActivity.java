@@ -8,8 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FollowerActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FollowerActivityPresentImp;
@@ -36,7 +36,6 @@ public class FollowerActivity extends Activity implements FollowActivityView {
     public boolean mRefrshAllData;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private FollowerActivityPresent mFollowerActivityPresent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

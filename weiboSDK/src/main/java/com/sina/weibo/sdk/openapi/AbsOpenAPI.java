@@ -88,7 +88,6 @@ public abstract class AbsOpenAPI {
             LogUtil.e(TAG, "Argument error!");
             return;
         }
-
         params.put(KEY_ACCESS_TOKEN, mAccessToken.getToken());
         new AsyncWeiboRunner(mContext).requestAsync(url, params, httpMethod, listener);
     }

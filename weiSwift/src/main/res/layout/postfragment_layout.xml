@@ -73,7 +73,8 @@
             android:layout_gravity="bottom"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/compose_headlines"
@@ -95,7 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/first_line"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="wrap_content"

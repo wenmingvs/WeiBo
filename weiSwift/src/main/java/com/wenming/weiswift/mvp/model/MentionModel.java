@@ -32,9 +32,11 @@ public interface MentionModel {
 
     public void mentionsNextPage(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener);
 
-    public void mentionCacheSave(Context context, String response);
+    public void cacheSave(int groupType, Context context, String response);
 
-    public void mentionCacheLoad(Context context, OnMentionFinishedListener onDataFinishedListener);
+    public void cacheLoad(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener);
+
+    public void cacheLoad(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener);
 
     public void commentMentions(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener);
 

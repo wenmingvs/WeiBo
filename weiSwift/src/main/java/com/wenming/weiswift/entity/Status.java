@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,6 +142,8 @@ public class Status implements Parcelable {
 
     public ArrayList<String> origin_pic_urls;
 
+    public int singleImgSizeType;
+
     /**
      * 微博流内的推广微博ID
      */
@@ -210,6 +213,12 @@ public class Status implements Parcelable {
                 }
             }
         }
+
+        if (status.thumbnail_pic_urls != null && status.thumbnail_pic_urls.size() == 1) {
+            Random random = new Random();
+            status.singleImgSizeType = random.nextInt(3);
+        }
+
 
         //status.ad = jsonObject.optString("ad", "");
         return status;

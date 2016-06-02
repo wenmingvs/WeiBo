@@ -34,7 +34,7 @@ public class MentionModelImp implements MentionModel {
     private int mCurrentGroup;
 
     @Override
-    public void mentions(int groupType, Context context, final OnMentionFinishedListener onMentionFinishedListener) {
+    public void mentions(int groupType, Context context, OnMentionFinishedListener onMentionFinishedListener) {
         StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         long sinceId = checkout(groupType);
         mContext = context;
@@ -70,7 +70,7 @@ public class MentionModelImp implements MentionModel {
     }
 
     @Override
-    public void mentionsNextPage(int groupType, Context context, final OnMentionFinishedListener onMentionFinishedListener) {
+    public void mentionsNextPage(int groupType, Context context, OnMentionFinishedListener onMentionFinishedListener) {
         StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = mMentionList.get(mMentionList.size() - 1).id;
         mContext = context;
@@ -105,19 +105,69 @@ public class MentionModelImp implements MentionModel {
     }
 
     @Override
-    public void mentionCacheSave(Context context, String response) {
+    public void cacheSave(int groupType, Context context, String response) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_mention" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+            switch (groupType) {
+                case Constants.GROUP_RETWEET_TYPE_ALL:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_FRIENDS:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+
+            }
+
         }
     }
 
     @Override
-    public void mentionCacheLoad(Context context, OnMentionFinishedListener onDataFinishedListener) {
+    public void cacheLoad(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
-            String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_mention" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+            String response = null;
+            switch (groupType) {
+                case Constants.GROUP_RETWEET_TYPE_ALL:
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_FRIENDS:
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+            }
+
             if (response != null) {
                 mMentionList = StatusList.parse(response).statusList;
                 onDataFinishedListener.onDataFinish(mMentionList);
+            }
+        }
+    }
+
+    @Override
+    public void cacheLoad(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener) {
+        if (NewFeature.CACHE_MESSAGE_MENTION) {
+            String response = null;
+            switch (groupType) {
+                case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+                case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+            }
+
+            if (response != null) {
+                mCommentList = CommentList.parse(response).commentList;
+                onCommentFinishedListener.onDataFinish(mCommentList);
             }
         }
     }
@@ -155,7 +205,7 @@ public class MentionModelImp implements MentionModel {
                 if (mMentionList != null) {
                     mMentionList.clear();
                 }
-                mentionCacheSave(mContext, response);
+                cacheSave(mCurrentGroup, mContext, response);
                 mMentionList = temp;
                 mOnMentionFinishedListener.onDataFinish(mMentionList);
             } else {
@@ -168,7 +218,7 @@ public class MentionModelImp implements MentionModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
-            mentionCacheLoad(mContext, mOnMentionFinishedListener);
+            cacheLoad(mCurrentGroup, mContext, mOnMentionFinishedListener);
         }
     };
 
@@ -180,6 +230,7 @@ public class MentionModelImp implements MentionModel {
                 if (mCommentList != null) {
                     mCommentList.clear();
                 }
+                cacheSave(mCurrentGroup, mContext, response);
                 mCommentList = temp;
                 mOnCommentFinishedListener.onDataFinish(mCommentList);
             } else {
@@ -192,6 +243,7 @@ public class MentionModelImp implements MentionModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
+            cacheLoad(mCurrentGroup, mContext, mOnCommentFinishedListener);
         }
     };
     public RequestListener nextPage_Mention_Listener = new RequestListener() {

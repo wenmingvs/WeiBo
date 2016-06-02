@@ -70,7 +70,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             super(itemView);
             imageItem = (CropImageView) itemView.findViewById(R.id.imageItem);
             imageType = (ImageView) itemView.findViewById(R.id.imageType);
-
         }
     }
 

@@ -31,5 +31,4 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
 }

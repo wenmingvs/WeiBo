@@ -15,4 +15,6 @@ public interface HomeFragmentPresent {
 
     public void requestMoreData(long groupId, Context context);
 
+    public void cancelTimer();
+
 }

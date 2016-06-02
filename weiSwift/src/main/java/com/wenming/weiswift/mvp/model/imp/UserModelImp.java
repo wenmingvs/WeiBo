@@ -58,13 +58,13 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public User showUserDetailSync(long uid, final Context context) {
+    public User showUserDetailSync(long uid, Context context) {
         UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         return User.parse(mUsersAPI.showSync(uid));
     }
 
     @Override
-    public void userTimeline(final long uid, int groupId, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+    public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
@@ -72,7 +72,7 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void userTimelineNextPage(final long uid, int groupId, final Context context, final OnStatusListFinishedListener onStatusFinishedListener) {
+    public void userTimelineNextPage(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
@@ -80,35 +80,35 @@ public class UserModelImp implements UserModel {
     }
 
     @Override
-    public void followers(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+    public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
-        mFriendshipsAPI.followers(uid, 30, 0, false, userPullToRefresh);
+        mFriendshipsAPI.followers(uid, NewFeature.GET_FOLLOWER_NUM, 0, false, userPullToRefresh);
     }
 
     @Override
-    public void followersNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+    public void followersNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
-        mFriendshipsAPI.followers(uid, 20, mFollowersCursor, false, userNextPage);
+        mFriendshipsAPI.followers(uid, NewFeature.LOADMORE_FOLLOWER_NUM, mFollowersCursor, false, userNextPage);
     }
 
     @Override
-    public void friends(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+    public void friends(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
-        mFriendshipsAPI.friends(uid, 30, 0, false, userPullToRefresh);
+        mFriendshipsAPI.friends(uid, NewFeature.GET_FRIENDS_NUM, 0, false, userPullToRefresh);
     }
 
     @Override
-    public void friendsNextPage(final long uid, final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
+    public void friendsNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
-        mFriendshipsAPI.friends(uid, 20, mFriendsCursor, false, userNextPage);
+        mFriendshipsAPI.friends(uid, NewFeature.LOADMORE_FRIENDS_NUM, mFriendsCursor, false, userNextPage);
     }
 
     @Override
@@ -234,6 +234,7 @@ public class UserModelImp implements UserModel {
                 }
                 mUsersList = temp;
                 mFollowersCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
+                mFriendsCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
                 mOnUserListRequestFinish.onDataFinish(mUsersList);
             } else {
                 ToastUtil.showShort(mContext, "没有更新的内容了");
@@ -256,9 +257,10 @@ public class UserModelImp implements UserModel {
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mUsersList.get(mUsersList.size() - 1).id))) {
                     mOnUserListRequestFinish.noMoreDate();
                 } else if (temp.size() > 1) {
-                    temp.remove(0);
+                    //temp.remove(0);
                     mUsersList.addAll(temp);
                     mFollowersCursor = Integer.valueOf(UserList.parse(response).next_cursor);
+                    mFriendsCursor = Integer.valueOf(StatusList.parse(response).next_cursor);
                     mOnUserListRequestFinish.onDataFinish(mUsersList);
                 }
             } else {

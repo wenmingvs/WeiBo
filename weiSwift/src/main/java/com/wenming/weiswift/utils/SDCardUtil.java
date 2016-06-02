@@ -88,7 +88,7 @@ public class SDCardUtil {
         File filedir = new File(fileDir);
         File jsonfile = new File(filedir, fileName);
         if (!filedir.exists()) {
-            filedir.mkdir();
+            filedir.mkdirs();
         }
         try {
             jsonfile.createNewFile();
@@ -102,7 +102,7 @@ public class SDCardUtil {
             }
         } catch (Exception ex) {
             //Toast.makeText(context, "文件写入失败", Toast.LENGTH_SHORT).show();
-            LogUtil.d(ex.toString());
+            //LogUtil.d(ex.toString());
         }
     }
 

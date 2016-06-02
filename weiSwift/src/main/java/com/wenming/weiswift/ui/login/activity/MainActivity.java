@@ -75,9 +75,8 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        //super.onSaveInstanceState(outState);
         outState.putString("index", mCurrentIndex);
-        super.onSaveInstanceState(outState);
     }
 
     private void setUpListener() {
@@ -115,7 +114,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 setTabFragment(PROFILE_FRAGMENT);
                 if (mCurrentIndex == PROFILE_FRAGMENT && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
-                    mProfileFragment.refreshUserDetail(mContext, false);
+                    //mProfileFragment.refreshUserDetail(mContext, false);
                 }
             }
         });
@@ -123,6 +122,7 @@ public class MainActivity extends FragmentActivity {
 
 
     private void setTabFragment(String index) {
+        //如果不位于当前页
         if (mCurrentIndex != index) {
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
             hideAllFragments(transaction);
@@ -188,11 +188,6 @@ public class MainActivity extends FragmentActivity {
                     break;
                 case PROFILE_FRAGMENT:
                     break;
-            }
-
-
-            if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-
             }
         }
     }

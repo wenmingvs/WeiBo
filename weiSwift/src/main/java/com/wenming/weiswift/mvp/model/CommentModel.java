@@ -20,17 +20,16 @@ public interface CommentModel {
     }
 
 
-    public void toMe(int authorType, Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMe(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void toMeNextPage(int authorType, Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void toMeCacheSave(Context context, String response);
-
-    public void toMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeNextPage(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void byMe(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void cacheSave(int groupType, Context context, String response);
+
+    public void cacheLoad(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
 }

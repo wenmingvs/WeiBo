@@ -35,21 +35,21 @@ public class CommentModelImp implements CommentModel {
 
 
     @Override
-    public void toMe(int authorType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void toMe(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
-        if (authorType == CommentsAPI.AUTHOR_FILTER_ALL) {
+        if (groupType == CommentsAPI.AUTHOR_FILTER_ALL) {
             sinceId = checkout(Constants.GROUP_COMMENT_TYPE_ALL);
         } else {
             sinceId = checkout(Constants.GROUP_COMMENT_TYPE_FRIENDS);
         }
-        commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, authorType, 0, pullToRefreshListener);
+        commentsAPI.toME(sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, groupType, 0, pullToRefreshListener);
     }
 
     @Override
-    public void byMe(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void byMe(Context context, OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
@@ -58,16 +58,16 @@ public class CommentModelImp implements CommentModel {
     }
 
     @Override
-    public void toMeNextPage(int authorType, final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void toMeNextPage(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
         mOnDataFinishedListener = onDataFinishedListener;
-        commentsAPI.toME(0, Long.valueOf(maxId), NewFeature.LOADMORE_COMMENT_ITEM, 1, authorType, 0, nextPageListener);
+        commentsAPI.toME(0, Long.valueOf(maxId), NewFeature.LOADMORE_COMMENT_ITEM, 1, groupType, 0, nextPageListener);
     }
 
     @Override
-    public void byMeNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+    public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
@@ -77,16 +77,38 @@ public class CommentModelImp implements CommentModel {
 
 
     @Override
-    public void toMeCacheSave(Context context, String response) {
+    public void cacheSave(int groupType, Context context, String response) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+            switch (groupType) {
+                case Constants.GROUP_COMMENT_TYPE_ALL:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_COMMENT_TYPE_FRIENDS:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+                case Constants.GROUP_COMMENT_TYPE_BYME:
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    break;
+            }
         }
     }
 
     @Override
-    public void toMeCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
+    public void cacheLoad(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
-            String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "message_comment" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+            String response = null;
+            switch (groupType) {
+                case Constants.GROUP_COMMENT_TYPE_ALL:
+                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+                case Constants.GROUP_COMMENT_TYPE_FRIENDS:
+                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+                case Constants.GROUP_COMMENT_TYPE_BYME:
+                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    break;
+            }
+
             if (response != null) {
                 mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
                 mCommentList = CommentList.parse(response).commentList;
@@ -121,7 +143,7 @@ public class CommentModelImp implements CommentModel {
                 if (mCommentList != null) {
                     mCommentList.clear();
                 }
-                toMeCacheSave(mContext, response);
+                cacheSave(mCurrentGroup, mContext, response);
                 mCommentList = temp;
                 mOnDataFinishedListener.onDataFinish(mCommentList);
             } else {
@@ -134,7 +156,7 @@ public class CommentModelImp implements CommentModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
-            toMeCacheLoad(mContext, mOnDataFinishedListener);
+            cacheLoad(mCurrentGroup, mContext, mOnDataFinishedListener);
         }
     };
 

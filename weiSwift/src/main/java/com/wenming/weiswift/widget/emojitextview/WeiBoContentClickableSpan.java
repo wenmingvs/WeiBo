@@ -1,4 +1,4 @@
-package com.wenming.weiswift.ui.login.fragment.home.util;
+package com.wenming.weiswift.widget.emojitextview;
 
 import android.content.Context;
 import android.text.TextPaint;

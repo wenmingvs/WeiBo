@@ -1,4 +1,4 @@
-package com.wenming.weiswift.ui.login.fragment.home.util;
+package com.wenming.weiswift.widget.emojitextview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,10 +20,9 @@ import java.util.regex.Pattern;
  */
 public class WeiBoContentTextUtil {
 
-    private static final String AT = "@[\u4e00-\u9fa5\\w]+";// @人
-    private static final String TOPIC = "#[\u4e00-\u9fa5\\w]+#";// ##话题
-    private static final String URL = "http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";// url
-    //private static final String ALL = "(@[\u4e00-\u9fa5\\w]+)|(#[\u4e00-\u9fa5\\w]+#)|(http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])";
+    private static final String AT = "@[\\w\\p{InCJKUnifiedIdeographs}-]{1,26}";// @人
+    private static final String TOPIC = "#[\\p{Print}\\p{InCJKUnifiedIdeographs}&&[^#]]+#";// ##话题
+    private static final String URL = "http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";// url
 
     private static final String ALL = "(" + AT + ")" + "|" + "(" + TOPIC + ")" + "|" + "(" + URL + ")";
 
