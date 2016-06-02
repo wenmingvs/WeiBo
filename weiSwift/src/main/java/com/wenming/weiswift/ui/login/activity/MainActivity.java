@@ -44,9 +44,7 @@ public class MainActivity extends FragmentActivity {
     private FragmentManager mFragmentManager;
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private FrameLayout mPostTab;
-
     private boolean mComeFromAccoutActivity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,7 @@ public class MainActivity extends FragmentActivity {
             mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(MESSAGE_FRAGMENT);
             mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(DISCOVERY_FRAGMENT);
             mProfileFragment = (ProfileFragment) mFragmentManager.findFragmentByTag(PROFILE_FRAGMENT);
-            setTabFragment(mCurrentIndex);
+            retoreFragment(mCurrentIndex,true);
         } else {
             setTabFragment(HOME_FRAGMENT);
         }
@@ -75,8 +73,8 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //super.onSaveInstanceState(outState);
         outState.putString("index", mCurrentIndex);
+        super.onSaveInstanceState(outState);
     }
 
     private void setUpListener() {
@@ -84,7 +82,6 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(HOME_FRAGMENT);
-
             }
         });
         mMessageTab.setOnClickListener(new View.OnClickListener() {
@@ -113,67 +110,79 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(PROFILE_FRAGMENT);
-                if (mCurrentIndex == PROFILE_FRAGMENT && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
-                    //mProfileFragment.refreshUserDetail(mContext, false);
-                }
+//                if (mCurrentIndex.equals(PROFILE_FRAGMENT) && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
+//                    mProfileFragment.refreshUserDetail(mContext, false);
+//                }
             }
         });
     }
 
 
+    /**
+     * @param index
+     * @param screenRotate
+     */
+    private void retoreFragment(String index, boolean screenRotate) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        hideAllFragments(transaction);
+        switch (index) {
+            case HOME_FRAGMENT:
+                mHomeTab.setSelected(true);
+                if (mHomeFragment == null) {
+                    mHomeFragment = new HomeFragment(mComeFromAccoutActivity);
+                    transaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
+                } else {
+                    transaction.show(mHomeFragment);
+                    if (!screenRotate && mCurrentIndex.equals(HOME_FRAGMENT) && mHomeFragment != null) {
+                        mHomeFragment.scrollToTop(false);
+                    }
+                }
+                mCurrentIndex = HOME_FRAGMENT;
+                break;
+            case MESSAGE_FRAGMENT:
+                mMessageTab.setSelected(true);
+                if (mMessageFragment == null) {
+                    mMessageFragment = new MessageFragment();
+                    transaction.add(R.id.contentLayout, mMessageFragment, MESSAGE_FRAGMENT);
+                } else {
+                    transaction.show(mMessageFragment);
+                }
+                mCurrentIndex = MESSAGE_FRAGMENT;
+                break;
+
+            case DISCOVERY_FRAGMENT:
+                mDiscoeryTab.setSelected(true);
+                if (mDiscoverFragment == null) {
+                    mDiscoverFragment = new DiscoverFragment();
+                    transaction.add(R.id.contentLayout, mDiscoverFragment, DISCOVERY_FRAGMENT);
+                } else {
+                    transaction.show(mDiscoverFragment);
+                }
+                mCurrentIndex = DISCOVERY_FRAGMENT;
+                break;
+            case PROFILE_FRAGMENT:
+                mProfile.setSelected(true);
+                if (mProfileFragment == null) {
+                    mProfileFragment = new ProfileFragment();
+                    transaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
+                } else {
+                    transaction.show(mProfileFragment);
+                }
+                mCurrentIndex = PROFILE_FRAGMENT;
+                break;
+        }
+        transaction.commit();
+    }
+
+    /**
+     * 用于切换fragment，并且设置底部button的焦点
+     *
+     * @param index 需要切换到的具体页面
+     */
     private void setTabFragment(String index) {
         //如果不位于当前页
-        if (mCurrentIndex != index) {
-            FragmentTransaction transaction = mFragmentManager.beginTransaction();
-            hideAllFragments(transaction);
-            switch (index) {
-                case HOME_FRAGMENT:
-                    mHomeTab.setSelected(true);
-                    if (mHomeFragment == null) {
-                        mHomeFragment = new HomeFragment(mComeFromAccoutActivity);
-                        transaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
-                    } else {
-                        transaction.show(mHomeFragment);
-                        if (mCurrentIndex == HOME_FRAGMENT && mHomeFragment != null) {
-                            mHomeFragment.scrollToTop(false);
-                        }
-                    }
-
-                    mCurrentIndex = HOME_FRAGMENT;
-                    break;
-                case MESSAGE_FRAGMENT:
-                    mMessageTab.setSelected(true);
-                    if (mMessageFragment == null) {
-                        mMessageFragment = new MessageFragment();
-                        transaction.add(R.id.contentLayout, mMessageFragment, MESSAGE_FRAGMENT);
-                    } else {
-                        transaction.show(mMessageFragment);
-                    }
-                    mCurrentIndex = MESSAGE_FRAGMENT;
-                    break;
-
-                case DISCOVERY_FRAGMENT:
-                    mDiscoeryTab.setSelected(true);
-                    if (mDiscoverFragment == null) {
-                        mDiscoverFragment = new DiscoverFragment();
-                        transaction.add(R.id.contentLayout, mDiscoverFragment, DISCOVERY_FRAGMENT);
-                    } else {
-                        transaction.show(mDiscoverFragment);
-                    }
-                    mCurrentIndex = DISCOVERY_FRAGMENT;
-                    break;
-                case PROFILE_FRAGMENT:
-                    mProfile.setSelected(true);
-                    if (mProfileFragment == null) {
-                        mProfileFragment = new ProfileFragment();
-                        transaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
-                    } else {
-                        transaction.show(mProfileFragment);
-                    }
-                    mCurrentIndex = PROFILE_FRAGMENT;
-                    break;
-            }
-            transaction.commit();
+        if (!index.equals(mCurrentIndex)) {
+            retoreFragment(index, false);
         } else {
             //如果在当前页
             switch (mCurrentIndex) {
