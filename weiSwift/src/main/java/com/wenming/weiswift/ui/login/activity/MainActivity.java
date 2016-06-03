@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity {
             mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(MESSAGE_FRAGMENT);
             mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(DISCOVERY_FRAGMENT);
             mProfileFragment = (ProfileFragment) mFragmentManager.findFragmentByTag(PROFILE_FRAGMENT);
-            retoreFragment(mCurrentIndex,true);
+            retoreFragment(mCurrentIndex, true);
         } else {
             setTabFragment(HOME_FRAGMENT);
         }
