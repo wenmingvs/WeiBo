@@ -50,7 +50,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
     public void refreshUserName(Context context) {
         LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
         ;
-        mUserModel.showUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
+        mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mHomeFragmentView.setUserName(user.name);

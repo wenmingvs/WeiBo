@@ -44,7 +44,7 @@ public interface UserModel {
     }
 
 
-    public void showUserDetail(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+    public void show(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
 
     public User showUserDetailSync(long uid, Context context);
 
@@ -64,10 +64,17 @@ public interface UserModel {
 
     public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener);
 
-    public void cacheSave(int groupType, Context context, String response);
+    public void cacheSave_statuslist(int groupType, Context context, String response);
 
-    public void cacheLoad(int groupType, Context context, OnStatusListFinishedListener onStatusListFinishedListener);
+    public void cacheLoad_statuslist(int groupType, Context context, OnStatusListFinishedListener onStatusListFinishedListener);
 
+    public void cacheSave_user(Context context, String response);
+
+    public void cacheLoad_user(Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+
+    public void cacheSave_userlist(int groupType, Context context, String response);
+
+    public void cacheLoad_userlist(int groupType, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
 }
 

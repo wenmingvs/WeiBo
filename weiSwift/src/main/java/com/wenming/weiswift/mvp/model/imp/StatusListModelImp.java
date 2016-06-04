@@ -40,12 +40,7 @@ public class StatusListModelImp implements StatusListModel {
     /**
      * 是否全局刷新
      */
-    private boolean mFirstLoad = true;
-
-    /**
-     * 是否需要重新刷新整个列表
-     */
-    private boolean mRefrshFriendsTimeline;
+    private boolean mRefrshAll = true;
 
 
     @Override
@@ -79,6 +74,22 @@ public class StatusListModelImp implements StatusListModel {
         groupAPI.timeline(newGroupId, sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, GroupAPI.FEATURE_ALL, pullToRefreshListener);
     }
 
+    /**
+     * 获取指定分组的下一页微博
+     *
+     * @param groundId
+     * @param context
+     * @param onDataFinishedListener
+     */
+    @Override
+    public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener) {
+        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        mContext = context;
+        mOnDataFinishedListener = onDataFinishedListener;
+        setRefrshFriendsTimelineTask();
+        String maxId = mStatusList.get(mStatusList.size() - 1).id;
+        groupAPI.timeline(groundId, 0, Long.valueOf(maxId), NewFeature.GET_WEIBO_NUMS, 1, false, GroupAPI.FEATURE_ALL, nextPageListener);
+    }
 
     /**
      * 获取我关注的人的下一页微博
@@ -111,24 +122,6 @@ public class StatusListModelImp implements StatusListModel {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
         mStatusesAPI.bilateralTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, StatusesAPI.FEATURE_ORIGINAL, false, nextPageListener);
-    }
-
-
-    /**
-     * 获取指定分组的下一页微博
-     *
-     * @param groundId
-     * @param context
-     * @param onDataFinishedListener
-     */
-    @Override
-    public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener) {
-        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        mContext = context;
-        mOnDataFinishedListener = onDataFinishedListener;
-        setRefrshFriendsTimelineTask();
-        String maxId = mStatusList.get(mStatusList.size() - 1).id;
-        groupAPI.timeline(groundId, 0, Long.valueOf(maxId), NewFeature.GET_WEIBO_NUMS, 1, false, GroupAPI.FEATURE_ALL, nextPageListener);
     }
 
     @Override
@@ -168,7 +161,7 @@ public class StatusListModelImp implements StatusListModel {
             mTimerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    mRefrshFriendsTimeline = true;
+                    mRefrshAll = true;
                 }
             };
             mTimer = new Timer();
@@ -197,12 +190,12 @@ public class StatusListModelImp implements StatusListModel {
     private long checkout(long newGroupId) {
         long sinceId = 0;
         if (mCurrentGroup != newGroupId) {
-            mFirstLoad = true;
+            mRefrshAll = true;
         }
-        if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mFirstLoad == false) {
+        if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mRefrshAll == false) {
             sinceId = Long.valueOf(mStatusList.get(0).id);
         }
-        if (mRefrshFriendsTimeline) {
+        if (mRefrshAll) {
             sinceId = 0;
         }
         mCurrentGroup = newGroupId;
@@ -221,16 +214,16 @@ public class StatusListModelImp implements StatusListModel {
                 cacheSave(mCurrentGroup, mContext, response);
                 mStatusList = temp;
                 mOnDataFinishedListener.onDataFinish(mStatusList);
-                mFirstLoad = false;
+                mRefrshAll = false;
             } else {
-                if (mFirstLoad == false) {//局部刷新，get不到数据
+                if (mRefrshAll == false) {//局部刷新，get不到数据
                     ToastUtil.showShort(mContext, "没有更新的内容了");
                     mOnDataFinishedListener.noMoreData();
                 } else {//全局刷新，get不到数据
                     mOnDataFinishedListener.noDataInFirstLoad("你还没有为此组增加成员");
                 }
             }
-            mRefrshFriendsTimeline = false;
+            mRefrshAll = false;
         }
 
         @Override

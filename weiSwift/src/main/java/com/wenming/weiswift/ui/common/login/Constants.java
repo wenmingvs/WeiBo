@@ -66,4 +66,6 @@ public interface Constants {
     public static final int GROUP_MYWEIBO_TYPE_ORIGIN = 1;
     public static final int GROUP_MYWEIBO_TYPE_PICWEIBO = 2;
 
+
+
 }

@@ -95,26 +95,24 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void cacheLoad(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
-        if (NewFeature.CACHE_MESSAGE_MENTION) {
-            String response = null;
-            switch (groupType) {
-                case Constants.GROUP_COMMENT_TYPE_ALL:
-                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
-                    break;
-                case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
-                    break;
-                case Constants.GROUP_COMMENT_TYPE_BYME:
-                    SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
-                    break;
-            }
-
-            if (response != null) {
-                mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
-                mCommentList = CommentList.parse(response).commentList;
-                onDataFinishedListener.onDataFinish(mCommentList);
-            }
+        String response = null;
+        mCurrentGroup = groupType;
+        switch (groupType) {
+            case Constants.GROUP_COMMENT_TYPE_ALL:
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                break;
+            case Constants.GROUP_COMMENT_TYPE_FRIENDS:
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                break;
+            case Constants.GROUP_COMMENT_TYPE_BYME:
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                break;
         }
+        if (response != null) {
+            mCommentList = CommentList.parse(response).commentList;
+            onDataFinishedListener.onDataFinish(mCommentList);
+        }
+
     }
 
 
