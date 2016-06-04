@@ -9,6 +9,7 @@
     <include layout="@layout/headsearchview" />
 
     <TextView
+        android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -16,7 +17,6 @@
         android:drawablePadding="27dp"
         android:drawableTop="@drawable/empty_default"
         android:gravity="center"
-        android:text="你还没有为此分组增加成员"
         android:textColor="#bcbcbc" />
 
 
@@ -28,5 +28,6 @@
         android:background="@drawable/empty_add_corners_bg"
         android:padding="12.5dp"
         android:text="加人到该组"
-        android:textColor="#777777" />
+        android:textColor="#777777"
+        android:visibility="gone" />
 </LinearLayout>

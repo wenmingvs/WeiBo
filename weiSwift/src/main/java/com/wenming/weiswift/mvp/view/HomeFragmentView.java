@@ -60,7 +60,7 @@ public interface HomeFragmentView {
 
     public void hideRecyclerView();
 
-    public void showEmptyBackground();
+    public void showEmptyBackground(String text);
 
     public void hideEmptyBackground();
 

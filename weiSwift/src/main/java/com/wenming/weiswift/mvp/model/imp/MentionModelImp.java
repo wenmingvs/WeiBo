@@ -123,7 +123,6 @@ public class MentionModelImp implements MentionModel {
                 case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
                     SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
                     break;
-
             }
 
         }
@@ -164,7 +163,6 @@ public class MentionModelImp implements MentionModel {
                     response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
                     break;
             }
-
             if (response != null) {
                 mCommentList = CommentList.parse(response).commentList;
                 onCommentFinishedListener.onDataFinish(mCommentList);

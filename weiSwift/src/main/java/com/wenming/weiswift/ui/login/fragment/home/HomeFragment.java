@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private LinearLayout mGroup;
     public RecyclerView mRecyclerView;
     public TextView mUserName;
+    public TextView mErrorMessage;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public WeiboAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
@@ -79,6 +80,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
         mUserName = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
+        mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         initRecyclerView();
         initRefreshLayout();
@@ -180,9 +182,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     }
 
     @Override
-    public void showEmptyBackground() {
+    public void showEmptyBackground(String text) {
         if (mEmptyLayout.getVisibility() != View.VISIBLE) {
             mEmptyLayout.setVisibility(View.VISIBLE);
+            mErrorMessage.setText(text);
         }
     }
 

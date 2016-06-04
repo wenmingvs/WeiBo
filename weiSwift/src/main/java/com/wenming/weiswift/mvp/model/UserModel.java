@@ -63,6 +63,12 @@ public interface UserModel {
     public void getUserDetailList(Context context, OnUserListRequestFinish onUserListRequestFinish);
 
     public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener);
+
+    public void cacheSave(int groupType, Context context, String response);
+
+    public void cacheLoad(int groupType, Context context, OnStatusListFinishedListener onStatusListFinishedListener);
+
+
 }
 
 

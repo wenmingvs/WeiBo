@@ -14,7 +14,7 @@ public interface StatusListModel {
     interface OnDataFinishedListener {
         void noMoreData();
 
-        void noDataInFirstLoad();
+        void noDataInFirstLoad(String error);
 
         void onDataFinish(ArrayList<Status> statuslist);
 
@@ -25,10 +25,6 @@ public interface StatusListModel {
     public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void friendsTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void friendsTimelineCacheSave(Context context, String response);
 
     public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
 
@@ -42,5 +38,7 @@ public interface StatusListModel {
 
     public void cancelTimer();
 
+    public void cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void cacheSave(long groupType, Context context, String response);
 }

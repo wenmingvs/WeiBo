@@ -149,18 +149,35 @@ public class UserModelImp implements UserModel {
                 break;
             }
         }
-
         if (mUserArrayList.size() == 0) {
             onUserDeleteListener.onEmpty();
             return;
         }
-
-
         if (i >= mUserArrayList.size()) {
             onUserDeleteListener.onError("没有找到对应的账户");
         } else {
             onUserDeleteListener.onSuccess(mUserArrayList);
         }
+    }
+
+    @Override
+    public void cacheSave(int groupType, Context context, String response) {
+        switch (groupType) {
+            case Constants.GROUP_MYWEIBO_TYPE_ALL:
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                break;
+            case Constants.GROUP_MYWEIBO_TYPE_ORIGIN:
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                break;
+            case Constants.GROUP_MYWEIBO_TYPE_PICWEIBO:
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                break;
+        }
+    }
+
+    @Override
+    public void cacheLoad(int groupType, Context context, OnStatusListFinishedListener onStatusListFinishedListener) {
+
     }
 
     public void cacheCurrentOuthToken(Context context) {

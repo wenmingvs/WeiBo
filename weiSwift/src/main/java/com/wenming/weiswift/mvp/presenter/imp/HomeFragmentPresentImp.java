@@ -11,6 +11,7 @@ import com.wenming.weiswift.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
             mHomeFragmentView.showLoadingIcon();
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
         } else {
-            mStatusListModel.friendsTimelineCacheLoad(context, onPullFinishedListener);
+            mStatusListModel.cacheLoad(Constants.GROUP_TYPE_ALL, context, onPullFinishedListener);
         }
     }
 
@@ -117,10 +118,10 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void noDataInFirstLoad() {
+        public void noDataInFirstLoad(String text) {
             mHomeFragmentView.hideLoadingIcon();
             mHomeFragmentView.hideRecyclerView();
-            mHomeFragmentView.showEmptyBackground();
+            mHomeFragmentView.showEmptyBackground(text);
         }
 
         @Override
@@ -148,7 +149,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void noDataInFirstLoad() {
+        public void noDataInFirstLoad(String text) {
         }
 
         @Override

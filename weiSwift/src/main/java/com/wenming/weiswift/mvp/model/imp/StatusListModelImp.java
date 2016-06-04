@@ -36,7 +36,7 @@ public class StatusListModelImp implements StatusListModel {
     /**
      * 当前的分组位置
      */
-    private long mCurrentPage = Constants.GROUP_TYPE_ALL;
+    private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     /**
      * 是否全局刷新
      */
@@ -129,32 +129,38 @@ public class StatusListModelImp implements StatusListModel {
         setRefrshFriendsTimelineTask();
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
         groupAPI.timeline(groundId, 0, Long.valueOf(maxId), NewFeature.GET_WEIBO_NUMS, 1, false, GroupAPI.FEATURE_ALL, nextPageListener);
-
     }
 
     @Override
-    public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+    public void cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
+        String response = null;
+        mCurrentGroup = groupType;
+        if (groupType == Constants.GROUP_TYPE_ALL) {
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        } else {
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        }
         if (response != null) {
-            ArrayList<Status> temp = StatusList.parse(response).statusList;
-            if (temp == null || temp.size() == 0) {
-                onDataFinishedListener.noMoreData();
-            } else {
-                mStatusList = temp;
-                mCurrentPage = Constants.GROUP_TYPE_ALL;
-                onDataFinishedListener.onDataFinish(mStatusList);
-            }
+            mStatusList = StatusList.parse(response).statusList;
+            onDataFinishedListener.onDataFinish(mStatusList);
+        } else {
+            mOnDataFinishedListener.noDataInFirstLoad("还没有缓存的内容");
         }
-
     }
+
 
     @Override
-    public void friendsTimelineCacheSave(Context context, String response) {
-        if (NewFeature.CACHE_WEIBOLIST) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+    public void cacheSave(long groupType, Context context, String response) {
+        if (groupType == Constants.GROUP_TYPE_ALL) {
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+        } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+        } else {
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
         }
     }
-
 
     @Override
     public void setRefrshFriendsTimelineTask() {
@@ -190,16 +196,16 @@ public class StatusListModelImp implements StatusListModel {
      */
     private long checkout(long newGroupId) {
         long sinceId = 0;
-        if (mCurrentPage != newGroupId) {
+        if (mCurrentGroup != newGroupId) {
             mFirstLoad = true;
         }
-        if (mStatusList.size() > 0 && mCurrentPage == newGroupId && mFirstLoad == false) {
+        if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mFirstLoad == false) {
             sinceId = Long.valueOf(mStatusList.get(0).id);
         }
         if (mRefrshFriendsTimeline) {
             sinceId = 0;
         }
-        mCurrentPage = newGroupId;
+        mCurrentGroup = newGroupId;
         return sinceId;
     }
 
@@ -212,7 +218,7 @@ public class StatusListModelImp implements StatusListModel {
                 if (mStatusList != null) {
                     mStatusList.clear();
                 }
-                friendsTimelineCacheSave(mContext, response);
+                cacheSave(mCurrentGroup, mContext, response);
                 mStatusList = temp;
                 mOnDataFinishedListener.onDataFinish(mStatusList);
                 mFirstLoad = false;
@@ -221,7 +227,7 @@ public class StatusListModelImp implements StatusListModel {
                     ToastUtil.showShort(mContext, "没有更新的内容了");
                     mOnDataFinishedListener.noMoreData();
                 } else {//全局刷新，get不到数据
-                    mOnDataFinishedListener.noDataInFirstLoad();
+                    mOnDataFinishedListener.noDataInFirstLoad("你还没有为此组增加成员");
                 }
             }
             mRefrshFriendsTimeline = false;
@@ -231,6 +237,7 @@ public class StatusListModelImp implements StatusListModel {
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
             mOnDataFinishedListener.onError(e.getMessage());
+            cacheLoad(mCurrentGroup, mContext, mOnDataFinishedListener);
         }
     };
 

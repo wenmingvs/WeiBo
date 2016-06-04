@@ -45,8 +45,8 @@ public interface Constants {
 
 
     //首页分组
-    public static final int GROUP_TYPE_ALL = 0;//全部微博
-    public static final int GROUP_TYPE_FRIENDS_CIRCLE = 1;//好友圈
+    public static final long GROUP_TYPE_ALL = 0;//全部微博
+    public static final long GROUP_TYPE_FRIENDS_CIRCLE = 1;//好友圈
 
 
     //评论页分组
