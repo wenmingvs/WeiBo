@@ -1,56 +1,37 @@
 package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.BasePopupWindow;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class ImageOptionPopupWindow extends PopupWindow {
+public class ImageOptionPopupWindow extends BasePopupWindow {
 
     private View mView;
     private TextView mCancalTextView;
     private TextView mSavePicTextView;
     private TextView mRetweetTextView;
+    private Context mContext;
 
 
-    /**
-     * 使用单例模式创建ImageOPtionPopupWindow
-     */
-    private static volatile ImageOptionPopupWindow mImageOptionPopupWindow;
-
-    public static ImageOptionPopupWindow getInstance(Context context) {
-        if (mImageOptionPopupWindow == null) {
-            synchronized (ImageOptionPopupWindow.class) {
-                if (mImageOptionPopupWindow == null) {
-                    mImageOptionPopupWindow = new ImageOptionPopupWindow(context.getApplicationContext());
-                }
-            }
-        }
-        return mImageOptionPopupWindow;
-    }
-
-    /**
-     * 创建一个ImageOptionPopupWindow
-     *
-     * @param context
-     */
-    private ImageOptionPopupWindow(Context context) {
-        super(context);
-        initPopWindow(context);
-        // 设置popupwindow的布局
-        mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
+    public ImageOptionPopupWindow(Context context) {
+        super(context, (Activity) context);
+        mContext = context;
+        initPopWindow(mContext);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.home_image_detail_list_pop_window, null);
         this.setContentView(mView);
-        initOnClickListener(context);
+        initOnClickListener(mContext);
     }
 
     private void initPopWindow(Context context) {
@@ -104,4 +85,5 @@ public class ImageOptionPopupWindow extends PopupWindow {
             }
         });
     }
+
 }

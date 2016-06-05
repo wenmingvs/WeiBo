@@ -112,7 +112,13 @@ public class ViewPagerAdapter extends PagerAdapter {
                     onSingleTagListener.onTag();
                 }
             });
-
+       simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
+           @Override
+           public boolean onLongClick(View v) {
+               
+               return false;
+           }
+       });
 
         } else {
             photoView.setVisibility(View.VISIBLE);

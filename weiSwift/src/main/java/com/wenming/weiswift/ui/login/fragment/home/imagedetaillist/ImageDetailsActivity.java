@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import com.example.photoviewlib.PhotoViewAttacher;
 import com.wenming.weiswift.R;
@@ -90,52 +87,17 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         mImageDetailTopBar.setOnMoreOptionsListener(new ImageDetailTopBar.OnMoreOptionsListener() {
             @Override
             public void onClick(View view) {
-                ImageOptionPopupWindow mPopupWindow = ImageOptionPopupWindow.getInstance(mContext);
-                setupPopDismissEvent(mPopupWindow);
+                ImageOptionPopupWindow mPopupWindow = new ImageOptionPopupWindow(mContext);
                 if (mPopupWindow.isShowing()) {
                     mPopupWindow.dismiss();
                 } else {
                     mPopupWindow.showAtLocation(findViewById(R.id.frameLayout), Gravity.BOTTOM, 0, 0);
-                    setOutBackground(1.0f, 0.5f);
                 }
             }
         });
 
     }
 
-    /**
-     * 调整窗口的透明度
-     *
-     * @param from
-     * @param to
-     */
-    private void setOutBackground(float from, float to) {
-        final WindowManager.LayoutParams lp = getWindow().getAttributes();
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
-        valueAnimator.setDuration(600);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                lp.alpha = (float) animation.getAnimatedValue();
-                getWindow().setAttributes(lp);
-            }
-        });
-        valueAnimator.start();
-    }
-
-    /**
-     * 设置popwindow的dismiss监听事件
-     *
-     * @param mPopupWindow
-     */
-    private void setupPopDismissEvent(ImageOptionPopupWindow mPopupWindow) {
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                setOutBackground(0.5f, 1.0f);
-            }
-        });
-    }
 
     @Override
     public void onTag() {

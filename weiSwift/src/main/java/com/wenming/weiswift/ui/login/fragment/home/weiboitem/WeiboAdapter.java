@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,16 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
 
+            //arrow点击时间
+            ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WeiBoArrowPopupWindow popupWindow = new WeiBoArrowPopupWindow(mContext, mDatas.get(position));
+                    popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                }
+            });
+
+
             //微博背景的点击事件
             ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,6 +98,14 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).bottombar_retweet, ((RetweetViewHolder) holder).bottombar_comment, ((RetweetViewHolder) holder).bottombar_attitude, ((RetweetViewHolder) holder).comment, ((RetweetViewHolder) holder).redirect, ((RetweetViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position).retweeted_status, mContext, ((RetweetViewHolder) holder).retweet_imageList);
 
+            //arrow点击时间
+            ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WeiBoArrowPopupWindow popupWindow = new WeiBoArrowPopupWindow(mContext, mDatas.get(position));
+                    popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                }
+            });
             //微博背景的点击事件
             ((RetweetViewHolder) holder).retweet_weibo_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,6 +146,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public LinearLayout origin_weibo_layout;
         public ImageView profile_img;
         public ImageView profile_verified;
+        public ImageView popover_arrow;
         public TextView profile_name;
         public TextView profile_time;
         public TextView weibo_comefrom;
@@ -144,6 +164,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             origin_weibo_layout = (LinearLayout) v.findViewById(R.id.origin_weibo_layout);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
+            popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);
             weibo_content = (EmojiTextView) v.findViewById(R.id.weibo_Content);
@@ -162,6 +183,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public LinearLayout retweet_weibo_layout;
         public ImageView profile_img;
         public ImageView profile_verified;
+        public ImageView popover_arrow;
         public TextView profile_name;
         public TextView profile_time;
         public TextView weibo_comefrom;
@@ -181,6 +203,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             retweet_weibo_layout = (LinearLayout) v.findViewById(R.id.retweet_weibo_layout);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
+            popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);
             retweet_content = (EmojiTextView) v.findViewById(R.id.retweet_content);
