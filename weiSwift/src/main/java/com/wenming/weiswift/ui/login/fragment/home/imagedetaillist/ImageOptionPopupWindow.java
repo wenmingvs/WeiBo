@@ -26,7 +26,7 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
 
 
     public ImageOptionPopupWindow(Context context) {
-        super(context, (Activity) context);
+        super(context, (Activity) context, 600);
         mContext = context;
         initPopWindow(mContext);
         mView = LayoutInflater.from(mContext).inflate(R.layout.home_image_detail_list_pop_window, null);

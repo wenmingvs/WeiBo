@@ -17,12 +17,12 @@ import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 /**
  * Created by wenmingvs on 16/5/12.
  */
-public class MentionPopWindow extends PopupWindow {
+public class GroupPopWindow extends PopupWindow {
 
     /**
      * 使用单例模式创建ImageOPtionPopupWindow
      */
-    private static MentionPopWindow mGroupPopWindow;
+    private static GroupPopWindow mGroupPopWindow;
     private Context mContext;
     private View mView;
     private int mWidth;
@@ -35,7 +35,7 @@ public class MentionPopWindow extends PopupWindow {
     private TextView mAll_Comment;
     private TextView mFriends_Comment;
 
-    private MentionPopWindow(Context context, int width, int height) {
+    private GroupPopWindow(Context context, int width, int height) {
         super(context);
         this.mContext = context;
         this.mWidth = width;
@@ -51,11 +51,11 @@ public class MentionPopWindow extends PopupWindow {
         setUpListener();
     }
 
-    public static MentionPopWindow getInstance(Context context, int width, int height) {
+    public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
             synchronized (ImageOptionPopupWindow.class) {
                 if (mGroupPopWindow == null) {
-                    mGroupPopWindow = new MentionPopWindow(context.getApplicationContext(), width, height);
+                    mGroupPopWindow = new GroupPopWindow(context.getApplicationContext(), width, height);
                 }
             }
         }

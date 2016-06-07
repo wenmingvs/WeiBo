@@ -36,6 +36,10 @@
         <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
     </style>
 
+    <style name="weiboitem_arrow_popwup_style">
+        <item name="android:windowEnterAnimation">@anim/home_weiboitem_arrow_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/home_weiboitem_arrow_popup_exit</item>
+    </style>
 
     <style name="WeiBoHolo" parent="android:Theme.Holo.Light.NoActionBar">
 

@@ -28,11 +28,9 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int TYPE_ORINGIN_ITEM = 0;
     private static final int TYPE_RETWEET_ITEM = 3;
-
     private ArrayList<Status> mDatas;
     private Context mContext;
     private View mView;
-
 
     public WeiboAdapter(ArrayList<Status> datas, Context context) {
         this.mDatas = datas;
@@ -70,11 +68,11 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
 
-            //arrow点击时间
+            //arrow点击事件
             ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeiBoArrowPopupWindow popupWindow = new WeiBoArrowPopupWindow(mContext, mDatas.get(position));
+                    ArrowPopupWindow popupWindow = new ArrowPopupWindow(mContext, mDatas.get(position));
                     popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                 }
             });
@@ -102,7 +100,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeiBoArrowPopupWindow popupWindow = new WeiBoArrowPopupWindow(mContext, mDatas.get(position));
+                    ArrowPopupWindow popupWindow = new ArrowPopupWindow(mContext, mDatas.get(position));
                     popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                 }
             });

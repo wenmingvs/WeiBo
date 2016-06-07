@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mActivity = getActivity();
         mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
-
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);

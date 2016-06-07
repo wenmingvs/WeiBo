@@ -14,10 +14,12 @@ public class BasePopupWindow extends PopupWindow {
 
 
     private Activity mActivity;
+    private long mAnimatorDuration;
 
-    public BasePopupWindow(Context context, Activity activity) {
+    public BasePopupWindow(Context context, Activity activity, long animatorduration) {
         super(context);
         mActivity = activity;
+        mAnimatorDuration = animatorduration;
     }
 
     /**
@@ -29,7 +31,7 @@ public class BasePopupWindow extends PopupWindow {
     private void setOutBackground(float from, float to) {
         final WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
-        valueAnimator.setDuration(600);
+        valueAnimator.setDuration(mAnimatorDuration);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

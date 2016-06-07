@@ -43,7 +43,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
     private CommentActivityPresent mCommentPresent;
     private LinearLayout mGroup;
     private TextView mGroupName;
-    private CommentPopWindow mCommentPopWindow;
+    private GroupPopWindow mCommentPopWindow;
     private int mCurrentGroup = Constants.GROUP_COMMENT_TYPE_ALL;
 
     @Override
@@ -74,7 +74,7 @@ public class CommentActivity extends Activity implements CommentActivityView {
                 Rect rect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                 int statusBarHeight = rect.top;
-                mCommentPopWindow = CommentPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                mCommentPopWindow = GroupPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
                 mCommentPopWindow.showAtLocation(mGroupName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mGroupName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
                 mCommentPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override

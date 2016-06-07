@@ -17,6 +17,7 @@ import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
+import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
@@ -48,6 +49,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         FillContent.fillTitleBar(mContext, mDatas.get(position), ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified, ((CommentViewHolder) holder).profile_name, ((CommentViewHolder) holder).profile_time, ((CommentViewHolder) holder).weibo_comefrom);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((CommentViewHolder) holder).comment_content);
         FillContent.fillCommentCenterContent(mContext, mDatas.get(position), ((CommentViewHolder) holder).bg_layout, ((CommentViewHolder) holder).comment_weibolayout, ((CommentViewHolder) holder).comment_reply, ((CommentViewHolder) holder).mentionitem_img, ((CommentViewHolder) holder).mentionitem_name, ((CommentViewHolder) holder).mentionitem_content);
+
+        ((CommentViewHolder) holder).comment_repley.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showShort(mContext,"待开发...");
+            }
+        });
+
 
         //整个背景的点击事件
         ((CommentViewHolder) holder).comment_layout.setOnClickListener(new View.OnClickListener() {
@@ -88,9 +97,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView profile_name;
         public TextView profile_time;
         public TextView weibo_comefrom;
-        public ImageView popover_arrow;
 
-
+        public TextView comment_repley;
         public EmojiTextView comment_content;
 
         //长方形内的内容
@@ -110,11 +118,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             profile_name = (TextView) v.findViewById(R.id.profile_name);
             profile_time = (TextView) v.findViewById(R.id.profile_time);
             weibo_comefrom = (TextView) v.findViewById(R.id.weiboComeFrom);
-            popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
 
             comment_content = (EmojiTextView) v.findViewById(R.id.commentitem_content);
-
-
+            comment_repley = (TextView) v.findViewById(R.id.comment_reply);
             bg_layout = (LinearLayout) v.findViewById(R.id.bg_layout);
             comment_reply = (EmojiTextView) v.findViewById(R.id.commentitem_reply);
             mentionitem_img = (CropImageView) v.findViewById(R.id.commentitem_img);

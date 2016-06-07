@@ -47,7 +47,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
     private MentionActivityPresent mMentionPresent;
     private LinearLayout mGroup;
     private TextView mGroupName;
-    private MentionPopWindow mMentionPopWindow;
+    private GroupPopWindow mMentionPopWindow;
     private int mCurrentGroup = Constants.GROUP_RETWEET_TYPE_ALL;
 
     @Override
@@ -78,7 +78,7 @@ public class MentionActivity extends Activity implements MentionActivityView {
                 Rect rect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                 int statusBarHeight = rect.top;
-                mMentionPopWindow = MentionPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
+                mMentionPopWindow = GroupPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
                 mMentionPopWindow.showAtLocation(mGroupName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mGroupName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
                 mMentionPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override

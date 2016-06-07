@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
 
-    <include layout="@layout/message_commentitem_titlebar" />
+    <include layout="@layout/message_comment_item_titlebar" />
 
     <com.wenming.weiswift.widget.emojitextview.EmojiTextView
         android:id="@+id/commentitem_content"
