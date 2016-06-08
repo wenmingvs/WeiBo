@@ -169,15 +169,15 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showRecyclerView() {
-        if (mRecyclerView.getVisibility() != View.VISIBLE) {
-            mRecyclerView.setVisibility(View.VISIBLE);
+        if (mSwipeRefreshLayout.getVisibility() != View.VISIBLE) {
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void hideRecyclerView() {
-        if (mRecyclerView.getVisibility() != View.GONE) {
-            mRecyclerView.setVisibility(View.GONE);
+        if (mSwipeRefreshLayout.getVisibility() != View.GONE) {
+            mSwipeRefreshLayout.setVisibility(View.GONE);
         }
     }
 
