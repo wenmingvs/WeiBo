@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -39,6 +39,7 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     private Context mContext;
     private ImageView mCommentIndicator;
     private ImageView mRetweetIndicator;
+    private ImageView mPopover_arrow;
     private OnDetailButtonClickListener onDetailButtonClickListener;
 
 
@@ -68,14 +69,14 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         retweetView = (TextView) findViewById(R.id.commentBar_retweet);
         likeView = (TextView) findViewById(R.id.commentBar_like);
         mNoneView = (RelativeLayout) findViewById(noneLayout);
+        mPopover_arrow = (ImageView) mView.findViewById(R.id.popover_arrow);
         mCommentIndicator = (ImageView) findViewById(R.id.comment_indicator);
         mRetweetIndicator = (ImageView) findViewById(R.id.retweet_indicator);
         initWeiBoContent(context, status);
     }
 
     private void initWeiBoContent(Context context, Status status) {
-        //retweet_imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillContent.fillTitleBar(mContext,status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillContent.fillTitleBar(mContext, status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom, mPopover_arrow);
         FillContent.fillWeiBoContent(status.text, context, retweet_content);
         FillContent.fillRetweetContent(status, context, origin_nameAndcontent);
         FillContent.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
@@ -86,10 +87,6 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         retweetView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//                retweetView.setTextColor(Color.parseColor("#000000"));
-//                mRetweetIndicator.setVisibility(View.VISIBLE);
-//                commentView.setTextColor(Color.parseColor("#828282"));
-//                mCommentIndicator.setVisibility(View.INVISIBLE);
                 onDetailButtonClickListener.OnRetweet();
             }
         });

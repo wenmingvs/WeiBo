@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.ArrowPopupWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
@@ -46,17 +44,9 @@ public class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom);
+        FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom, ((MentionViewHolder) holder).popover_arrow);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((MentionViewHolder) holder).mention_content);
         FillContent.fillButtonBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).bottombar_retweet, ((MentionViewHolder) holder).bottombar_comment, ((MentionViewHolder) holder).bottombar_attitude, ((MentionViewHolder) holder).comment, ((MentionViewHolder) holder).redirect, ((MentionViewHolder) holder).feedlike);
-        //arrow点击事件
-        ((MentionViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrowPopupWindow popupWindow = new ArrowPopupWindow(mContext, mDatas.get(position));
-                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-            }
-        });
 
         //是一条@我的转发的微博
         if (mDatas.get(position).retweeted_status != null) {

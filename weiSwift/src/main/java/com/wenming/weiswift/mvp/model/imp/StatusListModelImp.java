@@ -282,7 +282,6 @@ public class StatusListModelImp implements StatusListModel {
         @Override
         public void onComplete(String s) {
             ToastUtil.showShort(mContext, "微博删除成功");
-            ToastUtil.showShort(mContext, s);
             mOnDestroyWeiBoUIListener.onSuccess();
         }
 

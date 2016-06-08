@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.ArrowPopupWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
@@ -143,11 +145,18 @@ public class FillContent {
      * @param profile_time
      * @param weibo_comefrom
      */
-    public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+    public static void fillTitleBar(final Context context, final Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom, ImageView arrowpop) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
         setWeiBoName(profile_name, status.user);
         setWeiBoTime(context, profile_time, status.created_at);
         setWeiBoComeFrom(weibo_comefrom, status.source);
+        arrowpop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrowPopupWindow popupWindow = new ArrowPopupWindow(context, status);
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+            }
+        });
     }
 
     public static void setWeiBoName(TextView textView, User user) {

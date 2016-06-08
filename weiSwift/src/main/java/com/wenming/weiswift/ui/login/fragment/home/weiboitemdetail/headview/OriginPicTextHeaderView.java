@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -37,6 +37,7 @@ public class OriginPicTextHeaderView extends LinearLayout {
     private Context mContext;
     private ImageView mCommentIndicator;
     private ImageView mRetweetIndicator;
+    private ImageView mPopover_arrow;
     private OnDetailButtonClickListener onDetailButtonClickListener;
 
     public OriginPicTextHeaderView(Context context, Status status) {
@@ -60,6 +61,7 @@ public class OriginPicTextHeaderView extends LinearLayout {
         weibo_comefrom = (TextView) mView.findViewById(R.id.weiboComeFrom);
         bottombar_layout = (LinearLayout) mView.findViewById(R.id.bottombar_layout);
         imageList = (RecyclerView) mView.findViewById(R.id.weibo_image);
+        mPopover_arrow = (ImageView) mView.findViewById(R.id.popover_arrow);
         commentView = (TextView) mView.findViewById(R.id.commentBar_comment);
         retweetView = (TextView) mView.findViewById(R.id.commentBar_retweet);
         likeView = (TextView) mView.findViewById(R.id.commentBar_like);
@@ -70,8 +72,7 @@ public class OriginPicTextHeaderView extends LinearLayout {
     }
 
     private void initWeiBoContent(Context context, Status status) {
-        //imageList.addItemDecoration(new ImageItemSapce((int) context.getResources().getDimension(R.dimen.home_weiboitem_imagelist_space)));
-        FillContent.fillTitleBar(mContext, status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
+        FillContent.fillTitleBar(mContext, status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom, mPopover_arrow);
         FillContent.fillWeiBoContent(status.text, context, weibo_content);
         FillContent.fillWeiBoImgList(status, context, imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);
@@ -81,14 +82,10 @@ public class OriginPicTextHeaderView extends LinearLayout {
         retweetView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                retweetView.setTextColor(Color.parseColor("#000000"));
-//                mRetweetIndicator.setVisibility(View.VISIBLE);
-//                commentView.setTextColor(Color.parseColor("#828282"));
-//                mCommentIndicator.setVisibility(View.INVISIBLE);
                 onDetailButtonClickListener.OnRetweet();
             }
         });
+
         commentView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

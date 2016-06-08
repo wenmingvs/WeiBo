@@ -4,7 +4,7 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical">
 
-    <include layout="@layout/mainfragment_weiboitem_original_pictext" />
+    <include layout="@layout/home_weiboitem_original_pictext" />
 
     <include layout="@layout/home_weiboitem_detail_bottom_bar" />
 
