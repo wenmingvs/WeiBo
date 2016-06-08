@@ -132,9 +132,10 @@ public class StatusListModelImp implements StatusListModel {
     }
 
     @Override
-    public void cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
+    public boolean cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
         String response = null;
         mCurrentGroup = groupType;
+        mOnDataFinishedListener = onDataFinishedListener;
         if (groupType == Constants.GROUP_TYPE_ALL) {
             response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
@@ -145,9 +146,12 @@ public class StatusListModelImp implements StatusListModel {
         if (response != null) {
             mStatusList = StatusList.parse(response).statusList;
             onDataFinishedListener.onDataFinish(mStatusList);
+            return true;
         } else {
-            mOnDataFinishedListener.noDataInFirstLoad("还没有缓存的内容");
+            mOnDataFinishedListener.noDataInFirstLoad("还没有缓存到内容");
+            return false;
         }
+
     }
 
 

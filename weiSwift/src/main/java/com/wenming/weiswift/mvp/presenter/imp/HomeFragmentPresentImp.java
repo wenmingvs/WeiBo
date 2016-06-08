@@ -68,7 +68,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      * 刚进来，如果有缓存数据，而且不是第一次登录的，则不进行下拉刷新操作，否则进行下拉刷新操作
      *
      * @param context
-     * @param comefromlogin 刚刚登录成功
+     * @param comefromlogin 刚刚登录成功，本地并没有缓存
      */
     @Override
     public void firstLoadData(Context context, boolean comefromlogin) {
@@ -76,7 +76,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
             mHomeFragmentView.showLoadingIcon();
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
         } else {
-            mStatusListModel.cacheLoad(Constants.GROUP_TYPE_ALL, context, onPullFinishedListener);
+            //加载本地缓存失败，则做请求操作
+            if (mStatusListModel.cacheLoad(Constants.GROUP_TYPE_ALL, context, onPullFinishedListener) == false) {
+                mHomeFragmentView.showLoadingIcon();
+                mStatusListModel.friendsTimeline(context, onPullFinishedListener);
+            }
         }
     }
 

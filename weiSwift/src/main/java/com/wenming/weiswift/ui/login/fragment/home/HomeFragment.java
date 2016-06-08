@@ -169,15 +169,15 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showRecyclerView() {
-        if (mSwipeRefreshLayout.getVisibility() != View.VISIBLE) {
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        if (mRecyclerView.getVisibility() != View.VISIBLE) {
+            mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void hideRecyclerView() {
-        if (mSwipeRefreshLayout.getVisibility() != View.GONE) {
-            mSwipeRefreshLayout.setVisibility(View.GONE);
+        if (mRecyclerView.getVisibility() != View.GONE) {
+            mRecyclerView.setVisibility(View.GONE);
         }
     }
 
@@ -215,17 +215,30 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showLoadingIcon() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
+//        if (!mSwipeRefreshLayout.isRefreshing()) {
+//            mSwipeRefreshLayout.setRefreshing(true);
+//        }
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void hideLoadingIcon() {
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+//        if (mSwipeRefreshLayout.isRefreshing()) {
+//            mSwipeRefreshLayout.setRefreshing(false);
+//        }
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
+
 
     @Override
     public void showLoadFooterView() {

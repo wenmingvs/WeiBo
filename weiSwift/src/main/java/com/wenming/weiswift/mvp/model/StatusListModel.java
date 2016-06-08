@@ -38,7 +38,7 @@ public interface StatusListModel {
 
     public void cancelTimer();
 
-    public void cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener);
+    public boolean cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
     public void cacheSave(long groupType, Context context, String response);
 }
