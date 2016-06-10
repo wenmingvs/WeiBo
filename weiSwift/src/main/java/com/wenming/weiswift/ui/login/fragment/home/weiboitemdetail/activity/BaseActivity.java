@@ -158,7 +158,7 @@ public abstract class BaseActivity extends DetailActivity {
                     if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                         SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt", response);
                     }
-                    mCommentDatas = CommentList.parse(response).commentList;
+                    mCommentDatas = CommentList.parse(response).comments;
                     updateList();
                 } else {
                     ToastUtil.showShort(mContext, "返回的微博数据为空");
@@ -171,7 +171,7 @@ public abstract class BaseActivity extends DetailActivity {
                 if (NewFeature.CACHE_DETAIL_ACTIVITY) {
                     String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "comment.txt");
                     LogUtil.d(response);
-                    mCommentDatas = CommentList.parse(response).commentList;
+                    mCommentDatas = CommentList.parse(response).comments;
                     updateList();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -211,11 +211,14 @@ public abstract class BaseActivity extends DetailActivity {
     @Override
     public void requestMoreData() {
         //ToastUtil.showShort(mContext, "请求更多评论数据");
+        if (mCommentDatas.size() == 0) {
+            RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Normal, null);
+            return;
+        }
         mCommentsAPI.show(Long.valueOf(mWeiboItem.id), 0, Long.valueOf(mCommentDatas.get(mCommentDatas.size() - 1).id), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-
                     loadMoreData(response);
                 } else {
                     ToastUtil.showShort(mContext, "返回的微博数据为空");
@@ -242,7 +245,7 @@ public abstract class BaseActivity extends DetailActivity {
      */
     @Override
     public void loadMoreData(String response) {
-        ArrayList<Comment> httpRespnse = CommentList.parse(response).commentList;
+        ArrayList<Comment> httpRespnse = CommentList.parse(response).comments;
         if (httpRespnse != null && httpRespnse.size() == 1 && httpRespnse.get(0).id.equals(mCommentDatas.get(mCommentDatas.size() - 1).id)) {
             mNoMoreData = true;
             RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentDatas.size(), LoadingFooter.State.Normal, null);
@@ -285,7 +288,7 @@ public abstract class BaseActivity extends DetailActivity {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Comment> httpRespnse = CommentList.parse(response).commentList;
+                    ArrayList<Comment> httpRespnse = CommentList.parse(response).comments;
                     if (httpRespnse != null && httpRespnse.size() == 1 && httpRespnse.get(0).id.equals(mCommentDatas.get(0).id)) {
                         ToastUtil.showShort(mContext, "没有更新的微博了");
                     } else if (httpRespnse != null && httpRespnse.size() > 1) {
@@ -318,7 +321,7 @@ public abstract class BaseActivity extends DetailActivity {
             @Override
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
-                    ArrayList<Status> httpRespnse = StatusList.parse(response).statusList;
+                    ArrayList<Status> httpRespnse = StatusList.parse(response).statuses;
                     LogUtil.d(response);
                     ArrayList<Comment> transfData = new ArrayList<Comment>();
                     Comment comment = new Comment();

@@ -43,7 +43,7 @@ public class GroupListModelImp implements GroupListModel {
     public void cacheLoad(Context context, OnGroupListFinishedListener onGroupListFinishedListener) {
         String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         if (response != null) {
-            mGroupList = GroupList.parse(response).groupList;
+            mGroupList = GroupList.parse(response).lists;
             onGroupListFinishedListener.onDataFinish(mGroupList);
         }
     }
@@ -58,7 +58,7 @@ public class GroupListModelImp implements GroupListModel {
         public void onComplete(String response) {
             mFirstGetGroup = false;
             cacheSave(mContext, response);
-            ArrayList<Group> groupslist = GroupList.parse(response).groupList;
+            ArrayList<Group> groupslist = GroupList.parse(response).lists;
             mOnGroupListFinishedListener.onDataFinish(groupslist);
         }
 

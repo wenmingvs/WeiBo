@@ -8,8 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FriendActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FriendActivityPresentImp;

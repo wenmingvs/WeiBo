@@ -7,17 +7,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.api.CommentsAPI;
 import com.wenming.weiswift.api.FriendshipsAPI;
 import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.User;
-import com.wenming.weiswift.R;
-import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.wenming.weiswift.widget.endlessrecyclerview.IEndlessRecyclerView;
-import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.wenming.weiswift.widget.endlessrecyclerview.IEndlessRecyclerView;
+import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 
 import java.util.ArrayList;
 

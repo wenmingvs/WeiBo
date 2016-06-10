@@ -44,4 +44,8 @@ public interface MyWeiBoActivityView {
      * 滑动到顶部
      */
     public void scrollToTop(boolean refreshData);
+
+
+    public void delete_item(int positon);
+
 }

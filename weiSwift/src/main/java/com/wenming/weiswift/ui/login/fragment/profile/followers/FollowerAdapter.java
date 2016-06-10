@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.ui.common.FillContent;
 
 import java.util.ArrayList;

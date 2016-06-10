@@ -28,13 +28,13 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.imagelist.ImgListAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.activity.AlbumActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.AlbumFolderInfo;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 
 import java.util.ArrayList;
 

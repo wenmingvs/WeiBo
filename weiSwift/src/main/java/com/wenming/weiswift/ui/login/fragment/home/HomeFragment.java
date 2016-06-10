@@ -140,7 +140,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                             setUserName(groupName);
                         } else {
                             String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "username_" + AccessTokenKeeper.readAccessToken(mContext).getUid());
-                            setUserName(User.parse(response).name);
+                            if (response != null) {
+                                setUserName(User.parse(response).name);
+                            }
                         }
                         mPopWindow.dismiss();
                         mHomePresent.pullToRefreshData(groupId, mContext);

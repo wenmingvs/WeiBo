@@ -10,7 +10,7 @@ import com.wenming.weiswift.entity.User;
  */
 public interface WeiBoArrowPresent {
 
-    public void weibo_destroy(long id, Context context);
+    public void weibo_destroy(long id, Context context, int position);
 
     public void user_destroy(User user, Context context);
 

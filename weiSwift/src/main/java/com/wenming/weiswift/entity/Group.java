@@ -21,9 +21,6 @@ import android.os.Parcelable;
 
 import com.sina.weibo.sdk.openapi.models.Tag;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -84,35 +81,40 @@ public class Group implements Parcelable {
      **/
     public String createAtTime;
 
-    public static Group parse(JSONObject jsonObject) {
-        if (null == jsonObject) {
-            return null;
-        }
 
-        Group group = new Group();
-        group.user = User.parse(jsonObject.optJSONObject("user"));
-        group.id = jsonObject.optString("id");
-        group.idStr = jsonObject.optString("idstr");
-        group.name = jsonObject.optString("name");
-        group.mode = jsonObject.optString("mode");
-        group.visible = jsonObject.optInt("visible");
-        group.like_count = jsonObject.optInt("like_count");
-        group.member_count = jsonObject.optInt("member_count");
-        group.description = jsonObject.optString("description");
-        group.profile_image_url = jsonObject.optString("profile_image_url");
-        group.createAtTime = jsonObject.optString("create_time", "");
 
-        JSONArray jsonArray = jsonObject.optJSONArray("tags");
-        if (jsonArray != null && jsonObject.length() > 0) {
-            int length = jsonArray.length();
-            group.tags = new ArrayList<Tag>(length);
-            for (int ix = 0; ix < length; ix++) {
-                group.tags.add(Tag.parse(jsonArray.optJSONObject(ix)));
-            }
-        }
-        return group;
+//    public static Group parse(JSONObject jsonObject) {
+//        if (null == jsonObject) {
+//            return null;
+//        }
+//
+//        Group group = new Group();
+//        group.user = User.parse(jsonObject.optJSONObject("user"));
+//        group.id = jsonObject.optString("id");
+//        group.idStr = jsonObject.optString("idstr");
+//        group.name = jsonObject.optString("name");
+//        group.mode = jsonObject.optString("mode");
+//        group.visible = jsonObject.optInt("visible");
+//        group.like_count = jsonObject.optInt("like_count");
+//        group.member_count = jsonObject.optInt("member_count");
+//        group.description = jsonObject.optString("description");
+//        group.profile_image_url = jsonObject.optString("profile_image_url");
+//        group.createAtTime = jsonObject.optString("create_time", "");
+//
+//        JSONArray jsonArray = jsonObject.optJSONArray("tags");
+//        if (jsonArray != null && jsonObject.length() > 0) {
+//            int length = jsonArray.length();
+//            group.tags = new ArrayList<Tag>(length);
+//            for (int ix = 0; ix < length; ix++) {
+//                group.tags.add(Tag.parse(jsonArray.optJSONObject(ix)));
+//            }
+//        }
+//        return group;
+//    }
+
+
+    public Group() {
     }
-
 
     @Override
     public int describeContents() {
@@ -135,9 +137,6 @@ public class Group implements Parcelable {
         dest.writeString(this.createAtTime);
     }
 
-    public Group() {
-    }
-
     protected Group(Parcel in) {
         this.id = in.readString();
         this.idStr = in.readString();
@@ -154,7 +153,7 @@ public class Group implements Parcelable {
         this.createAtTime = in.readString();
     }
 
-    public static final Parcelable.Creator<Group> CREATOR = new Parcelable.Creator<Group>() {
+    public static final Creator<Group> CREATOR = new Creator<Group>() {
         @Override
         public Group createFromParcel(Parcel source) {
             return new Group(source);

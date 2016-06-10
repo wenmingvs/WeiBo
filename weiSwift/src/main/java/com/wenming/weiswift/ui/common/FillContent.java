@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,7 +31,6 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.ArrowPopupWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
@@ -54,6 +53,7 @@ public class FillContent {
     public static final int IMAGE_TYPE_LONG_PIC = 2;//比较长的微博（但是不至于像长微博那么长）
     public static final int IMAGE_TYPE_WIDTH_PIC = 3;//比较宽的微博
     public static final int IMAGE_TYPE_GIF = 4;
+
     private static DisplayImageOptions mAvatorOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.avator_default)
             .showImageForEmptyUri(R.drawable.avator_default)
@@ -130,33 +130,14 @@ public class FillContent {
         fillProfileImg(context, comment.user, profile_img, profile_verified);
         setWeiBoName(profile_name, comment.user);
         FillContent.setWeiBoTime(context, profile_time, comment.created_at);
-        FillContent.setWeiBoComeFrom(weibo_comefrom, comment.source);
+        FillContent.setWeiBoComeFrom(weibo_comefrom, comment);
     }
-
-
-    /**
-     * 填充顶部微博用户信息数据
-     *
-     * @param context
-     * @param status
-     * @param profile_img
-     * @param profile_verified
-     * @param profile_name
-     * @param profile_time
-     * @param weibo_comefrom
-     */
-    public static void fillTitleBar(final Context context, final Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom, ImageView arrowpop) {
+    
+    public static void fillTitleBar(final Context context, final Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
         setWeiBoName(profile_name, status.user);
         setWeiBoTime(context, profile_time, status.created_at);
-        setWeiBoComeFrom(weibo_comefrom, status.source);
-        arrowpop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrowPopupWindow popupWindow = new ArrowPopupWindow(context, status);
-                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-            }
-        });
+        setWeiBoComeFrom(weibo_comefrom, status);
     }
 
     public static void setWeiBoName(TextView textView, User user) {
@@ -173,9 +154,38 @@ public class FillContent {
         textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
 
-    public static void setWeiBoComeFrom(TextView textView, String content) {
-        if (content != null && content.length() > 0) {
-            textView.setText("来自 " + content);
+
+    public static void setWeiBoComeFrom(TextView textView, Status status) {
+        if (status == null) {
+            textView.setText("");
+            return;
+        }
+        if (!TextUtils.isEmpty(status.source)) {
+            textView.setText("来自 " + status.source);
+        } else {
+            textView.setText("");
+        }
+    }
+
+    public static void setFollowerComeFrom(TextView textView, Status status) {
+        if (status == null) {
+            textView.setText("");
+            return;
+        }
+        if (!TextUtils.isEmpty(status.source)) {
+            textView.setText(status.source);
+        } else {
+            textView.setText("");
+        }
+    }
+
+    public static void setWeiBoComeFrom(TextView textView, Comment comment) {
+        if (comment == null) {
+            textView.setText("");
+            return;
+        }
+        if (!TextUtils.isEmpty(comment.source)) {
+            textView.setText("来自 " + comment.source);
         } else {
             textView.setText("");
         }
@@ -354,7 +364,6 @@ public class FillContent {
     public static void fillImageList(final Context context, final Status status, final int position, final ImageView imageView, final ImageView imageType) {
 
         final ArrayList<String> datas = status.bmiddle_pic_urls;
-
         ImageLoader.getInstance().displayImage(datas.get(position), imageView, mImageItemOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
@@ -379,7 +388,6 @@ public class FillContent {
                             break;
                     }
                 }
-
             }
 
             @Override
@@ -503,7 +511,7 @@ public class FillContent {
      * @param commentView
      */
 
-    public static void FillCommentList(Context context, int commentCount, ArrayList<Comment> commentArrayList, final RecyclerView recyclerView, TextView commentView) {
+    public static void fillCommentList(Context context, int commentCount, ArrayList<Comment> commentArrayList, final RecyclerView recyclerView, TextView commentView) {
         CommentAdapter commentAdapter = new CommentAdapter(context, commentArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -560,7 +568,6 @@ public class FillContent {
             mycomment.setVisibility(View.VISIBLE);
             bg_layout.setBackgroundColor(Color.parseColor("#f7f7f7"));
             comment_weibolayout.setBackgroundColor(Color.parseColor("#fefefe"));
-
             String mycommenttext = "@" + comment.reply_comment.user.name + ":" + comment.reply_comment.text;
             fillWeiBoContent(mycommenttext, context, mycomment);
         } else {
@@ -586,7 +593,7 @@ public class FillContent {
         //评论的微博存在且没有被删除
         if (comment.status != null && comment.status.user != null) {
             //评论的微博是转发微博且包含图片
-            if (comment.status.retweeted_status != null && comment.status.retweeted_status.bmiddle_pic.length() > 0) {
+            if (comment.status.retweeted_status != null && !TextUtils.isEmpty(comment.status.retweeted_status.bmiddle_pic)) {
                 ImageLoader.getInstance().displayImage(comment.status.retweeted_status.bmiddle_pic, mentionitem_img, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -601,7 +608,7 @@ public class FillContent {
                 ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
             }
             //评论的微博是原创微博，且存在图片
-            else if (comment.status.bmiddle_pic != null && comment.status.bmiddle_pic.length() > 0) {
+            else if (comment.status.bmiddle_pic != null && !TextUtils.isEmpty(comment.status.bmiddle_pic)) {
                 ImageLoader.getInstance().displayImage(comment.status.bmiddle_pic, mentionitem_img, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -640,18 +647,19 @@ public class FillContent {
      * @param profileComefrom
      * @param follwerRelation
      */
-    public static void fillFollowContent(Context context, User user,
-                                         ImageView followerImg, ImageView followerVerf,
-                                         TextView followerName, TextView content,
-                                         TextView profileComefrom, ImageView follwerRelation) {
+    public static void fillFollowContent(Context context, User user, ImageView followerImg, ImageView followerVerf, TextView followerName, TextView content, TextView profileComefrom, ImageView follwerRelation) {
 
-
-        FillContent.fillProfileImg(context, user, followerImg, followerVerf);
-        followerName.setText(user.name);
-        if (user.status != null) {//有些人不发微博
+        fillProfileImg(context, user, followerImg, followerVerf);
+        setWeiBoName(followerName, user);
+        setFollowerComeFrom(profileComefrom, user.status);
+        //设置文本内容
+        content.setText("");
+        if (!TextUtils.isEmpty(user.description)) {
+            content.setText(user.description);
+        } else if (user.status != null) {
             content.setText(user.status.text);
-            profileComefrom.setText(user.status.source);
         }
+        //设置是否关注了此人
         if (user.following == true) {
             follwerRelation.setImageResource(R.drawable.card_icon_arrow);
         } else {
@@ -661,13 +669,13 @@ public class FillContent {
 
     public static void fillFriendContent(Context context, User user, ImageView friendImg, ImageView friendVerified, ImageView followme, TextView friendName, TextView friendContent) {
         FillContent.fillProfileImg(context, user, friendImg, friendVerified);
+        setWeiBoName(friendName, user);
+
         if (user.follow_me) {
             followme.setVisibility(View.VISIBLE);
         } else {
             followme.setVisibility(View.INVISIBLE);
         }
-
-        friendName.setText(user.name);
         if (user.status != null) {//有些人不发微博
             friendContent.setText(user.status.text);
         }
@@ -712,7 +720,7 @@ public class FillContent {
         userCoverimg.setColorFilter(Color.parseColor("#1e000000"));
 
         FillContent.fillProfileImg(context, user, userImg, userVerified);
-        userName.setText(user.name);
+        setWeiBoName(userName, user);
 
         if (user.gender.equals("m")) {
             userSex.setImageResource(R.drawable.userinfo_icon_male);

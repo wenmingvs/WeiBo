@@ -53,10 +53,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ((CommentViewHolder) holder).comment_repley.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext,"待开发...");
+                ToastUtil.showShort(mContext, "待开发...");
             }
         });
-
 
         //整个背景的点击事件
         ((CommentViewHolder) holder).comment_layout.setOnClickListener(new View.OnClickListener() {

@@ -39,10 +39,9 @@ public interface Constants {
             + "&display=mobile" + "&scope=" + Constants.SCOPE;
 
     //图片形状
-    public static final int IMGSIZE_HORIZONTAL = 0; //水平方向的长方形尺寸
-    public static final int IMGSIZE_VERTICAL = 1;//竖直方向的长方形尺寸
-    public static final int IMGSIZE_SQUARE = 2;//正方形尺寸
-
+    public static final String IMGSIZE_HORIZONTAL = "1"; //水平方向的长方形尺寸
+    public static final String IMGSIZE_VERTICAL = "2";//竖直方向的长方形尺寸
+    public static final String IMGSIZE_SQUARE = "3";//正方形尺寸
 
     //首页分组
     public static final long GROUP_TYPE_ALL = 0;//全部微博
@@ -65,7 +64,6 @@ public interface Constants {
     public static final int GROUP_MYWEIBO_TYPE_ALL = 0;
     public static final int GROUP_MYWEIBO_TYPE_ORIGIN = 1;
     public static final int GROUP_MYWEIBO_TYPE_PICWEIBO = 2;
-
 
 
 }

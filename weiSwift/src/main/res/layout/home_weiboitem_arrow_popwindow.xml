@@ -17,7 +17,6 @@
         android:textColor="@color/black"
         android:textSize="16sp" />
 
-
     <LinearLayout
         android:id="@+id/followLayout"
         android:layout_width="match_parent"

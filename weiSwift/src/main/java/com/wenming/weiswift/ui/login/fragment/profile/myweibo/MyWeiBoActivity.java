@@ -193,6 +193,11 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     }
 
     @Override
+    public void delete_item(int positon) {
+
+    }
+
+    @Override
     protected void onDestroy() {
         if (mMyWeiBoPopWindow != null) {
             mMyWeiBoPopWindow.onDestory();

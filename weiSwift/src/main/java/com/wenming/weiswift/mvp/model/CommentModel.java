@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model;
 import android.content.Context;
 
 import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.list.CommentList;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public interface CommentModel {
 
     public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void cacheSave(int groupType, Context context, String response);
+    public void cacheSave(int groupType, Context context, CommentList commentList);
 
     public void cacheLoad(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 

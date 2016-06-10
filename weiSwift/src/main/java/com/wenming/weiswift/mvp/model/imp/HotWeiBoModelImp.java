@@ -49,7 +49,7 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
         mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
                 if (temp != null && temp.size() > 0) {
                     mStatusList.addAll(temp);
                     onDataFinishedListener.onDataFinish(mStatusList);

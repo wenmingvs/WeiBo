@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,14 +61,25 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if (holder instanceof OriginViewHolder) {
-
-            FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_verified, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom,((OriginViewHolder) holder).popover_arrow);
+            FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_verified, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom);
             FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
 
-
-
+            ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                MyWeiBoArrowPopupWindow popupWindow = new MyWeiBoArrowPopupWindow(mContext, mDatas.get(position), position);
+//                mWeiBoArrowPresent = new WeiBoArrowPresenterImp(popupWindow, MyWeiBoAdapter.this);
+//                popupWindow.setOnDeleteItemListener(new MyWeiBoArrowPopupWindow.OnDeleteItemListener() {
+//                    @Override
+//                    public void OnItemDelete(int position, Status status) {
+//                        mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, position);
+//                    }
+//                });
+//                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                }
+            });
 
             //微博背景的点击事件
             ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +93,25 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         } else if (holder instanceof RetweetViewHolder) {
 
-            FillContent.fillTitleBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom,((RetweetViewHolder) holder).popover_arrow);
+            FillContent.fillTitleBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom);
             FillContent.fillRetweetContent(mDatas.get(position), mContext, ((RetweetViewHolder) holder).origin_nameAndcontent);
             FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content);
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).bottombar_retweet, ((RetweetViewHolder) holder).bottombar_comment, ((RetweetViewHolder) holder).bottombar_attitude, ((RetweetViewHolder) holder).comment, ((RetweetViewHolder) holder).redirect, ((RetweetViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position).retweeted_status, mContext, ((RetweetViewHolder) holder).retweet_imageList);
-
+            ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                MyWeiBoArrowPopupWindow popupWindow = new MyWeiBoArrowPopupWindow(mContext, mDatas.get(position), position);
+//                mWeiBoArrowPresent = new WeiBoArrowPresenterImp(popupWindow, MyWeiBoAdapter.this);
+//                popupWindow.setOnDeleteItemListener(new MyWeiBoArrowPopupWindow.OnDeleteItemListener() {
+//                    @Override
+//                    public void OnItemDelete(int position, Status status) {
+//                        mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, position);
+//                    }
+//                });
+//                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                }
+            });
 
             //微博背景的点击事件
             ((RetweetViewHolder) holder).retweet_weibo_layout.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +148,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void setData(ArrayList<Status> data) {
         this.mDatas = data;
     }
+
 
     public static class OriginViewHolder extends ViewHolder {
         public LinearLayout origin_weibo_layout;

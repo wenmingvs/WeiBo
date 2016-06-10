@@ -18,48 +18,33 @@ package com.wenming.weiswift.entity.list;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wenming.weiswift.entity.Favorite;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
  * 我喜欢的微博信息列表结构体。
- * 
+ *
  * @author SINA
  * @since 2013-11-24
  */
 public class FavoriteList {
 
-    /** 微博列表 */
-    public ArrayList<Favorite> favoriteList;
+    /**
+     * 微博列表
+     */
+    public ArrayList<Favorite> favorites;
     public int total_number;
-    
+
     public static FavoriteList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
-        
-        FavoriteList favorites = new FavoriteList();
-        try {
-            JSONObject jsonObject  = new JSONObject(jsonString);
-            favorites.total_number = jsonObject.optInt("total_number", 0);
-            
-            JSONArray jsonArray    = jsonObject.optJSONArray("favorites");
-            if (jsonArray != null && jsonArray.length() > 0) {
-                int length = jsonArray.length();
-                favorites.favoriteList = new ArrayList<Favorite>(length);
-                for (int ix = 0; ix < length; ix++) {
-                    favorites.favoriteList.add(Favorite.parse(jsonArray.optJSONObject(ix)));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        
+
+        FavoriteList favorites = new Gson().fromJson(jsonString, FavoriteList.class);
         return favorites;
+
     }
+
 }

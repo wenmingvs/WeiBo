@@ -22,16 +22,8 @@ import android.os.Parcelable;
 
 import com.sina.weibo.sdk.openapi.models.Geo;
 import com.sina.weibo.sdk.openapi.models.Visible;
-import com.sina.weibo.sdk.utils.LogUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 微博结构体。
@@ -41,8 +33,6 @@ import java.util.regex.Pattern;
  */
 public class Status implements Parcelable {
 
-    private static Pattern mpattern;
-    private static Matcher mmatcher;
     /**
      * 微博创建时间
      */
@@ -60,9 +50,21 @@ public class Status implements Parcelable {
      */
     public String idstr;
     /**
+     * 微博文本内容长度
+     */
+    public int textLength;
+    /**
      * 微博信息内容
      */
     public String text;
+    /**
+     * 是否是超过140个字的长微博
+     */
+    public boolean isLongText;
+    /**
+     * 微博来源类型
+     */
+    public int source_type;
     /**
      * 微博来源
      */
@@ -134,126 +136,154 @@ public class Status implements Parcelable {
      */
     public Visible visible;
     /**
-     * 微博配图地址。多图时返回多图链接。无配图返回"[]"
+     * 微博来源是否允许点击，如果允许
      */
-    public ArrayList<String> thumbnail_pic_urls;
-
-    public ArrayList<String> bmiddle_pic_urls;
-
-    public ArrayList<String> origin_pic_urls;
-
-    public int singleImgSizeType;
+    public int source_allowclick;
 
     /**
-     * 微博流内的推广微博ID
+     * 微博图片字段
      */
-    //public Ad ad;
-    public static Status parse(String jsonString) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            return Status.parse(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public ArrayList<PicUrlsBean> pic_urls;
+
+
+    /**
+     * 缩略图的url，本地私有的字段，服务器不会返回此字段，在gson赋值完成后，需要手动为此字段赋值
+     */
+
+    public ArrayList<String> thumbnail_pic_urls = new ArrayList<>();
+
+    /**
+     * 中等质量图片的url，本地私有的字段，服务器不会返回此字段，在gson赋值完成后，需要手动为此字段赋值
+     */
+    public ArrayList<String> bmiddle_pic_urls = new ArrayList<>();
+
+    /**
+     * 原图的url，本地私有的字段，服务器不会返回此字段，在gson赋值完成后，需要手动为此字段赋值
+     */
+    public ArrayList<String> origin_pic_urls = new ArrayList<>();
+
+    /**
+     * 单张微博的尺寸，本地私有的字段，服务器不会返回此字段，在gson赋值完成后，需要手动为此字段赋值
+     */
+    public String singleImgSizeType;
+
+
+    public static class PicUrlsBean implements Parcelable {
+        public String thumbnail_pic;
+
+
+        @Override
+        public int describeContents() {
+            return 0;
         }
 
-        return null;
-    }
-
-    public static Status parse(JSONObject jsonObject) {
-        if (null == jsonObject) {
-            return null;
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.thumbnail_pic);
         }
 
-        Status status = new Status();
-        status.created_at = jsonObject.optString("created_at");
-        status.id = jsonObject.optString("id");
-        status.mid = jsonObject.optString("mid");
-        status.idstr = jsonObject.optString("idstr");
-        status.text = StringFilter(jsonObject.optString("text"));
+        public PicUrlsBean() {
+        }
 
-        status.source = getSource(jsonObject.optString("source"));
+        protected PicUrlsBean(Parcel in) {
+            this.thumbnail_pic = in.readString();
+        }
 
-        status.favorited = jsonObject.optBoolean("favorited", false);
-        status.truncated = jsonObject.optBoolean("truncated", false);
-
-        // Have NOT supported
-        status.in_reply_to_status_id = jsonObject.optString("in_reply_to_status_id");
-        status.in_reply_to_user_id = jsonObject.optString("in_reply_to_user_id");
-        status.in_reply_to_screen_name = jsonObject.optString("in_reply_to_screen_name");
-
-        status.thumbnail_pic = jsonObject.optString("thumbnail_pic");
-        status.bmiddle_pic = jsonObject.optString("bmiddle_pic");
-        status.original_pic = jsonObject.optString("original_pic");
-        status.geo = Geo.parse(jsonObject.optJSONObject("geo"));
-        status.user = User.parse(jsonObject.optJSONObject("user"));
-        status.retweeted_status = Status.parse(jsonObject.optJSONObject("retweeted_status"));
-        status.reposts_count = jsonObject.optInt("reposts_count");
-        status.comments_count = jsonObject.optInt("comments_count");
-        status.attitudes_count = jsonObject.optInt("attitudes_count");
-        status.mlevel = jsonObject.optInt("mlevel", -1);    // Have NOT supported
-        status.visible = Visible.parse(jsonObject.optJSONObject("visible"));
-
-
-        JSONArray picUrlsArray = jsonObject.optJSONArray("pic_urls");
-        if (picUrlsArray != null && picUrlsArray.length() > 0) {
-            int length = picUrlsArray.length();
-            status.thumbnail_pic_urls = new ArrayList<String>(length);
-            status.bmiddle_pic_urls = new ArrayList<String>(length);
-            status.origin_pic_urls = new ArrayList<String>(length);
-            JSONObject tmpObject = null;
-            String thumbnailUrl;
-            for (int ix = 0; ix < length; ix++) {
-                tmpObject = picUrlsArray.optJSONObject(ix);
-                if (tmpObject != null) {
-                    thumbnailUrl = tmpObject.optString("thumbnail_pic");
-                    status.thumbnail_pic_urls.add(thumbnailUrl);
-                    status.bmiddle_pic_urls.add(thumbnailUrl.replace("thumbnail", "bmiddle"));
-                    LogUtil.d("wenming", thumbnailUrl.replace("thumbnail", "bmiddle"));
-                    status.origin_pic_urls.add(thumbnailUrl.replace("thumbnail", "large"));
-                }
+        public static final Creator<PicUrlsBean> CREATOR = new Creator<PicUrlsBean>() {
+            @Override
+            public PicUrlsBean createFromParcel(Parcel source) {
+                return new PicUrlsBean(source);
             }
-        }
 
-        if (status.thumbnail_pic_urls != null && status.thumbnail_pic_urls.size() == 1) {
-            Random random = new Random();
-            status.singleImgSizeType = random.nextInt(3);
-        }
-
-
-        //status.ad = jsonObject.optString("ad", "");
-        return status;
+            @Override
+            public PicUrlsBean[] newArray(int size) {
+                return new PicUrlsBean[size];
+            }
+        };
     }
 
-    private static String getSource(String string) {
-        mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
-        mmatcher = mpattern.matcher(string);
-        if (mmatcher.find()) {
-            return mmatcher.group(2);
-        } else {
-            return string;
-        }
-    }
+//    public static Status parse(String jsonString) {
+//        try {
+//            JSONObject jsonObject = new JSONObject(jsonString);
+//            return Status.parse(jsonObject);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
-    private static String getOriginUrl(String thumbnail_url) {
-        StringBuffer buffer = new StringBuffer(thumbnail_url);
-        buffer.replace(22, 31, "bmiddle");
-        // Log.d("wenming", buffer.toString());
-        return buffer.toString();
-    }
+//    public static Status parse(JSONObject jsonObject) {
+//        if (null == jsonObject) {
+//            return null;
+//        }
+//
+//        Status status = new Status();
+//        status.created_at = jsonObject.optString("created_at");
+//        status.id = jsonObject.optString("id");
+//        status.mid = jsonObject.optString("mid");
+//        status.idstr = jsonObject.optString("idstr");
+//        status.text = jsonObject.optString("text");
+//
+//        status.source = getSource(jsonObject.optString("source"));
+//
+//        status.favorited = jsonObject.optBoolean("favorited", false);
+//        status.truncated = jsonObject.optBoolean("truncated", false);
+//
+//        // Have NOT supported
+//        status.in_reply_to_status_id = jsonObject.optString("in_reply_to_status_id");
+//        status.in_reply_to_user_id = jsonObject.optString("in_reply_to_user_id");
+//        status.in_reply_to_screen_name = jsonObject.optString("in_reply_to_screen_name");
+//
+//        status.thumbnail_pic = jsonObject.optString("thumbnail_pic");
+//        status.bmiddle_pic = jsonObject.optString("bmiddle_pic");
+//        status.original_pic = jsonObject.optString("original_pic");
+//        status.geo = Geo.parse(jsonObject.optJSONObject("geo"));
+//        status.user = User.parse(jsonObject.optJSONObject("user"));
+//        status.retweeted_status = Status.parse(jsonObject.optJSONObject("retweeted_status"));
+//        status.reposts_count = jsonObject.optInt("reposts_count");
+//        status.comments_count = jsonObject.optInt("comments_count");
+//        status.attitudes_count = jsonObject.optInt("attitudes_count");
+//        status.mlevel = jsonObject.optInt("mlevel", -1);    // Have NOT supported
+//        status.visible = Visible.parse(jsonObject.optJSONObject("visible"));
+//
+//
+//        JSONArray picUrlsArray = jsonObject.optJSONArray("pic_urls");
+//        if (picUrlsArray != null && picUrlsArray.length() > 0) {
+//            int length = picUrlsArray.length();
+//            status.thumbnail_pic_urls = new ArrayList<String>(length);
+//            status.bmiddle_pic_urls = new ArrayList<String>(length);
+//            status.origin_pic_urls = new ArrayList<String>(length);
+//            JSONObject tmpObject = null;
+//            String thumbnailUrl;
+//            for (int ix = 0; ix < length; ix++) {
+//                tmpObject = picUrlsArray.optJSONObject(ix);
+//                if (tmpObject != null) {
+//                    thumbnailUrl = tmpObject.optString("thumbnail_pic");
+//                    status.thumbnail_pic_urls.add(thumbnailUrl);
+//                    status.bmiddle_pic_urls.add(thumbnailUrl.replace("thumbnail", "bmiddle"));
+//                    LogUtil.d("wenming", thumbnailUrl.replace("thumbnail", "bmiddle"));
+//                    status.origin_pic_urls.add(thumbnailUrl.replace("thumbnail", "large"));
+//                }
+//            }
+//        }
+//
+//        if (status.thumbnail_pic_urls != null && status.thumbnail_pic_urls.size() == 1) {
+//            Random random = new Random();
+//            status.singleImgSizeType = random.nextInt(3);
+//        }
+//
+//        return status;
+//    }
 
 
+    //    private static String getOriginUrl(String thumbnail_url) {
+//        StringBuffer buffer = new StringBuffer(thumbnail_url);
+//        buffer.replace(22, 31, "bmiddle");
+//        // Log.d("wenming", buffer.toString());
+//        return buffer.toString();
+//    }
     public Status() {
-    }
-
-
-    public static String StringFilter(String str) {
-//        str = str.replaceAll("【", "[").replaceAll("】", "]").replaceAll("！", "!");//替换中文标号
-//        String regEx = "[『』]"; // 清除掉特殊字符
-//        Pattern p = Pattern.compile(regEx);
-//        Matcher m = p.matcher(str);
-//        return m.replaceAll("").trim();
-
-        return str;
     }
 
     @Override
@@ -267,7 +297,10 @@ public class Status implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.mid);
         dest.writeString(this.idstr);
+        dest.writeInt(this.textLength);
         dest.writeString(this.text);
+        dest.writeByte(this.isLongText ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.source_type);
         dest.writeString(this.source);
         dest.writeByte(this.favorited ? (byte) 1 : (byte) 0);
         dest.writeByte(this.truncated ? (byte) 1 : (byte) 0);
@@ -285,9 +318,12 @@ public class Status implements Parcelable {
         dest.writeInt(this.attitudes_count);
         dest.writeInt(this.mlevel);
         dest.writeParcelable(this.visible, flags);
+        dest.writeInt(this.source_allowclick);
+        dest.writeList(this.pic_urls);
         dest.writeStringList(this.thumbnail_pic_urls);
         dest.writeStringList(this.bmiddle_pic_urls);
         dest.writeStringList(this.origin_pic_urls);
+        dest.writeString(this.singleImgSizeType);
     }
 
     protected Status(Parcel in) {
@@ -295,7 +331,10 @@ public class Status implements Parcelable {
         this.id = in.readString();
         this.mid = in.readString();
         this.idstr = in.readString();
+        this.textLength = in.readInt();
         this.text = in.readString();
+        this.isLongText = in.readByte() != 0;
+        this.source_type = in.readInt();
         this.source = in.readString();
         this.favorited = in.readByte() != 0;
         this.truncated = in.readByte() != 0;
@@ -313,9 +352,13 @@ public class Status implements Parcelable {
         this.attitudes_count = in.readInt();
         this.mlevel = in.readInt();
         this.visible = in.readParcelable(Visible.class.getClassLoader());
+        this.source_allowclick = in.readInt();
+        this.pic_urls = new ArrayList<PicUrlsBean>();
+        in.readList(this.pic_urls, PicUrlsBean.class.getClassLoader());
         this.thumbnail_pic_urls = in.createStringArrayList();
         this.bmiddle_pic_urls = in.createStringArrayList();
         this.origin_pic_urls = in.createStringArrayList();
+        this.singleImgSizeType = in.readString();
     }
 
     public static final Creator<Status> CREATOR = new Creator<Status>() {

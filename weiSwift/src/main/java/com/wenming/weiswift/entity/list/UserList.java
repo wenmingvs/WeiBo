@@ -18,11 +18,9 @@ package com.wenming.weiswift.entity.list;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wenming.weiswift.entity.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.wenming.weiswift.ui.common.FillContentHelper;
 
 import java.util.ArrayList;
 
@@ -35,45 +33,35 @@ import java.util.ArrayList;
  */
 public class UserList {
 
-    /**
-     * 微博列表
-     */
-    public ArrayList<User> usersList = new ArrayList<User>();
+    public ArrayList<User> users = new ArrayList<User>();
     public boolean hasvisible;
     public String previous_cursor;
     public String next_cursor;
     public int total_number;
     public int display_total_number;
 
+
     public static UserList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
+        UserList userList = new Gson().fromJson(jsonString, UserList.class);
 
-        UserList users = new UserList();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
+        //对status中的本地私有字段进行赋值
+        for (User user : userList.users) {
+            //提取微博来源的关键字
+            if (user.status != null) {
+                //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
+                FillContentHelper.setSingleImgSizeType(user.status);
+                //提取微博来源的关键字
+                FillContentHelper.setSource(user.status);
+                //设置三种类型图片的url地址
+                FillContentHelper.setImgUrl(user.status);
 
-            users.hasvisible = jsonObject.optBoolean("hasvisible", false);
-            users.previous_cursor = jsonObject.optString("previous_cursor", "0");
-            users.next_cursor = jsonObject.optString("next_cursor", "0");
-            users.total_number = jsonObject.optInt("total_number", 0);
-            users.display_total_number = jsonObject.optInt("display_total_number", 0);
-
-            JSONArray jsonArray = jsonObject.optJSONArray("users");
-            if (jsonArray != null && jsonArray.length() > 0) {
-                int length = jsonArray.length();
-                users.usersList = new ArrayList<User>(length);
-                for (int ix = 0; ix < length; ix++) {
-                    users.usersList.add(User.parse(jsonArray.getJSONObject(ix)));
-                }
+                //user的status字段中，不再包含有retweet_status字段了，所以不再进行处理
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        return users;
+        return userList;
     }
-
-
 
 }

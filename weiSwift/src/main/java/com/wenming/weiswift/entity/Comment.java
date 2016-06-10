@@ -19,9 +19,6 @@ package com.wenming.weiswift.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,48 +70,51 @@ public class Comment implements Parcelable {
      */
     public Comment reply_comment;
 
-    public static Comment parse(JSONObject jsonObject) {
-        if (null == jsonObject) {
-            return null;
-        }
+//    public static Comment parse(JSONObject jsonObject) {
+//        if (null == jsonObject) {
+//            return null;
+//        }
+//
+//        Comment comment = new Comment();
+//        comment.created_at = jsonObject.optString("created_at");
+//        comment.id = jsonObject.optString("id");
+//        comment.text = jsonObject.optString("text");
+//        comment.source = jsonObject.optString("source");
+//        comment.source = getSource(jsonObject.optString("source"));
+//        comment.user = User.parse(jsonObject.optJSONObject("user"));
+//        comment.mid = jsonObject.optString("mid");
+//        comment.idstr = jsonObject.optString("idstr");
+//        comment.status = Status.parse(jsonObject.optJSONObject("status"));
+//        comment.reply_comment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
+//
+//        return comment;
+//    }
 
-        Comment comment = new Comment();
-        comment.created_at = jsonObject.optString("created_at");
-        comment.id = jsonObject.optString("id");
-        comment.text = jsonObject.optString("text");
-        comment.source = jsonObject.optString("source");
-        comment.source = getSource(jsonObject.optString("source"));
-        comment.user = User.parse(jsonObject.optJSONObject("user"));
-        comment.mid = jsonObject.optString("mid");
-        comment.idstr = jsonObject.optString("idstr");
-        comment.status = Status.parse(jsonObject.optJSONObject("status"));
-        comment.reply_comment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
+//    public static Comment parse(String jsonString) {
+//        try {
+//            JSONObject jsonObject = new JSONObject(jsonString);
+//            return Comment.parse(jsonObject);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
-        return comment;
+
+//    private static String getSource(String string) {
+//        mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
+//        mmatcher = mpattern.matcher(string);
+//        if (mmatcher.find()) {
+//            return mmatcher.group(2);
+//        } else {
+//            return string;
+//        }
+//    }
+
+
+    public Comment() {
     }
-
-    public static Comment parse(String jsonString) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            return Comment.parse(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    private static String getSource(String string) {
-        mpattern = Pattern.compile("<(.*?)>(.*?)</a>");
-        mmatcher = mpattern.matcher(string);
-        if (mmatcher.find()) {
-            return mmatcher.group(2);
-        } else {
-            return string;
-        }
-    }
-
 
     @Override
     public int describeContents() {
@@ -134,9 +134,6 @@ public class Comment implements Parcelable {
         dest.writeParcelable(this.reply_comment, flags);
     }
 
-    public Comment() {
-    }
-
     protected Comment(Parcel in) {
         this.created_at = in.readString();
         this.id = in.readString();
@@ -149,7 +146,7 @@ public class Comment implements Parcelable {
         this.reply_comment = in.readParcelable(Comment.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Comment> CREATOR = new Parcelable.Creator<Comment>() {
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
         @Override
         public Comment createFromParcel(Parcel source) {
             return new Comment(source);

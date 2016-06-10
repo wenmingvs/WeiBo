@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model.imp;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.api.CommentsAPI;
@@ -77,7 +78,8 @@ public class CommentModelImp implements CommentModel {
 
 
     @Override
-    public void cacheSave(int groupType, Context context, String response) {
+    public void cacheSave(int groupType, Context context, CommentList commentList) {
+        String response = new Gson().toJson(commentList);
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             switch (groupType) {
                 case Constants.GROUP_COMMENT_TYPE_ALL:
@@ -109,7 +111,7 @@ public class CommentModelImp implements CommentModel {
                 break;
         }
         if (response != null) {
-            mCommentList = CommentList.parse(response).commentList;
+            mCommentList = CommentList.parse(response).comments;
             onDataFinishedListener.onDataFinish(mCommentList);
         }
 
@@ -136,12 +138,13 @@ public class CommentModelImp implements CommentModel {
     private RequestListener pullToRefreshListener = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Comment> temp = CommentList.parse(response).commentList;
+            CommentList commentList = CommentList.parse(response);
+            ArrayList<Comment> temp = commentList.comments;
             if (temp != null && temp.size() > 0) {
                 if (mCommentList != null) {
                     mCommentList.clear();
                 }
-                cacheSave(mCurrentGroup, mContext, response);
+                cacheSave(mCurrentGroup, mContext, commentList);
                 mCommentList = temp;
                 mOnDataFinishedListener.onDataFinish(mCommentList);
             } else {
@@ -154,6 +157,7 @@ public class CommentModelImp implements CommentModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
+            mOnDataFinishedListener.onError(e.getMessage());
             cacheLoad(mCurrentGroup, mContext, mOnDataFinishedListener);
         }
     };
@@ -162,7 +166,7 @@ public class CommentModelImp implements CommentModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Comment> temp = CommentList.parse(response).commentList;
+                ArrayList<Comment> temp = CommentList.parse(response).comments;
                 if (temp.size() == 1) {
                     mOnDataFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {

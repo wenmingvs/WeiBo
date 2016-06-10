@@ -18,9 +18,9 @@ package com.wenming.weiswift.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 /**
  * 用户信息结构体。
@@ -184,68 +184,66 @@ public class User implements Parcelable {
     public String mbrank;
     public String block_word;
 
+
     public static User parse(String jsonString) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            return User.parse(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static User parse(JSONObject jsonObject) {
-        if (null == jsonObject) {
+        if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
-
-        User user = new User();
-        user.id = jsonObject.optString("id", "");
-        user.idstr = jsonObject.optString("idstr", "");
-        user.screen_name = jsonObject.optString("screen_name", "");
-        user.name = jsonObject.optString("name", "");
-        user.province = jsonObject.optInt("province", -1);
-        user.city = jsonObject.optInt("city", -1);
-        user.location = jsonObject.optString("location", "");
-        user.description = jsonObject.optString("description", "");
-        user.url = jsonObject.optString("url", "");
-        user.profile_image_url = jsonObject.optString("profile_image_url", "");
-        user.profile_url = jsonObject.optString("profile_url", "");
-        user.cover_image_phone = jsonObject.optString("cover_image_phone", "");
-        user.cover_image = jsonObject.optString("cover_image", "");
-        user.domain = jsonObject.optString("domain", "");
-        user.weihao = jsonObject.optString("weihao", "");
-        user.gender = jsonObject.optString("gender", "");
-        user.followers_count = jsonObject.optInt("followers_count", 0);
-        user.friends_count = jsonObject.optInt("friends_count", 0);
-        user.statuses_count = jsonObject.optInt("statuses_count", 0);
-        user.favourites_count = jsonObject.optInt("favourites_count", 0);
-        user.created_at = jsonObject.optString("created_at", "");
-        user.following = jsonObject.optBoolean("following", false);
-        user.allow_all_act_msg = jsonObject.optBoolean("allow_all_act_msg", false);
-        user.geo_enabled = jsonObject.optBoolean("geo_enabled", false);
-        user.verified = jsonObject.optBoolean("verified", false);
-        user.verified_type = jsonObject.optInt("verified_type", -1);
-        user.remark = jsonObject.optString("remark", "");
-        user.status = Status.parse(jsonObject.optJSONObject("status"));
-        user.allow_all_comment = jsonObject.optBoolean("allow_all_comment", true);
-        user.avatar_large = jsonObject.optString("avatar_large", "");
-        user.avatar_hd = jsonObject.optString("avatar_hd", "");
-        user.verified_reason = jsonObject.optString("verified_reason", "");
-        user.follow_me = jsonObject.optBoolean("follow_me", false);
-        user.online_status = jsonObject.optInt("online_status", 0);
-        user.bi_followers_count = jsonObject.optInt("bi_followers_count", 0);
-        user.lang = jsonObject.optString("lang", "");
-
-        // 注意：以下字段暂时不清楚具体含义，OpenAPI 说明文档暂时没有同步更新对应字段含义
-        user.star = jsonObject.optString("star", "");
-        user.mbtype = jsonObject.optString("mbtype", "");
-        user.mbrank = jsonObject.optString("mbrank", "");
-        user.block_word = jsonObject.optString("block_word", "");
-
+        User user = new Gson().fromJson(jsonString, User.class);
         return user;
     }
+
+//    public static User parse(JSONObject jsonObject) {
+//        if (null == jsonObject) {
+//            return null;
+//        }
+//
+//        User user = new User();
+//        user.id = jsonObject.optString("id", "");
+//        user.idstr = jsonObject.optString("idstr", "");
+//        user.screen_name = jsonObject.optString("screen_name", "");
+//        user.name = jsonObject.optString("name", "");
+//        user.province = jsonObject.optInt("province", -1);
+//        user.city = jsonObject.optInt("city", -1);
+//        user.location = jsonObject.optString("location", "");
+//        user.description = jsonObject.optString("description", "");
+//        user.url = jsonObject.optString("url", "");
+//        user.profile_image_url = jsonObject.optString("profile_image_url", "");
+//        user.profile_url = jsonObject.optString("profile_url", "");
+//        user.cover_image_phone = jsonObject.optString("cover_image_phone", "");
+//        user.cover_image = jsonObject.optString("cover_image", "");
+//        user.domain = jsonObject.optString("domain", "");
+//        user.weihao = jsonObject.optString("weihao", "");
+//        user.gender = jsonObject.optString("gender", "");
+//        user.followers_count = jsonObject.optInt("followers_count", 0);
+//        user.friends_count = jsonObject.optInt("friends_count", 0);
+//        user.statuses_count = jsonObject.optInt("statuses_count", 0);
+//        user.favourites_count = jsonObject.optInt("favourites_count", 0);
+//        user.created_at = jsonObject.optString("created_at", "");
+//        user.following = jsonObject.optBoolean("following", false);
+//        user.allow_all_act_msg = jsonObject.optBoolean("allow_all_act_msg", false);
+//        user.geo_enabled = jsonObject.optBoolean("geo_enabled", false);
+//        user.verified = jsonObject.optBoolean("verified", false);
+//        user.verified_type = jsonObject.optInt("verified_type", -1);
+//        user.remark = jsonObject.optString("remark", "");
+//        user.status = Status.parse(jsonObject.optJSONObject("status"));
+//        user.allow_all_comment = jsonObject.optBoolean("allow_all_comment", true);
+//        user.avatar_large = jsonObject.optString("avatar_large", "");
+//        user.avatar_hd = jsonObject.optString("avatar_hd", "");
+//        user.verified_reason = jsonObject.optString("verified_reason", "");
+//        user.follow_me = jsonObject.optBoolean("follow_me", false);
+//        user.online_status = jsonObject.optInt("online_status", 0);
+//        user.bi_followers_count = jsonObject.optInt("bi_followers_count", 0);
+//        user.lang = jsonObject.optString("lang", "");
+//
+//        // 注意：以下字段暂时不清楚具体含义，OpenAPI 说明文档暂时没有同步更新对应字段含义
+//        user.star = jsonObject.optString("star", "");
+//        user.mbtype = jsonObject.optString("mbtype", "");
+//        user.mbrank = jsonObject.optString("mbrank", "");
+//        user.block_word = jsonObject.optString("block_word", "");
+//
+//        return user;
+//    }
 
 
     public User() {
@@ -279,18 +277,18 @@ public class User implements Parcelable {
         dest.writeInt(this.statuses_count);
         dest.writeInt(this.favourites_count);
         dest.writeString(this.created_at);
-        dest.writeByte(following ? (byte) 1 : (byte) 0);
-        dest.writeByte(allow_all_act_msg ? (byte) 1 : (byte) 0);
-        dest.writeByte(geo_enabled ? (byte) 1 : (byte) 0);
-        dest.writeByte(verified ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.following ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.allow_all_act_msg ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.geo_enabled ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.verified ? (byte) 1 : (byte) 0);
         dest.writeInt(this.verified_type);
         dest.writeString(this.remark);
         dest.writeParcelable(this.status, flags);
-        dest.writeByte(allow_all_comment ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.allow_all_comment ? (byte) 1 : (byte) 0);
         dest.writeString(this.avatar_large);
         dest.writeString(this.avatar_hd);
         dest.writeString(this.verified_reason);
-        dest.writeByte(follow_me ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.follow_me ? (byte) 1 : (byte) 0);
         dest.writeInt(this.online_status);
         dest.writeInt(this.bi_followers_count);
         dest.writeString(this.lang);
@@ -354,6 +352,4 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
-
 }

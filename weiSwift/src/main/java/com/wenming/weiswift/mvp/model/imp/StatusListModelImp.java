@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model.imp;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.api.GroupAPI;
@@ -155,7 +156,7 @@ public class StatusListModelImp implements StatusListModel {
             response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         }
         if (response != null) {
-            mStatusList = StatusList.parse(response).statusList;
+            mStatusList = (ArrayList<Status>) StatusList.parse(response).statuses;
             onDataFinishedListener.onDataFinish(mStatusList);
             return true;
         } else {
@@ -166,7 +167,9 @@ public class StatusListModelImp implements StatusListModel {
 
 
     @Override
-    public void cacheSave(long groupType, Context context, String response) {
+    public void cacheSave(long groupType, Context context, StatusList statusList) {
+
+        String response = new Gson().toJson(statusList);
         if (groupType == Constants.GROUP_TYPE_ALL) {
             SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
@@ -228,12 +231,13 @@ public class StatusListModelImp implements StatusListModel {
     private RequestListener pullToRefreshListener = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            StatusList statusList = StatusList.parse(response);
+            ArrayList<Status> temp = statusList.statuses;
             if (temp != null && temp.size() > 0) {
                 if (mStatusList != null) {
                     mStatusList.clear();
                 }
-                cacheSave(mCurrentGroup, mContext, response);
+                cacheSave(mCurrentGroup, mContext, statusList);
                 mStatusList = temp;
                 mOnDataFinishedUIListener.onDataFinish(mStatusList);
                 mRefrshAll = false;
@@ -261,7 +265,7 @@ public class StatusListModelImp implements StatusListModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
                     mOnDataFinishedUIListener.noMoreData();
                 } else if (temp.size() > 1) {

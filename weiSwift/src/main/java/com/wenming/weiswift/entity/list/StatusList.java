@@ -18,11 +18,9 @@ package com.wenming.weiswift.entity.list;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wenming.weiswift.entity.Status;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.wenming.weiswift.ui.common.FillContentHelper;
 
 import java.util.ArrayList;
 
@@ -35,42 +33,39 @@ import java.util.ArrayList;
  */
 public class StatusList {
 
-    /**
-     * 微博列表
-     */
-    public ArrayList<Status> statusList = new ArrayList<Status>();
-    public Status statuses;
+    public ArrayList<Status> statuses = new ArrayList<Status>();
+    public Object[] advertises;
     public boolean hasvisible;
     public String previous_cursor;
     public String next_cursor;
     public int total_number;
-    public Object[] advertises;
 
     public static StatusList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
+        StatusList statuses = new Gson().fromJson(jsonString, StatusList.class);
 
-        StatusList statuses = new StatusList();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
+        //对status中的本地私有字段进行赋值
+        for (Status status : statuses.statuses) {
+            //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
+            FillContentHelper.setSingleImgSizeType(status);
+            //提取微博来源的关键字
+            FillContentHelper.setSource(status);
+            //设置三种类型图片的url地址
+            FillContentHelper.setImgUrl(status);
 
-            statuses.hasvisible = jsonObject.optBoolean("hasvisible", false);
-            statuses.previous_cursor = jsonObject.optString("previous_cursor", "0");
-            statuses.next_cursor = jsonObject.optString("next_cursor", "0");
-            statuses.total_number = jsonObject.optInt("total_number", 0);
-
-            JSONArray jsonArray = jsonObject.optJSONArray("statuses");
-            if (jsonArray != null && jsonArray.length() > 0) {
-                int length = jsonArray.length();
-                statuses.statusList = new ArrayList<Status>(length);
-                for (int ix = 0; ix < length; ix++) {
-                    statuses.statusList.add(Status.parse(jsonArray.getJSONObject(ix)));
-                }
+            if (status.retweeted_status != null) {
+                //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
+                FillContentHelper.setSingleImgSizeType(status.retweeted_status);
+                //提取微博来源的关键字
+                FillContentHelper.setSource(status.retweeted_status);
+                //设置三种类型图片的url地址
+                FillContentHelper.setImgUrl(status.retweeted_status);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
         }
         return statuses;
     }
+
 }

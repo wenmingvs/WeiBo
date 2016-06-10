@@ -145,8 +145,11 @@ public class MentionModelImp implements MentionModel {
             }
 
             if (response != null) {
-                mMentionList = StatusList.parse(response).statusList;
+                mMentionList = (ArrayList<Status>) StatusList.parse(response).statuses;
                 onDataFinishedListener.onDataFinish(mMentionList);
+            } else {
+                ToastUtil.showShort(mContext, "本地没有此分组的缓存");
+                onDataFinishedListener.noMoreDate();
             }
         }
     }
@@ -164,7 +167,7 @@ public class MentionModelImp implements MentionModel {
                     break;
             }
             if (response != null) {
-                mCommentList = CommentList.parse(response).commentList;
+                mCommentList = CommentList.parse(response).comments;
                 onCommentFinishedListener.onDataFinish(mCommentList);
             }
         }
@@ -198,7 +201,7 @@ public class MentionModelImp implements MentionModel {
     public RequestListener pullToRefresh_Mention_Listener = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
             if (temp != null && temp.size() > 0) {
                 if (mMentionList != null) {
                     mMentionList.clear();
@@ -223,7 +226,7 @@ public class MentionModelImp implements MentionModel {
     private RequestListener pullToRefresh_Comment_Listener = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Comment> temp = CommentList.parse(response).commentList;
+            ArrayList<Comment> temp = CommentList.parse(response).comments;
             if (temp != null && temp.size() > 0) {
                 if (mCommentList != null) {
                     mCommentList.clear();
@@ -241,6 +244,7 @@ public class MentionModelImp implements MentionModel {
         @Override
         public void onWeiboException(WeiboException e) {
             ToastUtil.showShort(mContext, e.getMessage());
+            mOnCommentFinishedListener.onError(e.getMessage());
             cacheLoad(mCurrentGroup, mContext, mOnCommentFinishedListener);
         }
     };
@@ -248,7 +252,7 @@ public class MentionModelImp implements MentionModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(String.valueOf(mMentionList.get(mMentionList.size() - 1).id)))) {
                     mOnMentionFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {
@@ -271,7 +275,7 @@ public class MentionModelImp implements MentionModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Comment> temp = CommentList.parse(response).commentList;
+                ArrayList<Comment> temp = CommentList.parse(response).comments;
                 if (temp.size() == 1) {
                     mOnCommentFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {

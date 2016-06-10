@@ -44,7 +44,7 @@ public class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom, ((MentionViewHolder) holder).popover_arrow);
+        FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((MentionViewHolder) holder).mention_content);
         FillContent.fillButtonBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).bottombar_retweet, ((MentionViewHolder) holder).bottombar_comment, ((MentionViewHolder) holder).bottombar_attitude, ((MentionViewHolder) holder).comment, ((MentionViewHolder) holder).redirect, ((MentionViewHolder) holder).feedlike);
 
@@ -62,7 +62,6 @@ public class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mContext.startActivity(intent);
                 }
             });
-
         }
         //是一条@我的原创微博
         else {

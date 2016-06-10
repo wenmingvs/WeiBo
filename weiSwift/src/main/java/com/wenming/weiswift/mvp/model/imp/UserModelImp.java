@@ -46,8 +46,14 @@ public class UserModelImp implements UserModel {
     private static final int FOLLOWERS_LISTS = 0x1;
     private static final int FRIENDS_LISTS = 0x2;
 
+    /**
+     * 根据用户ID获取用户信息。异步方法
+     *
+     * @param uid
+     * @param context
+     * @param onUserRequestFinish
+     */
     @Override
-
     public void show(long uid, final Context context, final OnUserDetailRequestFinish onUserRequestFinish) {
         UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
@@ -55,6 +61,13 @@ public class UserModelImp implements UserModel {
         mUsersAPI.show(uid, user_PullToRefresh);
     }
 
+    /**
+     * 根据用户ID获取用户信息。同步方法
+     *
+     * @param uid
+     * @param context
+     * @return
+     */
     @Override
     public User showUserDetailSync(long uid, Context context) {
         UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -62,6 +75,14 @@ public class UserModelImp implements UserModel {
         return User.parse(mUsersAPI.showSync(uid));
     }
 
+    /**
+     * 获取某个用户最新发表的微博列表。
+     *
+     * @param uid
+     * @param groupId
+     * @param context
+     * @param onStatusFinishedListener
+     */
     @Override
     public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -71,6 +92,13 @@ public class UserModelImp implements UserModel {
         mStatusesAPI.userTimeline(uid, sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statuslist_PullToRefresh);
     }
 
+    /**
+     * 获取用户的粉丝列表(最多返回5000条数据)。
+     *
+     * @param uid
+     * @param context
+     * @param onUserListRequestFinish
+     */
     @Override
     public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -80,6 +108,13 @@ public class UserModelImp implements UserModel {
         mFriendshipsAPI.followers(uid, NewFeature.GET_FOLLOWER_NUM, 0, false, userlist_PullToRefresh);
     }
 
+    /**
+     * 获取用户的关注列表。
+     *
+     * @param uid
+     * @param context
+     * @param onUserListRequestFinish
+     */
     @Override
     public void friends(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
         FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -115,14 +150,25 @@ public class UserModelImp implements UserModel {
         mFriendshipsAPI.friends(uid, NewFeature.LOADMORE_FRIENDS_NUM, mFriendsCursor, false, userlist_NextPage);
     }
 
+    /**
+     * 获取登录用户的详细信息
+     *
+     * @param context
+     * @param onUserListRequestFinish
+     */
     @Override
     public void getUserDetailList(final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        String jsonstring = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt");
+        String jsonstring = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt");
         if (jsonstring == null && AccessTokenKeeper.readAccessToken(context).isSessionValid()) {
             cacheCurrentOuthToken(context);
         }
-        final ArrayList<Token> tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt")).tokenList;
-        if (tokenList == null || tokenList.size() == 0) {
+        TokenList tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt"));
+        if (tokenList == null) {
+            //如果本地没有缓存的话，就添加自己一个用户就好了，然后再保存到本地
+            return;
+        }
+        final ArrayList<Token> tokenArrayList = tokenList.tokenList;
+        if (tokenArrayList == null || tokenArrayList.size() == 0) {
             return;
         }
         if (!NetUtil.isConnected(context)) {
@@ -133,8 +179,8 @@ public class UserModelImp implements UserModel {
             @Override
             public void run() {
                 mUserArrayList = new ArrayList<User>();
-                for (Token token : tokenList) {
-                    mUserArrayList.add(showUserDetailSync(Long.valueOf(token.getUid()), context));
+                for (Token token : tokenArrayList) {
+                    mUserArrayList.add(showUserDetailSync(Long.valueOf(token.uid), context));
                 }
                 onUserListRequestFinish.onDataFinish(mUserArrayList);
             }
@@ -194,7 +240,7 @@ public class UserModelImp implements UserModel {
                 break;
         }
         if (response != null) {
-            mStatusList = StatusList.parse(response).statusList;
+            mStatusList = StatusList.parse(response).statuses;
             onStatusListFinishedListener.onDataFinish(mStatusList);
         }
     }
@@ -208,7 +254,6 @@ public class UserModelImp implements UserModel {
     public void cacheLoad_user(Context context, OnUserDetailRequestFinish onUserDetailRequestFinish) {
         String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         if (response != null) {
-
             onUserDetailRequestFinish.onComplete(User.parse(response));
         }
     }
@@ -217,10 +262,10 @@ public class UserModelImp implements UserModel {
     public void cacheSave_userlist(int groupType, Context context, String response) {
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
                 break;
             case FRIENDS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
                 break;
         }
     }
@@ -231,14 +276,14 @@ public class UserModelImp implements UserModel {
         mUserListType = groupType;
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
                 break;
             case FRIENDS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
                 break;
         }
         if (response != null) {
-            mUsersList = UserList.parse(response).usersList;
+            mUsersList = UserList.parse(response).users;
             mFollowersCursor = Integer.valueOf(UserList.parse(response).next_cursor);
             mFriendsCursor = Integer.valueOf(UserList.parse(response).next_cursor);
             onUserListRequestFinish.onDataFinish(mUsersList);
@@ -284,7 +329,7 @@ public class UserModelImp implements UserModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Status> temp = StatusList.parse(response).statusList;
+                ArrayList<Status> temp = StatusList.parse(response).statuses;
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
                     mOnStatusListFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {
@@ -306,7 +351,7 @@ public class UserModelImp implements UserModel {
     public RequestListener userlist_PullToRefresh = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<User> temp = UserList.parse(response).usersList;
+            ArrayList<User> temp = UserList.parse(response).users;
             if (temp != null && temp.size() > 0) {
                 if (mUsersList != null) {
                     mUsersList.clear();
@@ -333,7 +378,7 @@ public class UserModelImp implements UserModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<User> temp = UserList.parse(response).usersList;
+                ArrayList<User> temp = UserList.parse(response).users;
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mUsersList.get(mUsersList.size() - 1).id))) {
                     mOnUserListRequestFinish.noMoreDate();
                 } else if (temp.size() > 1) {
@@ -358,7 +403,7 @@ public class UserModelImp implements UserModel {
     public RequestListener statuslist_PullToRefresh = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Status> temp = StatusList.parse(response).statusList;
+            ArrayList<Status> temp = StatusList.parse(response).statuses;
             if (temp != null && temp.size() > 0) {
                 if (mStatusList != null) {
                     mStatusList.clear();

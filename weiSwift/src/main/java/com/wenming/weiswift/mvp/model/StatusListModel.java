@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model;
 import android.content.Context;
 
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.list.StatusList;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public interface StatusListModel {
 
     public boolean cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void cacheSave(long groupType, Context context, String response);
+    public void cacheSave(long groupType, Context context, StatusList statusList);
 
 
 }

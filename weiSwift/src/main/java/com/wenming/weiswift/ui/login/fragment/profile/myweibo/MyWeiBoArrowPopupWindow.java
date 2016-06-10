@@ -1,4 +1,4 @@
-package com.wenming.weiswift.ui.login.fragment.home.weiboitem;
+package com.wenming.weiswift.ui.login.fragment.profile.myweibo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,21 +22,26 @@ import com.wenming.weiswift.utils.ScreenUtil;
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class ArrowPopupWindow extends BasePopupWindow implements WeiBoArrowView {
+public class MyWeiBoArrowPopupWindow extends BasePopupWindow implements WeiBoArrowView {
     private View mView;
     private Context mContext;
     private TextView mDeleteTextView;
     private TextView mFavoriteTextView;
     private TextView mFriendShipTextView;
     private LinearLayout mDeleteLayout;
+    private OnDeleteItemListener mOnDeleteItemListener;
     private WeiBoArrowPresent mWeiBoArrowPresent;
     private Status mStatus;
+    private int mStatusPosition;
+    private String mCurrentUserId;
 
-    public ArrowPopupWindow(Context context, Status status) {
+    public MyWeiBoArrowPopupWindow(Context context, Status status, int position) {
         super(context, (Activity) context, 300);
         mContext = context;
         mStatus = status;
+        mStatusPosition = position;
         mWeiBoArrowPresent = new WeiBoArrowPresenterImp(this);
+        mCurrentUserId = AccessTokenKeeper.readAccessToken(mContext).getUid();
         initPopWindow(context);
         mView = LayoutInflater.from(context).inflate(R.layout.home_weiboitem_arrow_popwindow, null);
         this.setContentView(mView);
@@ -79,7 +84,7 @@ public class ArrowPopupWindow extends BasePopupWindow implements WeiBoArrowView 
     }
 
     /**
-     * 设置收藏的TextView的内容，如果收藏了此微博，则显示取消收藏，如果没有收藏，则显示收藏
+     * 不需要收藏自己的微博
      */
     private void setFavoriteTextContext(final Status status, TextView textView) {
         if (status.favorited) {
@@ -102,42 +107,35 @@ public class ArrowPopupWindow extends BasePopupWindow implements WeiBoArrowView 
     }
 
     /**
-     * 设置朋友的关系内容，如果已经关注，则显示取消关注，如果没有关注，则显示关注
+     * 不能关注自己！
      */
-    private void setFriendShipContext(final Status status, TextView textView) {
-        if (status.user.following) {
-            textView.setText("取消关注 " + status.user.name);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mWeiBoArrowPresent.user_destroy(status.user, mContext);
-                }
-            });
-        } else {
-            textView.setText("关注 " + status.user.name);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mWeiBoArrowPresent.user_create(status.user, mContext);
-                }
-            });
-        }
+    private void setFriendShipContext(Status status, TextView textView) {
+        textView.setVisibility(View.GONE);
     }
 
     /**
      * 设置是否显示删除按钮，如果不是自己的微博，要隐藏他
      */
     private void setDeleteViewContent(final Status status, TextView textView) {
-        if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
+        if (status.user.id.equals(mCurrentUserId)) {
             textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext);
+                    mOnDeleteItemListener.OnItemDelete(mStatusPosition, status);
                 }
             });
         } else {
             mDeleteLayout.setVisibility(View.GONE);
         }
     }
+
+    public void setOnDeleteItemListener(OnDeleteItemListener onDeleteItemListener) {
+        this.mOnDeleteItemListener = onDeleteItemListener;
+    }
+
+    public interface OnDeleteItemListener {
+        public void OnItemDelete(int position, Status status);
+    }
+
 }

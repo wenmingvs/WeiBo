@@ -7,8 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.ui.common.FillContent;
 
 /**
