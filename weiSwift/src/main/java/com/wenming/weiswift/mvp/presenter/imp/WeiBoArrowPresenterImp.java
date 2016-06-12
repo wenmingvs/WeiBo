@@ -1,7 +1,6 @@
 package com.wenming.weiswift.mvp.presenter.imp;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.widget.PopupWindow;
 
 import com.google.gson.Gson;
@@ -16,6 +15,8 @@ import com.wenming.weiswift.mvp.model.imp.FriendShipModelImp;
 import com.wenming.weiswift.mvp.model.imp.StatusListModelImp;
 import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.utils.SDCardUtil;
 
 /**
@@ -26,7 +27,7 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
     private FriendShipModel friendShipModel;
     private FavoriteListModel favoriteListModel;
     private PopupWindow mPopupWindows;
-    private RecyclerView.Adapter mAdapter;
+    private WeiboAdapter mAdapter;
     private Context mContext;
 
     public WeiBoArrowPresenterImp(PopupWindow popupWindow) {
@@ -36,7 +37,7 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
         this.mPopupWindows = popupWindow;
     }
 
-    public WeiBoArrowPresenterImp(PopupWindow popupWindow, RecyclerView.Adapter adapter) {
+    public WeiBoArrowPresenterImp(PopupWindow popupWindow, WeiboAdapter adapter) {
         statusListModel = new StatusListModelImp();
         friendShipModel = new FriendShipModelImp();
         favoriteListModel = new FavoriteListModelImp();
@@ -51,28 +52,19 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
      * @param id
      * @param context
      */
-    public void weibo_destroy(long id, Context context, final int position) {
+    public void weibo_destroy(long id, Context context, final int position, final String weiboGroup) {
         mContext = context;
         mPopupWindows.dismiss();
         statusListModel.weibo_destroy(id, context, new StatusListModel.OnRequestListener() {
             @Override
             public void onSuccess() {
                 //内存删除
-                mAdapter.notifyItemRemoved(position);
-                //((WeiboAdapter) mAdapter).removeDataItem(position);
-                //TODO 本地删除
-                String my_All_WeiBo = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
-                String my_Origin_WeiBo = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
-                String my_Pic_WeiBo = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
-
-                if (my_All_WeiBo != null) {
-                    StatusList statusList = StatusList.parse(my_All_WeiBo);
-                    statusList.statuses.remove(position);
-                    Gson gson = new Gson();
-                    gson.toJson(statusList);
-                }
-
-
+                mAdapter.removeDataItem(position);
+                mAdapter.notifyItemRemoved(position);//显示动画效果
+                int rangeChangeCount = mAdapter.getItemCount() - (1 + position);
+                mAdapter.notifyItemRangeChanged(position, rangeChangeCount);//notifyItemRangeChanged：对于被删掉的位置及其后range大小范围内的view进行重新onBindViewHolder
+                //本地删除
+                updateLocalFile(weiboGroup, position);
             }
 
             @Override
@@ -80,6 +72,43 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
 
             }
         });
+    }
+
+
+    public void updateLocalFile(String weiboGroup, int position) {
+        String response = null;
+        switch (weiboGroup) {
+            case Constants.DELETE_WEIBO_TYPE1:
+                response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
+                break;
+            case Constants.DELETE_WEIBO_TYPE2:
+                response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
+                break;
+            case Constants.DELETE_WEIBO_TYPE3:
+                response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
+                break;
+            case Constants.DELETE_WEIBO_TYPE4:
+                response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
+                break;
+        }
+        StatusList statusList = StatusList.parse(response);
+        if (statusList != null && statusList.statuses.size() > 0 && position < statusList.statuses.size()) {
+            statusList.statuses.remove(position);
+            switch (weiboGroup) {
+                case Constants.DELETE_WEIBO_TYPE1:
+                    SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
+                    break;
+                case Constants.DELETE_WEIBO_TYPE2:
+                    SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
+                    break;
+                case Constants.DELETE_WEIBO_TYPE3:
+                    SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
+                    break;
+                case Constants.DELETE_WEIBO_TYPE4:
+                    SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
+                    break;
+            }
+        }
     }
 
     /**

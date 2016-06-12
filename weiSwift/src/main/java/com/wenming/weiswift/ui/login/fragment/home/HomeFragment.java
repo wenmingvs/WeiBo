@@ -18,19 +18,17 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
-import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
-import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.HomeHeadView;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.utils.DensityUtil;
-import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -51,7 +49,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     public View mView;
     private LinearLayout mGroup;
     public RecyclerView mRecyclerView;
-    public TextView mUserName;
+    public TextView mUserNameTextView;
     public TextView mErrorMessage;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public WeiboAdapter mAdapter;
@@ -61,6 +59,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private LinearLayout mEmptyLayout;
     private GroupPopWindow mPopWindow;
     private boolean mComeFromAccoutActivity;
+    private String mUserName;
 
     public HomeFragment() {
     }
@@ -77,7 +76,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
-        mUserName = (TextView) mView.findViewById(R.id.name);
+        mUserNameTextView = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
@@ -101,7 +100,13 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     public void initRecyclerView() {
         mDatas = new ArrayList<Status>();
-        mAdapter = new WeiboAdapter(mDatas, mContext);
+        mAdapter = new WeiboAdapter(mDatas, mContext) {
+            @Override
+            public void arrowClick(Status status, int position) {
+                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "全部微博");
+                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -131,18 +136,15 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                 int statusBarHeight = rect.top;
                 mPopWindow = GroupPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
-                mPopWindow.showAtLocation(mUserName, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserName.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
+                mPopWindow.showAtLocation(mUserNameTextView, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserNameTextView.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
                 mPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
                     @Override
                     public void onGroupItemClick(int position, long groupId, String groupName) {
                         mCurrentGroup = groupId;
                         if (groupId != Constants.GROUP_TYPE_ALL) {
-                            setUserName(groupName);
+                            setGroupName(groupName);
                         } else {
-                            String response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/", "username_" + AccessTokenKeeper.readAccessToken(mContext).getUid());
-                            if (response != null) {
-                                setUserName(User.parse(response).name);
-                            }
+                            setGroupName(mUserName);
                         }
                         mPopWindow.dismiss();
                         mHomePresent.pullToRefreshData(groupId, mContext);
@@ -263,12 +265,18 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
 
     @Override
-    public void setUserName(String userName) {
-        mUserName.setText(userName);
+    public void setGroupName(String userName) {
+        mUserNameTextView.setText(userName);
         if (mGroup.getVisibility() != View.VISIBLE) {
             mGroup.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public void setUserName(String userName) {
+        mUserName = userName;
+    }
+
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override

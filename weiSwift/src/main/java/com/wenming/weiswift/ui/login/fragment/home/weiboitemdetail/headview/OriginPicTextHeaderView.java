@@ -3,6 +3,7 @@ package com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -71,13 +72,21 @@ public class OriginPicTextHeaderView extends LinearLayout {
         initWeiBoContent(context, status);
     }
 
-    private void initWeiBoContent(Context context, Status status) {
+    private void initWeiBoContent(Context context, final Status status) {
         FillContent.fillTitleBar(mContext, status, profile_img, profile_verified, profile_name, profile_time, weibo_comefrom);
         FillContent.fillWeiBoContent(status.text, context, weibo_content);
         FillContent.fillWeiBoImgList(status, context, imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);
         FillContent.FillDetailBar(status.comments_count, status.reposts_count, status.reposts_count, commentView, retweetView, likeView);
         FillContent.RefreshNoneView(mContext, status.comments_count, mNoneView);
+
+        mPopover_arrow.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailWeiBoArrowWindow detailWeiBoArrowWindow = new DetailWeiBoArrowWindow(mContext, status);
+                detailWeiBoArrowWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
+            }
+        });
 
         retweetView.setOnClickListener(new OnClickListener() {
             @Override

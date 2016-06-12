@@ -23,6 +23,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.ProfileFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.ProfileFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.ProfileFragmentView;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.login.fragment.profile.followers.FollowerActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.friends.FriendsActivity;
@@ -119,7 +120,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, MyWeiBoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0x1);
             }
         });
 
@@ -145,6 +146,14 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (NewFeature.refresh_profileLayout == true) {
+            refreshUserDetail(mContext, false);
+            NewFeature.refresh_profileLayout = false;
+        }
+
+    }
 
     @Override
     public void setUserDetail(User user) {

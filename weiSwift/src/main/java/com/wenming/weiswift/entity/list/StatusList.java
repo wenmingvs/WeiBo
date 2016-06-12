@@ -16,6 +16,8 @@
 
 package com.wenming.weiswift.entity.list;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -31,14 +33,17 @@ import java.util.ArrayList;
  * @see <a href="http://t.cn/zjM1a2W">常见返回对象数据结构</a>
  * @since 2013-11-22
  */
-public class StatusList {
+public class StatusList implements Parcelable {
 
     public ArrayList<Status> statuses = new ArrayList<Status>();
-    public Object[] advertises;
     public boolean hasvisible;
     public String previous_cursor;
     public String next_cursor;
     public int total_number;
+    public long since_id;
+    public long max_id;
+    public long has_unread;
+
 
     public static StatusList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
@@ -68,4 +73,46 @@ public class StatusList {
         return statuses;
     }
 
+    public StatusList() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.statuses);
+        dest.writeByte(this.hasvisible ? (byte) 1 : (byte) 0);
+        dest.writeString(this.previous_cursor);
+        dest.writeString(this.next_cursor);
+        dest.writeInt(this.total_number);
+        dest.writeLong(this.since_id);
+        dest.writeLong(this.max_id);
+        dest.writeLong(this.has_unread);
+    }
+
+    protected StatusList(Parcel in) {
+        this.statuses = in.createTypedArrayList(Status.CREATOR);
+        this.hasvisible = in.readByte() != 0;
+        this.previous_cursor = in.readString();
+        this.next_cursor = in.readString();
+        this.total_number = in.readInt();
+        this.since_id = in.readLong();
+        this.max_id = in.readLong();
+        this.has_unread = in.readLong();
+    }
+
+    public static final Creator<StatusList> CREATOR = new Creator<StatusList>() {
+        @Override
+        public StatusList createFromParcel(Parcel source) {
+            return new StatusList(source);
+        }
+
+        @Override
+        public StatusList[] newArray(int size) {
+            return new StatusList[size];
+        }
+    };
 }

@@ -49,17 +49,17 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
     @Override
     public void refreshUserName(Context context) {
         LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
-        ;
         mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
+                mHomeFragmentView.setGroupName(user.name);
                 mHomeFragmentView.setUserName(user.name);
                 mHomeFragmentView.popWindowsDestory();
             }
 
             @Override
             public void onError(String error) {
-                mHomeFragmentView.setUserName("我的首页");
+                mHomeFragmentView.setGroupName("我的首页");
             }
         });
     }

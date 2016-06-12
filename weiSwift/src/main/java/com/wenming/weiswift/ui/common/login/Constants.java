@@ -65,5 +65,10 @@ public interface Constants {
     public static final int GROUP_MYWEIBO_TYPE_ORIGIN = 1;
     public static final int GROUP_MYWEIBO_TYPE_PICWEIBO = 2;
 
+    //删除微博的类型
+    public static final String DELETE_WEIBO_TYPE1 = "全部微博";
+    public static final String DELETE_WEIBO_TYPE2 = "我的全部微博";
+    public static final String DELETE_WEIBO_TYPE3 = "我的原创微博";
+    public static final String DELETE_WEIBO_TYPE4 = "我的图片微博";
 
 }

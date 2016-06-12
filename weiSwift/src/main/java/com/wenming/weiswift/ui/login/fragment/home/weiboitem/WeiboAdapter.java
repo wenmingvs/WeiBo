@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 2015/12/29.
  */
-public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
+public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int TYPE_ORINGIN_ITEM = 0;
     private static final int TYPE_RETWEET_ITEM = 3;
@@ -69,15 +69,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                MyWeiBoArrowPopupWindow popupWindow = new MyWeiBoArrowPopupWindow(mContext, mDatas.get(position), position);
-//                mWeiBoArrowPresent = new WeiBoArrowPresenterImp(popupWindow, MyWeiBoAdapter.this);
-//                popupWindow.setOnDeleteItemListener(new MyWeiBoArrowPopupWindow.OnDeleteItemListener() {
-//                    @Override
-//                    public void OnItemDelete(int position, Status status) {
-//                        mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, position);
-//                    }
-//                });
-//                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                    arrowClick(mDatas.get(position), position);
                 }
             });
 
@@ -92,7 +84,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             });
 
         } else if (holder instanceof RetweetViewHolder) {
-
             FillContent.fillTitleBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom);
             FillContent.fillRetweetContent(mDatas.get(position), mContext, ((RetweetViewHolder) holder).origin_nameAndcontent);
             FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content);
@@ -101,15 +92,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                MyWeiBoArrowPopupWindow popupWindow = new MyWeiBoArrowPopupWindow(mContext, mDatas.get(position), position);
-//                mWeiBoArrowPresent = new WeiBoArrowPresenterImp(popupWindow, MyWeiBoAdapter.this);
-//                popupWindow.setOnDeleteItemListener(new MyWeiBoArrowPopupWindow.OnDeleteItemListener() {
-//                    @Override
-//                    public void OnItemDelete(int position, Status status) {
-//                        mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, position);
-//                    }
-//                });
-//                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                    arrowClick(mDatas.get(position), position);
                 }
             });
 
@@ -138,7 +121,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mDatas.get(position).retweeted_status != null && mDatas.get(position).retweeted_status.user != null) {
+        if (mDatas.get(position).retweeted_status != null) {
             return TYPE_RETWEET_ITEM;
         } else {
             return TYPE_ORINGIN_ITEM;
@@ -147,6 +130,12 @@ public class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(ArrayList<Status> data) {
         this.mDatas = data;
+    }
+
+    public abstract void arrowClick(Status status, int position);
+
+    public void removeDataItem(int position) {
+        mDatas.remove(position);
     }
 
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -265,6 +266,17 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
 
             }
         });
+        mSendButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    pressSendButton();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    changeSendButtonBg(mEditText.getText().toString().length());
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -280,6 +292,11 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         } else {
             sendNormal();
         }
+    }
+
+    private void pressSendButton() {
+        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_press_bg));
+        mSendButton.setTextColor(Color.parseColor("#ebeef3"));
     }
 
     private void highlightSendButton() {

@@ -90,7 +90,13 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
 
 
     public void initRecyclerView() {
-        mAdapter = new WeiboAdapter(mDatas, mContext);
+        mAdapter = new WeiboAdapter(mDatas, mContext) {
+            @Override
+            public void arrowClick(Status status, int position) {
+                MyWeiBoArrowWindow popupWindow = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
+                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);

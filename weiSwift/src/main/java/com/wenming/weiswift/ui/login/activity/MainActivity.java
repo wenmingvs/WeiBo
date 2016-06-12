@@ -110,6 +110,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(PROFILE_FRAGMENT);
+//
 //                if (mCurrentIndex.equals(PROFILE_FRAGMENT) && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
 //                    mProfileFragment.refreshUserDetail(mContext, false);
 //                }
@@ -167,6 +168,7 @@ public class MainActivity extends FragmentActivity {
                     transaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
                 } else {
                     transaction.show(mProfileFragment);
+
                 }
                 mCurrentIndex = PROFILE_FRAGMENT;
                 break;
@@ -196,6 +198,7 @@ public class MainActivity extends FragmentActivity {
                 case DISCOVERY_FRAGMENT:
                     break;
                 case PROFILE_FRAGMENT:
+
                     break;
             }
         }

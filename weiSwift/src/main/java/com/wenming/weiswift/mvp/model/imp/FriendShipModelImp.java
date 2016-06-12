@@ -7,6 +7,7 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.api.FriendshipsAPI;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.model.FriendShipModel;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.ToastUtil;
@@ -29,6 +30,7 @@ public class FriendShipModelImp implements FriendShipModel {
             public void onComplete(String s) {
                 ToastUtil.showShort(mContext, "取消关注成功");
                 user.following = false;
+                NewFeature.refresh_profileLayout = true;
                 mOnRequestUIListener.onSuccess();
             }
 
@@ -50,6 +52,7 @@ public class FriendShipModelImp implements FriendShipModel {
             @Override
             public void onComplete(String s) {
                 ToastUtil.showShort(mContext, "关注成功");
+                NewFeature.refresh_profileLayout = true;
                 user.following = true;
                 mOnRequestUIListener.onSuccess();
             }

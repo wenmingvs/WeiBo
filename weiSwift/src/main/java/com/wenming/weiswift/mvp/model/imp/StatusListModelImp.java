@@ -45,6 +45,12 @@ public class StatusListModelImp implements StatusListModel {
     private boolean mRefrshAll = true;
 
 
+    /**
+     * 获取当前登录用户及其所关注用户的最新微博。
+     *
+     * @param context
+     * @param onDataFinishedListener
+     */
     @Override
     public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -56,6 +62,12 @@ public class StatusListModelImp implements StatusListModel {
     }
 
 
+    /**
+     * 获取双向关注用户的最新微博。
+     *
+     * @param context
+     * @param onDataFinishedListener
+     */
     @Override
     public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -168,7 +180,6 @@ public class StatusListModelImp implements StatusListModel {
 
     @Override
     public void cacheSave(long groupType, Context context, StatusList statusList) {
-
         String response = new Gson().toJson(statusList);
         if (groupType == Constants.GROUP_TYPE_ALL) {
             SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
@@ -234,11 +245,18 @@ public class StatusListModelImp implements StatusListModel {
             StatusList statusList = StatusList.parse(response);
             ArrayList<Status> temp = statusList.statuses;
             if (temp != null && temp.size() > 0) {
-                if (mStatusList != null) {
+                //请求回来的数据的maxid与列表中的第一条的id相同，说明是局部刷新，否则是全局刷新
+                //如果是全局刷新,需要清空列表中的全部微博
+                if (mStatusList.size() == 0 || !String.valueOf(statusList.max_id).equals(mStatusList.get(0).id)) {
                     mStatusList.clear();
+                    mStatusList = temp;
+                } else {
+                    //如果是局部刷新
+                    mStatusList.addAll(0, temp);
+                    //更新对象并且序列化到本地
+                    statusList.statuses = mStatusList;
                 }
                 cacheSave(mCurrentGroup, mContext, statusList);
-                mStatusList = temp;
                 mOnDataFinishedUIListener.onDataFinish(mStatusList);
                 mRefrshAll = false;
             } else {
@@ -289,6 +307,7 @@ public class StatusListModelImp implements StatusListModel {
         @Override
         public void onComplete(String s) {
             ToastUtil.showShort(mContext, "微博删除成功");
+            NewFeature.refresh_profileLayout = true;
             mOnDestroyWeiBoUIListener.onSuccess();
         }
 

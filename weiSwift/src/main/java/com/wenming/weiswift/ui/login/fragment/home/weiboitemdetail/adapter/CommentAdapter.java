@@ -47,12 +47,10 @@ public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
             User user = mDatas.get(position).user;
-            String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
-
             FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
             ((CommentViewHolder) holder).profile_name.setText(user.name);
-            FillContent.setWeiBoTime(mContext, ((CommentViewHolder) holder).profile_time, time);
+            FillContent.setWeiBoTime(mContext, ((CommentViewHolder) holder).profile_time, mDatas.get(position));
             FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
         }
     }

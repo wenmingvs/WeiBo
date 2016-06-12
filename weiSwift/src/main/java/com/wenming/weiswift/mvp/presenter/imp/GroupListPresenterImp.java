@@ -30,7 +30,7 @@ public class GroupListPresenterImp implements GroupListPresenter {
         mGroupListModel.groupsOnlyOnce(context, new GroupListModel.OnGroupListFinishedListener() {
             @Override
             public void noMoreDate() {
-
+                
             }
 
             @Override

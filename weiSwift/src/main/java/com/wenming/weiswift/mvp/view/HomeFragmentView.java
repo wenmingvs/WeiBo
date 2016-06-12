@@ -46,7 +46,14 @@ public interface HomeFragmentView {
 
 
     /**
+     * 设置顶部的分组名
+     */
+    public void setGroupName(String userName);
+
+    /**
      * 设置用户名
+     *
+     * @param userName
      */
     public void setUserName(String userName);
 

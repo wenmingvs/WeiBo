@@ -22,7 +22,7 @@
     <dimen name="home_original_weiboitem_linespace">3dp</dimen><!--微博内容中行距大小-->
 
     <!--转发内容的字体大小-->
-    <dimen name="home_retweet_weiboitem_font">16sp</dimen><!--转发内容中的字体大小-->
+    <dimen name="home_retweet_weiboitem_font">15sp</dimen><!--转发内容中的字体大小-->
 
     <!--首页的其他设置-->
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->

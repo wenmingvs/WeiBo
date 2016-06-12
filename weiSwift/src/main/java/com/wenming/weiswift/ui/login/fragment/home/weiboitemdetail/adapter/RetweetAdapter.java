@@ -47,12 +47,11 @@ public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (holder instanceof RetweetViewHolder) {
             User user = mDatas.get(position).user;
-            String time = mDatas.get(position).created_at;
             String content = mDatas.get(position).text;
 
             FillContent.fillProfileImg(mContext, user, ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified);
             ((RetweetViewHolder) holder).profile_name.setText(user.name);
-            FillContent.setWeiBoTime(mContext, ((RetweetViewHolder) holder).profile_time, time);
+            FillContent.setWeiBoTime(mContext, ((RetweetViewHolder) holder).profile_time, mDatas.get(position));
             FillContent.fillWeiBoContent(content, mContext, ((RetweetViewHolder) holder).content);
         }
     }

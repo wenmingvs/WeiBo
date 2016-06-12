@@ -47,7 +47,6 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
      */
     private static GroupPopWindow mGroupPopWindow;
 
-
     public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
             synchronized (ImageOptionPopupWindow.class) {

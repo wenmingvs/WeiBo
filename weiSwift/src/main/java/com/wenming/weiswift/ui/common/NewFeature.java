@@ -65,7 +65,7 @@ public class NewFeature {
     public static boolean CACHE_WEIBOLIST = true;
 
     //缓存单条微博的评论数据
-    public static boolean CACHE_DETAIL_ACTIVITY = true;
+    public static boolean CACHE_DETAIL_ACTIVITY = false;
 
     //缓存message模块的@数据
     public static boolean CACHE_MESSAGE_MENTION = true;
@@ -74,6 +74,11 @@ public class NewFeature {
     public static boolean CACHE_MESSAGE_COMMENT = true;
 
     public static int GROUP_SHOW_NUM = 7;
+
+    /**
+     * 切换底部选项卡的时候，是否需要刷新profilelayot
+     */
+    public static boolean refresh_profileLayout = false;
 
 
 }

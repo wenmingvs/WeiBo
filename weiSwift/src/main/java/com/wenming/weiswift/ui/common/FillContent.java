@@ -108,7 +108,6 @@ public class FillContent {
                 Intent intent = new Intent(context, UserActivity.class);
                 intent.putExtra("user", user);
                 context.startActivity(intent);
-
             }
         });
 
@@ -129,14 +128,14 @@ public class FillContent {
     public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, comment.user, profile_img, profile_verified);
         setWeiBoName(profile_name, comment.user);
-        FillContent.setWeiBoTime(context, profile_time, comment.created_at);
+        FillContent.setWeiBoTime(context, profile_time, comment);
         FillContent.setWeiBoComeFrom(weibo_comefrom, comment);
     }
-    
+
     public static void fillTitleBar(final Context context, final Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
         setWeiBoName(profile_name, status.user);
-        setWeiBoTime(context, profile_time, status.created_at);
+        setWeiBoTime(context, profile_time, status);
         setWeiBoComeFrom(weibo_comefrom, status);
     }
 
@@ -148,8 +147,14 @@ public class FillContent {
         }
     }
 
-    public static void setWeiBoTime(Context context, TextView textView, String created_at) {
-        Date data = DateUtils.parseDate(created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
+    public static void setWeiBoTime(Context context, TextView textView, Status status) {
+        Date data = DateUtils.parseDate(status.created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
+        TimeUtils timeUtils = TimeUtils.instance(context);
+        textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
+    }
+
+    public static void setWeiBoTime(Context context, TextView textView, Comment comment) {
+        Date data = DateUtils.parseDate(comment.created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
         TimeUtils timeUtils = TimeUtils.instance(context);
         textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
@@ -347,7 +352,7 @@ public class FillContent {
             retweetcontent_buffer.append(status.retweeted_status.text);
             origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
         } else {
-            origin_nameAndcontent.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
+            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent("抱歉，此微博已被作者删除。查看帮助：#网页链接#", context, origin_nameAndcontent));
         }
 
     }
@@ -682,10 +687,10 @@ public class FillContent {
     }
 
 
-    public static void fillUserHeadView(Context context, final User user, final ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
+    public static void fillUserHeadView(final Context context, final User user, final ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
                                         ImageView userSex, TextView userFriends,
                                         TextView userFollows, TextView userVerifiedreason) {
-        if (user.cover_image_phone != null && user.cover_image_phone.length() > 0) {
+        if (!TextUtils.isEmpty(user.cover_image_phone)) {
             ImageLoader.getInstance().displayImage(user.cover_image_phone, userCoverimg, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -694,7 +699,7 @@ public class FillContent {
 
                 @Override
                 public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    if (user.cover_image != null && user.cover_image.length() > 0) {
+                    if (!TextUtils.isEmpty(user.cover_image) && NetUtil.isConnected(context)) {
                         ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
                     } else {
                         userCoverimg.setImageResource(R.drawable.cover_image);
@@ -711,7 +716,7 @@ public class FillContent {
 
                 }
             });
-        } else if (user.cover_image != null && user.cover_image.length() > 0) {
+        } else if (!TextUtils.isEmpty(user.cover_image)) {
             ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
         } else {
             userCoverimg.setImageResource(R.drawable.cover_image);
@@ -719,7 +724,7 @@ public class FillContent {
 
         userCoverimg.setColorFilter(Color.parseColor("#1e000000"));
 
-        FillContent.fillProfileImg(context, user, userImg, userVerified);
+        fillProfileImg(context, user, userImg, userVerified);
         setWeiBoName(userName, user);
 
         if (user.gender.equals("m")) {

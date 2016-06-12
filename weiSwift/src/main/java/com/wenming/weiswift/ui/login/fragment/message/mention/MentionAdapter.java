@@ -78,8 +78,6 @@ public class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
         }
-
-
     }
 
     @Override
