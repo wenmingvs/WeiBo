@@ -436,7 +436,7 @@ public class FillContent {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImageDetailsActivity.class);
-                intent.putExtra("imagelist_url", status.bmiddle_pic_urls);
+                intent.putExtra("imagelist_url", status.origin_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);
             }

@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="13dp"
         android:clickable="true"
+        android:padding="10dp"
         android:text="取消"
         android:textColor="@color/toolbar_textview_background_auto"
         android:textSize="16sp" />

@@ -112,7 +112,7 @@
                 android:layout_width="44dp"
                 android:layout_height="38dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/rect_orgin">
+                android:background="@drawable/rect_orgin_auto">
 
                 <ImageView
                     android:id="@+id/textView3"

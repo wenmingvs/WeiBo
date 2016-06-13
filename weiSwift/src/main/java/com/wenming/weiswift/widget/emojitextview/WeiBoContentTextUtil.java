@@ -78,11 +78,10 @@ public class WeiBoContentTextUtil {
                     public void onClick(View widget) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         context.startActivity(browserIntent);
-                        //Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
                     }
                 };
-                //String urlname = "网页链接";
-                //spannableStringBuilder.replace(start, end, urlname);
+//                String urlname = "网页链接";
+//                spannableStringBuilder.replace(start, end, urlname);
                 spannableStringBuilder.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             }

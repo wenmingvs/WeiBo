@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,11 +13,17 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.NotificationCompat;
+import android.view.View;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
@@ -24,8 +31,7 @@ import com.wenming.weiswift.ui.login.activity.MainActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
 import com.wenming.weiswift.utils.ToastUtil;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -39,6 +45,7 @@ public class PostService extends Service {
     private String mContent;
     private NotificationManager mSendNotifity;
     private Status mStatus;
+    private Context mContext;
 
     private static final int SEND_STATUS_SUCCESS = 1;
     private static final int SEND_STATUS_ERROR = 2;
@@ -53,7 +60,7 @@ public class PostService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mContext = this;
     }
 
     @Override
@@ -89,44 +96,74 @@ public class PostService extends Service {
      */
     private void sendImgTextContent() {
 
-        Bitmap bitmap = getLoacalBitmap(mSelectImgList.get(0).getImageFile().getAbsolutePath());
-
-        if (mContent.isEmpty()) {
+        if (mContent.isEmpty() && mStatus == null) {
             mContent = "分享图片";
+        } else if (mContent.isEmpty() && mStatus != null) {
+            mContent = "转发微博";
         }
-        mStatusesAPI.upload(mContent, bitmap, "0", "0", new RequestListener() {
+
+        DisplayImageOptions imageItemOptions;
+
+        if (new File(mSelectImgList.get(0).getImageFile().getAbsolutePath()).length() > 5 * 1024 * 1024) {
+            imageItemOptions = new DisplayImageOptions.Builder()
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                    .imageScaleType(ImageScaleType.NONE)
+                    .considerExifParams(true)
+                    .build();
+        } else {
+            imageItemOptions = new DisplayImageOptions.Builder()
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .considerExifParams(true)
+                    .build();
+        }
+
+        ImageLoader.getInstance().loadImage("file:///" + mSelectImgList.get(0).getImageFile().getAbsolutePath(), imageItemOptions, new SimpleImageLoadingListener() {
             @Override
-            public void onComplete(String s) {
-                //ToastUtil.showShort(PostService.this, "发送成功！");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showSuccessNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_SEND;
-                mHandler.postDelayed(new Runnable() {
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                mStatusesAPI.upload(mContent, loadedImage, "0", "0", new RequestListener() {
                     @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
+                    public void onComplete(String s) {
+                        //ToastUtil.showShort(PostService.this, "发送成功！");
+                        mSendNotifity.cancel(SEND_STATUS_SEND);
+                        showSuccessNotifiy();
+                        final Message message = Message.obtain();
+                        message.what = SEND_STATUS_SEND;
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mHandler.sendMessage(message);
+                            }
+                        }, 2000);
                     }
-                }, 2000);
 
-
+                    @Override
+                    public void onWeiboException(WeiboException e) {
+                        ToastUtil.showShort(PostService.this, "发送失败！");
+                        ToastUtil.showShort(PostService.this, e.getMessage());
+                        mSendNotifity.cancel(SEND_STATUS_SEND);
+                        showErrorNotifiy();
+                        final Message message = Message.obtain();
+                        message.what = SEND_STATUS_ERROR;
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mHandler.sendMessage(message);
+                            }
+                        }, 2000);
+                    }
+                });
             }
 
             @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(PostService.this, "发送失败！");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showErrorNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_ERROR;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                ToastUtil.showShort(mContext, "本地找不到此图片");
+                ToastUtil.showShort(mContext, failReason.getCause().getMessage());
             }
         });
+
+
     }
 
 
@@ -207,19 +244,14 @@ public class PostService extends Service {
 
 
     /**
-     * 获取本地的图片
+     * 获取本地的图片,并且根据图片鞋带的信息纠正旋转方向
      *
      * @param absolutePath
      * @return
      */
     private Bitmap getLoacalBitmap(String absolutePath) {
-        try {
-            FileInputStream fis = new FileInputStream(absolutePath);
-            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
         return null;
     }
 

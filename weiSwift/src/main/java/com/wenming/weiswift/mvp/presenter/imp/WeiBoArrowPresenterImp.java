@@ -90,6 +90,9 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
             case Constants.DELETE_WEIBO_TYPE4:
                 response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
                 break;
+            case Constants.DELETE_WEIBO_TYPE5:
+                response = SDCardUtil.get(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt");
+                break;
         }
         StatusList statusList = StatusList.parse(response);
         if (statusList != null && statusList.statuses.size() > 0 && position < statusList.statuses.size()) {
@@ -106,6 +109,9 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
                     break;
                 case Constants.DELETE_WEIBO_TYPE4:
                     SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
+                    break;
+                case Constants.DELETE_WEIBO_TYPE5:
+                    SDCardUtil.put(mContext, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(mContext).getUid() + ".txt", new Gson().toJson(statusList));
                     break;
             }
         }

@@ -71,38 +71,22 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<AlbumFolderInfo>();
     private ArrayList<ImageInfo> mSelectImgList = new ArrayList<ImageInfo>();
     private Status mStatus;
-    private TextWatcher watcher = new TextWatcher() {
-        private CharSequence inputString;
+    /**
+     * 最多输入140个字符
+     */
+    private static final int TEXT_LIMIT = 140;
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            inputString = s;
+    /**
+     * 在只剩下10个字可以输入的时候，做提醒
+     */
+    private static final int TEXT_REMIND = 10;
 
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            changeSendButtonBg(inputString.toString().length());
-            if (inputString.length() > 140) {
-                int outofnum = inputString.length() - 140;
-                mLimitTextView.setText("-" + outofnum + "");
-            } else {
-                mLimitTextView.setText("");
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compose_idea_layout);
         mContext = this;
-
 
         mCancal = (TextView) findViewById(R.id.idea_cancal);
         mUserName = (TextView) findViewById(R.id.idea_username);
@@ -115,7 +99,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         more_button = (ImageView) findViewById(R.id.more_button);
         mEditText = (EditText) findViewById(R.id.idea_content);
         mLimitTextView = (TextView) findViewById(R.id.limitTextView);
-
         mRepostlayout = (LinearLayout) findViewById(R.id.repost_layout);
         repostImg = (ImageView) findViewById(R.id.repost_img);
         repostName = (TextView) findViewById(R.id.repost_name);
@@ -132,6 +115,13 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
             startActivityForResult(intent, 0);
         }
+        mEditText.post(new Runnable() {
+            @Override
+            public void run() {
+                setLimitTextColor(mLimitTextView, mEditText.getText().toString());
+                mEditText.requestFocus();
+            }
+        });
     }
 
     private void initAccessToken() {
@@ -161,16 +151,13 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             mEditText.setText(WeiBoContentTextUtil.getWeiBoContent("//@" + mStatus.user.name + ":" + mStatus.text, mContext, mEditText));
             FillContent.fillMentionCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
             mEditText.setSelection(0);
+
         }
         //2. 转发的内容是原创微博
         else if (mStatus.retweeted_status == null) {
             FillContent.fillMentionCenterContent(mStatus, repostImg, repostName, repostContent);
-            String content = mEditText.getText().toString();
-            if (content.trim().isEmpty()) {
-                mEditText.getText().append("转发微博");
-            }
         }
-        changeSendButtonBg(mEditText.getText().toString().length());
+        changeSendButtonBg();
     }
 
     private void refreshUserName() {
@@ -240,23 +227,20 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //没有图片，且也没有文本内容，识别为空
-                if (mSelectImgList.size() == 0 && (mEditText.getText().toString().isEmpty() || mEditText.getText().toString().length() == 0)) {
+                //在发微博状态下，如果发的微博没有图片，且也没有文本内容，识别为空
+                if (!isRetweetWeiBoState() && mStatus == null && mSelectImgList.size() == 0 && (mEditText.getText().toString().isEmpty() || mEditText.getText().toString().length() == 0)) {
                     ToastUtil.showShort(mContext, "发送的内容不能为空");
                     return;
                 }
 
-                if (mEditText.getText().toString().length() > 140) {
-                    ToastUtil.showShort(mContext, "文本超出限制140个字！请做调整");
+                if (calculateWeiboLength(mEditText.getText().toString()) > TEXT_LIMIT) {
+                    ToastUtil.showShort(mContext, "文本超出限制" + TEXT_LIMIT + "个字！请做调整");
                     return;
                 }
                 if (mSelectImgList.size() > 1) {
                     ToastUtil.showShort(mContext, "由于新浪的限制，第三方微博客户端只允许上传一张图，请做调整");
                     return;
                 }
-
-
                 Intent intent = new Intent(mContext, PostService.class);
                 intent.putParcelableArrayListExtra("select_img", mSelectImgList);
                 intent.putExtra("content", mEditText.getText().toString());
@@ -272,7 +256,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     pressSendButton();
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    changeSendButtonBg(mEditText.getText().toString().length());
+                    changeSendButtonBg();
                 }
                 return false;
             }
@@ -280,14 +264,13 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
 
     }
 
+
     /**
      * 根据输入的文本数量，决定发送按钮的背景
-     *
-     * @param length
      */
-    private void changeSendButtonBg(int length) {
-
-        if (length > 0) {
+    private void changeSendButtonBg() {
+        //如果有文本，或者有图片，或者是处于转发微博状态
+        if (mEditText.getText().toString().length() > 0 || mSelectImgList.size() > 0 || (isRetweetWeiBoState())) {
             highlightSendButton();
         } else {
             sendNormal();
@@ -319,7 +302,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 if (data != null) {
                     mSelectImgList = data.getParcelableArrayListExtra("selectImgList");
                     initImgList();
-                    changeSendButtonBg(mSelectImgList.size());
+                    changeSendButtonBg();
                 }
                 break;
         }
@@ -340,6 +323,75 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
         intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
         startActivityForResult(intent, 0);
+    }
+
+    private TextWatcher watcher = new TextWatcher() {
+        private CharSequence inputString;
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            inputString = s;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            changeSendButtonBg();
+            setLimitTextColor(mLimitTextView, inputString.toString());
+        }
+    };
+
+    /**
+     * 计算微博文本的长度，统计是否超过140个字，其中中文和全角的符号算1个字符，英文字符和半角字符算半个字符
+     *
+     * @param c
+     * @return 微博的长度，结果四舍五入
+     */
+    public long calculateWeiboLength(CharSequence c) {
+        double len = 0;
+        for (int i = 0; i < c.length(); i++) {
+            int temp = (int) c.charAt(i);
+            if (temp > 0 && temp < 127) {
+                len += 0.5;
+            } else {
+                len++;
+            }
+        }
+        return Math.round(len);
+    }
+
+    public void setLimitTextColor(TextView limitTextView, String content) {
+        long length = calculateWeiboLength(content);
+        if (length > TEXT_LIMIT) {
+            long outOfNum = length - TEXT_LIMIT;
+            limitTextView.setTextColor(Color.parseColor("#e03f22"));
+            limitTextView.setText("-" + outOfNum + "");
+        } else if (length == TEXT_LIMIT) {
+            limitTextView.setText(0 + "");
+            limitTextView.setTextColor(Color.parseColor("#929292"));
+        } else if (TEXT_LIMIT - length <= TEXT_REMIND) {
+            limitTextView.setText(TEXT_LIMIT - length + "");
+            limitTextView.setTextColor(Color.parseColor("#929292"));
+        } else {
+            limitTextView.setText("");
+        }
+    }
+
+    /**
+     * 判断此页是处于转发微博还是发微博状态
+     *
+     * @return
+     */
+    public boolean isRetweetWeiBoState() {
+        if (mStatus != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

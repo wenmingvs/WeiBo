@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_1"/>
+            android:src="@drawable/profile_1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_marginLeft="55dp"
             android:text="新的好友"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -37,10 +37,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/myphoto_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
@@ -56,7 +57,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_2"/>
+            android:src="@drawable/profile_2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,7 +66,7 @@
             android:layout_marginLeft="55dp"
             android:text="我的相册"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -73,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -92,16 +93,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_3"/>
+            android:src="@drawable/profile_11" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="55dp"
-            android:text="我的点评"
+            android:text="我的收藏"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -109,7 +110,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -128,7 +129,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_4"/>
+            android:src="@drawable/profile_4" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -137,7 +138,7 @@
             android:layout_marginLeft="55dp"
             android:text="我的赞"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -145,7 +146,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -164,7 +165,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_5"/>
+            android:src="@drawable/profile_5" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -173,7 +174,7 @@
             android:layout_marginLeft="55dp"
             android:text="微博会员"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -182,7 +183,7 @@
             android:layout_marginLeft="125dp"
             android:text="卡片背景,送流量"
             android:textColor="@color/gray"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -190,7 +191,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -209,7 +210,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_6"/>
+            android:src="@drawable/profile_6" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -218,7 +219,7 @@
             android:layout_marginLeft="55dp"
             android:text="微博运动"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -227,7 +228,7 @@
             android:layout_marginLeft="125dp"
             android:text="步数，卡路里，跑步轨迹"
             android:textColor="@color/gray"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
 
         <ImageView
@@ -236,7 +237,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -255,7 +256,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_7"/>
+            android:src="@drawable/profile_7" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -264,7 +265,7 @@
             android:layout_marginLeft="55dp"
             android:text="微博支付"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -273,7 +274,7 @@
             android:layout_marginLeft="125dp"
             android:text="积分赢iPhone6s"
             android:textColor="@color/gray"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -281,7 +282,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -300,7 +301,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_8"/>
+            android:src="@drawable/profile_8" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -309,7 +310,7 @@
             android:layout_marginLeft="55dp"
             android:text="粉丝头条"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -318,7 +319,7 @@
             android:layout_marginLeft="125dp"
             android:text="推广博文及账号的利器"
             android:textColor="@color/gray"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
 
         <ImageView
@@ -327,7 +328,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -346,7 +347,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_9"/>
+            android:src="@drawable/profile_9" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -355,7 +356,7 @@
             android:layout_marginLeft="55dp"
             android:text="草稿箱"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -363,7 +364,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -383,7 +384,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_10"/>
+            android:src="@drawable/profile_10" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -392,7 +393,7 @@
             android:layout_marginLeft="55dp"
             android:text="更多"
             android:textColor="#111111"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -401,7 +402,7 @@
             android:layout_marginLeft="95dp"
             android:text="数据中心，收藏，等级"
             android:textColor="@color/gray"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="20dp"
@@ -409,7 +410,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/weibobrowser_goforward_disabled"/>
+            android:src="@drawable/weibobrowser_goforward_disabled" />
     </RelativeLayout>
 
 

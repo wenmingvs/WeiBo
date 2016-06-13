@@ -82,7 +82,6 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/publicbutton"
             android:gravity="center"
-            android:text=""
             android:textColor="#e03f22" />
 
 

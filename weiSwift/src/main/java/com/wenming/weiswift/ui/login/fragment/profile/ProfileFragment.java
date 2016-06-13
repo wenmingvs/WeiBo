@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private LinearLayout mMyWeiBo_Layout;
     private LinearLayout mFollowers_Layout;
     private LinearLayout mFriends_Layout;
+    private RelativeLayout mMyPhoto_Layout;
     private ProfileFragmentPresent mProfileFragmentPresent;
     private CircleProgressBar mProgressBar;
     private ScrollView mScrollView;
@@ -85,8 +87,10 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.yyweibo_layout);
         mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
         mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
+        mMyPhoto_Layout = (RelativeLayout) mView.findViewById(R.id.myphoto_layout);
         mSettings = (TextView) mView.findViewById(R.id.setting);
         mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);
+
         mProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         refreshUserDetail(mContext, true);
         setUpListener();
@@ -144,6 +148,12 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
             }
         });
+        mMyPhoto_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -152,7 +162,6 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
             refreshUserDetail(mContext, false);
             NewFeature.refresh_profileLayout = false;
         }
-
     }
 
     @Override
