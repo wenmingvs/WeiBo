@@ -32,7 +32,7 @@ public class TimelineArrowWindow extends ArrowPopWindow implements WeiBoArrowVie
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mWeiBoArrowPresent.cancalFavorite(status, mContext);
+                    mWeiBoArrowPresent.cancalFavorite(mItemPosition, status, mContext, false);
                 }
             });
         } else {
@@ -54,7 +54,6 @@ public class TimelineArrowWindow extends ArrowPopWindow implements WeiBoArrowVie
         if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
             mFollerLayout.setVisibility(View.GONE);
         }
-
         if (status.user.following) {
             textView.setText("取消关注 " + status.user.name);
             textView.setOnClickListener(new View.OnClickListener() {

@@ -88,6 +88,7 @@
 
         <activity android:name=".ui.unlogin.activity.WebViewActivity" />
         <activity android:name=".ui.login.fragment.profile.setting.accoutlist.AccoutActivity" />
+        <activity android:name=".ui.login.fragment.profile.favorites.FavoritiesActivity"/>
     </application>
 
 </manifest>

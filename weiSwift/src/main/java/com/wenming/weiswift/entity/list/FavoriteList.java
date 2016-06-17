@@ -20,6 +20,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.wenming.weiswift.entity.Favorite;
+import com.wenming.weiswift.ui.common.FillContentHelper;
 
 import java.util.ArrayList;
 
@@ -41,10 +42,28 @@ public class FavoriteList {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
-
         FavoriteList favorites = new Gson().fromJson(jsonString, FavoriteList.class);
-        return favorites;
+        //对status中的本地私有字段进行赋值
+        for (Favorite favorite : favorites.favorites) {
+            //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
+            FillContentHelper.setSingleImgSizeType(favorite.status);
+            //提取微博来源的关键字
+            FillContentHelper.setSource(favorite.status);
+            //设置三种类型图片的url地址
+            FillContentHelper.setImgUrl(favorite.status);
 
+            if (favorite.status.retweeted_status != null) {
+                //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
+                FillContentHelper.setSingleImgSizeType(favorite.status.retweeted_status);
+                //提取微博来源的关键字
+                FillContentHelper.setSource(favorite.status.retweeted_status);
+                //设置三种类型图片的url地址
+                FillContentHelper.setImgUrl(favorite.status.retweeted_status);
+            }
+        }
+
+
+        return favorites;
     }
 
 }

@@ -5,11 +5,17 @@ import android.content.Context;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.api.FavoritesAPI;
+import com.wenming.weiswift.entity.Favorite;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.list.FavoriteList;
 import com.wenming.weiswift.mvp.model.FavoriteListModel;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
+
+import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 16/6/6.
@@ -17,6 +23,8 @@ import com.wenming.weiswift.utils.ToastUtil;
 public class FavoriteListModelImp implements FavoriteListModel {
     private Context mContext;
     private OnRequestUIListener mOnRequestUIListener;
+    private ArrayList<Status> mStatusList = new ArrayList<>();
+    private int mPage = 1;
 
     @Override
     public void createFavorite(final Status status, Context context, OnRequestUIListener onRequestUIListener) {
@@ -68,5 +76,82 @@ public class FavoriteListModelImp implements FavoriteListModel {
         });
     }
 
+    @Override
+    public void favorites(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        mContext = context;
+        FavoritesAPI favoritesAPI = new FavoritesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        favoritesAPI.favorites(NewFeature.GET_FAVORITE_NUMS, mPage, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                ArrayList<Favorite> temp = FavoriteList.parse(response).favorites;
+                if (temp != null && temp.size() > 0) {
+                    cacheSave(mContext, response);
+                    for (Favorite favorite : temp) {
+                        mStatusList.add(favorite.status);
+                    }
+                    mPage++;
+                    onDataFinishedListener.onDataFinish(mStatusList);
+                } else {
+                    ToastUtil.showShort(context, "没有更新的内容了");
+                    onDataFinishedListener.noMoreDate();
+                }
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(context, e.getMessage());
+                onDataFinishedListener.onError(e.getMessage());
+                cacheLoad(context, onDataFinishedListener);
+            }
+        });
+    }
+
+    @Override
+    public void favoritesNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
+        mContext = context;
+        FavoritesAPI favoritesAPI = new FavoritesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        favoritesAPI.favorites(NewFeature.GET_FAVORITE_NUMS, mPage, new RequestListener() {
+            @Override
+            public void onComplete(String response) {
+                ArrayList<Favorite> temp = FavoriteList.parse(response).favorites;
+                if (temp != null && temp.size() > 0) {
+                    for (Favorite favorite : temp) {
+                        mStatusList.add(favorite.status);
+                    }
+                    mPage++;
+                    onDataFinishedListener.onDataFinish(mStatusList);
+                } else {
+                    ToastUtil.showShort(context, "没有更新的内容了");
+                    onDataFinishedListener.noMoreDate();
+                }
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                ToastUtil.showShort(context, e.getMessage());
+                onDataFinishedListener.onError(e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void cacheSave(Context context, String response) {
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+    }
+
+    @Override
+    public void cacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
+        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        if (response != null) {
+            ArrayList<Favorite> temp = FavoriteList.parse(response).favorites;
+            if (temp != null && temp.size() > 0) {
+                mPage++;
+                for (Favorite favorite : temp) {
+                    mStatusList.add(favorite.status);
+                }
+                onDataFinishedListener.onDataFinish(mStatusList);
+            }
+        }
+    }
 
 }

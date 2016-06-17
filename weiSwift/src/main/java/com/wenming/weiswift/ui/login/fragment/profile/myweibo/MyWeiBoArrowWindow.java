@@ -32,7 +32,7 @@ public class MyWeiBoArrowWindow extends ArrowPopWindow implements WeiBoArrowView
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mWeiBoArrowPresent.cancalFavorite(status, mContext);
+                    mWeiBoArrowPresent.cancalFavorite(mItemPosition, status, mContext, false);
                 }
             });
         } else {

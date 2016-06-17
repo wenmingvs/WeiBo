@@ -45,40 +45,6 @@ public class Favorite implements Parcelable {
     public String favorited_time;
 
 
-
-//    public static Favorite parse(String jsonString) {
-//        try {
-//            JSONObject object = new JSONObject(jsonString);
-//            return Favorite.parse(object);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-//
-//    public static Favorite parse(JSONObject jsonObject) {
-//        if (null == jsonObject) {
-//            return null;
-//        }
-//
-//        Favorite favorite = new Favorite();
-//        favorite.status         = Status.parse(jsonObject.optJSONObject("status"));
-//        favorite.favorited_time = jsonObject.optString("favorited_time");
-//
-//        JSONArray jsonArray    = jsonObject.optJSONArray("tags");
-//        if (jsonArray != null && jsonArray.length() > 0) {
-//            int length = jsonArray.length();
-//            favorite.tags = new ArrayList<Tag>(length);
-//            for (int ix = 0; ix < length; ix++) {
-//                favorite.tags.add(Tag.parse(jsonArray.optJSONObject(ix)));
-//            }
-//        }
-//
-//        return favorite;
-//    }
-
-
     public Favorite() {
     }
 

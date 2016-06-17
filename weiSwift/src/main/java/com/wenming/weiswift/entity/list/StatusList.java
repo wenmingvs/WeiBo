@@ -68,7 +68,6 @@ public class StatusList implements Parcelable {
                 //设置三种类型图片的url地址
                 FillContentHelper.setImgUrl(status.retweeted_status);
             }
-
         }
         return statuses;
     }

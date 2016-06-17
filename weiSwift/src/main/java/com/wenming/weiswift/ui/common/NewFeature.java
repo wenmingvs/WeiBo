@@ -32,7 +32,6 @@ public class NewFeature {
     public static int GET_FRIENDS_NUM = 20;
     public static int LOADMORE_FRIENDS_NUM = 20;
 
-
     //滑动到底部，获取转发的数量
     public static int LOADMORE_RETWEET_ITEM = 10;
 
@@ -41,6 +40,9 @@ public class NewFeature {
 
     //滑动到底部，获取公共微博的数量
     public static int LOAD_PUBLICWEIBO_ITEM = 20;
+
+    //每次刷新获取收藏微博的数量
+    public static int GET_FAVORITE_NUMS = 30;
 
 
     //通用设置

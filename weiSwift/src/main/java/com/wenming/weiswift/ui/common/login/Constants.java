@@ -72,5 +72,6 @@ public interface Constants {
     public static final String DELETE_WEIBO_TYPE3 = "我的原创微博";
     public static final String DELETE_WEIBO_TYPE4 = "我的图片微博";
     public static final String DELETE_WEIBO_TYPE5 = "好友圈";
+    public static final String DELETE_WEIBO_TYPE6 = "我的收藏";
 
 }

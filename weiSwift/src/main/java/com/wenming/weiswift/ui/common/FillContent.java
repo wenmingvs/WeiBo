@@ -87,7 +87,6 @@ public class FillContent {
      * @param profile_verified
      */
     public static void fillProfileImg(final Context context, final User user, final ImageView profile_img, final ImageView profile_verified) {
-
         profile_verified.setVisibility(View.GONE);
         profile_verified.setVisibility(View.VISIBLE);
 
@@ -110,8 +109,6 @@ public class FillContent {
                 context.startActivity(intent);
             }
         });
-
-
     }
 
     /**
@@ -128,16 +125,17 @@ public class FillContent {
     public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, comment.user, profile_img, profile_verified);
         setWeiBoName(profile_name, comment.user);
-        FillContent.setWeiBoTime(context, profile_time, comment);
-        FillContent.setWeiBoComeFrom(weibo_comefrom, comment);
+        setWeiBoTime(context, profile_time, comment);
+        setWeiBoComeFrom(weibo_comefrom, comment);
     }
 
-    public static void fillTitleBar(final Context context, final Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+    public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
         fillProfileImg(context, status.user, profile_img, profile_verified);
         setWeiBoName(profile_name, status.user);
         setWeiBoTime(context, profile_time, status);
         setWeiBoComeFrom(weibo_comefrom, status);
     }
+
 
     public static void setWeiBoName(TextView textView, User user) {
         if (user.remark != null && user.remark.length() > 0) {

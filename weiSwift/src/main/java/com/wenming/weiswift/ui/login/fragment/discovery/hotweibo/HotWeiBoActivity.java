@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HotWeiBoPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HotWeiBoPresentImp;
@@ -36,7 +35,6 @@ public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
     public Context mContext;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
-    public StatusesAPI mStatusesAPI;
     public boolean mRefrshAllData;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private HotWeiBoPresent mHotWeiBoPresent;
@@ -110,13 +108,9 @@ public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
     @Override
     public void updateListView(final ArrayList<Status> statuselist) {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
-        if (mDatas != null && mDatas.size() > 0) {
-            mDatas.clear();
-            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
-        }
-        mDatas.addAll(statuselist);
+        mDatas = statuselist;
+        mAdapter.setData(statuselist);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(0);
     }
 
     @Override

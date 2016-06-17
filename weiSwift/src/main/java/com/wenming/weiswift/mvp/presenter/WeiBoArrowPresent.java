@@ -18,6 +18,8 @@ public interface WeiBoArrowPresent {
 
     public void createFavorite(Status status, Context context);
 
-    public void cancalFavorite(Status status, Context context);
+    public void cancalFavorite(int position, Status status, Context context, boolean deleteAnimation);
+
+    //public void cancalFavorite(int position, Status status, Context context);
 
 }

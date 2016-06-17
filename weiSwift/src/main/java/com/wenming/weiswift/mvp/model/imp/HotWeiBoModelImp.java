@@ -21,26 +21,15 @@ import java.util.ArrayList;
 public class HotWeiBoModelImp implements HotWeiBoModel {
 
     private ArrayList<Status> mStatusList = new ArrayList<>();
-    private static final int HOT_COMMENTS_DAILY = 0;
-    private static final int HOT_COMMENTS_WEEKLY = 1;
-    private static final int HOT_RETWEETS_DAILY = 2;
-    private static final int HOT_RETWEETS_WEEKLY = 3;
 
     @Override
-    public void getLatestComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-
-        if (mStatusList != null) {
-            mStatusList.clear();
-        }
+    public void getHotWeiBo(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         getPublicWeiBo(context, onDataFinishedListener);
     }
 
 
     @Override
-    public void getNextPageComment(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+    public void getHotWeiBoNextPage(Context context, OnDataFinishedListener onDataFinishedListener) {
         getPublicWeiBo(context, onDataFinishedListener);
     }
 
@@ -49,7 +38,7 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
         mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {
-                ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
+                ArrayList<Status> temp = StatusList.parse(response).statuses;
                 if (temp != null && temp.size() > 0) {
                     mStatusList.addAll(temp);
                     onDataFinishedListener.onDataFinish(mStatusList);

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent;
+import com.wenming.weiswift.mvp.presenter.imp.WeiBoArrowPresenterImp;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
@@ -61,27 +63,47 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if (holder instanceof OriginViewHolder) {
-            FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_verified, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom);
-            FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
-            FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
-            FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
+            //如果这条原创微博没有被删除
+            if (mDatas.get(position).user != null) {
+                ((OriginViewHolder) holder).titlebar_layout.setVisibility(View.VISIBLE);
+                ((OriginViewHolder) holder).bottombar_layout.setVisibility(View.VISIBLE);
+                ((OriginViewHolder) holder).favoritedelete.setVisibility(View.GONE);
+                FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_verified, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom);
+                FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
+                FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
+                FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
+                ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        arrowClick(mDatas.get(position), position);
+                    }
+                });
 
-            ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    arrowClick(mDatas.get(position), position);
-                }
-            });
+                //微博背景的点击事件
+                ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                        intent.putExtra("weiboitem", mDatas.get(position));
+                        mContext.startActivity(intent);
+                    }
+                });
+            } else {
+                ((OriginViewHolder) holder).titlebar_layout.setVisibility(View.GONE);
+                ((OriginViewHolder) holder).bottombar_layout.setVisibility(View.GONE);
+                ((OriginViewHolder) holder).imageList.setVisibility(View.GONE);
+                ((OriginViewHolder) holder).favoritedelete.setVisibility(View.VISIBLE);
+                FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
+                ((OriginViewHolder) holder).favoritedelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(WeiboAdapter.this);
+                        weiBoArrowPresent.cancalFavorite(position, mDatas.get(position), mContext, true);
+                        //arrowClick(mDatas.get(position), position);
+                    }
+                });
+            }
 
-            //微博背景的点击事件
-            ((OriginViewHolder) holder).origin_weibo_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
-                    intent.putExtra("weiboitem", mDatas.get(position));
-                    mContext.startActivity(intent);
-                }
-            });
 
         } else if (holder instanceof RetweetViewHolder) {
             FillContent.fillTitleBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).profile_img, ((RetweetViewHolder) holder).profile_verified, ((RetweetViewHolder) holder).profile_name, ((RetweetViewHolder) holder).profile_time, ((RetweetViewHolder) holder).weibo_comefrom);
@@ -89,6 +111,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content);
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).bottombar_retweet, ((RetweetViewHolder) holder).bottombar_comment, ((RetweetViewHolder) holder).bottombar_attitude, ((RetweetViewHolder) holder).comment, ((RetweetViewHolder) holder).redirect, ((RetweetViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position).retweeted_status, mContext, ((RetweetViewHolder) holder).retweet_imageList);
+
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,6 +164,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public static class OriginViewHolder extends ViewHolder {
         public LinearLayout origin_weibo_layout;
+        public LinearLayout titlebar_layout;
         public ImageView profile_img;
         public ImageView profile_verified;
         public ImageView popover_arrow;
@@ -152,6 +176,8 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView comment;
         public TextView feedlike;
         public RecyclerView imageList;
+        public TextView favoritedelete;
+        public LinearLayout bottombar_layout;
         public LinearLayout bottombar_retweet;
         public LinearLayout bottombar_comment;
         public LinearLayout bottombar_attitude;
@@ -159,6 +185,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public OriginViewHolder(View v) {
             super(v);
             origin_weibo_layout = (LinearLayout) v.findViewById(R.id.origin_weibo_layout);
+            titlebar_layout = (LinearLayout) v.findViewById(R.id.titlebar_layout);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
             profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
             popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
@@ -170,6 +197,8 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             comment = (TextView) v.findViewById(R.id.comment);
             feedlike = (TextView) v.findViewById(R.id.feedlike);
             imageList = (RecyclerView) v.findViewById(R.id.weibo_image);
+            favoritedelete = (TextView) v.findViewById(R.id.favorities_delete);
+            bottombar_layout = (LinearLayout) v.findViewById(R.id.bottombar_layout);
             bottombar_retweet = (LinearLayout) v.findViewById(R.id.bottombar_retweet);
             bottombar_comment = (LinearLayout) v.findViewById(R.id.bottombar_comment);
             bottombar_attitude = (LinearLayout) v.findViewById(R.id.bottombar_attitude);
