@@ -71,7 +71,7 @@ public abstract class ArrowPopWindow extends BasePopupWindow {
         this.setOutsideTouchable(true);
         this.setAnimationStyle(R.style.weiboitem_arrow_popwup_style);
         // 设置drawable，必须得设置
-        this.setBackgroundDrawable(context.getDrawable(R.drawable.home_weiboitem_arrow_pop_corner_bg));
+        this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.home_weiboitem_arrow_pop_corner_bg));
         // 设置点击外部隐藏window
         this.setTouchInterceptor(new View.OnTouchListener() {
             @Override
