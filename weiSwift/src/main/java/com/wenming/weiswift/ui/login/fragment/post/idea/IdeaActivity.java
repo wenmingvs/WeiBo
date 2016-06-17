@@ -247,7 +247,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 intent.putExtra("status", mStatus);
                 startService(intent);
                 finish();
-
             }
         });
         mSendButton.setOnTouchListener(new View.OnTouchListener() {
