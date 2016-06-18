@@ -60,7 +60,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             return 0;
         }
-
     }
 
 

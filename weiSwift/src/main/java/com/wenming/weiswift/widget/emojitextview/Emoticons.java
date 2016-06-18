@@ -67,9 +67,9 @@ public class Emoticons {
         emojiMap.put("[闭嘴]", "d_bizui");
         emojiMap.put("[馋嘴]", "d_chanzui");
         emojiMap.put("[吃惊]", "d_chijing");
-        emojiMap.put("[打哈欠]", "d_dahaqi");
+        emojiMap.put("[哈欠]", "d_dahaqi");
         emojiMap.put("[打脸]", "d_dalian");
-        emojiMap.put("[顶]", "d_ding");//todo
+        emojiMap.put("[顶]", "d_ding");
         emojiMap.put("[doge]", "d_doge");
         emojiMap.put("[肥皂]", "d_feizao");
         emojiMap.put("[感冒]", "d_ganmao");
@@ -78,35 +78,40 @@ public class Emoticons {
         emojiMap.put("[害羞]", "d_haixiu");
         emojiMap.put("[汗]", "d_han");
         emojiMap.put("[呵呵]", "d_hehe");
+        emojiMap.put("[微笑]", "d_hehe");
         emojiMap.put("[黑线]", "d_heixian");
         emojiMap.put("[哼]", "d_heng");
         emojiMap.put("[花心]", "d_huaxin");
-        emojiMap.put("[挤眼]", "d_jiyan");//todo
+        emojiMap.put("[挤眼]", "d_jiyan");
         emojiMap.put("[可爱]", "d_keai");
         emojiMap.put("[可怜]", "d_kelian");
         emojiMap.put("[酷]", "d_ku");
         emojiMap.put("[困]", "d_kun");
         emojiMap.put("[懒得理你]", "d_landelini");
-        emojiMap.put("", "d_lang");//todo
+        emojiMap.put("[浪]", "d_lang");
         emojiMap.put("[泪]", "d_lei");
         emojiMap.put("[喵喵]", "d_miao");
-        emojiMap.put("", "d_nanhaier");//todo
+        emojiMap.put("[男孩儿]", "d_nanhaier");
         emojiMap.put("[怒]", "d_nu");
+        emojiMap.put("[愤怒]", "d_nu");
         emojiMap.put("[怒骂]", "d_numa");
-        emojiMap.put("", "d_nvhaier");//todo
+        emojiMap.put("[女孩儿]", "d_nvhaier");
         emojiMap.put("[钱]", "d_qian");
         emojiMap.put("[亲亲]", "d_qinqin");
         emojiMap.put("[傻眼]", "d_shayan");
         emojiMap.put("[生病]", "d_shengbing");
-        emojiMap.put("[神兽]", "d_shenshou");//todo
+        emojiMap.put("[神兽]", "d_shenshou");
+        emojiMap.put("[草泥马]", "d_shenshou");
         emojiMap.put("[失望]", "d_shiwang");
         emojiMap.put("[衰]", "d_shuai");
         emojiMap.put("[睡觉]", "d_shuijiao");
+        emojiMap.put("[睡]", "d_shuijiao");
         emojiMap.put("[思考]", "d_sikao");
-        emojiMap.put("[太开心]", "d_taikaixin");//todo
+        emojiMap.put("[太开心]", "d_taikaixin");
+        emojiMap.put("[抱抱]", "d_taikaixin");
         emojiMap.put("[偷笑]", "d_touxiao");
         emojiMap.put("[吐]", "d_tu");
-        emojiMap.put("[兔子]", "d_tuzi");//todo
+        emojiMap.put("[兔子]", "d_tuzi");
         emojiMap.put("[挖鼻]", "d_wabishi");
         emojiMap.put("[委屈]", "d_weiqu");
         emojiMap.put("[笑cry]", "d_xiaoku");
@@ -170,27 +175,60 @@ public class Emoticons {
         emojiMap.put("[话筒]", "o_huatong");
         emojiMap.put("[蜡烛]", "o_lazhu");
         emojiMap.put("[礼物]", "o_liwu");
+        emojiMap.put("[围观]", "o_weiguan");
+        emojiMap.put("[咖啡]", "o_kafei");
+        emojiMap.put("[足球]", "o_zuqiu");
 
 
-//        emojiMap.put("[抱抱]", R.drawable.);
-//        emojiMap.put("[愤怒]", R.drawable.fe);
-//        emojiMap.put("[做鬼脸]", R.drawable.);
-//        emojiMap.put("[拜拜]", R.drawable.d_baibai);
-//        emojiMap.put("[赞]", R.drawable.zang);
-//        emojiMap.put("[心]", R.drawable.xin);
-//        emojiMap.put("[伤心]", R.drawable.shan);
-//        emojiMap.put("[囧]", R.drawable.jiong);
-//        emojiMap.put("[弱]", R.drawable.ruo);
-//        emojiMap.put("[ok]", R.drawable.ok);
-//        emojiMap.put("[威武]", R.drawable.weiwu);
-//        emojiMap.put("[月亮]", R.drawable.yue;
-//        emojiMap.put("[浮云]", R.drawable.f);
-//        emojiMap.put("[咖啡]", R.drawable.ka);
-//        emojiMap.put("[爱心传递]", R.drawable.aixin);
-//        emojiMap.put("[来]", R.drawable.lai);
-//        emojiMap.put("[帅]", R.drawable.suai);
-//        emojiMap.put("[不要]", R.drawable");
-//        emojiMap.put("[躁狂症]", "lxh_kuangzaozheng.png");
+        emojiMap.put("[ok]", "h_ok");
+        emojiMap.put("[躁狂症]", "lxh_zaokuangzheng");
+        emojiMap.put("[威武]", "weiwu");
+        emojiMap.put("[赞]", "h_zan");
+        emojiMap.put("[心]", "l_xin");
+        emojiMap.put("[伤心]", "l_shangxin");
+        emojiMap.put("[月亮]", "w_yueliang");
+        emojiMap.put("[鲜花]", "w_xianhua");
+        emojiMap.put("[太阳]", "w_taiyang");
+        emojiMap.put("[威武]", "weiwu");
+        emojiMap.put("[浮云]", "w_fuyun");
+        emojiMap.put("[神马]", "shenma");
+        emojiMap.put("[微风]", "w_weifeng");
+        emojiMap.put("[下雨]", "w_xiayu");
+        emojiMap.put("[色]", "huaxin");
+        emojiMap.put("[沙尘暴]", "w_shachenbao");
+        emojiMap.put("[落叶]", "w_luoye");
+        emojiMap.put("[雪人]", "w_xueren");
+        emojiMap.put("[good]", "h_good");
+        emojiMap.put("[哆啦A梦吃惊]", "dorahaose_mobile");
+        emojiMap.put("[哆啦A梦微笑]", "jqmweixiao_mobile");
+        emojiMap.put("[哆啦A梦花心]", "dorahaose_mobile");
+        emojiMap.put("[弱]", "ruo");
+        emojiMap.put("[炸鸡啤酒]", "d_zhajipijiu");
+        emojiMap.put("[囧]", "jiong");
+        emojiMap.put("[NO]", "buyao");
+        emojiMap.put("[来]", "guolai");
+        emojiMap.put("[互粉]", "f_hufen");
+        emojiMap.put("[握手]", "h_woshou");
+        emojiMap.put("[haha]", "h_haha");
+        emojiMap.put("[织]", "zhi");
+        emojiMap.put("[萌]", "meng");
+        emojiMap.put("[钟]", "o_zhong");
+        emojiMap.put("[给力]", "geili");
+        emojiMap.put("[喜]", "xi");
+        emojiMap.put("[绿丝带]", "o_lvsidai");
+        emojiMap.put("[围脖]", "weibo");
+        emojiMap.put("[音乐]", "o_yinyue");
+        emojiMap.put("[照相机]", "o_zhaoxiangji");
+        emojiMap.put("[耶]", "h_ye");
+        emojiMap.put("[拍照]", "lxhpz_paizhao");
+        emojiMap.put("[白眼]", "landeln_baiyan");
+
+
+        emojiMap.put("[作揖]", "o_zuoyi");
+        emojiMap.put("[拳头]", "quantou_org");
+        emojiMap.put("[X教授]", "xman_jiaoshou");
+        emojiMap.put("[天启]", "xman_tianqi");
+        emojiMap.put("[抢到啦]", "hb_qiangdao_org");
     }
 
     /**
