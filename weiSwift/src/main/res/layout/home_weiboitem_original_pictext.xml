@@ -36,8 +36,8 @@
         android:id="@+id/splitLine"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:visibility="gone"
-        android:background="#e5e5e5" />
+        android:background="#e5e5e5"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/favorities_delete"

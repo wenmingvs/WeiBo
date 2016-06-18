@@ -79,7 +79,6 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-
     </LinearLayout>
 
     <RelativeLayout
@@ -111,8 +110,7 @@
             android:text="加关注"
             android:textColor="#e98219"
             android:textSize="10sp" />
-
-
+        
     </RelativeLayout>
 
 

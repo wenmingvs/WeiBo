@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -39,10 +40,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        FillContent.fillFriendContent(mContext, mDatas.get(position),
-                ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified,
-                ((FriendsrViewHolder) holder).follow_me,
-                ((FriendsrViewHolder) holder).friendName, ((FriendsrViewHolder) holder).friendContent);
+        FillContent.fillProfileImg(mContext, mDatas.get(position), ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified);
+        FillContent.setWeiBoName(((FriendsrViewHolder) holder).friendName, mDatas.get(position));
+        FillContent.fillFollowerDescription(mDatas.get(position), ((FriendsrViewHolder) holder).friendContent);
+        FillContent.setFriendRelationShip(mDatas.get(position), ((FriendsrViewHolder) holder).follow_me, ((FriendsrViewHolder) holder).friend_relation_text);
+        ((FriendsrViewHolder) holder).friend_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -64,9 +71,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
     protected class FriendsrViewHolder extends ViewHolder {
         public ImageView friendImg;
         public ImageView friendVerified;
-        public ImageView follow_me;
         public TextView friendName;
         public TextView friendContent;
+        public ImageView follow_me;
+        public TextView friend_relation_text;
+        public RelativeLayout friend_layout;
 
         public FriendsrViewHolder(View view) {
             super(view);
@@ -75,6 +84,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
             follow_me = (ImageView) view.findViewById(R.id.follow_me);
             friendName = (TextView) view.findViewById(R.id.friend_name);
             friendContent = (TextView) view.findViewById(R.id.friend_content);
+            friend_relation_text = (TextView) view.findViewById(R.id.friend_relation_text);
+            friend_layout = (RelativeLayout) view.findViewById(R.id.friend_layout);
 
         }
     }
