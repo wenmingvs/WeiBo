@@ -182,6 +182,20 @@ public class FillContent {
         }
     }
 
+    public static void setRelationShipLayout(User user, ImageView follwerIcon, TextView follwerText) {
+        //设置是否关注了此人
+        if (user.following == true) {
+            follwerIcon.setImageResource(R.drawable.card_icon_attention);
+            follwerText.setText("已关注");
+            follwerText.setTextColor(Color.parseColor("#000000"));
+        } else {
+            follwerIcon.setImageResource(R.drawable.card_icon_addattention);
+            follwerText.setText("加关注");
+            follwerText.setTextColor(Color.parseColor("#e98219"));
+        }
+    }
+
+
     public static void setWeiBoComeFrom(TextView textView, Comment comment) {
         if (comment == null) {
             textView.setText("");
@@ -638,23 +652,7 @@ public class FillContent {
         }
     }
 
-
-    /**
-     * 填充粉丝的内容
-     *
-     * @param user
-     * @param followerImg
-     * @param followerVerf
-     * @param followerName
-     * @param content
-     * @param profileComefrom
-     * @param follwerRelation
-     */
-    public static void fillFollowContent(Context context, User user, ImageView followerImg, ImageView followerVerf, TextView followerName, TextView content, TextView profileComefrom, ImageView follwerRelation) {
-
-        fillProfileImg(context, user, followerImg, followerVerf);
-        setWeiBoName(followerName, user);
-        setFollowerComeFrom(profileComefrom, user.status);
+    public static void fillFollowerDescription(User user, TextView content) {
         //设置文本内容
         content.setText("");
         if (!TextUtils.isEmpty(user.description)) {
@@ -662,9 +660,20 @@ public class FillContent {
         } else if (user.status != null) {
             content.setText(user.status.text);
         }
+    }
+
+    /**
+     * 填充粉丝的内容
+     *
+     * @param context
+     * @param user
+     * @param follwerRelation
+     */
+    public static void fillFollowerRealtionShip(Context context, User user, ImageView follwerRelation, TextView textView) {
         //设置是否关注了此人
         if (user.following == true) {
             follwerRelation.setImageResource(R.drawable.card_icon_arrow);
+
         } else {
             follwerRelation.setImageResource(R.drawable.card_icon_addattention);
         }

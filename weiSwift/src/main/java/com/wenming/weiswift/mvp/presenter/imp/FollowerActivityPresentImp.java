@@ -1,9 +1,13 @@
 package com.wenming.weiswift.mvp.presenter.imp;
 
 import android.content.Context;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.wenming.weiswift.entity.User;
+import com.wenming.weiswift.mvp.model.FriendShipModel;
 import com.wenming.weiswift.mvp.model.UserModel;
+import com.wenming.weiswift.mvp.model.imp.FriendShipModelImp;
 import com.wenming.weiswift.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.mvp.presenter.FollowerActivityPresent;
 import com.wenming.weiswift.mvp.view.FollowActivityView;
@@ -16,11 +20,13 @@ import java.util.ArrayList;
 public class FollowerActivityPresentImp implements FollowerActivityPresent {
 
     private UserModel mUserModel;
+    private FriendShipModel friendShipModel;
     private FollowActivityView mFollowActivityView;
 
     public FollowerActivityPresentImp(FollowActivityView followActivityView) {
         this.mFollowActivityView = followActivityView;
         this.mUserModel = new UserModelImp();
+        this.friendShipModel = new FriendShipModelImp();
     }
 
     @Override
@@ -65,5 +71,35 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
                 mFollowActivityView.showErrorFooterView();
             }
         });
+    }
+
+    @Override
+    public void user_destroy(User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+        friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
+            @Override
+            public void onSuccess() {
+                mFollowActivityView.disFocusSuccess(follwerIcon, follwerText);
+            }
+
+            @Override
+            public void onError(String error) {
+                mFollowActivityView.disFocusFail(follwerIcon, follwerText);
+            }
+        }, true);
+    }
+
+    @Override
+    public void user_create(User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+        friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
+            @Override
+            public void onSuccess() {
+                mFollowActivityView.FocusSuccess(follwerIcon, follwerText);
+            }
+
+            @Override
+            public void onError(String error) {
+                mFollowActivityView.FocusFail(follwerIcon, follwerText);
+            }
+        }, true);
     }
 }

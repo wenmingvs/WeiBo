@@ -16,8 +16,7 @@
             android:id="@+id/follower_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-             />
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/follower_verified"
@@ -34,7 +33,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -52,8 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:ellipsize="end"
             android:singleLine="true"
             android:text="五月会很多惊喜，涉及硬件/软件/服务多个方面。让我们一起畅想吧~"
+            android:textColor="#595959"
             android:textSize="13sp" />
 
         <LinearLayout
@@ -83,18 +83,35 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="45dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@drawable/profile_follower_corners_bg">
+        android:id="@+id/follow_layout"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/message_item_auto"
+        android:gravity="center">
+
 
         <ImageView
-            android:id="@+id/follwer_relation"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:id="@+id/follwer_relation_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="12.5dp"
+            android:scaleType="center"
             android:src="@drawable/card_icon_addattention" />
+
+        <TextView
+            android:id="@+id/follwer_relation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@+id/follwer_relation_icon"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="加关注"
+            android:textColor="#e98219"
+            android:textSize="10sp" />
+
 
     </RelativeLayout>
 

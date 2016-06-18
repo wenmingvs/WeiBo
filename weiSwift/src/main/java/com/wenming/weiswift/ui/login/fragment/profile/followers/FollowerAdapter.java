@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
+public abstract class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<User> mDatas = new ArrayList<User>();
     private Context mContext;
@@ -38,13 +39,25 @@ public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FillContent.fillFollowContent(mContext, mDatas.get(position),
-                ((FollowerViewHolder) holder).followerImg, ((FollowerViewHolder) holder).followerVerf,
-                ((FollowerViewHolder) holder).followerName, ((FollowerViewHolder) holder).follower_firstcontent,
-                ((FollowerViewHolder) holder).profile_comefrom, ((FollowerViewHolder) holder).follwerRelation);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
+        FillContent.fillProfileImg(mContext, mDatas.get(position), ((FollowerViewHolder) holder).followerImg, ((FollowerViewHolder) holder).followerVerf);
+        FillContent.setWeiBoName(((FollowerViewHolder) holder).followerName, mDatas.get(position));
+        FillContent.fillFollowerDescription(mDatas.get(position), ((FollowerViewHolder) holder).follower_firstcontent);
+        FillContent.setFollowerComeFrom(((FollowerViewHolder) holder).profile_comefrom, mDatas.get(position).status);
+        FillContent.setRelationShipLayout(mDatas.get(position), ((FollowerViewHolder) holder).follwerIcon, ((FollowerViewHolder) holder).follwerText);
+
+        //设置点击事件
+        ((FollowerViewHolder) holder).follower_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                followerLayoutClick(mDatas.get(position), position, ((FollowerViewHolder) holder).follwerIcon, ((FollowerViewHolder) holder).follwerText);
+            }
+        });
+        
     }
+
+    public abstract void followerLayoutClick(User user, int position, ImageView follwerIcon, TextView follwerText);
 
     @Override
     public int getItemCount() {
@@ -53,7 +66,6 @@ public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             return 0;
         }
-
     }
 
 
@@ -67,7 +79,10 @@ public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView followerName;
         public TextView follower_firstcontent;
         public TextView profile_comefrom;
-        public ImageView follwerRelation;
+        public ImageView follwerIcon;
+        public TextView follwerText;
+        public RelativeLayout follower_layout;
+
 
         public FollowerViewHolder(View view) {
             super(view);
@@ -76,7 +91,9 @@ public class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
             followerName = (TextView) view.findViewById(R.id.follower_name);
             follower_firstcontent = (TextView) view.findViewById(R.id.follower_firstcontent);
             profile_comefrom = (TextView) view.findViewById(R.id.profile_comefrom);
-            follwerRelation = (ImageView) view.findViewById(R.id.follwer_relation);
+            follwerIcon = (ImageView) view.findViewById(R.id.follwer_relation_icon);
+            follwerText = (TextView) view.findViewById(R.id.follwer_relation_text);
+            follower_layout = (RelativeLayout) view.findViewById(R.id.follow_layout);
         }
     }
 }

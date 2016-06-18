@@ -303,6 +303,7 @@ public class StatusListModelImp implements StatusListModel {
         }
     };
 
+
     private RequestListener destroyRequestListener = new RequestListener() {
         @Override
         public void onComplete(String s) {

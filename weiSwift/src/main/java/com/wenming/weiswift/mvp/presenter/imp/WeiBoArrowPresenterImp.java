@@ -153,7 +153,7 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
             public void onError(String error) {
 
             }
-        });
+        }, false);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class WeiBoArrowPresenterImp implements WeiBoArrowPresent {
             public void onError(String error) {
 
             }
-        });
+        }, false);
     }
 
     /**

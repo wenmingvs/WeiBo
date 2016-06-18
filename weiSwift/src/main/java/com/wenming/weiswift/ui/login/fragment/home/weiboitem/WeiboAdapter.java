@@ -67,6 +67,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (mDatas.get(position).user != null) {
                 ((OriginViewHolder) holder).titlebar_layout.setVisibility(View.VISIBLE);
                 ((OriginViewHolder) holder).bottombar_layout.setVisibility(View.VISIBLE);
+                ((OriginViewHolder) holder).splitLine.setVisibility(View.GONE);
                 ((OriginViewHolder) holder).favoritedelete.setVisibility(View.GONE);
                 FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).profile_img, ((OriginViewHolder) holder).profile_verified, ((OriginViewHolder) holder).profile_name, ((OriginViewHolder) holder).profile_time, ((OriginViewHolder) holder).weibo_comefrom);
                 FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
@@ -92,6 +93,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((OriginViewHolder) holder).titlebar_layout.setVisibility(View.GONE);
                 ((OriginViewHolder) holder).bottombar_layout.setVisibility(View.GONE);
                 ((OriginViewHolder) holder).imageList.setVisibility(View.GONE);
+                ((OriginViewHolder) holder).splitLine.setVisibility(View.VISIBLE);
                 ((OriginViewHolder) holder).favoritedelete.setVisibility(View.VISIBLE);
                 FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
                 ((OriginViewHolder) holder).favoritedelete.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +179,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView feedlike;
         public RecyclerView imageList;
         public TextView favoritedelete;
+        public ImageView splitLine;
         public LinearLayout bottombar_layout;
         public LinearLayout bottombar_retweet;
         public LinearLayout bottombar_comment;
@@ -196,6 +199,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             redirect = (TextView) v.findViewById(R.id.redirect);
             comment = (TextView) v.findViewById(R.id.comment);
             feedlike = (TextView) v.findViewById(R.id.feedlike);
+            splitLine = (ImageView) v.findViewById(R.id.splitLine);
             imageList = (RecyclerView) v.findViewById(R.id.weibo_image);
             favoritedelete = (TextView) v.findViewById(R.id.favorities_delete);
             bottombar_layout = (LinearLayout) v.findViewById(R.id.bottombar_layout);

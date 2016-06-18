@@ -2,11 +2,14 @@ package com.wenming.weiswift.ui.login.fragment.profile.followers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.api.StatusesAPI;
@@ -70,12 +73,22 @@ public class FollowerActivity extends Activity implements FollowActivityView {
 
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mAdapter = new FollowerAdapter(mDatas, mContext);
+        mAdapter = new FollowerAdapter(mDatas, mContext) {
+            @Override
+            public void followerLayoutClick(User user, int position, ImageView follwerIcon, TextView follwerText) {
+                follwerIcon.setImageResource(R.anim.refresh_loading);
+                follwerText.setText("");
+                if (user.following) {
+                    mFollowerActivityPresent.user_destroy(user, mContext, follwerIcon, follwerText);
+                } else {
+                    mFollowerActivityPresent.user_create(user, mContext, follwerIcon, follwerText);
+                }
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-
     }
 
 
@@ -131,4 +144,34 @@ public class FollowerActivity extends Activity implements FollowActivityView {
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
+
+    @Override
+    public void FocusSuccess(ImageView follwerIcon, TextView follwerText) {
+        follwerIcon.setImageResource(R.drawable.card_icon_attention);
+        follwerText.setText("已关注");
+        follwerText.setTextColor(Color.parseColor("#000000"));
+    }
+
+    @Override
+    public void FocusFail(ImageView follwerIcon, TextView follwerText) {
+        follwerIcon.setImageResource(R.drawable.card_icon_addattention);
+        follwerText.setText("加关注");
+        follwerText.setTextColor(Color.parseColor("#e98219"));
+    }
+
+    @Override
+    public void disFocusSuccess(ImageView follwerIcon, TextView follwerText) {
+        follwerIcon.setImageResource(R.drawable.card_icon_addattention);
+        follwerText.setText("加关注");
+        follwerText.setTextColor(Color.parseColor("#e98219"));
+    }
+
+    @Override
+    public void disFocusFail(ImageView follwerIcon, TextView follwerText) {
+        follwerIcon.setImageResource(R.drawable.card_icon_attention);
+        follwerText.setText("已关注");
+        follwerText.setTextColor(Color.parseColor("#000000"));
+    }
+
+
 }
