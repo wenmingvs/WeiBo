@@ -2,18 +2,19 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="45dp"
     android:background="@color/white"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey" />
+        android:background="#eaeaea" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#fafafa"
         android:orientation="horizontal">
 
@@ -21,32 +22,19 @@
             android:id="@+id/tv_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/home_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/tabbar_home_auto" />
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:gravity="center"
-                    android:text="首页"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+                android:drawablePadding="-5dp"
+                android:drawableTop="@drawable/tabbar_home_auto"
+                android:gravity="center"
+                android:text="首页"
+                android:textSize="10sp" />
 
             <ImageView
                 android:layout_width="10dp"
@@ -62,33 +50,19 @@
             android:id="@+id/tv_message"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/message_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
-
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/tabbar_message_auto" />
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:gravity="center"
-                    android:text="消息"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+                android:drawablePadding="-5dp"
+                android:drawableTop="@drawable/tabbar_message_auto"
+                android:gravity="center"
+                android:text="消息"
+                android:textSize="10sp" />
 
             <ImageView
                 android:layout_width="10dp"
@@ -103,25 +77,23 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <FrameLayout
+
+            <ImageView
                 android:id="@+id/fl_post"
-                android:layout_width="44dp"
-                android:layout_height="38dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:background="@drawable/rect_orgin_auto">
-
-                <ImageView
-                    android:id="@+id/textView3"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/tabbar_compose_icon_add" />
-
-            </FrameLayout>
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rect_orgin_auto"
+                android:scaleType="center"
+                android:src="@drawable/tabbar_compose_icon_add" />
 
 
         </RelativeLayout>
@@ -131,32 +103,19 @@
             android:id="@+id/tv_discovery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/discovery_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
-
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/tabbar_discover_auto" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:gravity="center"
-                    android:text="发现"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+                android:drawablePadding="-5dp"
+                android:drawableTop="@drawable/tabbar_discover_auto"
+                android:gravity="center"
+                android:text="发现"
+                android:textSize="10sp" />
 
             <ImageView
                 android:layout_width="10dp"
@@ -172,32 +131,21 @@
             android:id="@+id/tv_profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+
+            <TextView
                 android:id="@+id/profile_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:drawablePadding="-5dp"
+                android:drawableTop="@drawable/tabbar_profile_auto"
+                android:gravity="center"
+                android:text="发现"
+                android:textSize="10sp" />
 
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/tabbar_profile_auto" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:gravity="center"
-                    android:text="发现"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
 
             <ImageView
                 android:layout_width="10dp"

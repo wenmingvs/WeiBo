@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity {
 
     private FragmentManager mFragmentManager;
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
-    private FrameLayout mPostTab;
+    private ImageView mPostTab;
     private boolean mComeFromAccoutActivity;
 
     @Override
@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
-        mPostTab = (FrameLayout) findViewById(R.id.fl_post);
+        mPostTab = (ImageView) findViewById(R.id.fl_post);
         mContext = this;
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
