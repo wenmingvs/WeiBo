@@ -1,9 +1,13 @@
 package com.wenming.weiswift.mvp.presenter.imp;
 
 import android.content.Context;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.wenming.weiswift.entity.User;
+import com.wenming.weiswift.mvp.model.FriendShipModel;
 import com.wenming.weiswift.mvp.model.UserModel;
+import com.wenming.weiswift.mvp.model.imp.FriendShipModelImp;
 import com.wenming.weiswift.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.mvp.presenter.FriendActivityPresent;
 import com.wenming.weiswift.mvp.view.FriendActivityView;
@@ -16,11 +20,13 @@ import java.util.ArrayList;
 public class FriendActivityPresentImp implements FriendActivityPresent {
 
     private UserModel mUserModel;
+    private FriendShipModel friendShipModel;
     private FriendActivityView mFriendActivityView;
 
     public FriendActivityPresentImp(FriendActivityView friendActivityView) {
         this.mFriendActivityView = friendActivityView;
         this.mUserModel = new UserModelImp();
+        this.friendShipModel = new FriendShipModelImp();
     }
 
     @Override
@@ -67,4 +73,36 @@ public class FriendActivityPresentImp implements FriendActivityPresent {
             }
         });
     }
+
+    @Override
+    public void user_destroy(final User user, Context context, final ImageView friendIcon, final TextView friendText) {
+        friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
+            @Override
+            public void onSuccess() {
+                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+                //mFriendActivityView.disFocusSuccess(friendIcon, friendText);
+            }
+
+            @Override
+            public void onError(String error) {
+                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+            }
+        }, false);
+    }
+
+    @Override
+    public void user_create(final User user, Context context, final ImageView friendIcon, final TextView friendText) {
+        friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
+            @Override
+            public void onSuccess() {
+                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+            }
+
+            @Override
+            public void onError(String error) {
+                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+            }
+        }, false);
+    }
+
 }

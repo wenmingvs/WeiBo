@@ -182,31 +182,21 @@ public class FillContent {
         }
     }
 
-    public static void setFollowerRelationShip(User user, ImageView follwerIcon, TextView follwerText) {
-        //设置是否关注了此人
-        if (user.following == true) {
-            follwerIcon.setImageResource(R.drawable.card_icon_attention);
-            follwerText.setText("已关注");
-            follwerText.setTextColor(Color.parseColor("#000000"));
+    public static void updateRealtionShip(User user, ImageView icon, TextView text) {
+        if (user.follow_me && user.following) {
+            icon.setImageResource(R.drawable.card_icon_arrow);
+            text.setText("互相关注");
+            text.setTextColor(Color.parseColor("#5788BF"));
+        } else if (user.following) {
+            icon.setImageResource(R.drawable.card_icon_attention);
+            text.setText("已关注");
+            text.setTextColor(Color.parseColor("#000000"));
         } else {
-            follwerIcon.setImageResource(R.drawable.card_icon_addattention);
-            follwerText.setText("加关注");
-            follwerText.setTextColor(Color.parseColor("#e98219"));
+            icon.setImageResource(R.drawable.card_icon_addattention);
+            text.setText("加关注");
+            text.setTextColor(Color.parseColor("#e98219"));
         }
-    }
 
-    public static void setFriendRelationShip(User user, ImageView friendIcon, TextView friendText) {
-        //设置是否关注了此人
-        if (user.follow_me == true) {
-            friendIcon.setVisibility(View.VISIBLE);
-            friendIcon.setImageResource(R.drawable.card_icon_arrow);
-            friendText.setText("互相关注");
-            friendText.setTextColor(Color.parseColor("#5788BF"));
-        } else {
-            friendIcon.setVisibility(View.INVISIBLE);
-            friendText.setText("");
-            //follwerText.setTextColor(Color.parseColor("#e98219"));
-        }
     }
 
 

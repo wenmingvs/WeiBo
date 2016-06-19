@@ -13,5 +13,4 @@
     <item android:drawable="@drawable/bga_refresh_loading10" android:duration="100" />
     <item android:drawable="@drawable/bga_refresh_loading11" android:duration="100" />
     <item android:drawable="@drawable/bga_refresh_loading12" android:duration="100" />
-
 </animation-list>

@@ -231,7 +231,7 @@ public class User implements Parcelable {
 //        user.avatar_large = jsonObject.optString("avatar_large", "");
 //        user.avatar_hd = jsonObject.optString("avatar_hd", "");
 //        user.verified_reason = jsonObject.optString("verified_reason", "");
-//        user.follow_me = jsonObject.optBoolean("follow_me", false);
+//        user.friendIcon = jsonObject.optBoolean("friendIcon", false);
 //        user.online_status = jsonObject.optInt("online_status", 0);
 //        user.bi_followers_count = jsonObject.optInt("bi_followers_count", 0);
 //        user.lang = jsonObject.optString("lang", "");

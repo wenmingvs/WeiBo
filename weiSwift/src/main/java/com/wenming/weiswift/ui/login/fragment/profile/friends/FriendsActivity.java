@@ -7,6 +7,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.api.StatusesAPI;
@@ -14,6 +16,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FriendActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FriendActivityPresentImp;
 import com.wenming.weiswift.mvp.view.FriendActivityView;
+import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -71,7 +74,18 @@ public class FriendsActivity extends Activity implements FriendActivityView {
 
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mAdapter = new FriendsAdapter(mDatas, mContext);
+        mAdapter = new FriendsAdapter(mDatas, mContext) {
+            @Override
+            public void friendLayoutClick(User user, int position, ImageView friendIcon, TextView friendText) {
+                friendIcon.setImageResource(R.anim.refresh_loading);
+                friendText.setText("");
+                if (user.following) {
+                    mFriendActivityPresent.user_destroy(user, mContext, friendIcon, friendText);
+                } else {
+                    mFriendActivityPresent.user_create(user, mContext, friendIcon, friendText);
+                }
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -132,4 +146,12 @@ public class FriendsActivity extends Activity implements FriendActivityView {
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
+
+
+    @Override
+    public void updateRealtionShip(User user, ImageView icon, TextView text) {
+        FillContent.updateRealtionShip(user, icon, text);
+    }
+
+
 }

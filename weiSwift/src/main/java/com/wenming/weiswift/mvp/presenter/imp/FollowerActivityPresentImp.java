@@ -74,31 +74,31 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
     }
 
     @Override
-    public void user_destroy(User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+    public void user_destroy(final User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
         friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFollowActivityView.disFocusSuccess(follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
             }
 
             @Override
             public void onError(String error) {
-                mFollowActivityView.disFocusFail(follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
             }
         }, true);
     }
 
     @Override
-    public void user_create(User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+    public void user_create(final User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
         friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFollowActivityView.FocusSuccess(follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
             }
 
             @Override
             public void onError(String error) {
-                mFollowActivityView.FocusFail(follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
             }
         }, true);
     }
