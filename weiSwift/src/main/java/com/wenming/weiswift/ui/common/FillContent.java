@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -301,7 +300,7 @@ public class FillContent {
      */
     public static void fillWeiBoContent(String text, Context context, EmojiTextView weibo_content) {
         weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(text, context, weibo_content));
-        weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
+        //weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /**

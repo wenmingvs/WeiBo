@@ -9,12 +9,12 @@ import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wenming.weiswift.R;
 import com.wenming.weiswift.utils.DensityUtil;
 
 import java.util.regex.Matcher;
@@ -39,7 +39,7 @@ public class WeiBoContentTextUtil {
         Matcher matcher = pattern.matcher(spannableStringBuilder);
 
         if (matcher.find()) {
-            textView.setMovementMethod(LinkMovementMethod.getInstance());
+            textView.setMovementMethod(ClickableMovementMethod.getInstance());
             matcher.reset();
         }
 
@@ -66,7 +66,6 @@ public class WeiBoContentTextUtil {
                 int start = matcher.start(2);
                 int end = start + topic.length();
                 WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
-
                     @Override
                     public void onClick(View widget) {
                         Toast.makeText(context, "点击了话题：" + topic, Toast.LENGTH_LONG).show();
@@ -79,22 +78,36 @@ public class WeiBoContentTextUtil {
             if (url != null) {
                 int start = matcher.start(3);
                 int end = start + url.length();
-                WeiBoContentClickableSpan clickableSpan = new WeiBoContentClickableSpan(context) {
+                Drawable websiteDrawable = context.getResources().getDrawable(R.drawable.button_web);
+                websiteDrawable.setBounds(0, 0, websiteDrawable.getIntrinsicWidth(), websiteDrawable.getIntrinsicHeight());
+                ClickableImageSpan imageSpan = new ClickableImageSpan(websiteDrawable, ImageSpan.ALIGN_BOTTOM) {
+                    @Override
+                    public void onClick(View widget) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        context.startActivity(browserIntent);
+                    }
 
-                    @Override
-                    public void onClick(View widget) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        context.startActivity(browserIntent);
+                    public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+                        Drawable b = getDrawable();
+                        canvas.save();
+                        int transY = bottom - b.getBounds().bottom;
+                        transY -= paint.getFontMetricsInt().descent / 2;
+                        canvas.translate(x, transY);
+                        b.draw(canvas);
+                        canvas.restore();
                     }
+
                 };
-                WeiBoContentClickableSpan keyWordClickableSpan = new WeiBoContentClickableSpan(context) {
-                    @Override
-                    public void onClick(View widget) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        context.startActivity(browserIntent);
-                    }
-                };
-                spannableStringBuilder.setSpan(keyWordClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+//                WeiBoContentClickableSpan keyWordClickableSpan = new WeiBoContentClickableSpan(context) {
+//                    @Override
+//                    public void onClick(View widget) {
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        context.startActivity(browserIntent);
+//                    }
+//                };
+
+                spannableStringBuilder.setSpan(imageSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             //emoji
             if (emoji != null) {
@@ -106,7 +119,6 @@ public class WeiBoContentTextUtil {
                     Drawable emojiDrawable = context.getResources().getDrawable(resId);
                     if (emojiDrawable != null) {
                         emojiDrawable.setBounds(0, 0, DensityUtil.sp2px(context, 17), DensityUtil.sp2px(context, 17));
-
                         ImageSpan imageSpan = new ImageSpan(emojiDrawable, ImageSpan.ALIGN_BOTTOM) {
                             public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
                                 Drawable b = getDrawable();
