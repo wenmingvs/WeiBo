@@ -111,7 +111,12 @@ public class MentionActivity extends Activity implements MentionActivityView {
 
 
     private void initRecyclerView() {
-        mMentionAdapter = new MentionAdapter(mContext, mMentionDatas);
+        mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
+            @Override
+            public void arrowClick(Status status, int position) {
+                //TODO
+            }
+        };
         mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -151,7 +156,12 @@ public class MentionActivity extends Activity implements MentionActivityView {
     @Override
     public void updateMentionListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
         if (resetAdapter) {
-            mMentionAdapter = new MentionAdapter(mContext, mMentionDatas);
+            mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
+                @Override
+                public void arrowClick(Status status, int position) {
+                    //TODO
+                }
+            };
             mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);

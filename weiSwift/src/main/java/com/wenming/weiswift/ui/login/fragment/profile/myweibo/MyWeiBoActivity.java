@@ -38,7 +38,6 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/4/27.
  */
 public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
-
     public WeiboAdapter mAdapter;
     private ArrayList<Status> mDatas;
     public Context mContext;
@@ -52,7 +51,6 @@ public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
     private MyWeiBoActivityPresent mMyWeiBoActivityPresent;
     private MyWeiBoPopWindow mMyWeiBoPopWindow;
     private int mCurrentGroup = Constants.GROUP_MYWEIBO_TYPE_ALL;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
