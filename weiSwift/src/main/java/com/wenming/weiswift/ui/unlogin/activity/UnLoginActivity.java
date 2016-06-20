@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -43,7 +43,7 @@ public class UnLoginActivity extends FragmentActivity {
     private FragmentManager mFragmentManager;
     private Oauth2AccessToken mAccessToken;
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
-    private FrameLayout mPostTab;
+    private ImageView mPostTab;
 
 
     @Override
@@ -55,7 +55,7 @@ public class UnLoginActivity extends FragmentActivity {
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
-        mPostTab = (FrameLayout) findViewById(R.id.fl_post);
+        mPostTab = (ImageView) findViewById(R.id.fl_post);
 
         mFragmentManager = getSupportFragmentManager();
         setTabFragment(HOME_FRAGMENT);
