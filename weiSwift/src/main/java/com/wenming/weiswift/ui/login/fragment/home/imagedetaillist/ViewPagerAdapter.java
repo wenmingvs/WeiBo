@@ -93,7 +93,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         if (mDatas.get(position).endsWith(".gif")) {
             donutProgress.setVisibility(View.GONE);
-            String gifURL = getGifUrl(mDatas.get(position));
+            String gifURL = mDatas.get(position);
             LogUtil.d(gifURL);
             photoView.setVisibility(View.INVISIBLE);
             simpleDraweeView.setVisibility(View.VISIBLE);
@@ -115,7 +115,6 @@ public class ViewPagerAdapter extends PagerAdapter {
        simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View v) {
-               
                return false;
            }
        });
