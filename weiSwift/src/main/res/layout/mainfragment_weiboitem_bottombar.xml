@@ -3,6 +3,7 @@
     android:id="@+id/bottombar_layout"
     android:layout_width="match_parent"
     android:layout_height="36dp"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <ImageView
@@ -17,7 +18,7 @@
 
         <LinearLayout
             android:id="@+id/bottombar_retweet"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/timeline_feedcard_retweet_background_auto"
@@ -29,7 +30,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/timeline_icon_redirect" />
-
 
             <TextView
                 android:id="@+id/redirect"
@@ -44,13 +44,15 @@
 
         <ImageView
             android:layout_width="1dp"
-            android:layout_height="20dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:background="#f2f2f2" />
 
         <LinearLayout
             android:id="@+id/bottombar_comment"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/timeline_feedcard_retweet_background_auto"
@@ -76,13 +78,14 @@
 
         <ImageView
             android:layout_width="1dp"
-            android:layout_height="20dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:background="#f2f2f2" />
-
         <LinearLayout
             android:id="@+id/bottombar_attitude"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/timeline_feedcard_retweet_background_auto"

@@ -40,6 +40,9 @@ public class WeiBoContentTextUtil {
 
         if (matcher.find()) {
             textView.setMovementMethod(ClickableMovementMethod.getInstance());
+            textView.setFocusable(false);
+            textView.setClickable(false);
+            textView.setLongClickable(false);
             matcher.reset();
         }
 

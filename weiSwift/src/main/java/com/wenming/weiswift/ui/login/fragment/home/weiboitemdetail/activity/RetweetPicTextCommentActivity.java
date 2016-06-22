@@ -2,8 +2,8 @@ package com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity;
 
 import android.widget.LinearLayout;
 
-import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview.RetweetPicTextHeaderView;
+import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 
 /**
  * Created by wenmingvs on 16/4/21.

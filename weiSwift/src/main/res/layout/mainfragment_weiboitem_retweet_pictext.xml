@@ -23,9 +23,10 @@
         android:textSize="@dimen/home_original_weiboitem_font" />
 
     <LinearLayout
+        android:id="@+id/retweetStatus_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/home_retweet_weiboitem_bg"
+        android:background="@drawable/home_retweet_weiboitem_bg_auto"
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">

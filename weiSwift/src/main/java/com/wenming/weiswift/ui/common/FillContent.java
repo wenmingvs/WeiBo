@@ -265,6 +265,7 @@ public class FillContent {
             }
         });
 
+
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -499,6 +500,7 @@ public class FillContent {
         comment.setText("评论 " + comments_count);
         redirect.setText("转发 " + reposts_count);
         feedlike.setText("赞 " + attitudes_count);
+
     }
 
     public static void RefreshNoneView(Context context, int comments_count, View noneView) {

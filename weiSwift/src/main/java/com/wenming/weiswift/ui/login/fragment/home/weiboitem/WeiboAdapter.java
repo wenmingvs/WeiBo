@@ -73,6 +73,15 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
                 FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).bottombar_retweet, ((OriginViewHolder) holder).bottombar_comment, ((OriginViewHolder) holder).bottombar_attitude, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
                 FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
+
+                ((OriginViewHolder) holder).bottombar_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+
                 ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -113,6 +122,22 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((RetweetViewHolder) holder).retweet_content);
             FillContent.fillButtonBar(mContext, mDatas.get(position), ((RetweetViewHolder) holder).bottombar_retweet, ((RetweetViewHolder) holder).bottombar_comment, ((RetweetViewHolder) holder).bottombar_attitude, ((RetweetViewHolder) holder).comment, ((RetweetViewHolder) holder).redirect, ((RetweetViewHolder) holder).feedlike);
             FillContent.fillWeiBoImgList(mDatas.get(position).retweeted_status, mContext, ((RetweetViewHolder) holder).retweet_imageList);
+            
+            ((RetweetViewHolder) holder).bottombar_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            ((RetweetViewHolder) holder).retweetStatus_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                    intent.putExtra("weiboitem", mDatas.get(position).retweeted_status);
+                    mContext.startActivity(intent);
+                }
+            });
 
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,6 +155,8 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mContext.startActivity(intent);
                 }
             });
+
+
         }
 
     }
@@ -223,9 +250,11 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView feedlike;
         public EmojiTextView origin_nameAndcontent;
         public RecyclerView retweet_imageList;
+        public LinearLayout bottombar_layout;
         public LinearLayout bottombar_retweet;
         public LinearLayout bottombar_comment;
         public LinearLayout bottombar_attitude;
+        public LinearLayout retweetStatus_layout;
 
 
         public RetweetViewHolder(View v) {
@@ -243,9 +272,11 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             feedlike = (TextView) v.findViewById(R.id.feedlike);
             origin_nameAndcontent = (EmojiTextView) v.findViewById(R.id.origin_nameAndcontent);
             retweet_imageList = (RecyclerView) v.findViewById(R.id.origin_imageList);
+            bottombar_layout = (LinearLayout) v.findViewById(R.id.bottombar_layout);
             bottombar_retweet = (LinearLayout) v.findViewById(R.id.bottombar_retweet);
             bottombar_comment = (LinearLayout) v.findViewById(R.id.bottombar_comment);
             bottombar_attitude = (LinearLayout) v.findViewById(R.id.bottombar_attitude);
+            retweetStatus_layout = (LinearLayout) v.findViewById(R.id.retweetStatus_layout);
         }
     }
 
