@@ -277,18 +277,18 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     }
 
     private void pressSendButton() {
-        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_press_bg));
+        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_press_bg);
         mSendButton.setTextColor(Color.parseColor("#ebeef3"));
     }
 
     private void highlightSendButton() {
-        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_bg));
+        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_bg);
         mSendButton.setTextColor(Color.parseColor("#fbffff"));
         mSendButton.setEnabled(true);
     }
 
     private void sendNormal() {
-        mSendButton.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_bg));
+        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_bg);
         mSendButton.setTextColor(Color.parseColor("#b3b3b3"));
         mSendButton.setEnabled(false);
     }

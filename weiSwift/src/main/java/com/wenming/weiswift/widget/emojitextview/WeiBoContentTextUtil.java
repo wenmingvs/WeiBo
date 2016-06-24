@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,10 +40,12 @@ public class WeiBoContentTextUtil {
         Matcher matcher = pattern.matcher(spannableStringBuilder);
 
         if (matcher.find()) {
-            textView.setMovementMethod(ClickableMovementMethod.getInstance());
-            textView.setFocusable(false);
-            textView.setClickable(false);
-            textView.setLongClickable(false);
+            if (!(textView instanceof EditText)) {
+                textView.setMovementMethod(ClickableMovementMethod.getInstance());
+                textView.setFocusable(false);
+                textView.setClickable(false);
+                textView.setLongClickable(false);
+            }
             matcher.reset();
         }
 
