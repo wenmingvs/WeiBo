@@ -58,7 +58,7 @@ public class StatusListModelImp implements StatusListModel {
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
         long sinceId = checkout(Constants.GROUP_TYPE_ALL);
-        mStatusesAPI.friendsTimeline(sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, pullToRefreshListener);
+        mStatusesAPI.homeTimeline(sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, pullToRefreshListener);
     }
 
 
@@ -135,7 +135,7 @@ public class StatusListModelImp implements StatusListModel {
         mOnDataFinishedUIListener = onDataFinishedListener;
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
-        mStatusesAPI.friendsTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, nextPageListener);
+        mStatusesAPI.homeTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, nextPageListener);
     }
 
 

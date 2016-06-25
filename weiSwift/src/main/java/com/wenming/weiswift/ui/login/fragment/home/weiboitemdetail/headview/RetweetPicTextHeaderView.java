@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -44,9 +45,17 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     private OnDetailButtonClickListener onDetailButtonClickListener;
 
 
-    public RetweetPicTextHeaderView(Context context, Status status) {
+    public RetweetPicTextHeaderView(Context context, Status status, int type) {
         super(context);
         init(context, status);
+        switch (type) {
+            case StatusDetailModelImp.COMMENT_PAGE:
+                commentHighlight();
+                break;
+            case StatusDetailModelImp.REPOST_PAGE:
+                repostHighlight();
+                break;
+        }
     }
 
     public void setOnDetailButtonClickListener(OnDetailButtonClickListener onDetailButtonClickListener) {
@@ -96,16 +105,14 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         retweetView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                repostHighlight();
                 onDetailButtonClickListener.OnRetweet();
             }
         });
         commentView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentView.setTextColor(Color.parseColor("#000000"));
-                mCommentIndicator.setVisibility(View.VISIBLE);
-                retweetView.setTextColor(Color.parseColor("#828282"));
-                mRetweetIndicator.setVisibility(View.INVISIBLE);
+                commentHighlight();
                 onDetailButtonClickListener.OnComment();
             }
         });
@@ -115,5 +122,23 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
         FillContent.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
         FillContent.RefreshNoneView(mContext, comments_count, mNoneView);
+    }
+
+    public void commentHighlight() {
+        commentView.setTextColor(Color.parseColor("#000000"));
+        mCommentIndicator.setVisibility(View.VISIBLE);
+
+        retweetView.setTextColor(Color.parseColor("#828282"));
+        mRetweetIndicator.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void repostHighlight() {
+        retweetView.setTextColor(Color.parseColor("#000000"));
+        mRetweetIndicator.setVisibility(View.VISIBLE);
+
+        commentView.setTextColor(Color.parseColor("#828282"));
+        mCommentIndicator.setVisibility(View.INVISIBLE);
+
     }
 }

@@ -139,6 +139,25 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
 
+            ((RetweetViewHolder) holder).bottombar_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+
+            ((RetweetViewHolder) holder).retweetStatus_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDatas.get(position).retweeted_status.user != null) {
+                        Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                        intent.putExtra("weiboitem", mDatas.get(position).retweeted_status);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
+
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

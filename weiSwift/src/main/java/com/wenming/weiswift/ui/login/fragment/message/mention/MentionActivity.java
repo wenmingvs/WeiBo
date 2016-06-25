@@ -187,7 +187,6 @@ public class MentionActivity extends Activity implements MentionActivityView {
             mRecyclerView.setAdapter(mCommentFooterAdapter);
         }
 
-
         mRecyclerView.clearOnScrollListeners();
         mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
         mCommentDatas = commentlist;
