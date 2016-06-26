@@ -263,6 +263,11 @@ public class MainActivity extends FragmentActivity {
         super.onDestroy();
     }
 
+    /**
+     * 解决输入法中的内存泄漏问题
+     *
+     * @param destContext
+     */
     public void fixInputMethodManagerLeak(Context destContext) {
         if (destContext == null) {
             return;

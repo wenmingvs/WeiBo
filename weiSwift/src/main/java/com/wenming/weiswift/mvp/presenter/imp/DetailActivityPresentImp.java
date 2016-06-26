@@ -32,12 +32,12 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                     @Override
                     public void noMoreDate() {
                         baseActivity.hideLoadingIcon();
+                        baseActivity.updateEmptyCommentHeadView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Comment> commentlist) {
                         baseActivity.hideLoadingIcon();
-                        //baseActivity.scrollToTop(false);
                         baseActivity.updateCommentListView(commentlist, true);
                     }
 
@@ -53,12 +53,12 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                     @Override
                     public void noMoreDate() {
                         baseActivity.hideLoadingIcon();
+                        baseActivity.updateEmptyRepostHeadView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> repostList) {
                         baseActivity.hideLoadingIcon();
-                        //baseActivity.scrollToTop(false);
                         baseActivity.updateRepostListView(repostList, true);
                     }
 
@@ -79,7 +79,7 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 statusDetailModel.commentNextPage(groupId, status, context, new StatusDetailModel.OnCommentCallBack() {
                     @Override
                     public void noMoreDate() {
-                        baseActivity.hideFooterView();
+                        baseActivity.showEndFooterView();
                     }
 
                     @Override
@@ -96,10 +96,9 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 break;
             case StatusDetailModelImp.REPOST_PAGE:
                 statusDetailModel.repostNextPage(groupId, status, context, new StatusDetailModel.OnRepostCallBack() {
-
                     @Override
                     public void noMoreDate() {
-                        baseActivity.hideFooterView();
+                        baseActivity.showEndFooterView();
                     }
 
                     @Override

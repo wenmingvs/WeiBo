@@ -151,7 +151,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             mEditText.setText(WeiBoContentTextUtil.getWeiBoContent("//@" + mStatus.user.name + ":" + mStatus.text, mContext, mEditText));
             FillContent.fillMentionCenterContent(mStatus.retweeted_status, repostImg, repostName, repostContent);
             mEditText.setSelection(0);
-
         }
         //2. 转发的内容是原创微博
         else if (mStatus.retweeted_status == null) {

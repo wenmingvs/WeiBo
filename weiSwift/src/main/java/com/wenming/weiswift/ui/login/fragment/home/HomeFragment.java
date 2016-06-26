@@ -97,7 +97,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         return mView;
     }
 
-
     public void initRecyclerView() {
         mDatas = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext) {

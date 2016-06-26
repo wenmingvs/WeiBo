@@ -43,14 +43,17 @@ public class RetweetPicTextHeaderView extends LinearLayout {
     private ImageView mRetweetIndicator;
     private ImageView mPopover_arrow;
     private OnDetailButtonClickListener onDetailButtonClickListener;
+    private int mType = StatusDetailModelImp.COMMENT_PAGE;
 
 
     public RetweetPicTextHeaderView(Context context, Status status, int type) {
         super(context);
+        mType = type;
         init(context, status);
-        switch (type) {
+        switch (mType) {
             case StatusDetailModelImp.COMMENT_PAGE:
                 commentHighlight();
+
                 break;
             case StatusDetailModelImp.REPOST_PAGE:
                 repostHighlight();
@@ -91,8 +94,8 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         FillContent.fillRetweetContent(status, context, origin_nameAndcontent);
         FillContent.fillWeiBoImgList(status.retweeted_status, context, retweet_imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);
-        FillContent.FillDetailBar(status.comments_count, status.reposts_count, status.attitudes_count, commentView, retweetView, likeView);
-        FillContent.RefreshNoneView(mContext, status.comments_count, mNoneView);
+        FillContent.fillDetailBar(status.comments_count, status.reposts_count, status.attitudes_count, commentView, retweetView, likeView);
+        FillContent.refreshNoneView(mContext, mType, status.reposts_count, status.comments_count, mNoneView);
 
         mPopover_arrow.setOnClickListener(new OnClickListener() {
             @Override
@@ -120,8 +123,8 @@ public class RetweetPicTextHeaderView extends LinearLayout {
 
 
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
-        FillContent.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
-        FillContent.RefreshNoneView(mContext, comments_count, mNoneView);
+        FillContent.fillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
+        FillContent.refreshNoneView(mContext, mType, reposts_count, comments_count, mNoneView);
     }
 
     public void commentHighlight() {

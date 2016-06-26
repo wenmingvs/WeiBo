@@ -9,7 +9,7 @@ import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
  * Created by wenmingvs on 16/4/21.
  */
 public class OriginPicTextCommentActivity extends BaseActivity {
-
+    public LinearLayout mHeaderView;
 
     @Override
     protected void addHeaderView(int type) {

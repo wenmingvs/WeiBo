@@ -1,5 +1,6 @@
 package com.wenming.weiswift.ui.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
+import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
@@ -255,11 +257,11 @@ public class FillContent {
                 if (status.retweeted_status == null) {
                     Intent intent = new Intent(context, OriginPicTextCommentActivity.class);
                     intent.putExtra("weiboitem", status);
-                    context.startActivity(intent);
+                    ((Activity) context).startActivityForResult(intent, 101);
                 } else {
                     Intent intent = new Intent(context, RetweetPicTextCommentActivity.class);
                     intent.putExtra("weiboitem", status);
-                    context.startActivity(intent);
+                    ((Activity) context).startActivityForResult(intent, 101);
                 }
 
             }
@@ -496,28 +498,39 @@ public class FillContent {
     }
 
 
-    public static void FillDetailBar(int comments_count, int reposts_count, int attitudes_count, TextView comment, TextView redirect, TextView feedlike) {
+    public static void fillDetailBar(int comments_count, int reposts_count, int attitudes_count, TextView comment, TextView redirect, TextView feedlike) {
         comment.setText("评论 " + comments_count);
         redirect.setText("转发 " + reposts_count);
         feedlike.setText("赞 " + attitudes_count);
 
     }
 
-    public static void RefreshNoneView(Context context, int comments_count, View noneView) {
-
-
+    public static void refreshNoneView(Context context, int type, int repostss_count, int comments_count, View noneView) {
+        TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
         if (NetUtil.isConnected(context)) {
-            if (comments_count > 0) {
-                noneView.setVisibility(View.GONE);
-            } else if (comments_count == 0) {
-                noneView.setVisibility(View.VISIBLE);
+            switch (type) {
+                case StatusDetailModelImp.COMMENT_PAGE:
+                    if (comments_count > 0) {
+                        noneView.setVisibility(View.GONE);
+                    } else if (comments_count == 0) {
+                        noneView.setVisibility(View.VISIBLE);
+                        textView.setText("还没有人评论");
+                    }
+                    break;
+
+                case StatusDetailModelImp.REPOST_PAGE:
+                    if (repostss_count > 0) {
+                        noneView.setVisibility(View.GONE);
+                    } else if (repostss_count == 0) {
+                        noneView.setVisibility(View.VISIBLE);
+                        textView.setText("还没有人转发");
+                    }
+                    break;
             }
+
         } else {
-            if (!NewFeature.CACHE_DETAIL_ACTIVITY) {
-                noneView.setVisibility(View.VISIBLE);
-                TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
-                textView.setText("网络出错啦");
-            }
+            noneView.setVisibility(View.VISIBLE);
+            textView.setText("网络出错啦");
         }
 
     }

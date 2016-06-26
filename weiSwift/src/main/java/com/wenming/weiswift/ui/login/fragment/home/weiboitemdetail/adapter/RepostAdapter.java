@@ -23,14 +23,14 @@ import java.util.ArrayList;
  * 用于显示评论列表的adapter
  * Created by wenmingvs on 16/4/23.
  */
-public class RetweetAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RepostAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private ArrayList<Status> mDatas;
     private View mView;
 
 
-    public RetweetAdapter(Context mContext, ArrayList<Status> datas) {
+    public RepostAdapter(Context mContext, ArrayList<Status> datas) {
         this.mContext = mContext;
         this.mDatas = datas;
     }

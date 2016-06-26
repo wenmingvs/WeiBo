@@ -33,8 +33,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     @Override
     public void comment(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        long sinceId = checkout(groupType);
-        commentsAPI.show(Long.valueOf(status.id), sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
+        commentsAPI.show(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<Comment> temp = CommentList.parse(response).comments;
@@ -45,7 +44,6 @@ public class StatusDetailModelImp implements StatusDetailModel {
                     mCommentList = temp;
                     onCommentCallBack.onDataFinish(mCommentList);
                 } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
                     onCommentCallBack.noMoreDate();
                 }
                 mRefrshAll = false;
@@ -62,7 +60,12 @@ public class StatusDetailModelImp implements StatusDetailModel {
     @Override
     public void commentNextPage(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
         CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        String maxId = mCommentList.get(mCommentList.size() - 1).id;
+        String maxId = "";
+        if (mCommentList.size() == 0) {
+            maxId = "0";
+        } else {
+            maxId = mCommentList.get(mCommentList.size() - 1).id;
+        }
         commentsAPI.show(Long.valueOf(status.id), 0, Long.valueOf(maxId), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -94,8 +97,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     @Override
     public void repost(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
         StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        long sinceId = checkout(groupType);
-        statusesAPI.repostTimeline(Long.valueOf(status.id), sinceId, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
+        statusesAPI.repostTimeline(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 ArrayList<Status> temp = RetweetList.parse(response).reposts;
@@ -106,7 +108,6 @@ public class StatusDetailModelImp implements StatusDetailModel {
                     mRepostList = temp;
                     onRepostCallBack.onDataFinish(mRepostList);
                 } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
                     onRepostCallBack.noMoreDate();
                 }
                 mRefrshAll = false;
@@ -123,7 +124,12 @@ public class StatusDetailModelImp implements StatusDetailModel {
     @Override
     public void repostNextPage(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
         StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        String maxId = mRepostList.get(mRepostList.size() - 1).id;
+        String maxId;
+        if (mRepostList.size() == 0) {
+            maxId = "0";
+        } else {
+            maxId = mRepostList.get(mRepostList.size() - 1).id;
+        }
         statusesAPI.repostTimeline(Long.valueOf(status.id), 0, Long.valueOf(maxId), NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -151,30 +157,4 @@ public class StatusDetailModelImp implements StatusDetailModel {
             }
         });
     }
-
-    private long checkout(int groupType) {
-        long sinceId = 0;
-        if (mCurrentGroup != groupType) {
-            mRefrshAll = true;
-        }
-
-        if (groupType == REPOST_PAGE) {
-            if (mRepostList.size() > 0 && mCurrentGroup == groupType && mRefrshAll == false) {
-                sinceId = Long.valueOf(mRepostList.get(0).id);
-            }
-        } else {
-            if (mCommentList.size() > 0 && mCurrentGroup == groupType && mRefrshAll == false) {
-                sinceId = Long.valueOf(mCommentList.get(0).id);
-            }
-        }
-
-        //如果是全局刷新，把sinceId设置为0，去请求
-        if (mRefrshAll) {
-            sinceId = 0;
-        }
-        mCurrentGroup = groupType;
-        return sinceId;
-    }
-
-
 }

@@ -41,11 +41,13 @@ public class OriginPicTextHeaderView extends LinearLayout {
     private ImageView mRetweetIndicator;
     private ImageView mPopover_arrow;
     private OnDetailButtonClickListener onDetailButtonClickListener;
+    private int mType = StatusDetailModelImp.COMMENT_PAGE;
 
     public OriginPicTextHeaderView(Context context, Status status, int type) {
         super(context);
+        mType = type;
         init(context, status);
-        switch (type) {
+        switch (mType) {
             case StatusDetailModelImp.COMMENT_PAGE:
                 commentHighlight();
                 break;
@@ -86,8 +88,8 @@ public class OriginPicTextHeaderView extends LinearLayout {
         FillContent.fillWeiBoContent(status.text, context, weibo_content);
         FillContent.fillWeiBoImgList(status, context, imageList);
         FillContent.showButtonBar(View.GONE, bottombar_layout);
-        FillContent.FillDetailBar(status.comments_count, status.reposts_count, status.reposts_count, commentView, retweetView, likeView);
-        FillContent.RefreshNoneView(mContext, status.comments_count, mNoneView);
+        FillContent.fillDetailBar(status.comments_count, status.reposts_count, status.reposts_count, commentView, retweetView, likeView);
+        FillContent.refreshNoneView(mContext, mType, status.reposts_count, status.comments_count, mNoneView);
 
         mPopover_arrow.setOnClickListener(new OnClickListener() {
             @Override
@@ -101,8 +103,8 @@ public class OriginPicTextHeaderView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 repostHighlight();
-
                 onDetailButtonClickListener.OnRetweet();
+                //FillContent.refreshNoneView(mContext, mType, status.reposts_count, status.comments_count, mNoneView);
             }
         });
 
@@ -111,29 +113,27 @@ public class OriginPicTextHeaderView extends LinearLayout {
             public void onClick(View v) {
                 commentHighlight();
                 onDetailButtonClickListener.OnComment();
+                //FillContent.refreshNoneView(mContext, mType, status.reposts_count, status.comments_count, mNoneView);
             }
         });
 
     }
 
     public void refreshDetailBar(int comments_count, int reposts_count, int attitudes_count) {
-        FillContent.FillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
-        FillContent.RefreshNoneView(mContext, comments_count, mNoneView);
+        FillContent.fillDetailBar(comments_count, reposts_count, attitudes_count, commentView, retweetView, likeView);
+        FillContent.refreshNoneView(mContext, mType, reposts_count, comments_count, mNoneView);
     }
 
     public void commentHighlight() {
         commentView.setTextColor(Color.parseColor("#000000"));
         mCommentIndicator.setVisibility(View.VISIBLE);
-
         retweetView.setTextColor(Color.parseColor("#828282"));
         mRetweetIndicator.setVisibility(View.INVISIBLE);
-
     }
 
     public void repostHighlight() {
         retweetView.setTextColor(Color.parseColor("#000000"));
         mRetweetIndicator.setVisibility(View.VISIBLE);
-
         commentView.setTextColor(Color.parseColor("#828282"));
         mCommentIndicator.setVisibility(View.INVISIBLE);
 
