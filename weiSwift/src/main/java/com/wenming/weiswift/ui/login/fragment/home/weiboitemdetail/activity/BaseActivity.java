@@ -179,8 +179,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
             }
             refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
         }
-        //mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(mOnRepostScrollListener);
         mRepostDatas = mentionlist;
         mRepostAdapter.setData(mentionlist);
         mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
@@ -202,8 +202,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
             }
             refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
         }
-        //mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
         mCommentDatas = commentlist;
         mCommentAdapter.setData(commentlist);
         mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
@@ -212,30 +212,26 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
 
 
     public void updateEmptyRepostHeadView() {
-        mNoMoreData = false;
-        mRepostDatas.clear();
+        mNoMoreData = true;
         mRepostAdapter = new RepostAdapter(mContext, mRepostDatas);
-        mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
         mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.addOnScrollListener(mOnRepostScrollListener);
         addHeaderView(mCurrentGroup);
         mRepostFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(mLastestComments, 0, mLastestAttitudes);
     }
 
     public void updateEmptyCommentHeadView() {
-        mNoMoreData = false;
-        mCommentDatas.clear();
+        mNoMoreData = true;
         mCommentAdapter = new CommentAdapter(mContext, mCommentDatas);
-        mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
         mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
         addHeaderView(mCurrentGroup);
         mCommentFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(0, mLastestReposts, mLastestAttitudes);
@@ -290,7 +286,17 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         }
     }
 
-    public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+    public EndlessRecyclerOnScrollListener mOnCommentScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            if (!mNoMoreData && mCommentDatas != null && mCommentDatas.size() > 0) {
+                showLoadFooterView(mCurrentGroup);
+                mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+            }
+        }
+    };
+    public EndlessRecyclerOnScrollListener mOnRepostScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
