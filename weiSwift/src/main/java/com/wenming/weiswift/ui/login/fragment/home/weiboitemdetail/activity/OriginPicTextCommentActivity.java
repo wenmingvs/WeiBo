@@ -21,6 +21,11 @@ public class OriginPicTextCommentActivity extends BaseActivity {
     }
 
     @Override
+    protected int getHeaderViewHeight() {
+        return mHeaderView.getHeight();
+    }
+
+    @Override
     protected void refreshDetailBar(int comments, int reposts, int attitudes) {
         ((OriginPicTextHeaderView) mHeaderView).refreshDetailBar(comments, reposts, attitudes);
     }

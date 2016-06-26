@@ -243,13 +243,16 @@ public class FillContent {
             feedlike.setText("赞");
         }
 
+        fillButtonBar(context, status, bottombar_retweet, bottombar_comment, bottombar_attitude);
+    }
+
+    public static void fillButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
         //如果转发的内容已经被删除,则不允许转发
         if (status.retweeted_status != null && status.retweeted_status.user == null) {
             bottombar_retweet.setEnabled(false);
         } else {
             bottombar_retweet.setEnabled(true);
         }
-
 
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,7 +270,6 @@ public class FillContent {
             }
         });
 
-
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,8 +278,6 @@ public class FillContent {
                 context.startActivity(intent);
             }
         });
-
-
     }
 
 

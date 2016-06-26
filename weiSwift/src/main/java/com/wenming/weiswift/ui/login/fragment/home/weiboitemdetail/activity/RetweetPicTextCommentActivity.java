@@ -10,13 +10,19 @@ import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
  */
 public class RetweetPicTextCommentActivity extends BaseActivity {
     public LinearLayout mHeaderView;
+
     @Override
     protected void addHeaderView(int type) {
-        mHeaderView = new RetweetPicTextHeaderView(mContext, mWeiboItem,type);
+        mHeaderView = new RetweetPicTextHeaderView(mContext, mWeiboItem, type);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mHeaderView.setLayoutParams(layoutParams);
         ((RetweetPicTextHeaderView) mHeaderView).setOnDetailButtonClickListener(onDetailButtonClickListener);
         RecyclerViewUtils.setHeaderView(mRecyclerView, mHeaderView);
+    }
+
+    @Override
+    protected int getHeaderViewHeight() {
+        return mHeaderView.getHeight();
     }
 
     @Override

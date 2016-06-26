@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
@@ -19,6 +20,7 @@ import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.mvp.view.DetailActivityView;
+import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
@@ -51,15 +53,16 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
     public DetailActivityPresent mDetailActivityPresent;
     public boolean mNoMoreData;
     public Context mContext;
-
     public int mLastestComments;
     public int mLastestReposts;
     public int mLastestAttitudes;
-
-
-    public boolean mRefrshAllData = true;
     private HeaderAndFooterRecyclerViewAdapter mRepostFooterAdapter;
     private HeaderAndFooterRecyclerViewAdapter mCommentFooterAdapter;
+    private int lastOffset;
+    private int lastPosition;
+    public LinearLayout bottombar_retweet;
+    public LinearLayout bottombar_comment;
+    public LinearLayout bottombar_attitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,9 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         mContext = this;
         setContentView(R.layout.messagefragment_base_layout);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
+        bottombar_retweet = (LinearLayout) findViewById(R.id.bottombar_retweet);
+        bottombar_comment = (LinearLayout) findViewById(R.id.bottombar_comment);
+        bottombar_attitude = (LinearLayout) findViewById(R.id.bottombar_attitude);
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
         mWeiboItem = getIntent().getParcelableExtra("weiboitem");
         mDetailActivityPresent = new DetailActivityPresentImp(this);
@@ -82,6 +88,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
                 mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
             }
         });
+
+        FillContent.fillButtonBar(mContext, mWeiboItem, bottombar_retweet, bottombar_comment, bottombar_attitude);
     }
 
     protected void initRefreshLayout() {
@@ -113,6 +121,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
     }
 
     protected abstract void addHeaderView(int type);
+
+    protected abstract int getHeaderViewHeight();
 
     /**
      * 异步请求评论，转发，赞数
@@ -180,7 +190,7 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
             refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
         }
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnRepostScrollListener);
+        mRecyclerView.addOnScrollListener(mScrollListener);
         mRepostDatas = mentionlist;
         mRepostAdapter.setData(mentionlist);
         mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
@@ -203,7 +213,7 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
             refreshDetailBar(mLastestComments, mLastestReposts, mLastestAttitudes);
         }
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
+        mRecyclerView.addOnScrollListener(mScrollListener);
         mCommentDatas = commentlist;
         mCommentAdapter.setData(commentlist);
         mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
@@ -218,7 +228,7 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnRepostScrollListener);
+        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mRepostFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(mLastestComments, 0, mLastestAttitudes);
@@ -231,7 +241,7 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mOnCommentScrollListener);
+        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mCommentFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(0, mLastestReposts, mLastestAttitudes);
@@ -274,8 +284,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
     }
 
     @Override
-    public void scrollToTop(boolean refreshData) {
-        mRecyclerView.scrollToPosition(0);
+    public void restoreScrollOffset(boolean refreshData) {
+        ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(lastPosition, lastOffset);
         if (refreshData) {
             mRecyclerView.post(new Runnable() {
                 @Override
@@ -286,24 +296,43 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         }
     }
 
-    public EndlessRecyclerOnScrollListener mOnCommentScrollListener = new EndlessRecyclerOnScrollListener() {
+
+    public EndlessRecyclerOnScrollListener mScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            if (!mNoMoreData && mCommentDatas != null && mCommentDatas.size() > 0) {
-                showLoadFooterView(mCurrentGroup);
-                mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+            switch (mCurrentGroup) {
+                case StatusDetailModelImp.COMMENT_PAGE:
+                    if (!mNoMoreData && mCommentDatas != null && mCommentDatas.size() > 0) {
+                        showLoadFooterView(mCurrentGroup);
+                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+                    }
+                    break;
+                case StatusDetailModelImp.REPOST_PAGE:
+                    if (!mNoMoreData && mRepostDatas != null && mRepostDatas.size() > 0) {
+                        showLoadFooterView(mCurrentGroup);
+                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+                    }
+                    break;
             }
         }
-    };
-    public EndlessRecyclerOnScrollListener mOnRepostScrollListener = new EndlessRecyclerOnScrollListener() {
+
         @Override
-        public void onLoadNextPage(View view) {
-            super.onLoadNextPage(view);
-            if (!mNoMoreData && mCommentDatas != null && mCommentDatas.size() > 0) {
-                showLoadFooterView(mCurrentGroup);
-                mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
-            }
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            View topView = recyclerView.getLayoutManager().getChildAt(0);          //获取可视的第一个view
+            lastOffset = topView.getTop();                                         //获取与该view的顶部的偏移量
+            lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            View topView = recyclerView.getLayoutManager().getChildAt(0);         //获取可视的第一个view
+            lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
+            lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+
         }
     };
 

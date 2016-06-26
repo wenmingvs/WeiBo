@@ -39,6 +39,7 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                     public void onDataFinish(ArrayList<Comment> commentlist) {
                         baseActivity.hideLoadingIcon();
                         baseActivity.updateCommentListView(commentlist, true);
+                        baseActivity.restoreScrollOffset(false);
                     }
 
                     @Override
@@ -60,6 +61,7 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                     public void onDataFinish(ArrayList<Status> repostList) {
                         baseActivity.hideLoadingIcon();
                         baseActivity.updateRepostListView(repostList, true);
+                        baseActivity.restoreScrollOffset(false);
                     }
 
                     @Override

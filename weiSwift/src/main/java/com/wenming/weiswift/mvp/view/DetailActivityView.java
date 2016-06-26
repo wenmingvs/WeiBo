@@ -47,6 +47,6 @@ public interface DetailActivityView {
     /**
      * 滑动到顶部
      */
-    public void scrollToTop(boolean refreshData);
+    public void restoreScrollOffset(boolean refreshData);
 
 }
