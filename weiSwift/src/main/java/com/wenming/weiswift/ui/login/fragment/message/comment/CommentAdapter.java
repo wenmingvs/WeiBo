@@ -15,8 +15,8 @@ import com.cesards.cropimageview.CropImageView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -62,11 +62,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onClick(View v) {
                 if (mDatas.get(position).status.retweeted_status == null) {
-                    Intent intent = new Intent(mContext, OriginPicTextCommentActivity.class);
+                    Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position).status);
                     mContext.startActivity(intent);
                 } else {
-                    Intent intent = new Intent(mContext, RetweetPicTextCommentActivity.class);
+                    Intent intent = new Intent(mContext, RetweetPicTextCommentDetailActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position).status);
                     mContext.startActivity(intent);
                 }

@@ -34,7 +34,7 @@ public class WelcomeActivity extends Activity {
             public void run() {
                 mHandler.sendMessage(Message.obtain());
             }
-        }, 2000);
+        }, 500);
     }
 
 

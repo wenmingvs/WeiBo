@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.mvp.view.DetailActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
@@ -37,10 +37,11 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by wenmingvs on 16/4/20.
  */
-public abstract class BaseActivity extends Activity implements DetailActivityView {
+public abstract class BaseDetailActivity extends BaseSwipeActivity implements DetailActivityView {
 
     public Status mWeiboItem;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
@@ -81,6 +82,7 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
         mLastestComments = mWeiboItem.comments_count;
         mLastestReposts = mWeiboItem.reposts_count;
         mLastestAttitudes = mWeiboItem.attitudes_count;
+
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -88,8 +90,8 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
                 mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
             }
         });
-
         FillContent.fillButtonBar(mContext, mWeiboItem, bottombar_retweet, bottombar_comment, bottombar_attitude);
+
     }
 
     protected void initRefreshLayout() {
@@ -261,9 +263,9 @@ public abstract class BaseActivity extends Activity implements DetailActivityVie
     @Override
     public void showLoadFooterView(int currentGroup) {
         if (currentGroup == StatusDetailModelImp.REPOST_PAGE) {
-            RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mRepostAdapter.getItemCount(), LoadingFooter.State.Loading, null);
+            RecyclerViewStateUtils.setFooterViewState(BaseDetailActivity.this, mRecyclerView, mRepostAdapter.getItemCount(), LoadingFooter.State.Loading, null);
         } else if (currentGroup == StatusDetailModelImp.COMMENT_PAGE) {
-            RecyclerViewStateUtils.setFooterViewState(BaseActivity.this, mRecyclerView, mCommentAdapter.getItemCount(), LoadingFooter.State.Loading, null);
+            RecyclerViewStateUtils.setFooterViewState(BaseDetailActivity.this, mRecyclerView, mCommentAdapter.getItemCount(), LoadingFooter.State.Loading, null);
         }
     }
 

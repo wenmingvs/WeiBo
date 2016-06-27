@@ -32,8 +32,8 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
 import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentActivity;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
@@ -258,11 +258,11 @@ public class FillContent {
             @Override
             public void onClick(View v) {
                 if (status.retweeted_status == null) {
-                    Intent intent = new Intent(context, OriginPicTextCommentActivity.class);
+                    Intent intent = new Intent(context, OriginPicTextCommentDetailActivity.class);
                     intent.putExtra("weiboitem", status);
                     ((Activity) context).startActivityForResult(intent, 101);
                 } else {
-                    Intent intent = new Intent(context, RetweetPicTextCommentActivity.class);
+                    Intent intent = new Intent(context, RetweetPicTextCommentDetailActivity.class);
                     intent.putExtra("weiboitem", status);
                     ((Activity) context).startActivityForResult(intent, 101);
                 }

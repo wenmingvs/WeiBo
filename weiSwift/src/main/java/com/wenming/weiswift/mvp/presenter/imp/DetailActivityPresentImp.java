@@ -7,7 +7,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.model.StatusDetailModel;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.mvp.presenter.DetailActivityPresent;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.BaseActivity;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.BaseDetailActivity;
 
 import java.util.ArrayList;
 
@@ -16,11 +16,11 @@ import java.util.ArrayList;
  */
 public class DetailActivityPresentImp implements DetailActivityPresent {
 
-    private BaseActivity baseActivity;
+    private BaseDetailActivity baseDetailActivity;
     private StatusDetailModel statusDetailModel;
 
-    public DetailActivityPresentImp(BaseActivity baseActivity) {
-        this.baseActivity = baseActivity;
+    public DetailActivityPresentImp(BaseDetailActivity baseDetailActivity) {
+        this.baseDetailActivity = baseDetailActivity;
         this.statusDetailModel = new StatusDetailModelImp();
     }
 
@@ -31,21 +31,21 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 statusDetailModel.comment(groupId, status, context, new StatusDetailModel.OnCommentCallBack() {
                     @Override
                     public void noMoreDate() {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.updateEmptyCommentHeadView();
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.updateEmptyCommentHeadView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Comment> commentlist) {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.updateCommentListView(commentlist, true);
-                        baseActivity.restoreScrollOffset(false);
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.updateCommentListView(commentlist, true);
+                        baseDetailActivity.restoreScrollOffset(false);
                     }
 
                     @Override
                     public void onError(String error) {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.showErrorFooterView();
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.showErrorFooterView();
                     }
                 });
                 break;
@@ -53,21 +53,21 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 statusDetailModel.repost(groupId, status, context, new StatusDetailModel.OnRepostCallBack() {
                     @Override
                     public void noMoreDate() {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.updateEmptyRepostHeadView();
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.updateEmptyRepostHeadView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> repostList) {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.updateRepostListView(repostList, true);
-                        baseActivity.restoreScrollOffset(false);
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.updateRepostListView(repostList, true);
+                        baseDetailActivity.restoreScrollOffset(false);
                     }
 
                     @Override
                     public void onError(String error) {
-                        baseActivity.hideLoadingIcon();
-                        baseActivity.showErrorFooterView();
+                        baseDetailActivity.hideLoadingIcon();
+                        baseDetailActivity.showErrorFooterView();
                     }
                 });
                 break;
@@ -81,18 +81,18 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 statusDetailModel.commentNextPage(groupId, status, context, new StatusDetailModel.OnCommentCallBack() {
                     @Override
                     public void noMoreDate() {
-                        baseActivity.showEndFooterView();
+                        baseDetailActivity.showEndFooterView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Comment> commentlist) {
-                        baseActivity.hideFooterView();
-                        baseActivity.updateCommentListView(commentlist, false);
+                        baseDetailActivity.hideFooterView();
+                        baseDetailActivity.updateCommentListView(commentlist, false);
                     }
 
                     @Override
                     public void onError(String error) {
-                        baseActivity.showErrorFooterView();
+                        baseDetailActivity.showErrorFooterView();
                     }
                 });
                 break;
@@ -100,18 +100,18 @@ public class DetailActivityPresentImp implements DetailActivityPresent {
                 statusDetailModel.repostNextPage(groupId, status, context, new StatusDetailModel.OnRepostCallBack() {
                     @Override
                     public void noMoreDate() {
-                        baseActivity.showEndFooterView();
+                        baseDetailActivity.showEndFooterView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> repostList) {
-                        baseActivity.hideFooterView();
-                        baseActivity.updateRepostListView(repostList, false);
+                        baseDetailActivity.hideFooterView();
+                        baseDetailActivity.updateRepostListView(repostList, false);
                     }
 
                     @Override
                     public void onError(String error) {
-                        baseActivity.showErrorFooterView();
+                        baseDetailActivity.showErrorFooterView();
                     }
                 });
                 break;

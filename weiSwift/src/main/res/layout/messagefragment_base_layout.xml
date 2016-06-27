@@ -10,29 +10,19 @@
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/base_swipe_refresh_widget"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/base_RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/base_RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#f2f2f2"
-                android:scrollbars="vertical" />
-
-            <include layout="@layout/mainfragment_weiboitemdetail_bottombar" />
-
-
-        </LinearLayout>
-
+            android:layout_height="match_parent"
+            android:background="#f2f2f2"
+            android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/mainfragment_weiboitemdetail_bottombar" />
 
 </LinearLayout>
 
