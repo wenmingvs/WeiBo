@@ -14,15 +14,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
@@ -30,6 +27,8 @@ import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.post.PostService;
+import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCommentBean;
+import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCreateBean;
 import com.wenming.weiswift.ui.login.fragment.post.idea.imagelist.ImgListAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.activity.AlbumActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.AlbumFolderInfo;
@@ -43,11 +42,7 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/5/2.
  */
 public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterViewClickListener {
-
-    private StatusesAPI mStatusesAPI;
-    private Oauth2AccessToken mAccessToken;
     private UsersAPI mUsersAPI;
-
     private Context mContext;
     private TextView mCancal;
     private TextView mUserName;
@@ -60,17 +55,19 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private ImageView more_button;
     private EditText mEditText;
     private TextView mLimitTextView;
-
+    private TextView mInputType;
     private LinearLayout mRepostlayout;
     private ImageView repostImg;
     private TextView repostName;
     private TextView repostContent;
     private RecyclerView mRecyclerView;
-    private ScrollView mScrollView;
 
     private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<AlbumFolderInfo>();
     private ArrayList<ImageInfo> mSelectImgList = new ArrayList<ImageInfo>();
     private Status mStatus;
+    private String mIdeaType;
+
+
     /**
      * 最多输入140个字符
      */
@@ -82,12 +79,14 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private static final int TEXT_REMIND = 10;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compose_idea_layout);
         mContext = this;
-
+        mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mInputType = (TextView) findViewById(R.id.inputType);
         mCancal = (TextView) findViewById(R.id.idea_cancal);
         mUserName = (TextView) findViewById(R.id.idea_username);
         mSendButton = (TextView) findViewById(R.id.idea_send);
@@ -104,12 +103,12 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         repostName = (TextView) findViewById(R.id.repost_name);
         repostContent = (TextView) findViewById(R.id.repost_content);
         mRecyclerView = (RecyclerView) findViewById(R.id.ImgList);
-        mScrollView = (ScrollView) findViewById(R.id.scrollView);
-
-        initAccessToken();
+        mIdeaType = getIntent().getStringExtra("ideaType");
+        mStatus = getIntent().getParcelableExtra("status");
+        mInputType.setText(mIdeaType);
+        refreshUserName();
         initContent();
         setUpListener();
-
         if (getIntent().getBooleanExtra("startAlumbAcitivity", false) == true) {
             Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
@@ -124,11 +123,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         });
     }
 
-    private void initAccessToken() {
-        mAccessToken = AccessTokenKeeper.readAccessToken(this);
-        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
-        mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, mAccessToken);
-    }
 
     /**
      * 填充内容，
@@ -136,13 +130,28 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
      * 2. 转发的内容是原创微博，
      */
     private void initContent() {
-        refreshUserName();
-        mStatus = getIntent().getParcelableExtra("status");
+        switch (mIdeaType) {
+            case PostService.POST_SERVICE_CREATE_WEIBO:
+                break;
+            case PostService.POST_SERVICE_REPOST_STATUS:
+                repostWeiBo();
+                break;
+            case PostService.POST_SERVICE_COMMENT_STATUS:
+                break;
+            case PostService.POST_SERVICE_REPLY_COMMENT:
+                break;
+        }
+    }
+
+    private void createWeiBo() {
+
+    }
+
+    private void repostWeiBo() {
 
         if (mStatus == null) {
             return;
         }
-
         mRepostlayout.setVisibility(View.VISIBLE);
         mEditText.setHint("说说分享的心得");
 
@@ -160,7 +169,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     }
 
     private void refreshUserName() {
-        long uid = Long.parseLong(mAccessToken.getUid());
+        long uid = Long.parseLong(AccessTokenKeeper.readAccessToken(this).getUid());
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -221,7 +230,6 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                 ToastUtil.showShort(mContext, "正在开发此功能...");
             }
         });
-
         mEditText.addTextChangedListener(watcher);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,9 +249,32 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                     return;
                 }
                 Intent intent = new Intent(mContext, PostService.class);
-                intent.putParcelableArrayListExtra("select_img", mSelectImgList);
-                intent.putExtra("content", mEditText.getText().toString());
-                intent.putExtra("status", mStatus);
+                Bundle bundle = new Bundle();
+
+                switch (mIdeaType) {
+                    case PostService.POST_SERVICE_CREATE_WEIBO:
+                        WeiBoCreateBean weiboBean = new WeiBoCreateBean(mEditText.getText().toString(), mSelectImgList);
+                        intent.putExtra("postType", PostService.POST_SERVICE_CREATE_WEIBO);
+                        bundle.putParcelable("weiBoCreateBean", weiboBean);
+                        intent.putExtras(bundle);
+                        break;
+                    case PostService.POST_SERVICE_REPOST_STATUS:
+                        WeiBoCreateBean repostBean = new WeiBoCreateBean(mEditText.getText().toString(), mSelectImgList, mStatus);
+                        intent.putExtra("postType", PostService.POST_SERVICE_REPOST_STATUS);
+                        bundle.putParcelable("weiBoCreateBean", repostBean);
+                        intent.putExtras(bundle);
+                        break;
+                    case PostService.POST_SERVICE_COMMENT_STATUS:
+                        intent.putExtra("postType", PostService.POST_SERVICE_COMMENT_STATUS);
+                        WeiBoCommentBean weiBoCommentBean = new WeiBoCommentBean(mEditText.getText().toString(), mStatus);
+                        bundle.putParcelable("weiBoCommentBean", weiBoCommentBean);
+                        intent.putExtras(bundle);
+                        break;
+                    case PostService.POST_SERVICE_REPLY_COMMENT:
+                        intent.putExtra("postType", PostService.POST_SERVICE_REPLY_COMMENT);
+                        //CommentReplyBean commentReplyBean = new CommentReplyBean()
+                        break;
+                }
                 startService(intent);
                 finish();
             }

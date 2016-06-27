@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.message.comment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.mvp.presenter.CommentActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.CommentActivityPresentImp;
 import com.wenming.weiswift.mvp.view.CommentActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/26.
  */
-public class CommentActivity extends Activity implements CommentActivityView {
+public class CommentActivity extends BaseSwipeActivity implements CommentActivityView {
     private ArrayList<Comment> mDatas;
     private CommentAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;

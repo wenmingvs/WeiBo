@@ -13,7 +13,7 @@ public class RetweetPicTextCommentDetailActivity extends BaseDetailActivity {
 
     @Override
     protected void addHeaderView(int type) {
-        mHeaderView = new RetweetPicTextHeaderView(mContext, mWeiboItem, type);
+        mHeaderView = new RetweetPicTextHeaderView(mContext, mStatus, type);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mHeaderView.setLayoutParams(layoutParams);
         ((RetweetPicTextHeaderView) mHeaderView).setOnDetailButtonClickListener(onDetailButtonClickListener);

@@ -13,7 +13,7 @@ public class OriginPicTextCommentDetailActivity extends BaseDetailActivity {
 
     @Override
     protected void addHeaderView(int type) {
-        mHeaderView = new OriginPicTextHeaderView(mContext, mWeiboItem, type);
+        mHeaderView = new OriginPicTextHeaderView(mContext, mStatus, type);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mHeaderView.setLayoutParams(layoutParams);
         ((OriginPicTextHeaderView) mHeaderView).setOnDetailButtonClickListener(onDetailButtonClickListener);

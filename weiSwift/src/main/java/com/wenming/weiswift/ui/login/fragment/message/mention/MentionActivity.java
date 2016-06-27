@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.message.mention;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.MentionActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MentionActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MentionActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/26.
  */
-public class MentionActivity extends Activity implements MentionActivityView {
+public class MentionActivity extends BaseSwipeActivity implements MentionActivityView {
     private ArrayList<Status> mMentionDatas;
     private ArrayList<Comment> mCommentDatas;
     private MentionAdapter mMentionAdapter;

@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
+import com.wenming.weiswift.utils.ToastUtil;
 
 /**
  * Created by wenmingvs on 16/5/2.
@@ -42,6 +42,7 @@ public class PostActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, IdeaActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_CREATE_WEIBO);
                 startActivity(intent);
                 finish();
             }
@@ -50,6 +51,7 @@ public class PostActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, IdeaActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_CREATE_WEIBO);
                 intent.putExtra("startAlumbAcitivity", true);
                 startActivity(intent);
                 finish();

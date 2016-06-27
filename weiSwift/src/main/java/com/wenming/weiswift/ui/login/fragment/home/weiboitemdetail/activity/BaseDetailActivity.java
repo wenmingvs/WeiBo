@@ -43,7 +43,7 @@ import java.util.ArrayList;
  */
 public abstract class BaseDetailActivity extends BaseSwipeActivity implements DetailActivityView {
 
-    public Status mWeiboItem;
+    public Status mStatus;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
     public ArrayList<Status> mRepostDatas = new ArrayList<>();
     public CommentAdapter mCommentAdapter;
@@ -65,6 +65,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public LinearLayout bottombar_comment;
     public LinearLayout bottombar_attitude;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,23 +76,21 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
         bottombar_comment = (LinearLayout) findViewById(R.id.bottombar_comment);
         bottombar_attitude = (LinearLayout) findViewById(R.id.bottombar_attitude);
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mWeiboItem = getIntent().getParcelableExtra("weiboitem");
+        mStatus = getIntent().getParcelableExtra("weiboitem");
         mDetailActivityPresent = new DetailActivityPresentImp(this);
         initRefreshLayout();
         initRecyclerView();
-        mLastestComments = mWeiboItem.comments_count;
-        mLastestReposts = mWeiboItem.reposts_count;
-        mLastestAttitudes = mWeiboItem.attitudes_count;
-
+        mLastestComments = mStatus.comments_count;
+        mLastestReposts = mStatus.reposts_count;
+        mLastestAttitudes = mStatus.attitudes_count;
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 getWeiBoCount();
-                mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
+                mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mStatus, mContext);
             }
         });
-        FillContent.fillButtonBar(mContext, mWeiboItem, bottombar_retweet, bottombar_comment, bottombar_attitude);
-
+        FillContent.fillDetailButtonBar(mContext, mStatus, bottombar_retweet, bottombar_comment, bottombar_attitude);
     }
 
     protected void initRefreshLayout() {
@@ -103,7 +102,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
             public void onRefresh() {
                 mNoMoreData = false;
                 getWeiBoCount();
-                mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
+                mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mStatus, mContext);
             }
         });
     }
@@ -132,7 +131,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public void getWeiBoCount() {
         mSwipeRefreshLayout.setRefreshing(true);
         StatusesAPI statusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
-        statusesAPI.count(new String[]{mWeiboItem.id}, new RequestListener() {
+        statusesAPI.count(new String[]{mStatus.id}, new RequestListener() {
             @Override
             public void onComplete(String response) {
                 try {
@@ -162,7 +161,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
             mNoMoreData = false;
             mCurrentGroup = StatusDetailModelImp.COMMENT_PAGE;
             getWeiBoCount();
-            mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
+            mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mStatus, mContext);
         }
 
         @Override
@@ -170,7 +169,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
             mNoMoreData = false;
             mCurrentGroup = StatusDetailModelImp.REPOST_PAGE;
             getWeiBoCount();
-            mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
+            mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mStatus, mContext);
         }
     };
 
@@ -292,7 +291,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
             mRecyclerView.post(new Runnable() {
                 @Override
                 public void run() {
-                    mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mWeiboItem, mContext);
+                    mDetailActivityPresent.pullToRefreshData(mCurrentGroup, mStatus, mContext);
                 }
             });
         }
@@ -307,13 +306,13 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
                 case StatusDetailModelImp.COMMENT_PAGE:
                     if (!mNoMoreData && mCommentDatas != null && mCommentDatas.size() > 0) {
                         showLoadFooterView(mCurrentGroup);
-                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mStatus, mContext);
                     }
                     break;
                 case StatusDetailModelImp.REPOST_PAGE:
                     if (!mNoMoreData && mRepostDatas != null && mRepostDatas.size() > 0) {
                         showLoadFooterView(mCurrentGroup);
-                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mWeiboItem, mContext);
+                        mDetailActivityPresent.requestMoreData(mCurrentGroup, mStatus, mContext);
                     }
                     break;
             }

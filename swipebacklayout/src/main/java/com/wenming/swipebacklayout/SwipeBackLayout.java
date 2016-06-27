@@ -126,6 +126,7 @@ public class SwipeBackLayout extends FrameLayout {
     public static final int FULL_SCREEN_RIGHT = ViewDragHelper.EDGE_RIGHT;
     public static final int FULL_SCREEN_BOTTOM = ViewDragHelper.EDGE_BOTTOM;
     public static final int ORIGINAL = 0X31;
+    private int width;
 
     public void setSwipeMode(int mode) {
         if (mode == SwipeBackLayout.ORIGINAL) {
@@ -351,7 +352,8 @@ public class SwipeBackLayout extends FrameLayout {
      * Scroll out contentView and finish the activity
      */
     public void scrollToFinishActivity() {
-        final int childWidth = mContentView.getWidth();
+        width = mContentView.getWidth();
+        final int childWidth = width;
         final int childHeight = mContentView.getHeight();
 
         int left = 0, top = 0;

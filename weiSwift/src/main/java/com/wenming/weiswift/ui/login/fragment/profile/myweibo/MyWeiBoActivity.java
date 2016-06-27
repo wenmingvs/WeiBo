@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.profile.myweibo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.MyWeiBoActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MyWeiBoActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MyWeiBoActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class MyWeiBoActivity extends Activity implements MyWeiBoActivityView {
+public class MyWeiBoActivity extends BaseSwipeActivity implements MyWeiBoActivityView {
     public WeiboAdapter mAdapter;
     private ArrayList<Status> mDatas;
     public Context mContext;

@@ -53,7 +53,7 @@ public class CommentsAPI extends AbsOpenAPI {
      * <li>读取接口：READ_API_XXX
      * <li>写入接口：WRITE_API_XXX
      * 请注意：该类中的接口仅做为演示使用，并没有包含所有关于微博的接口，第三方开发者可以
-     * 根据需要来填充该类，可参考legacy包下 {@link com.sina.weibo.sdk.openapi.legacy.CommentsAPI}
+     * 根据需要来填充该类，可参考legacy包下 {@link CommentsAPI}
      */
     private static final int READ_API_TO_ME = 0;
     private static final int READ_API_BY_ME = 1;

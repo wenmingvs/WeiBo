@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.profile.favorites;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +13,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.FavoritiesPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FavoritiesPresentImp;
 import com.wenming.weiswift.mvp.view.FavoritiesActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class FavoritiesActivity extends Activity implements FavoritiesActivityView {
+public class FavoritiesActivity extends BaseSwipeActivity implements FavoritiesActivityView {
     private ArrayList<Status> mDatas = new ArrayList<Status>();
     public WeiboAdapter mAdapter;
     public Context mContext;

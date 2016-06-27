@@ -35,6 +35,7 @@ import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
+import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
@@ -269,13 +270,49 @@ public class FillContent {
 
             }
         });
+        bottombar_retweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, IdeaActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_REPOST_STATUS);
+                intent.putExtra("status", status);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    public static void fillDetailButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
+        //如果转发的内容已经被删除,则不允许转发
+        if (status.retweeted_status != null && status.retweeted_status.user == null) {
+            bottombar_retweet.setEnabled(false);
+        } else {
+            bottombar_retweet.setEnabled(true);
+        }
+
+        bottombar_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, IdeaActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_COMMENT_STATUS);
+                intent.putExtra("status", status);
+                context.startActivity(intent);
+            }
+        });
 
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, IdeaActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_REPOST_STATUS);
                 intent.putExtra("status", status);
                 context.startActivity(intent);
+            }
+        });
+
+        bottombar_attitude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点赞动画
             }
         });
     }

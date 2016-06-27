@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.profile.setting;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,13 +13,14 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
 
 /**
  * Created by wenmingvs on 2016/1/7.
  */
-public class SettingActivity extends Activity implements SettingActivityView {
+public class SettingActivity extends BaseSwipeActivity implements SettingActivityView {
 
     private Context mContext;
     private RelativeLayout mExitLayout;

@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.profile.friends;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +15,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FriendActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FriendActivityPresentImp;
 import com.wenming.weiswift.mvp.view.FriendActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FriendsActivity extends Activity implements FriendActivityView {
+public class FriendsActivity extends BaseSwipeActivity implements FriendActivityView {
 
     public FriendsAdapter mAdapter;
     private ArrayList<User> mDatas;

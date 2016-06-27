@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.discovery.hotweibo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +13,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HotWeiBoPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HotWeiBoPresentImp;
 import com.wenming.weiswift.mvp.view.HotWeiBoActivityView;
+import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
+public class HotWeiBoActivity extends BaseSwipeActivity implements HotWeiBoActivityView {
     private ArrayList<Status> mDatas = new ArrayList<Status>();
     public WeiboAdapter mAdapter;
     public Context mContext;
