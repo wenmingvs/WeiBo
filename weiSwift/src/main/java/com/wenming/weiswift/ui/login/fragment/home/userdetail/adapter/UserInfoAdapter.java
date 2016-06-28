@@ -1,4 +1,4 @@
-package com.wenming.weiswift.ui.login.fragment.home.userdetail;
+package com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/2.
  */
-public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private ArrayList<String> mDatas;
     private View mView;
 
 
-    public HomePageAdapter(Context context, ArrayList<String> datas) {
+    public UserInfoAdapter(Context context, ArrayList<String> datas) {
         this.mContext = context;
         this.mDatas = datas;
     }

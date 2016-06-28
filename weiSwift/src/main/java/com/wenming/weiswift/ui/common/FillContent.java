@@ -107,7 +107,7 @@ public class FillContent {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserActivity.class);
-                intent.putExtra("user", user);
+                intent.putExtra("screenName", user.screen_name);
                 context.startActivity(intent);
             }
         });

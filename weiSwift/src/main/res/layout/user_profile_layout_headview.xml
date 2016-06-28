@@ -13,7 +13,6 @@
             android:id="@+id/user_coverimg"
             android:layout_width="match_parent"
             android:layout_height="207dp"
-
             android:scaleType="centerCrop" />
 
         <LinearLayout

@@ -1,7 +1,6 @@
 package com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -336,9 +335,4 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
 
         }
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }
