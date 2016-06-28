@@ -17,6 +17,8 @@ import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
+import com.wenming.weiswift.ui.login.fragment.post.PostService;
+import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -53,26 +55,50 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ((CommentViewHolder) holder).comment_repley.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mContext, "待开发...");
+                if (mDatas.get(position).user.allow_all_comment) {
+                    Intent intent = new Intent(mContext, IdeaActivity.class);
+                    intent.putExtra("ideaType", PostService.POST_SERVICE_REPLY_COMMENT);
+                    intent.putExtra("comment", mDatas.get(position));
+                    mContext.startActivity(intent);
+                } else {
+                    ToastUtil.showShort(mContext, "此用户不允许所有人评论");
+                }
             }
         });
-
         //整个背景的点击事件
         ((CommentViewHolder) holder).comment_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDatas.get(position).status.retweeted_status == null) {
-                    Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
-                    intent.putExtra("weiboitem", mDatas.get(position).status);
-                    mContext.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(mContext, RetweetPicTextCommentDetailActivity.class);
-                    intent.putExtra("weiboitem", mDatas.get(position).status);
-                    mContext.startActivity(intent);
-                }
+                baseCenterClick(position);
 
             }
         });
+        //center栏的点击事件
+        ((CommentViewHolder) holder).comment_weibolayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseCenterClick(position);
+            }
+        });
+        //我的回复layout
+        ((CommentViewHolder) holder).bg_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseCenterClick(position);
+            }
+        });
+    }
+
+    public void baseCenterClick(int position) {
+        if (mDatas.get(position).status.retweeted_status == null) {
+            Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
+            intent.putExtra("weiboitem", mDatas.get(position).status);
+            mContext.startActivity(intent);
+        } else {
+            Intent intent = new Intent(mContext, RetweetPicTextCommentDetailActivity.class);
+            intent.putExtra("weiboitem", mDatas.get(position).status);
+            mContext.startActivity(intent);
+        }
     }
 
     @Override
@@ -96,7 +122,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView profile_name;
         public TextView profile_time;
         public TextView weibo_comefrom;
-
         public TextView comment_repley;
         public EmojiTextView comment_content;
 

@@ -21,12 +21,14 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.api.UsersAPI;
+import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.post.PostService;
+import com.wenming.weiswift.ui.login.fragment.post.bean.CommentReplyBean;
 import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCommentBean;
 import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCreateBean;
 import com.wenming.weiswift.ui.login.fragment.post.idea.imagelist.ImgListAdapter;
@@ -65,6 +67,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<AlbumFolderInfo>();
     private ArrayList<ImageInfo> mSelectImgList = new ArrayList<ImageInfo>();
     private Status mStatus;
+    private Comment mComment;
     private String mIdeaType;
 
 
@@ -105,6 +108,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         mRecyclerView = (RecyclerView) findViewById(R.id.ImgList);
         mIdeaType = getIntent().getStringExtra("ideaType");
         mStatus = getIntent().getParcelableExtra("status");
+        mComment = getIntent().getParcelableExtra("comment");
         mInputType.setText(mIdeaType);
         refreshUserName();
         initContent();
@@ -134,6 +138,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             case PostService.POST_SERVICE_CREATE_WEIBO:
                 break;
             case PostService.POST_SERVICE_REPOST_STATUS:
+                //填充转发的内容
                 repostWeiBo();
                 break;
             case PostService.POST_SERVICE_COMMENT_STATUS:
@@ -143,10 +148,10 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         }
     }
 
-    private void createWeiBo() {
 
-    }
-
+    /**
+     * 填充转发的内容
+     */
     private void repostWeiBo() {
 
         if (mStatus == null) {
@@ -168,6 +173,9 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         changeSendButtonBg();
     }
 
+    /**
+     * 刷新顶部的名字
+     */
     private void refreshUserName() {
         long uid = Long.parseLong(AccessTokenKeeper.readAccessToken(this).getUid());
         mUsersAPI.show(uid, new RequestListener() {
@@ -272,7 +280,9 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
                         break;
                     case PostService.POST_SERVICE_REPLY_COMMENT:
                         intent.putExtra("postType", PostService.POST_SERVICE_REPLY_COMMENT);
-                        //CommentReplyBean commentReplyBean = new CommentReplyBean()
+                        CommentReplyBean commentReplyBean = new CommentReplyBean(mEditText.getText().toString(), mComment);
+                        bundle.putParcelable("commentReplyBean", commentReplyBean);
+                        intent.putExtras(bundle);
                         break;
                 }
                 startService(intent);

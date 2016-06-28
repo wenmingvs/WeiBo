@@ -39,7 +39,7 @@
             android:id="@+id/comment_weibolayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fefefe"
+            android:background="@drawable/home_retweet_weiboitem_bg_auto"
             android:gravity="center"
             android:orientation="vertical">
 

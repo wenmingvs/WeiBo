@@ -3,6 +3,4 @@
 
     <item android:drawable="@drawable/home_retweet_weiboitem_hightlight_bg" android:state_pressed="true" />
     <item android:drawable="@drawable/home_retweet_weiboitem_bg" />
-
-
 </selector>

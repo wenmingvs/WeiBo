@@ -344,6 +344,14 @@ public class FillContent {
     }
 
     /**
+     * 填充微博文字内容
+     */
+    public static void fillWeiBoContent(String text, Context context, TextView weibo_content) {
+        weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(text, context, weibo_content));
+        //weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    /**
      * 填充微博图片列表,包括原创微博和转发微博中的图片都可以使用
      */
     public static void fillWeiBoImgList(Status status, Context context, RecyclerView imageList) {
@@ -638,14 +646,14 @@ public class FillContent {
         //填充我回复的评论
         if (comment.reply_comment != null) {
             mycomment.setVisibility(View.VISIBLE);
-            bg_layout.setBackgroundColor(Color.parseColor("#f7f7f7"));
-            comment_weibolayout.setBackgroundColor(Color.parseColor("#fefefe"));
+            bg_layout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
+            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_white_bg_auto);
             String mycommenttext = "@" + comment.reply_comment.user.name + ":" + comment.reply_comment.text;
             fillWeiBoContent(mycommenttext, context, mycomment);
         } else {
             mycomment.setVisibility(View.GONE);
             bg_layout.setBackgroundColor(Color.parseColor("#fefefe"));
-            comment_weibolayout.setBackgroundColor(Color.parseColor("#f7f7f7"));
+            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
         }
 
         //填充我所评论的微博的内容，包括微博的主人名，微博图片，微博文本内容

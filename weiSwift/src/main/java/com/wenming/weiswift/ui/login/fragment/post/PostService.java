@@ -97,7 +97,8 @@ public class PostService extends Service {
                 repost(repostBean);
                 break;
             case POST_SERVICE_REPLY_COMMENT:
-
+                CommentReplyBean commentReplyBean = intent.getParcelableExtra("commentReplyBean");
+                replyComment(commentReplyBean);
                 break;
             case POST_SERVICE_COMMENT_STATUS:
                 WeiBoCommentBean weiBoCommentBean = intent.getParcelableExtra("weiBoCommentBean");
@@ -222,9 +223,14 @@ public class PostService extends Service {
         });
     }
 
+    /**
+     * 回复一条评论
+     *
+     * @param commentReplyBean
+     */
     public void replyComment(CommentReplyBean commentReplyBean) {
         CommentsAPI commentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
-        commentsAPI.reply(Long.valueOf(commentReplyBean.comment.id), Long.valueOf(commentReplyBean.comment.status.id), commentReplyBean.content, true, false,
+        commentsAPI.reply(Long.valueOf(commentReplyBean.comment.id), Long.valueOf(commentReplyBean.comment.status.id), commentReplyBean.content, false, false,
                 new RequestListener() {
                     @Override
                     public void onComplete(String s) {
@@ -252,8 +258,11 @@ public class PostService extends Service {
     }
 
     public void onRequestError(WeiboException e, String errorRemind) {
-        ToastUtil.showShort(PostService.this, e.getMessage());
-        ToastUtil.showShort(PostService.this, errorRemind);
+        if (e.getMessage().contains("repeat content")) {
+            ToastUtil.showShort(PostService.this, errorRemind + "：请不要回复重复的内容");
+        } else {
+            ToastUtil.showShort(PostService.this, errorRemind);
+        }
         mSendNotifity.cancel(SEND_STATUS_SEND);
         showErrorNotifiy();
         final Message message = Message.obtain();

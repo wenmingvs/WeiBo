@@ -18,7 +18,9 @@ public class CommentReplyBean implements Parcelable {
      */
     public Comment comment;
 
-    public CommentReplyBean(Comment comment, String content) {
+
+
+    public CommentReplyBean(String content, Comment comment) {
         this.comment = comment;
         this.content = content;
     }

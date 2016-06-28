@@ -47,6 +47,8 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
         FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((MentionViewHolder) holder).mention_content);
         FillContent.fillButtonBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).bottombar_retweet, ((MentionViewHolder) holder).bottombar_comment, ((MentionViewHolder) holder).bottombar_attitude, ((MentionViewHolder) holder).comment, ((MentionViewHolder) holder).redirect, ((MentionViewHolder) holder).feedlike);
+
+
         ((MentionViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +70,17 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
                     mContext.startActivity(intent);
                 }
             });
+            ((MentionViewHolder) holder).mentionitem_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDatas.get(position).retweeted_status != null) {
+                        Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
+                        intent.putExtra("weiboitem", mDatas.get(position).retweeted_status);
+                        mContext.startActivity(intent);
+                    }
+
+                }
+            });
         }
         //是一条@我的原创微博
         else {
@@ -81,6 +94,16 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
                     Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position));
                     mContext.startActivity(intent);
+                }
+            });
+            ((MentionViewHolder) holder).mentionitem_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDatas.get(position).retweeted_status != null) {
+                        Intent intent = new Intent(mContext, OriginPicTextCommentDetailActivity.class);
+                        intent.putExtra("weiboitem", mDatas.get(position).retweeted_status);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }

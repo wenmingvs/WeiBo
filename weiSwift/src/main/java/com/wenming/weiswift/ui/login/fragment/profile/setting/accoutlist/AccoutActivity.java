@@ -105,8 +105,6 @@ public class AccoutActivity extends BaseSwipeActivity implements AccoutActivityV
                                 } else {
                                     mCurrentAccoutLogOut.performClick();
                                 }
-
-
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
