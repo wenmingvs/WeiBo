@@ -124,8 +124,10 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
     public void updateUserInfoListView(User user, boolean resetAdapter) {
         mUser = user;
         if (resetAdapter) {
+            mUserInfoDatas.clear();
             mUserInfoDatas.add(user.location);
             mUserInfoDatas.add(user.description);
+            mRecyclerView.clearOnScrollListeners();
             mUserInfoAdapter = new UserInfoAdapter(mContext, mUserInfoDatas);
             mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mUserInfoAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
