@@ -104,8 +104,8 @@ public class UserModelImp implements UserModel {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
-        long sinceId = checkout(groupId);
-        mStatusesAPI.userTimeline(screenName, sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statuslist_PullToRefresh);
+        //long sinceId = checkout(groupId);
+        mStatusesAPI.userTimeline(screenName, 0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statuslist_PullToRefresh);
     }
 
     @Override

@@ -96,9 +96,8 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
 
     @Override
     public void updateStatusListView(final ArrayList<Status> statuselist, boolean resetAdapter) {
-        if (mMyWeiBoAdapter == null) {
-            mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
-        }
+        mRecyclerView.removeItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
         if (resetAdapter) {
             mNoMoreData = false;
             mMyWeiBoAdapter = new WeiboAdapter(statuselist, mContext) {
@@ -123,6 +122,7 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
     @Override
     public void updateUserInfoListView(User user, boolean resetAdapter) {
         mUser = user;
+        mRecyclerView.removeItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
         if (resetAdapter) {
             mUserInfoDatas.clear();
             mUserInfoDatas.add(user.location);
