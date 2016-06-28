@@ -35,6 +35,7 @@ import com.wenming.weiswift.ui.login.fragment.post.idea.imagelist.ImgListAdapter
 import com.wenming.weiswift.ui.login.fragment.post.picselect.activity.AlbumActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.AlbumFolderInfo;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.utils.KeyBoardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 
@@ -63,6 +64,8 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
     private TextView repostName;
     private TextView repostContent;
     private RecyclerView mRecyclerView;
+    private ImageView mBlankspace;
+    private LinearLayout mIdea_linearLayout;
 
     private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<AlbumFolderInfo>();
     private ArrayList<ImageInfo> mSelectImgList = new ArrayList<ImageInfo>();
@@ -106,6 +109,8 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         repostName = (TextView) findViewById(R.id.repost_name);
         repostContent = (TextView) findViewById(R.id.repost_content);
         mRecyclerView = (RecyclerView) findViewById(R.id.ImgList);
+        mBlankspace = (ImageView) findViewById(R.id.blankspace);
+        mIdea_linearLayout = (LinearLayout) findViewById(R.id.idea_linearLayout);
         mIdeaType = getIntent().getStringExtra("ideaType");
         mStatus = getIntent().getParcelableExtra("status");
         mComment = getIntent().getParcelableExtra("comment");
@@ -113,6 +118,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
         refreshUserName();
         initContent();
         setUpListener();
+        mEditText.setTag(false);
         if (getIntent().getBooleanExtra("startAlumbAcitivity", false) == true) {
             Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
@@ -301,6 +307,13 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             }
         });
 
+        mBlankspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KeyBoardUtil.openKeybord(mEditText, mContext);
+            }
+        });
+
     }
 
 
@@ -383,6 +396,7 @@ public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterVie
             setLimitTextColor(mLimitTextView, inputString.toString());
         }
     };
+
 
     /**
      * 计算微博文本的长度，统计是否超过140个字，其中中文和全角的符号算1个字符，英文字符和半角字符算半个字符

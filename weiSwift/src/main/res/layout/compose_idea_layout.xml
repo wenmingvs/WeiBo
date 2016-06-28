@@ -6,13 +6,18 @@
 
     <include layout="@layout/toolbar_post_writeweibo" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <LinearLayout
+            android:id="@+id/idea_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -20,16 +25,19 @@
             <EditText
                 android:id="@+id/idea_content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="top"
                 android:hint="分享新鲜事..."
                 android:minHeight="100dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="31dp"
-                android:paddingTop="5dp"
-                android:textSize="17sp" />
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="12.5dp"
+                android:inputType="textMultiLine"
+                android:textSize="@dimen/post_content_font" />
+
+            <include layout="@layout/compose_repost_layout" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ImgList"
@@ -37,13 +45,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="15dp" />
-
-            <include layout="@layout/compose_repost_layout" />
         </LinearLayout>
-
-
     </ScrollView>
 
+    <ImageView
+        android:id="@+id/blankspace"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"

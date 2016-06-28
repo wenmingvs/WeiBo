@@ -3,10 +3,12 @@
     android:id="@+id/repost_layout"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
-    android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
-    android:background="@drawable/timeline_feedcard_retweet_background_auto"
+    android:layout_marginBottom="2.5dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
     android:orientation="horizontal"
+    android:background="@drawable/timeline_feedcard_retweet_background_auto"
     android:visibility="gone">
 
     <ImageView

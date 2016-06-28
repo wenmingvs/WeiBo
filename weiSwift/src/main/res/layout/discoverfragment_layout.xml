@@ -56,7 +56,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="热门微博"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:layout_marginLeft="125dp"
                     android:text="全站最热微博尽搜罗"
                     android:textColor="@color/gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/home_retweet_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -101,7 +101,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="找人"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -138,7 +138,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="玩游戏"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
                     android:layout_marginLeft="125dp"
                     android:text="微博上最火的游戏"
                     android:textColor="@color/gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/home_retweet_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -183,7 +183,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="应用"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
                     android:layout_marginLeft="125dp"
                     android:text="汇聚微博里最热门的"
                     android:textColor="@color/gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/home_retweet_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -228,7 +228,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="周边"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -265,7 +265,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="电影"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -301,7 +301,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="让红包飞"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -310,7 +310,7 @@
                     android:layout_marginLeft="125dp"
                     android:text="全明星盛宴，不止有红包"
                     android:textColor="@color/gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/home_retweet_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -346,7 +346,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="微博之夜"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -355,7 +355,7 @@
                     android:layout_marginLeft="125dp"
                     android:text="盛典在线直播，KingQueen即将揭晓"
                     android:textColor="@color/gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/home_retweet_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -391,7 +391,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="奔跑2016"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -428,7 +428,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="听歌"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -464,7 +464,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="购物"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -501,7 +501,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="旅游"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -538,7 +538,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="股票"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
 
                 <ImageView
@@ -575,7 +575,7 @@
                     android:layout_marginLeft="55dp"
                     android:text="更多频道"
                     android:textColor="#111111"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
                     android:layout_width="20dp"

@@ -18,6 +18,7 @@ import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 
 /**
+ * 主要负责popwindow的一系列初始化，包括背景，阴影动画，还有其中的textview 的初始化
  * Created by wenmingvs on 16/6/11.
  */
 public abstract class ArrowPopWindow extends BasePopupWindow {

@@ -114,7 +114,9 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
         mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
             @Override
             public void arrowClick(Status status, int position) {
-                //TODO
+                //TODO 完善点击事件
+                MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
+                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
             }
         };
         mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
@@ -148,11 +150,6 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
     };
 
 
-    public void onArrorClick(View view) {
-        finish();
-    }
-
-
     @Override
     public void updateMentionListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
         if (resetAdapter) {
@@ -160,6 +157,8 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
                 @Override
                 public void arrowClick(Status status, int position) {
                     //TODO
+                    MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
+                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
                 }
             };
             mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);

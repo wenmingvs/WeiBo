@@ -65,7 +65,7 @@ public class WeiBoContentTextUtil {
                         Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
                     }
                 };
-                spannableStringBuilder.setSpan(myClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(myClickableSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
             //处理##话题
             if (topic != null) {
@@ -77,7 +77,7 @@ public class WeiBoContentTextUtil {
                         Toast.makeText(context, "点击了话题：" + topic, Toast.LENGTH_LONG).show();
                     }
                 };
-                spannableStringBuilder.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(clickableSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
 
             // 处理url地址
@@ -113,7 +113,7 @@ public class WeiBoContentTextUtil {
 //                    }
 //                };
 
-                spannableStringBuilder.setSpan(imageSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(imageSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
             //emoji
             if (emoji != null) {
@@ -136,7 +136,7 @@ public class WeiBoContentTextUtil {
                                 canvas.restore();
                             }
                         };
-                        spannableStringBuilder.setSpan(imageSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spannableStringBuilder.setSpan(imageSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     }
                 }
             }

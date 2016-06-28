@@ -55,7 +55,7 @@
                             android:layout_marginBottom="10dp"
                             android:hint="昵称"
                             android:textColor="#222222"
-                            android:textSize="16sp" />
+                            android:textSize="@dimen/home_original_weiboitem_font" />
 
                         <TextView
                             android:id="@+id/profile_mydescribe"
@@ -64,7 +64,7 @@
                             android:layout_centerInParent="true"
                             android:hint="简介"
                             android:textColor="@color/gray"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/home_retweet_weiboitem_font" />
                     </LinearLayout>
 
                     <ImageView
