@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.utils.DensityUtil;
 
 import java.util.regex.Matcher;
@@ -62,7 +63,11 @@ public class WeiBoContentTextUtil {
                 WeiBoContentClickableSpan myClickableSpan = new WeiBoContentClickableSpan(context) {
                     @Override
                     public void onClick(View widget) {
-                        Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, UserActivity.class);
+                        String screen_name = at.substring(1);
+                        intent.putExtra("screenName", screen_name);
+                        context.startActivity(intent);
+                        //Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
                     }
                 };
                 spannableStringBuilder.setSpan(myClickableSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);

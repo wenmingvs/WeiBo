@@ -23,7 +23,7 @@ import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.RepostAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.MentionAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview.OnDetailButtonClickListener;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -46,7 +46,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
     public ArrayList<Status> mRepostDatas = new ArrayList<>();
     public CommentAdapter mCommentAdapter;
-    public RepostAdapter mRepostAdapter;
+    public MentionAdapter mRepostAdapter;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
     private int mCurrentGroup = StatusDetailModelImp.COMMENT_PAGE;
@@ -177,7 +177,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public void updateRepostListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
         if (resetAdapter) {
             mNoMoreData = false;
-            mRepostAdapter = new RepostAdapter(mContext, mentionlist);
+            mRepostAdapter = new MentionAdapter(mContext, mentionlist);
             mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -223,7 +223,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
 
     public void updateEmptyRepostHeadView() {
         mNoMoreData = true;
-        mRepostAdapter = new RepostAdapter(mContext, mRepostDatas);
+        mRepostAdapter = new MentionAdapter(mContext, mRepostDatas);
         mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);

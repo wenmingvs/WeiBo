@@ -46,7 +46,6 @@ public class UserActivityPresentImp implements UserActivityPresent {
                 break;
             case UserActivity.USER_ACTIVITY_USER_STATUS:
                 userModel.userTimeline(screenName, Constants.GROUP_MYWEIBO_TYPE_ALL, context, new UserModel.OnStatusListFinishedListener() {
-
                     @Override
                     public void noMoreDate() {
                         userActivityView.hideLoadingIcon();
@@ -55,6 +54,7 @@ public class UserActivityPresentImp implements UserActivityPresent {
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
                         userActivityView.hideLoadingIcon();
+                        userActivityView.updateStatusListView(statuslist, true);
                     }
 
                     @Override
@@ -68,17 +68,17 @@ public class UserActivityPresentImp implements UserActivityPresent {
 
                     @Override
                     public void noMoreDate() {
-
+                        userActivityView.hideLoadingIcon();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
-
+                        userActivityView.hideLoadingIcon();
                     }
 
                     @Override
                     public void onError(String error) {
-
+                        userActivityView.hideLoadingIcon();
                     }
                 });
                 break;
@@ -93,17 +93,18 @@ public class UserActivityPresentImp implements UserActivityPresent {
 
                     @Override
                     public void noMoreDate() {
-
+                        userActivityView.showEndFooterView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
-
+                        userActivityView.hideFooterView();
+                        userActivityView.updateStatusListView(statuslist, false);
                     }
 
                     @Override
                     public void onError(String error) {
-
+                        userActivityView.showErrorFooterView();
                     }
                 });
                 break;
@@ -111,17 +112,18 @@ public class UserActivityPresentImp implements UserActivityPresent {
                 userModel.userTimelineNextPage(screenName, Constants.GROUP_MYWEIBO_TYPE_PICWEIBO, context, new UserModel.OnStatusListFinishedListener() {
                     @Override
                     public void noMoreDate() {
-
+                        userActivityView.showEndFooterView();
                     }
 
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
-
+                        userActivityView.hideFooterView();
+                        userActivityView.updateStatusListView(statuslist, false);
                     }
 
                     @Override
                     public void onError(String error) {
-
+                        userActivityView.showErrorFooterView();
                     }
                 });
                 break;

@@ -1,7 +1,9 @@
 package com.wenming.weiswift.ui.login.fragment.home.userdetail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,7 +16,7 @@ import com.wenming.weiswift.ui.common.FillContent;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class UserHeadView extends RelativeLayout {
+public abstract class UserHeadView extends RelativeLayout {
     private User user;
     private ImageView userCoverimg;
     private ImageView userImg;
@@ -26,13 +28,15 @@ public class UserHeadView extends RelativeLayout {
     private TextView userVerifiedreason;
     private LinearLayout homepageLayout;
     private TextView homepageTextview;
-    private ImageView homepageIndicator;
     private LinearLayout weiboLayout;
     private TextView weiboTextview;
-    private ImageView weiboIndicator;
     private LinearLayout photoLayout;
     private TextView photoTextview;
+
+
+    private ImageView userInfoIndicator;
     private ImageView photoIndicator;
+    private ImageView weiboIndicator;
 
 
     public UserHeadView(Context context, User user) {
@@ -63,7 +67,7 @@ public class UserHeadView extends RelativeLayout {
         userVerifiedreason = (TextView) findViewById(R.id.user_verifiedreason);
         homepageLayout = (LinearLayout) findViewById(R.id.homepage_layout);
         homepageTextview = (TextView) findViewById(R.id.homepage_textview);
-        homepageIndicator = (ImageView) findViewById(R.id.homepage_indicator);
+        userInfoIndicator = (ImageView) findViewById(R.id.homepage_indicator);
         weiboLayout = (LinearLayout) findViewById(R.id.weibo_layout);
         weiboTextview = (TextView) findViewById(R.id.weibo_textview);
         weiboIndicator = (ImageView) findViewById(R.id.weibo_indicator);
@@ -71,5 +75,52 @@ public class UserHeadView extends RelativeLayout {
         photoTextview = (TextView) findViewById(R.id.photo_textview);
         photoIndicator = (ImageView) findViewById(R.id.photo_indicator);
         FillContent.fillUserHeadView(context, user, userCoverimg, userImg, userVerified, userName, userSex, userFriends, userFollows, userVerifiedreason);
+        homepageTextview.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onIndicatorClick(UserActivity.USER_ACTIVITY_USER_INFO);
+            }
+        });
+        weiboTextview.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onIndicatorClick(UserActivity.USER_ACTIVITY_USER_STATUS);
+            }
+        });
+        photoTextview.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onIndicatorClick(UserActivity.USER_ACTIVITY__USER_PHOTO);
+            }
+        });
+
     }
+
+    public void highlightIndicator(String group) {
+        userInfoIndicator.setVisibility(View.INVISIBLE);
+        weiboIndicator.setVisibility(View.INVISIBLE);
+        photoIndicator.setVisibility(View.INVISIBLE);
+        homepageTextview.setTextColor(Color.parseColor("#929292"));
+        weiboTextview.setTextColor(Color.parseColor("#929292"));
+        photoTextview.setTextColor(Color.parseColor("#929292"));
+
+        switch (group) {
+            case UserActivity.USER_ACTIVITY_USER_INFO:
+                homepageTextview.setTextColor(Color.parseColor("#fe8000"));
+                userInfoIndicator.setVisibility(View.VISIBLE);
+                break;
+            case UserActivity.USER_ACTIVITY_USER_STATUS:
+                weiboTextview.setTextColor(Color.parseColor("#fe8000"));
+                weiboIndicator.setVisibility(View.VISIBLE);
+                break;
+            case UserActivity.USER_ACTIVITY__USER_PHOTO:
+                photoTextview.setTextColor(Color.parseColor("#fe8000"));
+                photoIndicator.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+
+    public abstract void onIndicatorClick(String group);
+
 }

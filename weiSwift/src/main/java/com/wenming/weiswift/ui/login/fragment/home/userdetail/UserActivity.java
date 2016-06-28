@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 
 import com.wenming.swipebacklayout.app.SwipeBackActivity;
@@ -15,8 +16,9 @@ import com.wenming.weiswift.mvp.presenter.UserActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.mvp.view.UserActivityView;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserInfoAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
-import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -34,8 +36,7 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
     public static final String USER_ACTIVITY_USER_STATUS = "用户微博";
     public static final String USER_ACTIVITY__USER_PHOTO = "用户相册";
 
-    public UserInfoAdapter mUserInfoAdapter;
-    public WeiboAdapter mWeiboAdapter;
+
     public LinearLayoutManager mLayoutManager;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private ArrayList<String> mUserInfoDatas = new ArrayList<>();
@@ -51,17 +52,23 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
     private int lastOffset;
     private int lastPosition;
     private boolean mNoMoreData;
+    private UserHeadView mUserHeadView;
 
 
+    private WeiboAdapter mMyWeiBoAdapter;
+    public UserInfoAdapter mUserInfoAdapter;
+
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_user_layout);
+        mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mUserActivityPresent = new UserActivityPresentImp(this);
         mSourceScreeenName = getIntent().getStringExtra("screenName");
         mSourceId = getIntent().getIntExtra("id", 0);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
         mContext = this;
         initRefreshLayout();
         mSwipeRefreshLayout.post(new Runnable() {
@@ -71,17 +78,6 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
             }
         });
     }
-
-//    private void initRecyclerView(String group) {
-//        switch (group) {
-//            case USER_ACTIVITY_USER_INFO:
-//                break;
-//            case USER_ACTIVITY_USER_STATUS:
-//                break;
-//            case USER_ACTIVITY__USER_PHOTO:
-//                break;
-//        }
-//    }
 
 
     protected void initRefreshLayout() {
@@ -99,25 +95,51 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
 
 
     @Override
-    public void updateStatusListView(ArrayList<Status> statuselist, boolean resetAdapter) {
-
+    public void updateStatusListView(final ArrayList<Status> statuselist, boolean resetAdapter) {
+        if (mMyWeiBoAdapter == null) {
+            mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        }
+        if (resetAdapter) {
+            mNoMoreData = false;
+            mMyWeiBoAdapter = new WeiboAdapter(statuselist, mContext) {
+                @Override
+                public void arrowClick(Status status, int position) {
+                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
+                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+                }
+            };
+            mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mMyWeiBoAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+        }
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(mScrollListener);
+        mMyWeiBoDatas = statuselist;
+        mMyWeiBoAdapter.setData(statuselist);
+        RecyclerViewUtils.setHeaderView(mRecyclerView, mUserHeadView);
+        mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void updateUserInfoListView(User user, boolean resetAdapter) {
+        mUser = user;
         if (resetAdapter) {
-            mUserInfoDatas = new ArrayList<>();
             mUserInfoDatas.add(user.location);
             mUserInfoDatas.add(user.description);
-            mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
             mUserInfoAdapter = new UserInfoAdapter(mContext, mUserInfoDatas);
             mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mUserInfoAdapter);
-            mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
             mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
             RecyclerViewUtils.setFooterView(mRecyclerView, new HomePageFooter(mContext));
-            RecyclerViewUtils.setHeaderView(mRecyclerView, new UserHeadView(mContext, user));
-            mRecyclerView.addItemDecoration(new HomePageItemSapce(DensityUtil.dp2px(mContext, 10)));
+            mUserHeadView = new UserHeadView(mContext, user) {
+                @Override
+                public void onIndicatorClick(String group) {
+                    mGroup = group;
+                    highlightIndicator(group);
+                    mUserActivityPresent.pullToRefreshData(mGroup, mSourceScreeenName, mContext);
+                }
+            };
+            RecyclerViewUtils.setHeaderView(mRecyclerView, mUserHeadView);
         }
 
 
@@ -136,9 +158,9 @@ public class UserActivity extends SwipeBackActivity implements UserActivityView 
     @Override
     public void showLoadFooterView(String currentGroup) {
         if (currentGroup.equals(USER_ACTIVITY_USER_STATUS)) {
-            RecyclerViewStateUtils.setFooterViewState(UserActivity.this, mRecyclerView, mWeiboAdapter.getItemCount(), LoadingFooter.State.Loading, null);
+            RecyclerViewStateUtils.setFooterViewState(UserActivity.this, mRecyclerView, mMyWeiBoAdapter.getItemCount(), LoadingFooter.State.Loading, null);
         } else if (currentGroup.equals(USER_ACTIVITY__USER_PHOTO)) {
-            RecyclerViewStateUtils.setFooterViewState(UserActivity.this, mRecyclerView, mWeiboAdapter.getItemCount(), LoadingFooter.State.Loading, null);
+            RecyclerViewStateUtils.setFooterViewState(UserActivity.this, mRecyclerView, mMyWeiBoAdapter.getItemCount(), LoadingFooter.State.Loading, null);
         }
     }
 

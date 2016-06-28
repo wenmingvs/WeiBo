@@ -26,15 +26,15 @@
                 android:id="@+id/idea_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="top"
-                android:hint="分享新鲜事..."
-                android:minHeight="100dp"
                 android:layout_marginBottom="7dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="12.5dp"
+                android:background="@color/white"
+                android:gravity="top"
+                android:hint="分享新鲜事..."
                 android:inputType="textMultiLine"
+                android:minHeight="100dp"
                 android:textSize="@dimen/post_content_font" />
 
             <include layout="@layout/compose_repost_layout" />
