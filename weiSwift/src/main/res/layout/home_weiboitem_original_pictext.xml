@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/timeline_feedcard_retweet_background_auto"
     android:clickable="true"
+    android:layout_marginBottom="8dp"
     android:orientation="vertical">
 
     <include layout="@layout/home_weiboitem_titlebar" />

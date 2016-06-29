@@ -23,14 +23,14 @@ import java.util.ArrayList;
  * 用于显示评论列表的adapter
  * Created by wenmingvs on 16/4/23.
  */
-public class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class CommentDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
     private ArrayList<Comment> mDatas;
     private View mView;
 
 
-    public CommentAdapter(Context mContext, ArrayList<Comment> datas) {
+    public CommentDetailAdapter(Context mContext, ArrayList<Comment> datas) {
         this.mContext = mContext;
         this.mDatas = datas;
     }

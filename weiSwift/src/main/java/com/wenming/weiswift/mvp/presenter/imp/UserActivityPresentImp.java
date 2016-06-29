@@ -26,8 +26,10 @@ public class UserActivityPresentImp implements UserActivityPresent {
         this.userModel = new UserModelImp();
     }
 
+
+
     @Override
-    public void pullToRefreshData(String refreshType, String screenName, Context context) {
+    public void pullToRefreshData(final String refreshType, String screenName, final Context context) {
         userActivityView.showLoadingIcon();
         switch (refreshType) {
             case UserActivity.USER_ACTIVITY_USER_INFO:
@@ -74,6 +76,7 @@ public class UserActivityPresentImp implements UserActivityPresent {
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
                         userActivityView.hideLoadingIcon();
+                        userActivityView.updatePhotoListView(statuslist, true);
                     }
 
                     @Override
@@ -118,7 +121,7 @@ public class UserActivityPresentImp implements UserActivityPresent {
                     @Override
                     public void onDataFinish(ArrayList<Status> statuslist) {
                         userActivityView.hideFooterView();
-                        userActivityView.updateStatusListView(statuslist, false);
+                        userActivityView.updatePhotoListView(statuslist, false);
                     }
 
                     @Override

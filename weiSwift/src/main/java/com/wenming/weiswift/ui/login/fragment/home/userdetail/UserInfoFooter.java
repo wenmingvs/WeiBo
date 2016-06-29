@@ -12,25 +12,24 @@ import com.wenming.weiswift.R;
  * <p/>
  * RecyclerView的FooterView，简单的展示一个TextView
  */
-public class HomePageFooter extends RelativeLayout {
+public class UserInfoFooter extends RelativeLayout {
 
-    public HomePageFooter(Context context) {
+    public UserInfoFooter(Context context) {
         super(context);
         init(context);
     }
 
-    public HomePageFooter(Context context, AttributeSet attrs) {
+    public UserInfoFooter(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public HomePageFooter(Context context, AttributeSet attrs, int defStyleAttr) {
+    public UserInfoFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     public void init(Context context) {
-
         inflate(context, R.layout.user_profile_layout_homepage_footerview, this);
     }
 }

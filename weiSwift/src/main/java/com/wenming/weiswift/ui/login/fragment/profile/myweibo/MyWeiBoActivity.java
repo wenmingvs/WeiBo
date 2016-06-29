@@ -22,7 +22,6 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
@@ -100,7 +99,7 @@ public class MyWeiBoActivity extends BaseSwipeActivity implements MyWeiBoActivit
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
-        mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        //mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
     private void initGroupWindows() {

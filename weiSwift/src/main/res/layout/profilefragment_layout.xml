@@ -25,6 +25,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/myprofile_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
@@ -99,6 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
+                            android:textSize="13sp"
                             android:textColor="#222222" />
 
                         <TextView
@@ -126,6 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
+                            android:textSize="13sp"
                             android:textColor="#222222" />
 
                         <TextView
@@ -154,6 +157,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
+                            android:textSize="13sp"
                             android:textColor="#222222" />
 
                         <TextView
@@ -162,7 +166,6 @@
                             android:text="粉丝"
                             android:textColor="@color/gray"
                             android:textSize="12sp" />
-
                     </LinearLayout>
                 </LinearLayout>
 

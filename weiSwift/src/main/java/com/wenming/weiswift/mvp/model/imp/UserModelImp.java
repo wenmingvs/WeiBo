@@ -95,8 +95,8 @@ public class UserModelImp implements UserModel {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
-        long sinceId = checkout(groupId);
-        mStatusesAPI.userTimeline(uid, sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statuslist_PullToRefresh);
+        //long sinceId = checkout(groupId);
+        mStatusesAPI.userTimeline(uid, 0, 0, NewFeature.GET_WEIBO_NUMS, 1, false, groupId, false, statuslist_PullToRefresh);
     }
 
     @Override
@@ -113,8 +113,8 @@ public class UserModelImp implements UserModel {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
-        long sinceId = checkout(groupId);
-        mStatusesAPI.userTimeline(screenName, sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, StatusesAPI.FEATURE_PICTURE, false, statuslist_PullToRefresh);
+        //long sinceId = checkout(groupId);
+        mStatusesAPI.userTimeline(screenName, 0, 0, 50, 1, false, StatusesAPI.FEATURE_PICTURE, false, statuslist_PullToRefresh);
     }
 
     /**
@@ -170,7 +170,7 @@ public class UserModelImp implements UserModel {
         StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
-        mStatusesAPI.userTimeline(screenName, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, StatusesAPI.FEATURE_PICTURE, false, statuslist_NextPage);
+        mStatusesAPI.userTimeline(screenName, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), 50, 1, false, StatusesAPI.FEATURE_PICTURE, false, statuslist_NextPage);
     }
 
 

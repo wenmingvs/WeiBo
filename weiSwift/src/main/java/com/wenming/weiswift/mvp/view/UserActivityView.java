@@ -9,9 +9,13 @@ import java.util.ArrayList;
  * Created by wenmingvs on 2016/6/28.
  */
 public interface UserActivityView {
+
     public void updateStatusListView(ArrayList<Status> statuselist, boolean resetAdapter);
 
+    public void updatePhotoListView(ArrayList<Status> statuselist, boolean resetAdapter);
+
     public void updateUserInfoListView(User user, boolean resetAdapter);
+
 
     /**
      * 显示loading动画

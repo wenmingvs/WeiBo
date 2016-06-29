@@ -7,10 +7,10 @@ import android.view.View;
 /**
  * Created by wenmingvs on 16/4/18.
  */
-public class HomePageItemSapce extends RecyclerView.ItemDecoration {
+public class UserInfoItemSapce extends RecyclerView.ItemDecoration {
     private int space;
 
-    public HomePageItemSapce(int space) {
+    public UserInfoItemSapce(int space) {
         this.space = space;
     }
 

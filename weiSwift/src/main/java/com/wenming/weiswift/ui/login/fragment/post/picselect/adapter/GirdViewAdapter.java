@@ -13,8 +13,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;

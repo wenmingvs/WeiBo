@@ -2,7 +2,6 @@ package com.wenming.weiswift.ui.login.fragment.home.userdetail;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,25 +36,16 @@ public abstract class UserHeadView extends RelativeLayout {
     private ImageView userInfoIndicator;
     private ImageView photoIndicator;
     private ImageView weiboIndicator;
+    private View mView;
 
 
-    public UserHeadView(Context context, User user) {
+    public UserHeadView(Context context, String group, User user) {
         super(context);
-        init(context, user);
+        init(context, user, group);
     }
 
-    public UserHeadView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, user);
-    }
-
-    public UserHeadView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, user);
-    }
-
-    public void init(Context context, User user) {
-        inflate(context, R.layout.user_profile_layout_headview, this);
+    public void init(Context context, User user, String group) {
+        mView = inflate(context, R.layout.user_profile_layout_headview, this);
         this.user = user;
         userCoverimg = (ImageView) findViewById(R.id.user_coverimg);
         userImg = (ImageView) findViewById(R.id.user_img);
@@ -94,6 +84,8 @@ public abstract class UserHeadView extends RelativeLayout {
             }
         });
 
+        highlightIndicator(group);
+
     }
 
     public void highlightIndicator(String group) {
@@ -106,15 +98,15 @@ public abstract class UserHeadView extends RelativeLayout {
 
         switch (group) {
             case UserActivity.USER_ACTIVITY_USER_INFO:
-                homepageTextview.setTextColor(Color.parseColor("#fe8000"));
+                homepageTextview.setTextColor(Color.parseColor("#2f2f2f"));
                 userInfoIndicator.setVisibility(View.VISIBLE);
                 break;
             case UserActivity.USER_ACTIVITY_USER_STATUS:
-                weiboTextview.setTextColor(Color.parseColor("#fe8000"));
+                weiboTextview.setTextColor(Color.parseColor("#2f2f2f"));
                 weiboIndicator.setVisibility(View.VISIBLE);
                 break;
             case UserActivity.USER_ACTIVITY__USER_PHOTO:
-                photoTextview.setTextColor(Color.parseColor("#fe8000"));
+                photoTextview.setTextColor(Color.parseColor("#2f2f2f"));
                 photoIndicator.setVisibility(View.VISIBLE);
                 break;
         }

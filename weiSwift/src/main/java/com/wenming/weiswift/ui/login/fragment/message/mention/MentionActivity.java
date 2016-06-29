@@ -20,7 +20,6 @@ import com.wenming.weiswift.mvp.view.MentionActivityView;
 import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
-import com.wenming.weiswift.ui.login.fragment.message.ItemSapce;
 import com.wenming.weiswift.ui.login.fragment.message.comment.CommentAdapter;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
@@ -123,7 +122,7 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMentionFooterAdapter);
-        mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
+        //mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
 

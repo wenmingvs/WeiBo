@@ -33,7 +33,7 @@
                 android:layout_marginBottom="3dp"
                 android:text="红楼"
                 android:textColor="#2f2f2f"
-                android:textSize="@dimen/home_weiboitem_title_profile_name" />
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/comment_profile_time"
@@ -50,6 +50,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:text="转发微博"
+                android:textSize="@dimen/home_retweet_weiboitem_font"
                 android:textColor="#5d5d5d" />
         </LinearLayout>
 

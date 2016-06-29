@@ -10,6 +10,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
+
         android:orientation="horizontal">
 
         <ImageView
@@ -156,6 +157,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
+
         android:orientation="horizontal">
 
         <ImageView
@@ -201,6 +203,7 @@
         android:layout_marginTop="0.5dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
+
         android:orientation="horizontal">
 
         <ImageView
@@ -247,6 +250,7 @@
         android:layout_marginTop="0.5dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
+
         android:orientation="horizontal">
 
         <ImageView
@@ -375,6 +379,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
+
         android:orientation="horizontal">
 
         <ImageView

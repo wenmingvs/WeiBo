@@ -22,8 +22,8 @@ import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.MentionAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentDetailAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.MentionDetailAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview.OnDetailButtonClickListener;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -45,8 +45,8 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public Status mStatus;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
     public ArrayList<Status> mRepostDatas = new ArrayList<>();
-    public CommentAdapter mCommentAdapter;
-    public MentionAdapter mRepostAdapter;
+    public CommentDetailAdapter mCommentAdapter;
+    public MentionDetailAdapter mRepostAdapter;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
     private int mCurrentGroup = StatusDetailModelImp.COMMENT_PAGE;
@@ -108,7 +108,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
 
 
     public void initRecyclerView() {
-        mCommentAdapter = new CommentAdapter(mContext, mCommentDatas);
+        mCommentAdapter = new CommentDetailAdapter(mContext, mCommentDatas);
         mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);
@@ -177,7 +177,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public void updateRepostListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
         if (resetAdapter) {
             mNoMoreData = false;
-            mRepostAdapter = new MentionAdapter(mContext, mentionlist);
+            mRepostAdapter = new MentionDetailAdapter(mContext, mentionlist);
             mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -201,7 +201,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
     public void updateCommentListView(ArrayList<Comment> commentlist, boolean resetAdapter) {
         if (resetAdapter) {
             mNoMoreData = false;
-            mCommentAdapter = new CommentAdapter(mContext, commentlist);
+            mCommentAdapter = new CommentDetailAdapter(mContext, commentlist);
             mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -223,7 +223,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
 
     public void updateEmptyRepostHeadView() {
         mNoMoreData = true;
-        mRepostAdapter = new MentionAdapter(mContext, mRepostDatas);
+        mRepostAdapter = new MentionDetailAdapter(mContext, mRepostDatas);
         mRepostFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mRepostAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);
@@ -236,7 +236,7 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
 
     public void updateEmptyCommentHeadView() {
         mNoMoreData = true;
-        mCommentAdapter = new CommentAdapter(mContext, mCommentDatas);
+        mCommentAdapter = new CommentDetailAdapter(mContext, mCommentDatas);
         mCommentFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mCommentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);

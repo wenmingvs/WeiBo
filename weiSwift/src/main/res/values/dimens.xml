@@ -18,15 +18,15 @@
 
 
     <!--原创内容的字体大小-->
-    <dimen name="home_original_weiboitem_font">14sp</dimen><!--微博内容中字体大小:16中号,15小号-->
+    <dimen name="home_original_weiboitem_font">15sp</dimen><!--微博内容中字体大小:16中号,15小号-->
     <dimen name="home_original_weiboitem_linespace">3dp</dimen><!--微博内容中行距大小-->
 
     <!--转发内容的字体大小-->
-    <dimen name="home_retweet_weiboitem_font">13sp</dimen><!--转发内容中的字体大小：15中号，14小号-->
+    <dimen name="home_retweet_weiboitem_font">14sp</dimen><!--转发内容中的字体大小：15中号，14小号-->
 
     <!--发微博的内容字体大小-->
     <dimen name="post_content_font">15sp</dimen><!--发微博的内容字体大小：15中号，14小号-->
-
+    s
     <!--首页的其他设置-->
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
     <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->

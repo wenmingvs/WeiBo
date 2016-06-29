@@ -16,7 +16,6 @@ import com.wenming.weiswift.mvp.view.FavoritiesActivityView;
 import com.wenming.weiswift.ui.common.BaseSwipeActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -83,7 +82,7 @@ public class FavoritiesActivity extends BaseSwipeActivity implements FavoritiesA
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new SeachHeadView(mContext));
-        mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        //mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
 

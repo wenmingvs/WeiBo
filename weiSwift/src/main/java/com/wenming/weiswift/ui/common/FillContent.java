@@ -34,7 +34,7 @@ import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.adapter.CommentDetailAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
@@ -592,7 +592,7 @@ public class FillContent {
      */
 
     public static void fillCommentList(Context context, int commentCount, ArrayList<Comment> commentArrayList, final RecyclerView recyclerView, TextView commentView) {
-        CommentAdapter commentAdapter = new CommentAdapter(context, commentArrayList);
+        CommentDetailAdapter commentAdapter = new CommentDetailAdapter(context, commentArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(commentAdapter);
