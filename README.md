@@ -30,7 +30,7 @@
 
 Gif样式
 -----
-![enter image description here](http://ww3.sinaimg.cn/mw690/691cc151gw1f3s0qy6dsag209y0hs1l3.gif)
+![enter image description here](http://ww3.sinaimg.cn/large/691cc151gw1f3s0qy6dsag209y0hs1l3.gif)
 
 主页模块
 -----
