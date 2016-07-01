@@ -165,8 +165,6 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setAdapter(mMentionFooterAdapter);
         }
-
-
         mRecyclerView.clearOnScrollListeners();
         mRecyclerView.addOnScrollListener(mOnMentionScrollListener);
         mMentionDatas = mentionlist;

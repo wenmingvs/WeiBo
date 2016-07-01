@@ -242,7 +242,6 @@ public class MainActivity extends FragmentActivity {
                     .setIcon(R.drawable.logo)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-
                             ((MyApplication) getApplication()).finishAll();
                         }
                     })
