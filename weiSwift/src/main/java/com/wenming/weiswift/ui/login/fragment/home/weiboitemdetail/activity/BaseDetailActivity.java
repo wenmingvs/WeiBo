@@ -329,9 +329,12 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            View topView = recyclerView.getLayoutManager().getChildAt(0);         //获取可视的第一个view
-            lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
-            lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+            if (recyclerView != null) {
+                View topView = recyclerView.getLayoutManager().getChildAt(0);         //获取可视的第一个view
+                lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
+                lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+            }
+
 
         }
     };

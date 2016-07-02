@@ -2,12 +2,12 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 设置填充颜色 为白色 -->
+    <solid android:color="#ffffff" />
 
 
-    <!-- 设置几何图形四个角的弧度 -->
     <corners android:radius="2dp" />
 
-    <!-- 设置几何形状绘制边框 红色边框 -->
+
     <stroke
         android:width="0.5dp"
         android:color="#d6d6d6" />
