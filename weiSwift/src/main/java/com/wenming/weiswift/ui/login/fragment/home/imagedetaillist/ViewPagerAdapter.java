@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.utils.LogUtil;
+
 import java.util.ArrayList;
 
 
