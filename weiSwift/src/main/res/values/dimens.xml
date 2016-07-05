@@ -47,11 +47,13 @@
 
     <dimen name="dp_066">0.66dp</dimen>
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_14">14dp</dimen>
     <dimen name="dp_22">22dp</dimen>
     <dimen name="dp_36">36dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_72">72dp</dimen>
 
