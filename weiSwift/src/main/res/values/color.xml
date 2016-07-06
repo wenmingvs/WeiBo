@@ -37,5 +37,9 @@
 
     <color name="weibo_holo_bg">#f2f2f2</color>
 
+    <!-- toast的背景色 -->
+    <color name="bg_toast">#f79f43</color>
+
+
 
 </resources>
