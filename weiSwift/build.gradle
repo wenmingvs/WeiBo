@@ -23,6 +23,13 @@ android {
         }
     }
 
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "3g"
+        incremental true
+        dexInProcess = true
+    }
+
 }
 
 dependencies {

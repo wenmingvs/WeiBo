@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.utils.DensityUtil;
 
 /**
  * Created on 16-7-4.

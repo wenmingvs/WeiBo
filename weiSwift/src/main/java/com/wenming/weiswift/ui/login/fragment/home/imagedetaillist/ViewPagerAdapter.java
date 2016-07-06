@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +56,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public ViewPagerAdapter(ArrayList<String> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
-
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -63,7 +63,6 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .imageScaleType(ImageScaleType.NONE)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();
-
     }
 
     @Override
@@ -79,7 +78,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
-        RelativeLayout imageViewItemLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
+        final RelativeLayout imageViewItemLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
         final PhotoView photoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
         final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
         final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
@@ -88,6 +87,22 @@ public class ViewPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 onSingleTagListener.onTag();
+            }
+        });
+
+        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(imageViewItemLayout, position);
+                return false;
+            }
+        });
+
+        simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(imageViewItemLayout, position);
+                return false;
             }
         });
 
@@ -132,9 +147,6 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
                     donutProgress.setVisibility(View.GONE);
-//                    //展示中等质量的图片
-//                    String bmiddle = mDatas.get(position).replace("large", "bmiddle");
-//                    ImageLoader.getInstance().displayImage(bmiddle, photoView, options);
                 }
 
                 /**
@@ -205,9 +217,14 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
 
-    private static String getGifUrl(String thumbnail_url) {
-        StringBuffer buffer = new StringBuffer(thumbnail_url);
-        buffer.replace(22, 29, "mw690");
-        return buffer.toString();
+    private void showPopWindow(View parent, int position) {
+        ImageOptionPopupWindow mPopupWindow = new ImageOptionPopupWindow(mDatas.get(position), mContext);
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        } else {
+            mPopupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+        }
     }
+
+
 }

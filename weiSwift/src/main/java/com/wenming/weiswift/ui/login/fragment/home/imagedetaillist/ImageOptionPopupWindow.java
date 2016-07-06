@@ -2,14 +2,20 @@ package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BasePopupWindow;
+import com.wenming.weiswift.utils.SaveImgUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -23,11 +29,27 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
     private TextView mSavePicTextView;
     private TextView mRetweetTextView;
     private Context mContext;
+    private String mImgURL;
+
+    /**
+     * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
+     */
+    private static DisplayImageOptions ImageOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.message_image_default)
+            .showImageForEmptyUri(R.drawable.message_image_default)
+            .showImageOnFail(R.drawable.timeline_image_failure)
+            .bitmapConfig(Bitmap.Config.ARGB_8888)
+            .imageScaleType(ImageScaleType.NONE)
+            .considerExifParams(true)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
 
 
-    public ImageOptionPopupWindow(Context context) {
-        super(context, (Activity) context, 600);
+    public ImageOptionPopupWindow(String url, Context context) {
+        super(context, (Activity) context, 300);
         mContext = context;
+        mImgURL = url;
         initPopWindow(mContext);
         mView = LayoutInflater.from(mContext).inflate(R.layout.home_image_detail_list_pop_window, null);
         this.setContentView(mView);
@@ -74,13 +96,21 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
         mSavePicTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(context, "保存图片");
+                dismiss();
+                ImageLoader.getInstance().loadImage(mImgURL, ImageOptions, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        SaveImgUtil.create(mContext).saveImage(loadedImage);
+                    }
+                });
             }
         });
 
         mRetweetTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 ToastUtil.showShort(context, "转发微博");
             }
         });
