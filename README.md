@@ -34,13 +34,8 @@
 快速下载体验
 -----
 
-![百度网盘](http://pan.baidu.com/s/1mhUmAM0)
+[百度网盘](http://pan.baidu.com/s/1mhUmAM0)
 
-
-
-Gif样式
------
-![enter image description here](http://ww3.sinaimg.cn/large/691cc151gw1f3s0qy6dsag209y0hs1l3.gif)
 
 主页模块
 -----
