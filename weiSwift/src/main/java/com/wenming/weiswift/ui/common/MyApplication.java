@@ -25,6 +25,9 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.wenming.library.LogReport;
+import com.wenming.library.save.imp.CrashWriter;
+import com.wenming.library.upload.email.EmailReporter;
 import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.LinkedList;
@@ -53,7 +56,20 @@ public class MyApplication extends Application implements Application.ActivityLi
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
         Fresco.initialize(getApplicationContext());
+        initCrashReport();
     }
+
+    private void initCrashReport() {
+        initEmailReporter();
+        LogReport.getInstance()
+                .setCacheSize(30 * 1024 * 1024)//支持设置缓存大小，超出后清空
+                .setLogDir(getApplicationContext(), "sdcard/" + this.getString(this.getApplicationInfo().labelRes) + "/")//定义路径为：sdcard/[app name]/
+                .setWifiOnly(true)//设置只在Wifi状态下上传，设置为false为Wifi和移动网络都上传
+                .setLogSaver(new CrashWriter(getApplicationContext()))//支持自定义保存崩溃信息的样式
+                //.setEncryption(new AESEncode()) //支持日志到AES加密或者DES加密，默认不开启
+                .init(getApplicationContext());
+    }
+
 
     public void finishAll() {
         for (Activity activity : mActivityList) {
@@ -100,6 +116,20 @@ public class MyApplication extends Application implements Application.ActivityLi
     public void onActivityDestroyed(Activity activity) {
         LogUtil.d("OnDestroyed = " + activity.getLocalClassName());
         mActivityList.remove(activity);
+    }
+
+
+    /**
+     * 使用EMAIL发送日志
+     */
+    private void initEmailReporter() {
+        EmailReporter email = new EmailReporter(this);
+        email.setReceiver("wenmingvs@gmail.com");//收件人
+        email.setSender("wenmingvs@163.com");//发送人邮箱
+        email.setSendPassword("apptest1234");//用于登录第三方的邮件授权码
+        email.setSMTPHost("smtp.163.com");//SMTP地址
+        email.setPort("465");//SMTP 端口
+        LogReport.getInstance().setUploadType(email);
     }
 
 
