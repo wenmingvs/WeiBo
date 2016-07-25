@@ -29,7 +29,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         this.mStatus = status;
         this.mData = status.bmiddle_pic_urls;
         this.mContext = context;
-        options = new DisplayImageOptions.Builder()
+        this.options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.message_image_default)
                 .showImageForEmptyUri(R.drawable.message_image_default)
                 .showImageOnFail(R.drawable.message_image_default)

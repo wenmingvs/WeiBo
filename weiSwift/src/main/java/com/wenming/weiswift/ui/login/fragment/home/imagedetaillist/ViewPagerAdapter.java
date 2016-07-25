@@ -4,17 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.photoviewlib.PhotoView;
-import com.example.photoviewlib.PhotoViewAttacher;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -24,11 +21,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.utils.LogUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -51,7 +49,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public void setOnSingleTagListener(OnSingleTagListener onSingleTagListener) {
         this.onSingleTagListener = onSingleTagListener;
     }
-
 
     public ViewPagerAdapter(ArrayList<String> datas, Context context) {
         this.mDatas = datas;
@@ -79,7 +76,8 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
         final RelativeLayout imageViewItemLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
-        final PhotoView photoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
+        final SubsamplingScaleImageView subsamplingScaleImageView = (SubsamplingScaleImageView) mView.findViewById(R.id.PhotoViewID);
+
         final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
         final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
 
@@ -90,7 +88,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+        subsamplingScaleImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showPopWindow(imageViewItemLayout, position);
@@ -110,7 +108,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             donutProgress.setVisibility(View.GONE);
             String gifURL = mDatas.get(position);
             LogUtil.d(gifURL);
-            photoView.setVisibility(View.INVISIBLE);
+            subsamplingScaleImageView.setVisibility(View.INVISIBLE);
             simpleDraweeView.setVisibility(View.VISIBLE);
             Uri uri = Uri.parse(gifURL);
             simpleDraweeView.setImageURI(uri);
@@ -127,18 +125,18 @@ public class ViewPagerAdapter extends PagerAdapter {
                     onSingleTagListener.onTag();
                 }
             });
-       simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
-           @Override
-           public boolean onLongClick(View v) {
-               return false;
-           }
-       });
+            simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return false;
+                }
+            });
 
         } else {
-            photoView.setVisibility(View.VISIBLE);
+            subsamplingScaleImageView.setVisibility(View.VISIBLE);
             simpleDraweeView.setVisibility(View.INVISIBLE);
             //后台下载高质量的图片
-            ImageLoader.getInstance().displayImage(mDatas.get(position), photoView, options, new ImageLoadingListener() {
+            ImageLoader.getInstance().loadImage(mDatas.get(position), options, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
                     donutProgress.setVisibility(View.VISIBLE);
@@ -159,25 +157,28 @@ public class ViewPagerAdapter extends PagerAdapter {
                 public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
                     donutProgress.setProgress(100);
                     if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
-                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ((PhotoView) view).setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
-                            @Override
-                            public boolean onSingleTapConfirmed(MotionEvent e) {
-                                onSingleTagListener.onTag();
-                                return true;
-                            }
 
-                            @Override
-                            public boolean onDoubleTap(MotionEvent e) {
-                                ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onDoubleTapEvent(MotionEvent e) {
-                                return false;
-                            }
-                        });
+                        File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+                        subsamplingScaleImageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+//                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                        ((PhotoView) view).setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+//                            @Override
+//                            public boolean onSingleTapConfirmed(MotionEvent e) {
+//                                onSingleTagListener.onTag();
+//                                return true;
+//                            }
+//
+//                            @Override
+//                            public boolean onDoubleTap(MotionEvent e) {
+//                                ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public boolean onDoubleTapEvent(MotionEvent e) {
+//                                return false;
+//                            }
+//                        });
                     }
                     donutProgress.setVisibility(View.GONE);
                 }
@@ -185,23 +186,14 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onLoadingCancelled(String s, View view) {
                 }
-            }, new ImageLoadingProgressListener() {
-                @Override
-                public void onProgressUpdate(String s, View view, int current, int total) {
-                    donutProgress.setProgress((int) 100.0f * current / total);
-                }
             });
 
 
-            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            subsamplingScaleImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onPhotoTap(View view, float v, float v1) {
+                public void onClick(View v) {
                     onSingleTagListener.onTag();
-                }
 
-                @Override
-                public void onOutsidePhotoTap() {
-                    onSingleTagListener.onTag();
                 }
             });
         }

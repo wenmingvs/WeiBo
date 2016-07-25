@@ -77,7 +77,7 @@ public class FriendsActivity extends BaseSwipeActivity implements FriendActivity
         mAdapter = new FriendsAdapter(mDatas, mContext) {
             @Override
             public void friendLayoutClick(User user, int position, ImageView friendIcon, TextView friendText) {
-                friendIcon.setImageResource(R.anim.refresh_loading);
+                friendIcon.setImageResource(R.drawable.bga_refresh_loading02);
                 friendText.setText("");
                 if (user.following) {
                     mFriendActivityPresent.user_destroy(user, mContext, friendIcon, friendText);

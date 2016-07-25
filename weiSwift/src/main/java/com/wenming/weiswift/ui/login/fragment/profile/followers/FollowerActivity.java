@@ -76,7 +76,7 @@ public class FollowerActivity extends BaseSwipeActivity implements FollowActivit
         mAdapter = new FollowerAdapter(mDatas, mContext) {
             @Override
             public void followerLayoutClick(User user, int position, ImageView follwerIcon, TextView follwerText) {
-                follwerIcon.setImageResource(R.anim.refresh_loading);
+                follwerIcon.setImageResource(R.drawable.bga_refresh_loading02);
                 follwerText.setText("");
                 if (user.following) {
                     mFollowerActivityPresent.user_destroy(user, mContext, follwerIcon, follwerText);
