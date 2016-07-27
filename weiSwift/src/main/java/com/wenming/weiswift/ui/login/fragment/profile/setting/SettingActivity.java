@@ -14,7 +14,7 @@ import com.wenming.weiswift.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
 import com.wenming.weiswift.ui.common.BaseSwipeActivity;
-import com.wenming.weiswift.ui.common.MyApplication;
+import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
 
 /**

@@ -82,7 +82,11 @@ public class FillContentHelper {
             for (Status.PicUrlsBean picUrlsBean : status.pic_urls) {
                 status.thumbnail_pic_urls.add(picUrlsBean.thumbnail_pic);
                 status.bmiddle_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "bmiddle"));
-                status.origin_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "large"));
+                if (!picUrlsBean.thumbnail_pic.endsWith(".gif")) {
+                    status.origin_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "large"));
+                } else {
+                    status.origin_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "bmiddle"));
+                }
             }
         }
 

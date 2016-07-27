@@ -8,10 +8,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 
-import com.example.photoviewlib.PhotoViewAttacher;
 import com.wenming.weiswift.R;
 
 import java.util.ArrayList;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 /**

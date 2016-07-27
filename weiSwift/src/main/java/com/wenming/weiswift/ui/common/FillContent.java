@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cesards.cropimageview.CropImageView;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.ImageViewState;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -23,6 +28,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
@@ -30,7 +36,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
-import com.wenming.weiswift.ui.login.fragment.home.imagelist.ImageAdapter;
+import com.wenming.weiswift.ui.login.fragment.home.timelineimagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity;
@@ -43,8 +49,13 @@ import com.wenming.weiswift.utils.TimeUtils;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by wenmingvs on 16/4/21.
@@ -70,15 +81,15 @@ public class FillContent {
     /**
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
-    private static DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
+    private static DisplayImageOptions mTimeLineImg = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.message_image_default)
             .showImageForEmptyUri(R.drawable.message_image_default)
-            .showImageOnFail(R.drawable.timeline_image_failure)
-            .bitmapConfig(Bitmap.Config.RGB_565)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .considerExifParams(true)
+            .showImageOnFail(R.drawable.message_image_default)
+            .imageScaleType(ImageScaleType.NONE)
+            .bitmapConfig(Bitmap.Config.ARGB_8888)
             .cacheInMemory(true)
             .cacheOnDisk(true)
+            .considerExifParams(true)
             .build();
 
     /**
@@ -417,85 +428,167 @@ public class FillContent {
         } else {
             origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent("抱歉，此微博已被作者删除。查看帮助：#网页链接#", context, origin_nameAndcontent));
         }
+    }
 
+    private static void displayLongPic(File file, Bitmap bitmap, SubsamplingScaleImageView longImg, ImageView imageLable) {
+        imageLable.setVisibility(View.VISIBLE);
+        imageLable.setImageResource(R.drawable.timeline_image_longimage);
+        longImg.setZoomEnabled(false);
+        longImg.setPanEnabled(false);
+        longImg.setQuickScaleEnabled(false);
+        longImg.setImage(ImageSource.uri(file.getAbsolutePath()), new ImageViewState(0, new PointF(0, 0), 0));
+        longImg.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+    }
+
+    public static void displayNorImg(File file, Bitmap bitmap, ImageView norImg, ImageView imageLable) {
+        imageLable.setVisibility(View.GONE);
+        norImg.setImageBitmap(bitmap);
+        norImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    }
+
+    public static void displayGif(File file, GifImageView gifImageView, ImageView imageLable) {
+        imageLable.setVisibility(View.VISIBLE);
+        imageLable.setImageResource(R.drawable.timeline_image_gif);
+        try {
+            GifDrawable gifDrawable = new GifDrawable(file);
+            gifImageView.setImageDrawable(gifDrawable);
+        } catch (IOException e) {
+            Log.e("wenming", e.getMessage());
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static boolean isLongImg(File file, Bitmap bitmap) {
+        //TODO file.length()的判断，需要根据OS的版本号做动态调整大小
+        if (bitmap.getHeight() > bitmap.getWidth() * 3 || file.length() >= 0.5 * 1024 * 1024) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * 填充微博列表图片
      *
+     * @param imageView
      * @param context
      * @param status
      * @param position
-     * @param imageView
+     * @param longImg
      * @param imageType
+     * @param imageLabel
      */
-    public static void fillImageList(final Context context, final Status status, final int position, final ImageView imageView, final ImageView imageType) {
-
+    public static void fillImageList(final Context context, final Status status, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         final ArrayList<String> datas = status.bmiddle_pic_urls;
-        ImageLoader.getInstance().displayImage(datas.get(position), imageView, mImageItemOptions, new ImageLoadingListener() {
+        ImageLoader.getInstance().loadImage(datas.get(position), mTimeLineImg, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
+                imageLabel.setVisibility(View.GONE);
+
+                gifImg.setImageResource(R.drawable.message_image_default);
+                longImg.setImage(ImageSource.resource(R.drawable.message_image_default));
+                norImg.setImageResource(R.drawable.message_image_default);
+
                 //单张图片的时候，从预设的3种图片尺寸中随机选一种
                 if (datas.size() == 1) {
-                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
+                    FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
+                    FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
+                    FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
                     switch (status.singleImgSizeType) {
                         case Constants.IMGSIZE_VERTICAL:
                             //竖直方向的长方形尺寸
-                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
-                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+                            norImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
+                            norImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+
+                            longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
+                            longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+
+                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
+                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+
                             break;
                         case Constants.IMGSIZE_HORIZONTAL:
                             //水平方向的长方形尺寸
-                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
-                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+                            norImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            norImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+
+                            longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+
+                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
                             break;
                         case Constants.IMGSIZE_SQUARE:
                             //正方形尺寸
-                            layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_height);
-                            layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_width);
+                            norImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_height);
+                            norImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_square_width);
+
+                            longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+
+                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
                             break;
                     }
                 }
             }
 
             @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-
+            public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
+                File file = DiskCacheUtils.findInCache(datas.get(position), ImageLoader.getInstance().getDiskCache());
+                if (imageUri.endsWith(".gif")) {
+                    gifImg.setVisibility(View.VISIBLE);
+                    longImg.setVisibility(View.GONE);
+                    norImg.setVisibility(View.GONE);
+                    displayGif(file, gifImg, imageLabel);
+                    //若是单张图片，且图片是gif，还需要纠正尺寸
+                    if (datas.size() == 1) {
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+                        status.singleImgSizeType = Constants.IMGSIZE_HORIZONTAL;
+                    }
+                } else if (isLongImg(file, bitmap)) {
+                    longImg.setVisibility(View.VISIBLE);
+                    gifImg.setVisibility(View.GONE);
+                    norImg.setVisibility(View.GONE);
+                    //若只存在单张图片，且图片是长微博，还需要纠正尺寸
+                    if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT && datas.size() == 1) {
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) longImg.getLayoutParams();
+                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
+                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
+                        status.singleImgSizeType = Constants.IMGSIZE_VERTICAL;
+                    }
+                    displayLongPic(file, bitmap, longImg, imageLabel);
+                } else {
+                    norImg.setVisibility(View.VISIBLE);
+                    longImg.setVisibility(View.GONE);
+                    gifImg.setVisibility(View.GONE);
+                    displayNorImg(file, bitmap, norImg, imageLabel);
+                }
             }
-
+        });
+        longImg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                //根据加载完成的BitMap大小，判断是否是长微博图片，设置右下角的图片类型icon
-                int type = returnImageType(context, bitmap);
-                if (type == IMAGE_TYPE_LONG_TEXT) {
-                    imageType.setImageResource(R.drawable.timeline_image_longimage);
-                }
-                //根据请求的URL，判断是否是Gif，设置右下角的图片类型icon
-                if (returnImageType(context, datas.get(position)) == IMAGE_TYPE_GIF) {
-                    imageType.setImageResource(R.drawable.timeline_image_gif);
-                }
-                //若是长微博
-                if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT) {
-                    ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
-                }
-                //若只存在单张图片，且图片是长微博，还需要纠正尺寸
-                if (returnImageType(context, bitmap) == IMAGE_TYPE_LONG_TEXT && datas.size() == 1) {
-                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
-                    layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
-                    layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-                    ((CropImageView) imageView).setCropType(CropImageView.CropType.CENTER_TOP);
-                    status.singleImgSizeType = Constants.IMGSIZE_VERTICAL;
-                }
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ImageDetailsActivity.class);
+                intent.putExtra("imagelist_url", status.origin_pic_urls);
+                intent.putExtra("image_position", position);
+                context.startActivity(intent);
             }
-
+        });
+        gifImg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadingCancelled(String s, View view) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ImageDetailsActivity.class);
+                intent.putExtra("imagelist_url", status.bmiddle_pic_urls);
+                intent.putExtra("image_position", position);
+                context.startActivity(intent);
             }
         });
 
-        //设置图片的点击时间
-        imageView.setOnClickListener(new View.OnClickListener() {
+        norImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImageDetailsActivity.class);

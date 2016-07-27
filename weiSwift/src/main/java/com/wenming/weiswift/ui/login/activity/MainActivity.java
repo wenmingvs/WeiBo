@@ -14,8 +14,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.wenming.library.LogReport;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.ui.common.MyApplication;
+import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
 import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
+        LogReport.getInstance().upload(this);
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);

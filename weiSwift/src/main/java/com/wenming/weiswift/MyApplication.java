@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.wenming.weiswift.ui.common;
+package com.wenming.weiswift;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -55,7 +54,6 @@ public class MyApplication extends Application implements Application.ActivityLi
         //LeakCanary.install(this);
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
-        Fresco.initialize(getApplicationContext());
         initCrashReport();
     }
 

@@ -2,34 +2,34 @@ package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.PointF;
 import android.support.v4.view.PagerAdapter;
-import android.view.GestureDetector;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.photoviewlib.PhotoView;
-import com.example.photoviewlib.PhotoViewAttacher;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.ImageViewState;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.utils.LogUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+import uk.co.senab.photoview.PhotoView;
 
 
 /**
@@ -78,144 +78,149 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
-        final RelativeLayout imageViewItemLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
-        final PhotoView photoView = (PhotoView) mView.findViewById(R.id.PhotoViewID);
-        final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.frescoView);
+        final RelativeLayout bgLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
         final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
 
-        imageViewItemLayout.setOnClickListener(new View.OnClickListener() {
+        final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) mView.findViewById(R.id.longImg);
+        final GifImageView gifImageView = (GifImageView) mView.findViewById(R.id.gifView);
+        final uk.co.senab.photoview.PhotoView norImgView = (uk.co.senab.photoview.PhotoView) mView.findViewById(R.id.norImg);
+        setOnClickListener(bgLayout, longImg, gifImageView, norImgView);
+        setOnLongClickListener(bgLayout, longImg, gifImageView, norImgView, position);
+
+        ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                donutProgress.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                donutProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
+                donutProgress.setProgress(100);
+                donutProgress.setVisibility(View.GONE);
+                File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+                if (mDatas.get(position).endsWith(".gif")) {
+                    gifImageView.setVisibility(View.VISIBLE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    norImgView.setVisibility(View.INVISIBLE);
+                    displayGif(file, gifImageView);
+                } else if (bitmap.getHeight() > bitmap.getWidth() * 3) {
+                    longImg.setVisibility(View.VISIBLE);
+                    gifImageView.setVisibility(View.INVISIBLE);
+                    norImgView.setVisibility(View.INVISIBLE);
+                    displayLongPic(file, bitmap, longImg);
+                } else {
+                    norImgView.setVisibility(View.VISIBLE);
+                    gifImageView.setVisibility(View.INVISIBLE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    displayNormalImg(file, bitmap, norImgView);
+                }
+            }
+        }, new ImageLoadingProgressListener() {
+            @Override
+            public void onProgressUpdate(String s, View view, int current, int total) {
+                donutProgress.setProgress((int) 100.0f * current / total);
+            }
+        });
+        container.addView(mView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        return mView;
+    }
+
+    private void setOnLongClickListener(final RelativeLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, uk.co.senab.photoview.PhotoView photoView, final int position) {
+        longImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+        gifImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+    }
+
+    private void setOnClickListener(RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, uk.co.senab.photoview.PhotoView photoView) {
+
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSingleTagListener.onTag();
             }
         });
 
-        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+
+        longImg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(imageViewItemLayout, position);
-                return false;
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
             }
         });
 
-        simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
+
+        gifImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(imageViewItemLayout, position);
-                return false;
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
             }
         });
 
-        if (mDatas.get(position).endsWith(".gif")) {
-            donutProgress.setVisibility(View.GONE);
-            String gifURL = mDatas.get(position);
-            LogUtil.d(gifURL);
-            photoView.setVisibility(View.INVISIBLE);
-            simpleDraweeView.setVisibility(View.VISIBLE);
-            Uri uri = Uri.parse(gifURL);
-            simpleDraweeView.setImageURI(uri);
-            DraweeController draweeController =
-                    Fresco.newDraweeControllerBuilder()
-                            .setUri(uri)
-                            .setAutoPlayAnimations(true)
-                            .build();
-            simpleDraweeView.setController(draweeController);
-            simpleDraweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
-            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onSingleTagListener.onTag();
-                }
-            });
-       simpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
-           @Override
-           public boolean onLongClick(View v) {
-               return false;
-           }
-       });
 
-        } else {
-            photoView.setVisibility(View.VISIBLE);
-            simpleDraweeView.setVisibility(View.INVISIBLE);
-            //后台下载高质量的图片
-            ImageLoader.getInstance().displayImage(mDatas.get(position), photoView, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    donutProgress.setVisibility(View.VISIBLE);
-                }
+        photoView.setOnPhotoTapListener(new uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                onSingleTagListener.onTag();
+            }
 
-                @Override
-                public void onLoadingFailed(String s, View view, FailReason failReason) {
-                    donutProgress.setVisibility(View.GONE);
-                }
-
-                /**
-                 * 点击图片后，识别是否是长微博，如果是，则使用PhotoView进行加载
-                 * @param s
-                 * @param view
-                 * @param bitmap
-                 */
-                @Override
-                public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
-                    donutProgress.setProgress(100);
-                    if (FillContent.returnImageType(mContext, bitmap) == FillContent.IMAGE_TYPE_LONG_TEXT) {
-                        ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ((PhotoView) view).setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
-                            @Override
-                            public boolean onSingleTapConfirmed(MotionEvent e) {
-                                onSingleTagListener.onTag();
-                                return true;
-                            }
-
-                            @Override
-                            public boolean onDoubleTap(MotionEvent e) {
-                                ((PhotoView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onDoubleTapEvent(MotionEvent e) {
-                                return false;
-                            }
-                        });
-                    }
-                    donutProgress.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onLoadingCancelled(String s, View view) {
-                }
-            }, new ImageLoadingProgressListener() {
-                @Override
-                public void onProgressUpdate(String s, View view, int current, int total) {
-                    donutProgress.setProgress((int) 100.0f * current / total);
-                }
-            });
-
-
-            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-                @Override
-                public void onPhotoTap(View view, float v, float v1) {
-                    onSingleTagListener.onTag();
-                }
-
-                @Override
-                public void onOutsidePhotoTap() {
-                    onSingleTagListener.onTag();
-                }
-            });
-        }
-
-        container.addView(mView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        return mView;
+            @Override
+            public void onOutsidePhotoTap() {
+                onSingleTagListener.onTag();
+            }
+        });
     }
-
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
 
+    public void displayGif(File file, GifImageView gifImageView) {
+        try {
+            GifDrawable gifDrawable = new GifDrawable(file);
+            gifImageView.setImageDrawable(gifDrawable);
+        } catch (IOException e) {
+            Log.e("wenming", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void displayNormalImg(File file, Bitmap bitmap, PhotoView photoView) {
+        photoView.setImageBitmap(bitmap);
+    }
+
+    private void displayLongPic(File file, Bitmap bitmap, SubsamplingScaleImageView longImg) {
+        longImg.setQuickScaleEnabled(true);
+        longImg.setZoomEnabled(true);
+        longImg.setPanEnabled(true);
+        longImg.setDoubleTapZoomDuration(100);
+        longImg.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+        longImg.setDoubleTapZoomDpi(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
+        longImg.setImage(ImageSource.uri(file.getAbsolutePath()), new ImageViewState(0, new PointF(0, 0), 0));
+    }
 
     private void showPopWindow(View parent, int position) {
         ImageOptionPopupWindow mPopupWindow = new ImageOptionPopupWindow(mDatas.get(position), mContext);

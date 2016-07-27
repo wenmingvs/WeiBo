@@ -59,7 +59,6 @@ public class StatusList implements Parcelable {
             FillContentHelper.setSource(status);
             //设置三种类型图片的url地址
             FillContentHelper.setImgUrl(status);
-
             if (status.retweeted_status != null) {
                 //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
                 FillContentHelper.setSingleImgSizeType(status.retweeted_status);
