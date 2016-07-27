@@ -34,7 +34,7 @@
 快速下载体验
 -----
 
-[百度网盘](http://pan.baidu.com/s/1c1ZTpb6)
+[百度网盘](http://pan.baidu.com/s/1c2umm8w)
 
 
 主页模块
