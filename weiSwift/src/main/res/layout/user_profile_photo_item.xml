@@ -5,23 +5,10 @@
     android:layout_margin="2dp"
     android:orientation="vertical">
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-        android:id="@+id/longImg"
+    <com.cesards.cropimageview.CropImageView
+        android:id="@+id/imageItem"
         android:layout_width="115dp"
         android:layout_height="115dp"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/norImg"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:scaleType="centerCrop" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifView"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:layout_centerInParent="true"
         android:scaleType="centerCrop" />
 
     <ImageView

@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ImageViewItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-        android:id="@+id/PhotoViewID"
+        android:id="@+id/longImg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/frescoView"
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/norImg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        fresco:actualImageScaleType="fitCenter" />
+        android:scaleType="fitCenter" />
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter" />
 
     <com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.DonutProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/donut_progress"
@@ -31,3 +37,4 @@
         custom:donut_unfinished_color="#000000" />
 
 </RelativeLayout>
+

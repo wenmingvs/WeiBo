@@ -12,7 +12,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.ViewHolder> {
     private Context mContext;
     private DisplayImageOptions options;
-    private Status mStatus;
     private ArrayList<String> bmiddle_pic_urls = new ArrayList<>();
 
 
@@ -42,15 +40,16 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_imageitem, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.user_profile_photo_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        //FillContent.fillImageList(mContext, msStatus, position, holder.imageItem, holder.imageType);
-        ImageLoader.getInstance().displayImage(bmiddle_pic_urls.get(position), ((ViewHolder) holder).imageItem, options);
+        //FillContent.fillImageList(mContext, mStatus, position, holder.imageItem, holder.imageType);
+        //FillContent.fillImageList(mContext, mStatus, position, holder.longImg, holder.norImg, holder.gifImageView, holder.imageLabel);
+        ImageLoader.getInstance().displayImage(bmiddle_pic_urls.get(position), holder.imageItem, options);
     }
 
     @Override
