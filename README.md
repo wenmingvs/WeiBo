@@ -1,7 +1,7 @@
 高仿新浪微博客户端
 -----
 
-**一款独立开发的高仿新浪微博客户端，任意用户都可以登录微博体验了**  
+**一款独立开发的高仿新浪微博客户端，现在任意用户均可以登录微博进行体验**  
 
 ![](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weiSwift/src/main/res/mipmap-xxxhdpi-v4/ic_launcher.png)
 
