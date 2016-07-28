@@ -10,22 +10,24 @@ import android.os.Message;
 import android.provider.MediaStore;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 与保存相关的工具类
  * Created by xiang on 16-7-5.
  * Usage:
  * 　　保存是个耗时操作，最好放在子线程执行，防止发生ANR
- *      默认图片保存目录是/sdcard/Android/data/com.wenming.weiswift.file/Pictures/weibo
- *      最好设置一下fileName
- *      SaveImgUtil.create(context)
- *              // 缺省
- *              //.setOutputDirectory(directory)
- *              //.setImageFormat(format)
- *              //.setImageQuality(quality)
- *              //.setFileName(name)
- *              .saveImage(bitmap)
+ * 默认图片保存目录是/sdcard/Android/data/com.wenming.weiswift.file/Pictures/weibo
+ * 最好设置一下fileName
+ * SaveImgUtil.create(context)
+ * // 缺省
+ * //.setOutputDirectory(directory)
+ * //.setImageFormat(format)
+ * //.setImageQuality(quality)
+ * //.setFileName(name)
+ * .saveImage(bitmap)
  */
 public class SaveImgUtil {
 
@@ -74,12 +76,11 @@ public class SaveImgUtil {
     /**
      * @param directory 文件保存路径
      *                  Internal Storage(only access by your own app)
-     *                      context.getFilesDir()
-     *                      context.getCacheDir()
+     *                  context.getFilesDir()
+     *                  context.getCacheDir()
      *                  External Storage(when use this, should first check isSDCardEnable)
-     *                      Environment.getExternalStoragePublicDirectory
-     *                      context.getExternalFilesDir
-     *
+     *                  Environment.getExternalStoragePublicDirectory
+     *                  context.getExternalFilesDir
      * @return
      */
     public SaveImgUtil setOutputDirectory(File directory) {
@@ -88,7 +89,7 @@ public class SaveImgUtil {
     }
 
     /**
-     * @param format　图片保存格式
+     * @param format 　图片保存格式
      * @return
      */
     public SaveImgUtil setImageFormat(Bitmap.CompressFormat format) {
@@ -97,8 +98,7 @@ public class SaveImgUtil {
     }
 
     /**
-     *
-     * @param quality  图片质量
+     * @param quality 图片质量
      * @return
      */
     public SaveImgUtil setImageQuality(int quality) {
@@ -118,31 +118,50 @@ public class SaveImgUtil {
     /**
      * @param bitmap 保存Bitmap
      */
-    public void saveImage(final Bitmap bitmap) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File file = null;
-                FileOutputStream fos = null;
-                try {
-                    file = new File(mOutputDirectory, mFileName);
-                    fos = new FileOutputStream(file);
-                    if (bitmap.compress(mFormat, mQuality, fos)) {
-                        fos.flush();
-                        fos.close();
-                    }
-                    MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), file.getName(), "");
-                    mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                    mHandler.sendEmptyMessage(0x1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+    public void saveImage(File file) {
+
+//                File file = null;
+//                FileOutputStream fos = null;
+//                try {
+//                    file = new File(mOutputDirectory, mFileName);
+//                    fos = new FileOutputStream(file);
+//                    if (bitmap.compress(mFormat, mQuality, fos)) {
+//                        fos.flush();
+//                        fos.close();
+//                    }
+//                    MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), file.getName(), "");
+//                    mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+//                    mHandler.sendEmptyMessage(0x1);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+
+        // 首先保存图片
+//        File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+//        if (!appDir.exists()) {
+//            appDir.mkdir();
+//        }
+//        String fileName = System.currentTimeMillis() + ".jpg";
+//        File file = new File(appDir, fileName);
+//        try {
+//            FileOutputStream fos = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//            fos.flush();
+//            fos.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
+
 
     /**
      * 创建保存图片的目录
+     *
      * @param context
      * @param folderName
      * @return

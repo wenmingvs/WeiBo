@@ -2,8 +2,11 @@ package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,11 +16,14 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BasePopupWindow;
-import com.wenming.weiswift.utils.SaveImgUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.ToastUtil;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by xiangflight on 2016/4/22.
@@ -97,13 +103,28 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
-                ImageLoader.getInstance().loadImage(mImgURL, ImageOptions, new SimpleImageLoadingListener() {
+                ImageLoader.getInstance().loadImage(mImgURL, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        SaveImgUtil.create(mContext).saveImage(loadedImage);
+                        File imgFile = DiskCacheUtils.findInCache(mImgURL, ImageLoader.getInstance().getDiskCache());
+//                        if (mImgURL.endsWith(".gif")) {
+//                            String fileName = imgFile.getName();
+//                            fileName.replace(".JPG", ".gif");
+//                            imgFile.renameTo(new File(fileName));
+//                        }
+                        // 其次把文件插入到系统图库
+                        try {
+                            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), imgFile.getAbsolutePath(), String.valueOf(System.currentTimeMillis()), null);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        // 最后通知图库更新
+                        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imgFile.getAbsolutePath())));
+                        ToastUtil.showShort(mContext, "图片保存成功！");
                     }
                 });
+
             }
         });
 
@@ -114,6 +135,7 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
                 ToastUtil.showShort(context, "转发微博");
             }
         });
+
     }
 
 }
