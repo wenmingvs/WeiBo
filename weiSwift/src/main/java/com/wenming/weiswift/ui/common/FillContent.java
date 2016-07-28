@@ -484,7 +484,18 @@ public class FillContent {
         ImageLoader.getInstance().loadImage(datas.get(position), mTimeLineImg, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                imageLabel.setVisibility(View.GONE);
+                if (datas.get(position).endsWith(".gif")) {
+                    imageLabel.setVisibility(View.VISIBLE);
+                    imageLabel.setImageResource(R.drawable.timeline_image_gif);
+                    if (datas.size() == 1) {
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
+                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
+                        status.singleImgSizeType = Constants.IMGSIZE_HORIZONTAL;
+                    }
+                } else {
+                    imageLabel.setVisibility(View.GONE);
+                }
 
                 gifImg.setImageResource(R.drawable.message_image_default);
                 longImg.setImage(ImageSource.resource(R.drawable.message_image_default));
@@ -494,7 +505,7 @@ public class FillContent {
                 if (datas.size() == 1) {
                     FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
                     FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
-                    FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+
                     switch (status.singleImgSizeType) {
                         case Constants.IMGSIZE_VERTICAL:
                             //竖直方向的长方形尺寸
@@ -503,9 +514,6 @@ public class FillContent {
 
                             longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
                             longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
-
-                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_height);
-                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_vertical_rectangle_width);
 
                             break;
                         case Constants.IMGSIZE_HORIZONTAL:
@@ -516,8 +524,6 @@ public class FillContent {
                             longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
                             longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
 
-                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
-                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
                             break;
                         case Constants.IMGSIZE_SQUARE:
                             //正方形尺寸
@@ -527,8 +533,6 @@ public class FillContent {
                             longImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
                             longImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
 
-                            gifImgLayout.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
-                            gifImgLayout.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
                             break;
                     }
                 }
@@ -542,13 +546,6 @@ public class FillContent {
                     longImg.setVisibility(View.GONE);
                     norImg.setVisibility(View.GONE);
                     displayGif(file, gifImg, imageLabel);
-                    //若是单张图片，且图片是gif，还需要纠正尺寸
-                    if (datas.size() == 1) {
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
-                        layoutParams.height = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_height);
-                        layoutParams.width = (int) context.getResources().getDimension(R.dimen.home_weiboitem_imagesize_horizontal_rectangle_width);
-                        status.singleImgSizeType = Constants.IMGSIZE_HORIZONTAL;
-                    }
                 } else if (isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.GONE);

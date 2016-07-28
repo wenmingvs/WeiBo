@@ -1,7 +1,9 @@
 高仿新浪微博客户端
 -----
 
-一款独立开发的高仿新浪微博客户端，任意用户都可以登录微博体验了
+**一款独立开发的高仿新浪微博客户端，任意用户都可以登录微博体验了**  
+
+![](https://raw.githubusercontent.com/wenmingvs/WeiBo/master/weiSwift/src/main/res/mipmap-xxxhdpi-v4/ic_launcher.png)
 
 1. 基本做到90%的细节还原，没有任何广告，**现在任意用户均可以登录微博进行体验**
 2. 非常轻量化的安装包，更加流畅，快速的用户体验
