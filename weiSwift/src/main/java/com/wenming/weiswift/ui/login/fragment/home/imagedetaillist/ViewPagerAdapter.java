@@ -90,7 +90,11 @@ public class ViewPagerAdapter extends PagerAdapter {
         ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                donutProgress.setVisibility(View.VISIBLE);
+                if (DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache()) == null) {
+                    donutProgress.setVisibility(View.VISIBLE);
+                } else {
+                    donutProgress.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -100,8 +104,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
-                donutProgress.setProgress(100);
-                donutProgress.setVisibility(View.GONE);
                 File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
                 if (mDatas.get(position).endsWith(".gif")) {
                     gifImageView.setVisibility(View.VISIBLE);
@@ -119,6 +121,8 @@ public class ViewPagerAdapter extends PagerAdapter {
                     longImg.setVisibility(View.INVISIBLE);
                     displayNormalImg(file, bitmap, norImgView);
                 }
+                donutProgress.setProgress(100);
+                donutProgress.setVisibility(View.GONE);
             }
         }, new ImageLoadingProgressListener() {
             @Override
@@ -155,31 +159,24 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void setOnClickListener(RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, uk.co.senab.photoview.PhotoView photoView) {
-
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSingleTagListener.onTag();
             }
         });
-
-
         longImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSingleTagListener.onTag();
             }
         });
-
-
         gifImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSingleTagListener.onTag();
             }
         });
-
-
         photoView.setOnPhotoTapListener(new uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float v, float v1) {
