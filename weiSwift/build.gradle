@@ -34,8 +34,8 @@ android {
 
 dependencies {
     compile project(':weiboSDK')
-    compile files('libs/universal-image-loader-1.9.5.jar')
     compile project(path: ':swipebacklayout')
+    compile files('libs/universal-image-loader-1.9.5.jar')
     compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
