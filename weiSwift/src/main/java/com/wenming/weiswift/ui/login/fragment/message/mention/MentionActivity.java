@@ -108,6 +108,9 @@ public class MentionActivity extends BaseSwipeActivity implements MentionActivit
         });
     }
 
+    public void onArrorClick(View view) {
+        finish();
+    }
 
     private void initRecyclerView() {
         mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {

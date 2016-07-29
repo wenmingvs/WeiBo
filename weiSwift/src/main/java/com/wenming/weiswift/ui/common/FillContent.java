@@ -81,7 +81,7 @@ public class FillContent {
     /**
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
-    private static DisplayImageOptions mTimeLineImg = new DisplayImageOptions.Builder()
+    private static DisplayImageOptions mTimeLineImgOption = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.message_image_default)
             .showImageForEmptyUri(R.drawable.message_image_default)
             .showImageOnFail(R.drawable.message_image_default)
@@ -481,7 +481,7 @@ public class FillContent {
      */
     public static void fillImageList(final Context context, final Status status, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         final ArrayList<String> datas = status.bmiddle_pic_urls;
-        ImageLoader.getInstance().loadImage(datas.get(position), mTimeLineImg, new SimpleImageLoadingListener() {
+        ImageLoader.getInstance().loadImage(datas.get(position), mTimeLineImgOption, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 if (datas.get(position).endsWith(".gif")) {
