@@ -16,7 +16,7 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
  * Created by xiangflight on 2016/4/22.
  */
 public class TimelineArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
-    
+
     public TimelineArrowWindow(Context context, Status status, WeiboAdapter weiboAdapter, int position, String groupName) {
         super(context, status, weiboAdapter, position, groupName);
     }
