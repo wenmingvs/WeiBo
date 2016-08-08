@@ -32,7 +32,6 @@
         android:layout_marginRight="6dp"
         android:paddingBottom="10dp" />
 
-
     <ImageView
         android:id="@+id/splitLine"
         android:layout_width="match_parent"
