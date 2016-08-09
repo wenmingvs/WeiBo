@@ -11,7 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.login.Constants;
+import com.wenming.weiswift.ui.login.activity.event.ButtonBarEvent;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.HomeHeadView;
@@ -34,6 +37,8 @@ import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerVi
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -60,6 +65,12 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private boolean mComeFromAccoutActivity;
     private String mUserName;
 
+    //隐藏底部浪需要的参数
+    private boolean mIsToolsHide;
+    private float lastY;
+    private float viewSlop;
+    private boolean isUpSlide;
+
     public HomeFragment() {
     }
 
@@ -79,6 +90,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
+        viewSlop = ViewConfiguration.get(mContext).getScaledTouchSlop();
         initRecyclerView();
         initRefreshLayout();
         initGroupWindows();
@@ -110,7 +122,35 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new HomeHeadView(mContext));
-        //mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        lastY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        float disY = event.getY() - lastY;
+                        //垂直方向滑动
+                        if (Math.abs(disY) > viewSlop) {
+                            //是否向上滑动
+                            isUpSlide = disY < 0;
+                            //实现底部tools的显示与隐藏
+                            if (isUpSlide) {
+                                if (!mIsToolsHide)
+                                    EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.HIDE_BAR));
+                                mIsToolsHide = true;
+                            } else {
+                                if (mIsToolsHide)
+                                    EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.SHOW_BAR));
+                                mIsToolsHide = false;
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
 

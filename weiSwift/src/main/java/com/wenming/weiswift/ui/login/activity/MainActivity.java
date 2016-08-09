@@ -1,5 +1,6 @@
 package com.wenming.weiswift.ui.login.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,17 +13,23 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wenming.library.LogReport;
-import com.wenming.weiswift.R;
 import com.wenming.weiswift.MyApplication;
+import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.login.activity.event.ButtonBarEvent;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
 import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 
@@ -43,9 +50,12 @@ public class MainActivity extends FragmentActivity {
 
 
     private FragmentManager mFragmentManager;
+    private LinearLayout mButtonBar;
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private ImageView mPostTab;
     private boolean mComeFromAccoutActivity;
+
+    private static final int BUTTON_BAR_HIDE_DUR = 600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,7 @@ public class MainActivity extends FragmentActivity {
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
+        mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
         mContext = this;
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
@@ -71,6 +82,7 @@ public class MainActivity extends FragmentActivity {
             setTabFragment(HOME_FRAGMENT);
         }
         setUpListener();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -261,6 +273,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         fixInputMethodManagerLeak(this);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -273,12 +286,10 @@ public class MainActivity extends FragmentActivity {
         if (destContext == null) {
             return;
         }
-
         InputMethodManager imm = (InputMethodManager) destContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) {
             return;
         }
-
         String[] arr = new String[]{"mCurRootView", "mServedView", "mNextServedView"};
         Field f = null;
         Object obj_get = null;
@@ -305,4 +316,37 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ButtonBarEvent barEvent) {
+        switch (barEvent.getId()) {
+            case ButtonBarEvent.SHOW_BAR:
+                showTools(mButtonBar);
+                break;
+            case ButtonBarEvent.HIDE_BAR:
+                hideTools(mButtonBar);
+                break;
+        }
+    }
+
+
+    /**
+     * 显示工具栏
+     */
+    private void showTools(View bottomBar) {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(bottomBar, "y", bottomBar.getY(), bottomBar.getY() - bottomBar.getHeight());
+        anim.setDuration(BUTTON_BAR_HIDE_DUR);
+        anim.start();
+    }
+
+    /**
+     * 隐藏工具栏
+     */
+    private void hideTools(View bottomBar) {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(bottomBar, "y", bottomBar.getY(), bottomBar.getY() + bottomBar.getHeight());
+        anim.setDuration(BUTTON_BAR_HIDE_DUR);
+        anim.start();
+    }
+
+
 }
