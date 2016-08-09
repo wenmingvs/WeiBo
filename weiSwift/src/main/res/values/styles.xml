@@ -43,7 +43,7 @@
 
     <style name="WeiBoHoloNoWindowTranslucent" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/weibo_holo_bg</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 
     <style name="WeiBoHoloWindowTranslucent" parent="android:Theme.Holo.Light.NoActionBar">
