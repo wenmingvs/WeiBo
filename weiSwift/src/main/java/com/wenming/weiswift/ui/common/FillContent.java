@@ -456,8 +456,6 @@ public class FillContent {
             Log.e("wenming", e.getMessage());
             e.printStackTrace();
         }
-
-
     }
 
     public static boolean isLongImg(File file, Bitmap bitmap) {
@@ -480,33 +478,21 @@ public class FillContent {
      * @param imageLabel
      */
     public static void fillImageList(final Context context, final Status status, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
-        final ArrayList<String> datas = status.bmiddle_pic_urls;
-        ImageLoader.getInstance().loadImage(datas.get(position), mTimeLineImgOption, new SimpleImageLoadingListener() {
+        final ArrayList<String> urllist = status.bmiddle_pic_urls;
+        ImageLoader.getInstance().loadImage(urllist.get(position), mTimeLineImgOption, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 //设置加载中的图片样式
                 gifImg.setImageResource(R.drawable.message_image_default);
                 longImg.setImage(ImageSource.resource(R.drawable.message_image_default));
                 norImg.setImageResource(R.drawable.message_image_default);
-                //提前为Gif图设置label
-                setLabelForGif(datas.get(position), imageLabel);
-                //单张图片的时候，从预设的3种图片尺寸中随机选一种
-                if (datas.size() == 1) {
-                    FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
-                    FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
-                    FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
-                    longImgLayout.width = ScreenUtil.getScreenWidth(context);
-                    norImgLayout.width = ScreenUtil.getScreenWidth(context);
-                    gifImgLayout.width = ScreenUtil.getScreenWidth(context);
-                    norImgLayout.height = (int) (ScreenUtil.getScreenWidth(context)*0.7);
-                    longImgLayout.height = (int) (ScreenUtil.getScreenWidth(context)*0.7);
-                    gifImgLayout.height =(int) (ScreenUtil.getScreenWidth(context)*0.7);
-                }
+                setLabelForGif(urllist.get(position), imageLabel);
+                setImgSize(urllist, context, norImg, longImg, gifImg);
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                File file = DiskCacheUtils.findInCache(datas.get(position), ImageLoader.getInstance().getDiskCache());
+                File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
                 if (imageUri.endsWith(".gif")) {
                     gifImg.setVisibility(View.VISIBLE);
                     longImg.setVisibility(View.GONE);
@@ -554,6 +540,46 @@ public class FillContent {
                 context.startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 单张图片的时候，从预设的3种图片尺寸中随机选一种
+     * @param datas
+     * @param context
+     * @param norImg
+     * @param longImg
+     * @param gifImg
+     */
+    private static void setImgSize(ArrayList<String> datas, Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
+        if (datas.size() == 1) {
+            setSingleImgSize(context, norImg, longImg, gifImg);
+        } else if (datas.size() == 2 || datas.size() == 4) {
+            setDoubleImgSize(context, norImg, longImg, gifImg);
+        }
+    }
+
+    private static void setDoubleImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
+        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
+        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
+        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+        longImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
+        norImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
+        gifImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
+        norImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
+        longImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
+        gifImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
+    }
+
+    private static void setSingleImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
+        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
+        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
+        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+        longImgLayout.width = ScreenUtil.getScreenWidth(context);
+        norImgLayout.width = ScreenUtil.getScreenWidth(context);
+        gifImgLayout.width = ScreenUtil.getScreenWidth(context);
+        norImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
+        longImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
+        gifImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
     }
 
     /**
