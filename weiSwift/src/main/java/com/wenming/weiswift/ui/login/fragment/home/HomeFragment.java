@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ import com.wenming.weiswift.ui.login.fragment.home.weiboitem.HomeHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -66,10 +66,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private String mUserName;
 
     //隐藏底部浪需要的参数
-    private boolean mIsToolsHide;
-    private float lastY;
-    private float viewSlop;
-    private boolean isUpSlide;
+    private int downY;
+    private int offsetY;
 
     public HomeFragment() {
     }
@@ -90,7 +88,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
-        viewSlop = ViewConfiguration.get(mContext).getScaledTouchSlop();
         initRecyclerView();
         initRefreshLayout();
         initGroupWindows();
@@ -127,24 +124,23 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        lastY = event.getY();
+                        //记录按下时的Y坐标
+                        downY = (int) event.getY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        float disY = event.getY() - lastY;
-                        //垂直方向滑动
-                        if (Math.abs(disY) > viewSlop) {
-                            //是否向上滑动
-                            isUpSlide = disY < 0;
-                            //实现底部tools的显示与隐藏
-                            if (isUpSlide) {
-                                if (!mIsToolsHide)
-                                    EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.HIDE_BAR));
-                                mIsToolsHide = true;
-                            } else {
-                                if (mIsToolsHide)
-                                    EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.SHOW_BAR));
-                                mIsToolsHide = false;
-                            }
+                        //记录滑动时的Y坐标
+                        int moveY = (int) event.getY();
+                        //计算出一个差值
+                        offsetY = moveY - downY;
+                        downY = moveY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        //当手指抬起时判断差值的大小
+                        //LogUtil.d("offsetY = " + offsetY + "");
+                        if (offsetY <= 0) {//如果小于0，则说明用户手指向上滑动
+                            EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.HIDE_BAR));
+                        } else {//如果大于0，则说明用户手指向下滑动
+                            EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.SHOW_BAR));
                         }
                         break;
                 }

@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.activity;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,12 +51,14 @@ public class MainActivity extends FragmentActivity {
 
 
     private FragmentManager mFragmentManager;
-    private LinearLayout mButtonBar;
+
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private ImageView mPostTab;
     private boolean mComeFromAccoutActivity;
-
-    private static final int BUTTON_BAR_HIDE_DUR = 600;
+    //底部View
+    private LinearLayout mButtonBar;
+    private Animation showAnim;
+    private Animation dismissAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,8 @@ public class MainActivity extends FragmentActivity {
         } else {
             setTabFragment(HOME_FRAGMENT);
         }
+        showAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_show);
+        dismissAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_dismiss);
         setUpListener();
         EventBus.getDefault().register(this);
     }
@@ -140,6 +145,8 @@ public class MainActivity extends FragmentActivity {
     private void retoreFragment(String index, boolean screenRotate) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideAllFragments(transaction);
+        mButtonBar.clearAnimation();
+        mButtonBar.setVisibility(View.VISIBLE);
         switch (index) {
             case HOME_FRAGMENT:
                 mHomeTab.setSelected(true);
@@ -164,7 +171,6 @@ public class MainActivity extends FragmentActivity {
                 }
                 mCurrentIndex = MESSAGE_FRAGMENT;
                 break;
-
             case DISCOVERY_FRAGMENT:
                 mDiscoeryTab.setSelected(true);
                 if (mDiscoverFragment == null) {
@@ -321,10 +327,10 @@ public class MainActivity extends FragmentActivity {
     public void onEventMainThread(ButtonBarEvent barEvent) {
         switch (barEvent.getId()) {
             case ButtonBarEvent.SHOW_BAR:
-                showTools(mButtonBar);
+                showTools();
                 break;
             case ButtonBarEvent.HIDE_BAR:
-                hideTools(mButtonBar);
+                hideTools();
                 break;
         }
     }
@@ -333,19 +339,33 @@ public class MainActivity extends FragmentActivity {
     /**
      * 显示工具栏
      */
-    private void showTools(View bottomBar) {
-        ObjectAnimator anim = ObjectAnimator.ofFloat(bottomBar, "y", bottomBar.getY(), bottomBar.getY() - bottomBar.getHeight());
-        anim.setDuration(BUTTON_BAR_HIDE_DUR);
-        anim.start();
+    private void showTools() {
+        if (!mButtonBar.isShown()) {
+            mButtonBar.clearAnimation();
+            mButtonBar.startAnimation(showAnim);
+            mButtonBar.post(new Runnable() {
+                @Override
+                public void run() {
+                    mButtonBar.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     /**
      * 隐藏工具栏
      */
-    private void hideTools(View bottomBar) {
-        ObjectAnimator anim = ObjectAnimator.ofFloat(bottomBar, "y", bottomBar.getY(), bottomBar.getY() + bottomBar.getHeight());
-        anim.setDuration(BUTTON_BAR_HIDE_DUR);
-        anim.start();
+    private void hideTools() {
+        if (mButtonBar.isShown()) {
+            mButtonBar.clearAnimation();
+            mButtonBar.startAnimation(dismissAnim);
+            mButtonBar.post(new Runnable() {
+                @Override
+                public void run() {
+                    mButtonBar.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
 
