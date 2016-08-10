@@ -18,7 +18,7 @@ import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.mvp.view.DetailActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/20.
  */
-public abstract class BaseDetailActivity extends BaseSwipeActivity implements DetailActivityView {
+public abstract class BaseDetailActivity extends BaseActivity implements DetailActivityView {
 
     public Status mStatus;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();

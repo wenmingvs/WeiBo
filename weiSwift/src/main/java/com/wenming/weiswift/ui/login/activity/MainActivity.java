@@ -1,15 +1,20 @@
 package com.wenming.weiswift.ui.login.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -87,6 +92,21 @@ public class MainActivity extends FragmentActivity {
         showAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_show);
         dismissAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_dismiss);
         setUpListener();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //5.0 全透明实现
+            //getWindow.setStatusBarColor(Color.TRANSPARENT)
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.WHITE);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //4.4 全透明状态栏
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+
         EventBus.getDefault().register(this);
     }
 

@@ -13,14 +13,14 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
 
 /**
  * Created by wenmingvs on 2016/1/7.
  */
-public class SettingActivity extends BaseSwipeActivity implements SettingActivityView {
+public class SettingActivity extends BaseActivity implements SettingActivityView {
 
     private Context mContext;
     private RelativeLayout mExitLayout;

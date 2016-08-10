@@ -15,7 +15,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.UserActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.mvp.view.UserActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserInfoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserPhotoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
@@ -35,7 +35,7 @@ import java.util.Set;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class UserActivity extends BaseSwipeActivity implements UserActivityView {
+public class UserActivity extends BaseActivity implements UserActivityView {
 
     public static final String USER_ACTIVITY_USER_INFO = "用户信息";
     public static final String USER_ACTIVITY_USER_STATUS = "用户微博";
