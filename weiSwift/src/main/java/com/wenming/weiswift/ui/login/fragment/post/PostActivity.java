@@ -3,18 +3,23 @@ package com.wenming.weiswift.ui.login.fragment.post;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 
 /**
  * Created by wenmingvs on 16/5/2.
  */
-public class PostActivity extends Activity {
+public class PostActivity extends BaseActivity {
 
     private Context mContext;
     private ImageView composeIdea;
@@ -37,6 +42,8 @@ public class PostActivity extends Activity {
         composeReview = (ImageView) findViewById(R.id.compose_review);
         composeMore = (ImageView) findViewById(R.id.compose_more);
         composeClose = (ImageView) findViewById(R.id.compose_close);
+
+
 
         composeIdea.setOnClickListener(new View.OnClickListener() {
             @Override
