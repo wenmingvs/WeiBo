@@ -446,7 +446,6 @@ public class UserModelImp implements UserModel {
         @Override
         public void onComplete(String response) {
             ArrayList<Status> temp = StatusList.parse(response).statuses;
-            LoadedToast.showToast(mContext, temp.size()+ "条新微博");
             if (temp != null && temp.size() > 0) {
                 if (mStatusList != null) {
                     mStatusList.clear();

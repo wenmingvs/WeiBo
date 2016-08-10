@@ -249,7 +249,6 @@ public class StatusListModelImp implements StatusListModel {
             if (temp != null && temp.size() > 0) {
                 //请求回来的数据的maxid与列表中的第一条的id相同，说明是局部刷新，否则是全局刷新
                 LoadedToast.showToast(mContext, temp.size()+ "条新微博");
-                LogUtil.d(temp.size()+ "条新微博");
                 //如果是全局刷新,需要清空列表中的全部微博
                 if (mStatusList.size() == 0 || !String.valueOf(statusList.max_id).equals(mStatusList.get(0).id)) {
                     mStatusList.clear();
