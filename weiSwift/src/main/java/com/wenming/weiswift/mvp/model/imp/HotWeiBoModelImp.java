@@ -12,6 +12,7 @@ import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.customview.LoadedToast;
 
 import java.util.ArrayList;
 
@@ -39,11 +40,11 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
             @Override
             public void onComplete(String response) {
                 ArrayList<Status> temp = StatusList.parse(response).statuses;
+                LoadedToast.showToast(context, temp.size() + "条新微博");
                 if (temp != null && temp.size() > 0) {
                     mStatusList.addAll(temp);
                     onDataFinishedListener.onDataFinish(mStatusList);
                 } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
                     onDataFinishedListener.noMoreDate();
                 }
             }

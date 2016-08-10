@@ -210,7 +210,7 @@ public class MentionModelImp implements MentionModel {
                 mMentionList = temp;
                 mOnMentionFinishedListener.onDataFinish(mMentionList);
             } else {
-                ToastUtil.showShort(mContext, "没有更新的内容了");
+                //ToastUtil.showShort(mContext, "没有更新的内容了");
                 mOnMentionFinishedListener.noMoreDate();
             }
             mRefrshAll = false;
@@ -235,7 +235,7 @@ public class MentionModelImp implements MentionModel {
                 mCommentList = temp;
                 mOnCommentFinishedListener.onDataFinish(mCommentList);
             } else {
-                ToastUtil.showShort(mContext, "没有更新的内容了");
+                //ToastUtil.showShort(mContext, "没有更新的内容了");
                 mOnCommentFinishedListener.noMoreDate();
             }
             mRefrshAll = false;
@@ -287,7 +287,7 @@ public class MentionModelImp implements MentionModel {
                     mOnCommentFinishedListener.onError("数据异常");
                 }
             } else {
-                ToastUtil.showShort(mContext, "内容已经加载完了");
+                //ToastUtil.showShort(mContext, "内容已经加载完了");
                 mOnCommentFinishedListener.noMoreDate();
             }
         }

@@ -14,6 +14,7 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.customview.LoadedToast;
 
 import java.util.ArrayList;
 
@@ -92,7 +93,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
                     mPage++;
                     onDataFinishedListener.onDataFinish(mStatusList);
                 } else {
-                    ToastUtil.showShort(context, "没有更新的内容了");
+                    LoadedToast.showToast(context, "0条新微博");
                     onDataFinishedListener.noMoreDate();
                 }
             }

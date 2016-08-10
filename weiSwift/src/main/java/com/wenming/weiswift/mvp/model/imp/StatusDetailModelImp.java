@@ -16,6 +16,7 @@ import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.customview.LoadedToast;
 
 import java.util.ArrayList;
 
@@ -82,7 +83,6 @@ public class StatusDetailModelImp implements StatusDetailModel {
                         onCommentCallBack.onError("数据异常");
                     }
                 } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
                     onCommentCallBack.noMoreDate();
                 }
             }
@@ -146,7 +146,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
                         onRepostCallBack.onError("数据异常");
                     }
                 } else {
-                    ToastUtil.showShort(context, "内容已经加载完了");
+                    LoadedToast.showToast(context, "0条新微博");
                     onRepostCallBack.noMoreDate();
                 }
             }

@@ -22,6 +22,7 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.customview.LoadedToast;
 
 import java.util.ArrayList;
 
@@ -445,6 +446,7 @@ public class UserModelImp implements UserModel {
         @Override
         public void onComplete(String response) {
             ArrayList<Status> temp = StatusList.parse(response).statuses;
+            LoadedToast.showToast(mContext, temp.size()+ "条新微博");
             if (temp != null && temp.size() > 0) {
                 if (mStatusList != null) {
                     mStatusList.clear();
@@ -453,7 +455,6 @@ public class UserModelImp implements UserModel {
                 cacheSave_statuslist(mCurrentGroup, mContext, response);
                 mOnStatusListFinishedListener.onDataFinish(mStatusList);
             } else {
-                ToastUtil.showShort(mContext, "没有更新的内容了");
                 mOnStatusListFinishedListener.noMoreDate();
             }
         }

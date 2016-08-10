@@ -1,45 +1,5 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-
-    </style>
-
-    <style name="CustomWindowTitleBackground">
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="ToolbarTheme" parent="android:Theme.Holo.Light">
-
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowTitleSize">45dp</item>
-        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
-
-    </style>
-
-    <!-- home_image_detail_list_popup_window_anim_style -->
-    <style name="image_option_pop_window_anim_style">
-        <item name="android:windowEnterAnimation">@anim/home_image_detail_list_pop_window_in</item>
-        <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
-    </style>
-
-    <style name="weiboitem_arrow_popwup_style">
-        <item name="android:windowEnterAnimation">@anim/home_weiboitem_arrow_popup_enter</item>
-        <item name="android:windowExitAnimation">@anim/home_weiboitem_arrow_popup_exit</item>
-    </style>
 
     <style name="WeiBoHoloNoWindowTranslucent" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/weibo_holo_bg</item>
@@ -49,6 +9,21 @@
     <style name="WeiBoHoloWindowTranslucent" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/weibo_holo_bg</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
+
+
+    <!-- 图片详情页，长按的动画 -->
+    <style name="image_option_pop_window_anim_style">
+        <item name="android:windowEnterAnimation">@anim/home_image_detail_list_pop_window_in</item>
+        <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
+    </style>
+
+    <!-- 时间线上，单条微博的右上角的箭头，点击后弹出pop的动画 -->
+    <style name="weiboitem_arrow_popwup_style">
+        <item name="android:windowEnterAnimation">@anim/home_weiboitem_arrow_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/home_weiboitem_arrow_popup_exit</item>
     </style>
 
 
