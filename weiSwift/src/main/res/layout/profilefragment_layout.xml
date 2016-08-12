@@ -65,7 +65,7 @@
                             android:layout_centerInParent="true"
                             android:hint="简介"
                             android:textColor="@color/gray"
-                            android:textSize="@dimen/home_retweet_weiboitem_font" />
+                            android:textSize="13dp" />
                     </LinearLayout>
 
                     <ImageView

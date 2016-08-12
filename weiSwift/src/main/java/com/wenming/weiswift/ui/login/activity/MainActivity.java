@@ -1,22 +1,15 @@
 package com.wenming.weiswift.ui.login.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,17 +18,14 @@ import android.widget.RelativeLayout;
 import com.wenming.library.LogReport;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.ui.login.activity.event.ButtonBarEvent;
+import com.wenming.weiswift.ui.common.BarManager;
+import com.wenming.weiswift.ui.common.StatusBarColor;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
 import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 
@@ -60,10 +50,10 @@ public class MainActivity extends FragmentActivity {
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
     private ImageView mPostTab;
     private boolean mComeFromAccoutActivity;
+
     //底部View
     private LinearLayout mButtonBar;
-    private Animation showAnim;
-    private Animation dismissAnim;
+    private BarManager mBarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +67,7 @@ public class MainActivity extends FragmentActivity {
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
+        mBarManager = new BarManager(this.getApplicationContext());
         mContext = this;
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
@@ -89,25 +80,8 @@ public class MainActivity extends FragmentActivity {
         } else {
             setTabFragment(HOME_FRAGMENT);
         }
-        showAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_show);
-        dismissAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottombar_dismiss);
         setUpListener();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //5.0 全透明实现
-            //getWindow.setStatusBarColor(Color.TRANSPARENT)
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.WHITE);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //4.4 全透明状态栏
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-
-        EventBus.getDefault().register(this);
+        StatusBarColor.setStatusBarColor(this);
     }
 
     @Override
@@ -149,10 +123,6 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 setTabFragment(PROFILE_FRAGMENT);
-//
-//                if (mCurrentIndex.equals(PROFILE_FRAGMENT) && mProfileFragment != null && mProfileFragment.haveAlreadyRefresh()) {
-//                    mProfileFragment.refreshUserDetail(mContext, false);
-//                }
             }
         });
     }
@@ -171,7 +141,17 @@ public class MainActivity extends FragmentActivity {
             case HOME_FRAGMENT:
                 mHomeTab.setSelected(true);
                 if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment(mComeFromAccoutActivity);
+                    mHomeFragment = new HomeFragment(mComeFromAccoutActivity) {
+                        @Override
+                        public void onHide(View topBar) {
+                            mBarManager.hideAllBar(topBar, mButtonBar);
+                        }
+
+                        @Override
+                        public void onShow(View topBar) {
+                            mBarManager.showAllBar(topBar, mButtonBar);
+                        }
+                    };
                     transaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
                 } else {
                     transaction.show(mHomeFragment);
@@ -222,6 +202,7 @@ public class MainActivity extends FragmentActivity {
      * @param index 需要切换到的具体页面
      */
     private void setTabFragment(String index) {
+        mBarManager.showBottomBar(mButtonBar);
         //如果不位于当前页
         if (!index.equals(mCurrentIndex)) {
             retoreFragment(index, false);
@@ -242,6 +223,7 @@ public class MainActivity extends FragmentActivity {
                     break;
             }
         }
+
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -299,7 +281,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         fixInputMethodManagerLeak(this);
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -343,48 +324,5 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(ButtonBarEvent barEvent) {
-        switch (barEvent.getId()) {
-            case ButtonBarEvent.SHOW_BAR:
-                showTools();
-                break;
-            case ButtonBarEvent.HIDE_BAR:
-                hideTools();
-                break;
-        }
-    }
 
-
-    /**
-     * 显示工具栏
-     */
-    private void showTools() {
-        if (!mButtonBar.isShown()) {
-            mButtonBar.clearAnimation();
-            mButtonBar.startAnimation(showAnim);
-            mButtonBar.post(new Runnable() {
-                @Override
-                public void run() {
-                    mButtonBar.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-    }
-
-    /**
-     * 隐藏工具栏
-     */
-    private void hideTools() {
-        if (mButtonBar.isShown()) {
-            mButtonBar.clearAnimation();
-            mButtonBar.startAnimation(dismissAnim);
-            mButtonBar.post(new Runnable() {
-                @Override
-                public void run() {
-                    mButtonBar.setVisibility(View.GONE);
-                }
-            });
-        }
-    }
 }

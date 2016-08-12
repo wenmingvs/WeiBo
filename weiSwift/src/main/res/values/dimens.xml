@@ -12,6 +12,7 @@
     <dimen name="home_weiboitem_title_weibocomefrom">12sp</dimen><!--微博来源-->
 
 
+    <dimen name="home_weiboitem_topbar_height">45dp</dimen>
     <!--微博顶部BottomBar的各项字体大小-->
     <dimen name="home_weiboitem_bottombar_font">12sp</dimen><!--底部Bar的字体大小-->
 

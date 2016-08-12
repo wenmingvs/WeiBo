@@ -9,12 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -23,7 +24,6 @@ import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.ui.login.activity.event.ButtonBarEvent;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.HomeHeadView;
@@ -31,21 +31,18 @@ import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
-import com.wenming.weiswift.widget.customview.LoadedToast;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;
 import com.wenming.weiswift.widget.endlessrecyclerview.weight.LoadingFooter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HomeFragment extends Fragment implements HomeFragmentView {
+public abstract class HomeFragment extends Fragment implements HomeFragmentView {
 
     private ArrayList<Status> mDatas;
     public Context mContext;
@@ -62,12 +59,23 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     private LinearLayout mEmptyLayout;
     private GroupPopWindow mPopWindow;
+    private RelativeLayout mTopBar;
     private boolean mComeFromAccoutActivity;
     private String mUserName;
 
-    //隐藏底部浪需要的参数
-    private int downY;
-    private int offsetY;
+
+    /**
+     * 手指滑动距离多少个像素点的距离，才隐藏bar
+     */
+    private static final int HIDE_THRESHOLD = 80;
+    /**
+     * 记录手指滑动的距离
+     */
+    private int mScrolledDistance = 0;
+    /**
+     * 记录bar是否显示或者隐藏
+     */
+    private boolean mControlsVisible = true;
 
     public HomeFragment() {
     }
@@ -83,6 +91,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mHomePresent = new HomeFragmentPresentImp(this);
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
+        mTopBar = (RelativeLayout) mView.findViewById(R.id.toolbar_home);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
         mUserNameTextView = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
@@ -119,34 +128,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new HomeHeadView(mContext));
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        //记录按下时的Y坐标
-                        downY = (int) event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        //记录滑动时的Y坐标
-                        int moveY = (int) event.getY();
-                        //计算出一个差值
-                        offsetY = moveY - downY;
-                        downY = moveY;
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        //当手指抬起时判断差值的大小
-                        //LogUtil.d("offsetY = " + offsetY + "");
-                        if (offsetY <= 0) {//如果小于0，则说明用户手指向上滑动
-                            EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.HIDE_BAR));
-                        } else {//如果大于0，则说明用户手指向下滑动
-                            EventBus.getDefault().post(new ButtonBarEvent(ButtonBarEvent.SHOW_BAR));
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -160,6 +141,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
+        mSwipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dp2px(mContext, 10),DensityUtil.dp2px(mContext, 10+65));
     }
 
     private void initGroupWindows() {
@@ -321,6 +303,29 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 mHomePresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            //手指向上滑动
+            if (mScrolledDistance > HIDE_THRESHOLD && mControlsVisible) {
+                onHide(mTopBar);
+                mControlsVisible = false;
+                mScrolledDistance = 0;
+            }
+            //手指向下滑动
+            else if (mScrolledDistance < -HIDE_THRESHOLD && !mControlsVisible) {
+                onShow(mTopBar);
+                mControlsVisible = true;
+                mScrolledDistance = 0;
+            }
+            if ((mControlsVisible && dy > 0) || (!mControlsVisible && dy < 0)) {
+                mScrolledDistance += dy;
+            }
+        }
+
+
     };
 
     @Override
@@ -331,4 +336,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         }
         super.onDestroyView();
     }
+
+    public abstract void onHide(View topBar);
+
+    public abstract void onShow(View topBar);
 }
