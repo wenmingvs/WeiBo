@@ -42,9 +42,7 @@
             android:theme="@style/WeiBoHoloNoWindowTranslucent" />
 
 
-        <activity
-            android:name=".ui.login.fragment.profile.setting.SettingActivity"
-            />
+        <activity android:name=".ui.login.fragment.profile.setting.SettingActivity" />
 
 
         <activity android:name=".ui.login.fragment.home.imagedetaillist.ImageDetailsActivity" />
@@ -57,7 +55,9 @@
             android:name=".ui.login.fragment.home.weiboitemdetail.activity.RetweetPicTextCommentDetailActivity"
             android:theme="@style/WeiBoHoloWindowTranslucent" />
 
-        <activity android:name=".ui.login.fragment.message.mention.MentionActivity" />
+        <activity android:name=".ui.login.fragment.message.mention.MentionActivity"
+           
+            />
 
         <activity android:name=".ui.login.fragment.message.comment.CommentActivity" />
 

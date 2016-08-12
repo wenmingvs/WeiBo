@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +20,7 @@ import com.wenming.library.LogReport;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BarManager;
-import com.wenming.weiswift.ui.common.StatusBarColor;
+import com.wenming.weiswift.ui.common.StatusBarUtils;
 import com.wenming.weiswift.ui.login.fragment.discovery.DiscoverFragment;
 import com.wenming.weiswift.ui.login.fragment.home.HomeFragment;
 import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
@@ -81,7 +82,10 @@ public class MainActivity extends FragmentActivity {
             setTabFragment(HOME_FRAGMENT);
         }
         setUpListener();
-        StatusBarColor.setStatusBarColor(this);
+        StatusBarUtils.from(this).setTransparentStatusbar(true)
+                .setStatusBarColor(Color.WHITE)
+                .setLightStatusBar(true)
+                .process(this);
     }
 
     @Override

@@ -62,6 +62,9 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private RelativeLayout mMyprofile_layout;
     private User mUser;
 
+    public ProfileFragment() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
