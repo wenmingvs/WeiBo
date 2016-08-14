@@ -33,51 +33,98 @@ import java.lang.reflect.Field;
 
 public class MainActivity extends FragmentActivity {
 
+    /**
+     * 首页fragment的标识
+     */
     private static final String HOME_FRAGMENT = "home";
+    /**
+     * 消息fragment的标识
+     */
     private static final String MESSAGE_FRAGMENT = "message";
+    /**
+     * 发现fragment的标识
+     */
     private static final String DISCOVERY_FRAGMENT = "discovery";
+    /**
+     * 关于我fragment的标识
+     */
     private static final String PROFILE_FRAGMENT = "profile";
 
+    /**
+     * 标识处于哪个fragment
+     */
     private String mCurrentIndex;
+    /**
+     * 上下文
+     */
     private Context mContext;
+    /**
+     * 首页fragment
+     */
     private HomeFragment mHomeFragment;
+    /**
+     * 消息fragment
+     */
     private MessageFragment mMessageFragment;
+    /**
+     * 发现fragment
+     */
     private DiscoverFragment mDiscoverFragment;
+    /**
+     * 关于我fragment
+     */
     private ProfileFragment mProfileFragment;
 
-
+    /**
+     * 管理fragment的类
+     */
     private FragmentManager mFragmentManager;
 
+    /**
+     * 底部icon的点击区域，分别标识首页， 消息，发现，关于我
+     */
     private RelativeLayout mHomeTab, mMessageTab, mDiscoeryTab, mProfile;
+    /**
+     * 发微博按钮
+     */
     private ImageView mPostTab;
+    /**
+     * 标识此Activity是否来自AccoutActivity的跳转
+     */
     private boolean mComeFromAccoutActivity;
-
-    //底部View
+    /**
+     * 底部导航栏
+     */
     private LinearLayout mButtonBar;
+    /**
+     * 控制顶部Bar和底部Bar的隐藏和显示的管理类
+     */
     private BarManager mBarManager;
+    /**
+     * 对fragment进行添加,移除,替换,以及执行其他动作。
+     */
+    private FragmentTransaction mTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
-        LogReport.getInstance().upload(this);
-        mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
+        mContext = this;
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoeryTab = (RelativeLayout) findViewById(R.id.tv_discovery);
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
-        mBarManager = new BarManager(this.getApplicationContext());
-        mContext = this;
+
+        LogReport.getInstance().upload(mContext);
         mFragmentManager = getSupportFragmentManager();
+        mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
+        mBarManager = new BarManager(this.getApplicationContext());
+
+
         if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getString("index");
-            mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(HOME_FRAGMENT);
-            mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(MESSAGE_FRAGMENT);
-            mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(DISCOVERY_FRAGMENT);
-            mProfileFragment = (ProfileFragment) mFragmentManager.findFragmentByTag(PROFILE_FRAGMENT);
-            retoreFragment(mCurrentIndex, true);
+            restoreFragment(savedInstanceState);
         } else {
             setTabFragment(HOME_FRAGMENT);
         }
@@ -86,6 +133,24 @@ public class MainActivity extends FragmentActivity {
                 .setStatusBarColor(Color.WHITE)
                 .setLightStatusBar(true)
                 .process(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        fixInputMethodManagerLeak(this);
+        super.onDestroy();
+    }
+
+    /**
+     * 如果fragment因为内存不够或者其他原因被销毁掉，在这个方法中执行恢复操作
+     */
+    private void restoreFragment(Bundle savedInstanceState) {
+        mCurrentIndex = savedInstanceState.getString("index");
+        mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(HOME_FRAGMENT);
+        mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(MESSAGE_FRAGMENT);
+        mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(DISCOVERY_FRAGMENT);
+        mProfileFragment = (ProfileFragment) mFragmentManager.findFragmentByTag(PROFILE_FRAGMENT);
+        switchToFragment(mCurrentIndex, true);
     }
 
     @Override
@@ -131,16 +196,20 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-
     /**
+     * 执行切换fragment 的操作
+     * 注意：
+     * 1. 点击导航栏切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
      * @param index
      * @param screenRotate
      */
-    private void retoreFragment(String index, boolean screenRotate) {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        hideAllFragments(transaction);
+    private void switchToFragment(String index, boolean screenRotate) {
         mButtonBar.clearAnimation();
         mButtonBar.setVisibility(View.VISIBLE);
+
+        mTransaction = mFragmentManager.beginTransaction();
+        hideAllFragments(mTransaction);
+
         switch (index) {
             case HOME_FRAGMENT:
                 mHomeTab.setSelected(true);
@@ -156,9 +225,9 @@ public class MainActivity extends FragmentActivity {
                             mBarManager.showAllBar(topBar, mButtonBar);
                         }
                     };
-                    transaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
+                    mTransaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
                 } else {
-                    transaction.show(mHomeFragment);
+                    mTransaction.show(mHomeFragment);
                     if (!screenRotate && mCurrentIndex.equals(HOME_FRAGMENT) && mHomeFragment != null) {
                         mHomeFragment.scrollToTop(false);
                     }
@@ -169,9 +238,9 @@ public class MainActivity extends FragmentActivity {
                 mMessageTab.setSelected(true);
                 if (mMessageFragment == null) {
                     mMessageFragment = new MessageFragment();
-                    transaction.add(R.id.contentLayout, mMessageFragment, MESSAGE_FRAGMENT);
+                    mTransaction.add(R.id.contentLayout, mMessageFragment, MESSAGE_FRAGMENT);
                 } else {
-                    transaction.show(mMessageFragment);
+                    mTransaction.show(mMessageFragment);
                 }
                 mCurrentIndex = MESSAGE_FRAGMENT;
                 break;
@@ -179,9 +248,9 @@ public class MainActivity extends FragmentActivity {
                 mDiscoeryTab.setSelected(true);
                 if (mDiscoverFragment == null) {
                     mDiscoverFragment = new DiscoverFragment();
-                    transaction.add(R.id.contentLayout, mDiscoverFragment, DISCOVERY_FRAGMENT);
+                    mTransaction.add(R.id.contentLayout, mDiscoverFragment, DISCOVERY_FRAGMENT);
                 } else {
-                    transaction.show(mDiscoverFragment);
+                    mTransaction.show(mDiscoverFragment);
                 }
                 mCurrentIndex = DISCOVERY_FRAGMENT;
                 break;
@@ -189,47 +258,65 @@ public class MainActivity extends FragmentActivity {
                 mProfile.setSelected(true);
                 if (mProfileFragment == null) {
                     mProfileFragment = new ProfileFragment();
-                    transaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
+                    mTransaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
                 } else {
-                    transaction.show(mProfileFragment);
+                    mTransaction.show(mProfileFragment);
 
                 }
                 mCurrentIndex = PROFILE_FRAGMENT;
                 break;
         }
-        transaction.commit();
+        mTransaction.commit();
     }
 
     /**
-     * 用于切换fragment，并且设置底部button的焦点
+     * 显示指定的fragment，并且把对应的导航栏的icon设置成高亮状态
+     * 注意：
+     * 1. 如果选项卡已经位于当前页，则执行其他操作
      *
      * @param index 需要切换到的具体页面
      */
     private void setTabFragment(String index) {
         mBarManager.showBottomBar(mButtonBar);
-        //如果不位于当前页
         if (!index.equals(mCurrentIndex)) {
-            retoreFragment(index, false);
+            switchToFragment(index, false);
         } else {
-            //如果在当前页
-            switch (mCurrentIndex) {
-                case HOME_FRAGMENT:
-                    if (mHomeFragment != null) {
-                        mHomeFragment.scrollToTop(true);
-                    }
-                    break;
-                case MESSAGE_FRAGMENT:
-                    break;
-                case DISCOVERY_FRAGMENT:
-                    break;
-                case PROFILE_FRAGMENT:
-
-                    break;
-            }
+            alreadyAtFragment(mCurrentIndex);
         }
-
     }
 
+    /**
+     * 如果选项卡已经位于当前页
+     * 1. 对于首页fragment，执行：滑动到顶部，并且刷新时间线，获取最新微博
+     * 2. 对于消息fragment，执行：无
+     * 3. 对于发现fragment，执行：无
+     * 4. 对于关于我fragment，执行：无
+     *
+     * @param currentIndex
+     */
+    private void alreadyAtFragment(String currentIndex) {
+        //如果在当前页
+        switch (currentIndex) {
+            case HOME_FRAGMENT:
+                if (mHomeFragment != null) {
+                    mHomeFragment.scrollToTop(true);
+                }
+                break;
+            case MESSAGE_FRAGMENT:
+                break;
+            case DISCOVERY_FRAGMENT:
+                break;
+            case PROFILE_FRAGMENT:
+                break;
+        }
+    }
+
+
+    /**
+     * 隐藏所有的fragment，并且取消所有的底部导航栏的icon的高亮状态
+     *
+     * @param transaction
+     */
     private void hideAllFragments(FragmentTransaction transaction) {
         if (mHomeFragment != null) {
             transaction.hide(mHomeFragment);
@@ -251,6 +338,11 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -259,6 +351,13 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 监听返回按钮
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
@@ -280,12 +379,6 @@ public class MainActivity extends FragmentActivity {
             alert.show();
         }
         return false;
-    }
-
-    @Override
-    protected void onDestroy() {
-        fixInputMethodManagerLeak(this);
-        super.onDestroy();
     }
 
     /**
