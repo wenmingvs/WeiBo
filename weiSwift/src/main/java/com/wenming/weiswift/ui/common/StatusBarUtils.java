@@ -76,7 +76,7 @@ public final class StatusBarUtils {
      */
     private void process(Activity activity) {
         //处理状态栏透明度
-        if (current >= Build.VERSION_CODES.KITKAT) {
+        if (current >= Build.VERSION_CODES.KITKAT && current < Build.VERSION_CODES.M) {
             processKitkat(activity);
         } else if (current == Build.VERSION_CODES.LOLLIPOP) {
             //处理状态栏透明度的同时，还需要且设置statusbar的文字变色
