@@ -199,7 +199,7 @@ public class MainActivity extends FragmentActivity {
     /**
      * 执行切换fragment 的操作
      * 注意：
-     * 1. 点击导航栏切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
+     * 1. 切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
      * @param index
      * @param screenRotate
      */

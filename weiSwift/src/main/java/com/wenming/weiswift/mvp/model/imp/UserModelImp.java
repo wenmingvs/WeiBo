@@ -22,7 +22,6 @@ import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
-import com.wenming.weiswift.widget.customview.LoadedToast;
 
 import java.util.ArrayList;
 

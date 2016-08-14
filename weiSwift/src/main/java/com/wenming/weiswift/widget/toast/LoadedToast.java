@@ -1,4 +1,4 @@
-package com.wenming.weiswift.widget.customview;
+package com.wenming.weiswift.widget.toast;
 
 import android.app.Activity;
 import android.app.Application;

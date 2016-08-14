@@ -14,7 +14,7 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
-import com.wenming.weiswift.widget.customview.LoadedToast;
+import com.wenming.weiswift.widget.toast.LoadedToast;
 
 import java.util.ArrayList;
 

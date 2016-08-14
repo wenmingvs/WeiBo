@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
@@ -474,7 +475,8 @@ public class SwipeBackLayout extends FrameLayout {
         int background = a.getResourceId(0, 0);
         a.recycle();
 
-        ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView().findViewById(Window.ID_ANDROID_CONTENT);
+        ;
         ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
         decorChild.setBackgroundResource(background);
         decor.removeView(decorChild);
