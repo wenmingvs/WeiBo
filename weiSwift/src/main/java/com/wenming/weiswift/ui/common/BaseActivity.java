@@ -2,6 +2,7 @@ package com.wenming.weiswift.ui.common;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.wenming.swipebacklayout.SwipeBackLayout;
 import com.wenming.swipebacklayout.app.SwipeBackActivity;
@@ -17,9 +18,6 @@ public class BaseActivity extends SwipeBackActivity {
         getSwipeBackLayout().setSwipeMode(SwipeBackLayout.FULL_SCREEN_LEFT);
         getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         getSwipeBackLayout().setSensitivity(BaseActivity.this, 0.3f);
-        StatusBarUtils.from(this).setTransparentStatusbar(true)
-                .setStatusBarColor(Color.WHITE)
-                .setLightStatusBar(true)
-                .process(this);
+
     }
 }

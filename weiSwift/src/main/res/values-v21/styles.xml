@@ -3,8 +3,8 @@
 
     <style name="WeiBoHoloNoWindowTranslucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/weibo_holo_bg</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/black</item>
+
     </style>
 </resources>

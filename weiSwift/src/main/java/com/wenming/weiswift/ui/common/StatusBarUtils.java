@@ -3,9 +3,7 @@ package com.wenming.weiswift.ui.common;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Build;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,9 +12,12 @@ import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.utils.LogUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 用于设置状态栏的颜色，包括背景色和文字的颜色
@@ -27,15 +28,15 @@ public final class StatusBarUtils {
     /**
      * 是否处理stausbar的文字为深色
      */
-    private final boolean lightStatusBar;
+    private boolean lightStatusBar = true;
     /**
      * 是否把状态栏设置为透明的
      */
-    private final boolean transparentStatusBar;
+    private boolean transparentStatusBar = false;
     /**
      * 是否把导航栏设置为透明的
      */
-    private final boolean transparentNavigationbar;
+    private boolean transparentNavigationbar = false;
     /**
      * 窗口，外出传入
      */
@@ -53,6 +54,11 @@ public final class StatusBarUtils {
      */
     private final int current = Build.VERSION.SDK_INT;
 
+    /**
+     * 支持状态栏文字变色的机型
+     */
+    private ArrayList<String> mChangeTextMobilelist = new ArrayList<>(Arrays.asList("Meizu", "Xiaomi"));
+
 
     private StatusBarUtils(Window window, boolean lightStatusBar, boolean transparentStatusBar, boolean transparentNavigationbar, View actionBarView, int statusBarColor) {
         this.lightStatusBar = lightStatusBar;
@@ -64,69 +70,23 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 判断手机版本号是否低于4.4.4
+     * 配置完成后，调用此方法开始根据配置对标题栏做一系列处理
      *
-     * @return 低于4.4.4，返回true，否则返回false
+     * @param activity
      */
-    public static boolean isLessKitkat() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
-    }
-
-
-    /**
-     * Default status dp = 24 or 25
-     * mhdpi = dp * 1
-     * hdpi = dp * 1.5
-     * xhdpi = dp * 2
-     * xxhdpi = dp * 3
-     * eg : 1920x1080, xxhdpi, => status/all = 25/640(dp) = 75/1080(px)
-     * <p/>
-     * don't forget toolbar's dp = 48
-     *
-     * @return px
-     */
-    @IntRange(from = 0, to = 75)
-    public static int getStatusBarOffsetPx(Context context) {
-        if (isLessKitkat()) {
-            return 0;
+    private void process(Activity activity) {
+        //处理状态栏透明度
+        if (current >= Build.VERSION_CODES.KITKAT) {
+            processKitkat(activity);
+        } else if (current == Build.VERSION_CODES.LOLLIPOP) {
+            //处理状态栏透明度的同时，还需要且设置statusbar的文字变色
+            processM();
+        } else if (current >= Build.VERSION_CODES.M) {
+            //处理状态栏透明度的同时，还需要且设置statusbar的文字变色
+            processM();
         }
-        Context appContext = context.getApplicationContext();
-        int result = 0;
-        int resourceId =
-                appContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = appContext.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    @IntRange(from = 0, to = 75)
-    public static int getNavigationBarOffsetPx(Context context) {
-        if (isLessKitkat()) {
-            return 0;
-        }
-        Context appContext = context.getApplicationContext();
-        int result = 0;
-        int resourceId =
-                appContext.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = appContext.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    private void processActionBar(final View v) {
-        if (v == null || !transparentStatusBar || isLessKitkat()) {
-            return;
-        }
-        v.post(new Runnable() {
-            @Override
-            public void run() {
-                v.setPadding(v.getPaddingLeft(), v.getPaddingTop() + getStatusBarOffsetPx(v.getContext()),
-                        v.getPaddingRight(), v.getPaddingBottom());
-                v.getLayoutParams().height += getStatusBarOffsetPx(v.getContext());
-            }
-        });
+        //处理android4.4.4到android5.0的状态栏的文字变色
+        processPrivateAPI();
     }
 
     /**
@@ -144,23 +104,6 @@ public final class StatusBarUtils {
         }
     }
 
-    /**
-     * 配置完成后，调用此方法开始根据配置对标题栏做一系列处理
-     *
-     * @param activity
-     */
-    private void process(Activity activity) {
-        //处理状态栏透明度
-        if (current >= Build.VERSION_CODES.KITKAT && current < Build.VERSION_CODES.M) {
-            processKitkat(activity);
-        } else if (current >= Build.VERSION_CODES.M) {
-            //处理状态栏透明度的同时，还需要且设置statusbar的文字变色
-            processM();
-        }
-        //处理android4.4.4到android5.0的状态栏的文字变色
-        processPrivateAPI();
-        processActionBar(actionBarView);
-    }
 
     /**
      * 处理4.4~5.0沉浸,把状态栏变成透明的，然后叠一层纯色的view上去
@@ -168,19 +111,21 @@ public final class StatusBarUtils {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void processKitkat(Activity activity) {
         WindowManager.LayoutParams winParams = window.getAttributes();
-        //修改状态栏为全透明
-        int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (transparentStatusBar) {
-            winParams.flags |= bits;
+        //只有支持状态栏文字变色的机型，才修改状态栏为全透明
+        LogUtil.d("Build.MANUFACTURER = " + Build.MANUFACTURER);
+        if (mChangeTextMobilelist.contains(Build.MANUFACTURER) && transparentStatusBar) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         } else {
-            winParams.flags &= ~bits;
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         window.setAttributes(winParams);
-        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-        // 激活状态栏设置
-        tintManager.setStatusBarTintEnabled(true);
-        // 使用颜色资源
-        tintManager.setStatusBarTintResource(R.color.white);
+        if (mChangeTextMobilelist.contains(Build.MANUFACTURER)) {
+            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            // 激活状态栏设置
+            tintManager.setStatusBarTintEnabled(true);
+            // 使用颜色资源
+            tintManager.setStatusBarTintResource(R.color.white);
+        }
     }
 
     /**
