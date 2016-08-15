@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
 
-        //LogReport.getInstance().upload(mContext);
+        LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);
         mFragmentManager = getSupportFragmentManager();
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
