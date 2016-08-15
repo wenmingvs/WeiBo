@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonBarId"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="@dimen/home_weiboitem_bottombar_height"
+    android:layout_gravity="bottom"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -79,7 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-            
+
             <ImageView
                 android:id="@+id/fl_post"
                 android:layout_width="match_parent"

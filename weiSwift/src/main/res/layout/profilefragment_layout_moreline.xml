@@ -157,8 +157,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
-
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
@@ -203,8 +203,8 @@
         android:layout_marginTop="0.5dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
-
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
@@ -250,8 +250,8 @@
         android:layout_marginTop="0.5dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
-
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
@@ -296,7 +296,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"

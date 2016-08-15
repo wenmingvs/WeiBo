@@ -3,6 +3,7 @@
     android:id="@+id/toolbar_message"
     android:layout_width="match_parent"
     android:layout_height="45dp"
+    android:fitsSystemWindows="true"
     android:background="@color/white">
 
 

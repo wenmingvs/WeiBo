@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -21,6 +22,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
+import com.wenming.weiswift.ui.common.BarManager;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
@@ -57,23 +59,46 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     private LinearLayout mEmptyLayout;
     private GroupPopWindow mPopWindow;
+
     private boolean mComeFromAccoutActivity;
     private String mUserName;
 
-    public HomeFragment() {
-    }
 
-    public HomeFragment(boolean comeFromAccoutActivity) {
-        mComeFromAccoutActivity = comeFromAccoutActivity;
-    }
+    /**
+     * 顶部导航栏
+     */
+    private RelativeLayout mTopBar;
 
+    /**
+     * 底部导航栏
+     */
+    private View mButtonBar;
+
+
+    /**
+     * 手指滑动距离多少个像素点的距离，才隐藏bar
+     */
+    private static final int HIDE_THRESHOLD = 80;
+    /**
+     * 记录手指滑动的距离
+     */
+    private int mScrolledDistance = 0;
+    /**
+     * 记录bar是否显示或者隐藏
+     */
+    private boolean mControlsVisible = true;
+
+    private onButtonBarListener mOnButtonBarListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
+        mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity");
+
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
+        mTopBar = (RelativeLayout) mView.findViewById(R.id.toolbar_home);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
         mUserNameTextView = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
@@ -96,6 +121,31 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         return mView;
     }
 
+    @Override
+    public void onDestroyView() {
+        mHomePresent.cancelTimer();
+        if (mPopWindow != null) {
+            mPopWindow.onDestory();
+        }
+        super.onDestroyView();
+    }
+
+    public  HomeFragment() {
+    }
+
+    /**
+     * 静态工厂方法需要一个int型的值来初始化fragment的参数，
+     * 然后返回新的fragment到调用者
+     */
+    public static HomeFragment newInstance(boolean comeFromAccoutActivity) {
+        HomeFragment homeFragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("comeFromAccoutActivity", comeFromAccoutActivity);
+        homeFragment.setArguments(args);
+        return homeFragment;
+    }
+
+
     public void initRecyclerView() {
         mDatas = new ArrayList<Status>();
         mAdapter = new WeiboAdapter(mDatas, mContext) {
@@ -110,7 +160,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(mRecyclerView, new HomeHeadView(mContext));
-        //mRecyclerView.addItemDecoration(new WeiboItemSapce((int) mContext.getResources().getDimension(R.dimen.home_weiboitem_space)));
     }
 
 
@@ -124,6 +173,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
             }
         });
+        mSwipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dp2px(mContext, 10), DensityUtil.dp2px(mContext, 10 + 65));
     }
 
     private void initGroupWindows() {
@@ -155,6 +205,11 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         });
     }
 
+    /**
+     * 把列表滑动到顶部，refreshDrata为true的话，会同时获取更新的数据
+     *
+     * @param refreshData
+     */
     @Override
     public void scrollToTop(boolean refreshData) {
         mRecyclerView.scrollToPosition(0);
@@ -216,9 +271,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showLoadingIcon() {
-//        if (!mSwipeRefreshLayout.isRefreshing()) {
-//            mSwipeRefreshLayout.setRefreshing(true);
-//        }
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -229,9 +281,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void hideLoadingIcon() {
-//        if (mSwipeRefreshLayout.isRefreshing()) {
-//            mSwipeRefreshLayout.setRefreshing(false);
-//        }
+
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -270,6 +320,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         }
     }
 
+    /**
+     * 设置顶部导航栏的用户名
+     * @param userName
+     */
     @Override
     public void setUserName(String userName) {
         mUserName = userName;
@@ -285,14 +339,70 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
                 mHomePresent.requestMoreData(mCurrentGroup, mContext);
             }
         }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            //手指向上滑动
+            if (mScrolledDistance > HIDE_THRESHOLD && mControlsVisible) {
+                if (mOnButtonBarListener != null) {
+                    hideTopBar();
+                    mOnButtonBarListener.hideButtonBar();
+                }
+                mControlsVisible = false;
+                mScrolledDistance = 0;
+            }
+            //手指向下滑动
+            else if (mScrolledDistance < -HIDE_THRESHOLD && !mControlsVisible) {
+                if (mOnButtonBarListener != null) {
+                    showTopBar();
+                    mOnButtonBarListener.showButtonBar();
+                }
+                mControlsVisible = true;
+                mScrolledDistance = 0;
+            }
+            if ((mControlsVisible && dy > 0) || (!mControlsVisible && dy < 0)) {
+                mScrolledDistance += dy;
+            }
+        }
+
+
     };
 
-    @Override
-    public void onDestroyView() {
-        mHomePresent.cancelTimer();
-        if (mPopWindow != null) {
-            mPopWindow.onDestory();
-        }
-        super.onDestroyView();
+    /**
+     * 隐藏底部导航栏
+     */
+    public void hideTopBar() {
+        BarManager barManager = new BarManager(mContext);
+        barManager.hideTopBar(mTopBar);
     }
+
+
+    /**
+     * 显示顶部导航栏
+     */
+    public void showTopBar() {
+        BarManager barManager = new BarManager(mContext);
+        barManager.showTopBar(mTopBar);
+    }
+
+    /**
+     * 设置实现
+     *
+     * @param onBarListener
+     */
+    public void setOnBarListener(onButtonBarListener onBarListener) {
+        this.mOnButtonBarListener = onBarListener;
+    }
+
+    /**
+     * 因为ButotnBar的布局并不在fragment中，而是在MainActivity中，所有隐藏和显示底部导航栏的工作要交给MainActivity去做
+     */
+    public interface onButtonBarListener {
+        void showButtonBar();
+
+        void hideButtonBar();
+    }
+
+
 }

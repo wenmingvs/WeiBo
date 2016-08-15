@@ -13,7 +13,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.FavoritiesPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FavoritiesPresentImp;
 import com.wenming.weiswift.mvp.view.FavoritiesActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class FavoritiesActivity extends BaseSwipeActivity implements FavoritiesActivityView {
+public class FavoritiesActivity extends BaseActivity implements FavoritiesActivityView {
     private ArrayList<Status> mDatas = new ArrayList<Status>();
     public WeiboAdapter mAdapter;
     public Context mContext;

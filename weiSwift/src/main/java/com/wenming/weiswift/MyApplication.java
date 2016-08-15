@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -55,6 +56,8 @@ public class MyApplication extends Application implements Application.ActivityLi
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
         initCrashReport();
+        //使用亮色(light)主题，不使用夜间模式
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     private void initCrashReport() {

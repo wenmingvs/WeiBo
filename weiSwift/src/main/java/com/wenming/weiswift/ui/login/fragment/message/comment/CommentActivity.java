@@ -16,7 +16,7 @@ import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.mvp.presenter.CommentActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.CommentActivityPresentImp;
 import com.wenming.weiswift.mvp.view.CommentActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.utils.DensityUtil;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/26.
  */
-public class CommentActivity extends BaseSwipeActivity implements CommentActivityView {
+public class CommentActivity extends BaseActivity implements CommentActivityView {
     private ArrayList<Comment> mDatas;
     private CommentAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
@@ -107,7 +107,6 @@ public class CommentActivity extends BaseSwipeActivity implements CommentActivit
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-        //mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {

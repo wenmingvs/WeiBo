@@ -13,7 +13,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.UserActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.mvp.view.UserActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserPhotoAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class MyPhotoActivity extends BaseSwipeActivity implements UserActivityView {
+public class MyPhotoActivity extends BaseActivity implements UserActivityView {
     public UserPhotoAdapter mImageAdapter;
     private ArrayList<String> mMyPhotoDatas = new ArrayList<>();
     public Context mContext;

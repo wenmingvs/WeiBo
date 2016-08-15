@@ -20,6 +20,8 @@ public class DiscoverFragment extends Fragment {
     private View mView;
     private RelativeLayout mPublicWeibo;
 
+    public DiscoverFragment() {
+    }
 
     @Nullable
     @Override
