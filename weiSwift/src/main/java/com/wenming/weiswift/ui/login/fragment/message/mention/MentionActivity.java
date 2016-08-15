@@ -125,7 +125,6 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMentionFooterAdapter);
-        //mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
 
@@ -151,14 +150,12 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
         }
     };
 
-
     @Override
     public void updateMentionListView(ArrayList<Status> mentionlist, boolean resetAdapter) {
         if (resetAdapter) {
             mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
                 @Override
                 public void arrowClick(Status status, int position) {
-                    //TODO
                     MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
                     popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
                 }

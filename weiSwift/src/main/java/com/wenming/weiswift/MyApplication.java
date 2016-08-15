@@ -57,7 +57,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         registerActivityLifecycleCallbacks(this);
         initCrashReport();
         //使用亮色(light)主题，不使用夜间模式
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     private void initCrashReport() {

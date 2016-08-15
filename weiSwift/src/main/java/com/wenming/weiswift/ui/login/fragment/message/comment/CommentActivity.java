@@ -107,7 +107,6 @@ public class CommentActivity extends BaseActivity implements CommentActivityView
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-        //mRecyclerView.addItemDecoration(new ItemSapce(DensityUtil.dp2px(mContext, 14)));
     }
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
