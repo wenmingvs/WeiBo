@@ -543,7 +543,8 @@ public class FillContent {
     }
 
     /**
-     * 单张图片的时候，从预设的3种图片尺寸中随机选一种
+     * 根据图片的数量，设置不同的尺寸
+     *
      * @param datas
      * @param context
      * @param norImg
@@ -555,6 +556,8 @@ public class FillContent {
             setSingleImgSize(context, norImg, longImg, gifImg);
         } else if (datas.size() == 2 || datas.size() == 4) {
             setDoubleImgSize(context, norImg, longImg, gifImg);
+        } else if (datas.size() == 3 || datas.size() >= 5) {
+            setThreeImgSize(context, norImg, longImg, gifImg);
         }
     }
 
@@ -580,6 +583,18 @@ public class FillContent {
         norImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
         longImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
         gifImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
+    }
+
+    private static void setThreeImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
+        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
+        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
+        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
+        longImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
+        norImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
+        gifImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
+        norImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
+        longImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
+        gifImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
     }
 
     /**
