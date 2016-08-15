@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.wenming.library.LogReport;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BarManager;
