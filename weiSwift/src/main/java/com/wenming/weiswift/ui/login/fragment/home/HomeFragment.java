@@ -70,12 +70,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private RelativeLayout mTopBar;
 
     /**
-     * 底部导航栏
-     */
-    private View mButtonBar;
-
-
-    /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
      */
     private static final int HIDE_THRESHOLD = 80;

@@ -236,17 +236,6 @@ public class MainActivity extends AppCompatActivity {
         mHomeTab.setSelected(true);
         if (mHomeFragment == null) {
             mHomeFragment = HomeFragment.newInstance(mComeFromAccoutActivity);
-            mHomeFragment.setOnBarListener(new HomeFragment.onButtonBarListener() {
-                @Override
-                public void showButtonBar() {
-                    mBarManager.showBottomBar(mButtonBar);
-                }
-
-                @Override
-                public void hideButtonBar() {
-                    mBarManager.hideBottomBar(mButtonBar);
-                }
-            });
             mTransaction.add(R.id.contentLayout, mHomeFragment, HOME_FRAGMENT);
         } else {
             mTransaction.show(mHomeFragment);
@@ -254,6 +243,17 @@ public class MainActivity extends AppCompatActivity {
                 mHomeFragment.scrollToTop(false);
             }
         }
+        mHomeFragment.setOnBarListener(new HomeFragment.onButtonBarListener() {
+            @Override
+            public void showButtonBar() {
+                mBarManager.showBottomBar(mButtonBar);
+            }
+
+            @Override
+            public void hideButtonBar() {
+                mBarManager.hideBottomBar(mButtonBar);
+            }
+        });
     }
 
     /**
