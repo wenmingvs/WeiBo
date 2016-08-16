@@ -477,11 +477,8 @@ public class FillContent {
             @Override
             public void onLoadingStarted(String s, View view) {
                 //设置加载中的图片样式
-                gifImg.setImageResource(R.drawable.message_image_default);
-                longImg.setImage(ImageSource.resource(R.drawable.message_image_default));
-                norImg.setImageResource(R.drawable.message_image_default);
-                setLabelForGif(urllist.get(position), imageLabel);
                 setImgSize(urllist, context, norImg, longImg, gifImg);
+                setLabelForGif(urllist.get(position), imageLabel);
             }
 
             @Override
@@ -489,18 +486,18 @@ public class FillContent {
                 File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
                 if (imageUri.endsWith(".gif")) {
                     gifImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.GONE);
-                    norImg.setVisibility(View.GONE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    norImg.setVisibility(View.INVISIBLE);
                     displayGif(file, gifImg, imageLabel);
                 } else if (isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
-                    gifImg.setVisibility(View.GONE);
-                    norImg.setVisibility(View.GONE);
+                    gifImg.setVisibility(View.INVISIBLE);
+                    norImg.setVisibility(View.INVISIBLE);
                     displayLongPic(file, bitmap, longImg, imageLabel);
                 } else {
                     norImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.GONE);
-                    gifImg.setVisibility(View.GONE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.INVISIBLE);
                     displayNorImg(file, bitmap, norImg, imageLabel);
                 }
             }
