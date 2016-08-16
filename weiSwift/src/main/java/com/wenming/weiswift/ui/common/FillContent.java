@@ -78,19 +78,6 @@ public class FillContent {
             .considerExifParams(true)
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
-    /**
-     * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
-     */
-    private static DisplayImageOptions mTimeLineImgOption = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.message_image_default)
-            .showImageForEmptyUri(R.drawable.message_image_default)
-            .showImageOnFail(R.drawable.message_image_default)
-            .imageScaleType(ImageScaleType.NONE)
-            .bitmapConfig(Bitmap.Config.ARGB_8888)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .considerExifParams(true)
-            .build();
 
     /**
      * 设置头像的认证icon，记住要手动刷新icon，不然icon会被recycleriview重用，导致显示出错
@@ -365,19 +352,22 @@ public class FillContent {
     /**
      * 填充微博图片列表,包括原创微博和转发微博中的图片都可以使用
      */
-    public static void fillWeiBoImgList(Status status, Context context, RecyclerView imageList) {
-        imageList.setVisibility(View.GONE);
-        imageList.setVisibility(View.VISIBLE);
+    public static void fillWeiBoImgList(Status status, Context context, RecyclerView recyclerview) {
         ArrayList<String> imageDatas = status.bmiddle_pic_urls;
+        if (imageDatas == null || imageDatas.size() == 0) {
+            recyclerview.setVisibility(View.GONE);
+            return;
+        }
+        if (recyclerview.getVisibility() == View.GONE) {
+            recyclerview.setVisibility(View.VISIBLE);
+        }
         GridLayoutManager gridLayoutManager = initGridLayoutManager(imageDatas, context);
         ImageAdapter imageAdapter = new ImageAdapter(status, context);
-        imageList.setHasFixedSize(true);
-        imageList.setAdapter(imageAdapter);
-        imageList.setLayoutManager(gridLayoutManager);
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setAdapter(imageAdapter);
+        recyclerview.setLayoutManager(gridLayoutManager);
         imageAdapter.setData(imageDatas);
-        if (imageDatas == null || imageDatas.size() == 0) {
-            imageList.setVisibility(View.GONE);
-        }
+        imageAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -460,6 +450,9 @@ public class FillContent {
 
     public static boolean isLongImg(File file, Bitmap bitmap) {
         //TODO file.length()的判断，需要根据OS的版本号做动态调整大小
+        if (file == null || file.length() == 0) {
+            return false;
+        }
         if (bitmap.getHeight() > bitmap.getWidth() * 3 || file.length() >= 0.5 * 1024 * 1024) {
             return true;
         }
@@ -471,15 +464,16 @@ public class FillContent {
      *
      * @param context
      * @param status
+     * @param options
      * @param position
      * @param longImg
      * @param norImg
      * @param gifImg
      * @param imageLabel
      */
-    public static void fillImageList(final Context context, final Status status, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
+    public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         final ArrayList<String> urllist = status.bmiddle_pic_urls;
-        ImageLoader.getInstance().loadImage(urllist.get(position), mTimeLineImgOption, new SimpleImageLoadingListener() {
+        ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 //设置加载中的图片样式
@@ -502,7 +496,6 @@ public class FillContent {
                     longImg.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.GONE);
                     norImg.setVisibility(View.GONE);
-
                     displayLongPic(file, bitmap, longImg, imageLabel);
                 } else {
                     norImg.setVisibility(View.VISIBLE);

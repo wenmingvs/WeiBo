@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -42,8 +43,9 @@ public class MyApplication extends Application implements Application.ActivityLi
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.diskCacheSize(100 * 1024 * 1024); // 50 MiB
+        config.memoryCache(new WeakMemoryCache());
+        config.memoryCacheSize(20  * 1024 * 1024);
+        config.diskCacheSize(200 * 1024 * 1024); // 200 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.writeDebugLogs(); // Remove for release app
         ImageLoader.getInstance().init(config.build());
