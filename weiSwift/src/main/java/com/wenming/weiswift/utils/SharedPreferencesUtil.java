@@ -41,7 +41,9 @@ public class SharedPreferencesUtil {
             editor.putString(key, object.toString());
         }
 
-        SharedPreferencesCompat.apply(editor);
+        editor.commit();
+
+        //SharedPreferencesCompat.apply(editor);
     }
 
     /**

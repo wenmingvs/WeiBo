@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_home"
     android:layout_width="match_parent"
     android:layout_height="@dimen/home_weiboitem_topbar_height"
-    android:background="@color/white">
+    android:background="@color/home_topbar_bg">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -25,15 +25,14 @@
         android:paddingBottom="3dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="3dp"
-        android:visibility="invisible">
+        android:paddingTop="3dp">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="闭关写代码"
-            android:textColor="#545454"
+            android:text="首页"
+            android:textColor="@color/home_topbar_font"
             android:textSize="20sp" />
 
         <ImageView
@@ -58,5 +57,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/home_topbar_bottom_drive" />
 </RelativeLayout>

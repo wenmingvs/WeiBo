@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_profile"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/white">
+    android:background="@color/home_topbar_bg">
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:layout_margin="8dp"
         android:gravity="center"
         android:text="我"
-        android:textColor="#525252"
+        android:textColor="@color/home_topbar_font"
         android:textSize="20sp" />
 
     <TextView
@@ -40,5 +40,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/home_topbar_bottom_drive" />
 </RelativeLayout>

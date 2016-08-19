@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -30,6 +29,7 @@ import com.wenming.library.LogReport;
 import com.wenming.library.save.imp.CrashWriter;
 import com.wenming.library.upload.email.EmailReporter;
 import com.wenming.weiswift.utils.LogUtil;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
         config.memoryCache(new WeakMemoryCache());
-        config.memoryCacheSize(20  * 1024 * 1024);
+        config.memoryCacheSize(20 * 1024 * 1024);
         config.diskCacheSize(200 * 1024 * 1024); // 200 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.writeDebugLogs(); // Remove for release app
@@ -59,7 +59,15 @@ public class MyApplication extends Application implements Application.ActivityLi
         registerActivityLifecycleCallbacks(this);
         initCrashReport();
         //使用亮色(light)主题，不使用夜间模式
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        LogUtil.d("setNightMode = " + setNightMode);
+        if (setNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
     }
 
     private void initCrashReport() {
@@ -77,8 +85,15 @@ public class MyApplication extends Application implements Application.ActivityLi
     public void finishAll() {
         for (Activity activity : mActivityList) {
             if (!activity.isFinishing()) {
-                LogUtil.d("Finish ALl = " + activity.getLocalClassName());
                 activity.finish();
+            }
+        }
+    }
+
+    public void recreateAll(){
+        for (Activity activity : mActivityList) {
+            if (!activity.isFinishing()) {
+                activity.recreate();
             }
         }
     }

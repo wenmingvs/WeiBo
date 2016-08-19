@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent;
@@ -50,10 +51,12 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (viewType == TYPE_ORINGIN_ITEM) {
             mView = LayoutInflater.from(mContext).inflate(R.layout.home_weiboitem_original_pictext, parent, false);
             OriginViewHolder originViewHolder = new OriginViewHolder(mView);
+            originViewHolder.imageList.addOnScrollListener(new NewPauseOnScrollListener(ImageLoader.getInstance().getInstance(), true, true));
             return originViewHolder;
         } else if (viewType == TYPE_RETWEET_ITEM) {
             mView = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_retweet_pictext, parent, false);
             RetweetViewHolder retweetViewHolder = new RetweetViewHolder(mView);
+            retweetViewHolder.retweet_imageList.addOnScrollListener(new NewPauseOnScrollListener(ImageLoader.getInstance().getInstance(), true, true));
             return retweetViewHolder;
         }
         return null;
@@ -109,7 +112,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((OriginViewHolder) holder).splitLine.setVisibility(View.VISIBLE);
                 ((OriginViewHolder) holder).favoritedelete.setVisibility(View.VISIBLE);
                 FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
-                
+
                 ((OriginViewHolder) holder).favoritedelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -280,5 +283,6 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             retweetStatus_layout = (LinearLayout) v.findViewById(R.id.retweetStatus_layout);
         }
     }
+
 
 }

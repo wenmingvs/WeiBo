@@ -124,7 +124,7 @@ public final class StatusBarUtils {
             // 激活状态栏设置
             tintManager.setStatusBarTintEnabled(true);
             // 使用颜色资源
-            tintManager.setStatusBarTintResource(R.color.white);
+            tintManager.setStatusBarTintResource(R.color.home_status_text);
         }
     }
 

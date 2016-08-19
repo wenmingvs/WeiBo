@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-    android:background="@color/white">
+    android:background="@color/home_topbar_bg">
 
     <TextView
         android:id="@+id/idea_cancal"
@@ -61,5 +61,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/home_topbar_bottom_drive"/>
 </RelativeLayout>

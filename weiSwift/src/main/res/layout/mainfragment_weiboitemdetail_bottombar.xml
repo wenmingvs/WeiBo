@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="转发"
-                android:textColor="@color/home_weiboitem_bottombar_font"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="评论"
-                android:textColor="@color/home_weiboitem_bottombar_font"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="赞"
-                android:textColor="@color/home_weiboitem_bottombar_font"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="16sp" />
 
         </LinearLayout>

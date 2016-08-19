@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.wenming.swipebacklayout.SwipeBackLayout;
 import com.wenming.swipebacklayout.app.SwipeBackActivity;
+import com.wenming.weiswift.R;
 
 
 /**
@@ -19,7 +20,7 @@ public class BaseActivity extends SwipeBackActivity {
         getSwipeBackLayout().setSensitivity(BaseActivity.this, 0.3f);
         StatusBarUtils.from(this)
                 .setTransparentStatusbar(true)
-                .setStatusBarColor(Color.WHITE)
+                .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
                 .setLightStatusBar(true)
                 .process(this);
     }

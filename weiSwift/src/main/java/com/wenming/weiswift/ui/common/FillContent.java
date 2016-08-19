@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,7 +43,6 @@ import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
-import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.TimeUtils;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
@@ -71,11 +69,10 @@ public class FillContent {
             .showImageOnLoading(R.drawable.avator_default)
             .showImageForEmptyUri(R.drawable.avator_default)
             .showImageOnFail(R.drawable.avator_default)
-            .bitmapConfig(Bitmap.Config.RGB_565)
             .imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheInMemory(true)
             .cacheOnDisk(true)
-            .considerExifParams(true)
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
 
@@ -334,19 +331,30 @@ public class FillContent {
 
 
     /**
-     * 填充微博文字内容
+     * 填充原创微博文字内容
      */
     public static void fillWeiBoContent(String text, Context context, EmojiTextView weibo_content) {
         weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(text, context, weibo_content));
-        //weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
+        //weibo_content.setText(text);
     }
 
     /**
-     * 填充微博文字内容
+     * 填充转发微博文字内容
      */
-    public static void fillWeiBoContent(String text, Context context, TextView weibo_content) {
-        weibo_content.setText(WeiBoContentTextUtil.getWeiBoContent(text, context, weibo_content));
-        //weibo_content.setMovementMethod(LinkMovementMethod.getInstance());
+    public static void fillRetweetContent(Status status, Context context, TextView origin_nameAndcontent) {
+        if (status.retweeted_status.user != null) {
+            StringBuffer retweetcontent_buffer = new StringBuffer();
+            retweetcontent_buffer.setLength(0);
+            retweetcontent_buffer.append("@");
+            retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
+            retweetcontent_buffer.append(status.retweeted_status.text);
+            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
+            //origin_nameAndcontent.setText(retweetcontent_buffer.toString());
+
+        } else {
+            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent("抱歉，此微博已被作者删除。查看帮助：#网页链接#", context, origin_nameAndcontent));
+            //origin_nameAndcontent.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
+        }
     }
 
     /**
@@ -404,21 +412,6 @@ public class FillContent {
         return gridLayoutManager;
     }
 
-    /**
-     * 转发的文字
-     */
-    public static void fillRetweetContent(Status status, Context context, TextView origin_nameAndcontent) {
-        if (status.retweeted_status.user != null) {
-            StringBuffer retweetcontent_buffer = new StringBuffer();
-            retweetcontent_buffer.setLength(0);
-            retweetcontent_buffer.append("@");
-            retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
-            retweetcontent_buffer.append(status.retweeted_status.text);
-            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
-        } else {
-            origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent("抱歉，此微博已被作者删除。查看帮助：#网页链接#", context, origin_nameAndcontent));
-        }
-    }
 
     private static void displayLongPic(File file, Bitmap bitmap, SubsamplingScaleImageView longImg, ImageView imageLable) {
         imageLable.setVisibility(View.VISIBLE);
@@ -476,8 +469,6 @@ public class FillContent {
         ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                //设置加载中的图片样式
-                setImgSize(urllist, context, norImg, longImg, gifImg);
                 setLabelForGif(urllist.get(position), imageLabel);
             }
 
@@ -532,60 +523,6 @@ public class FillContent {
         });
     }
 
-    /**
-     * 根据图片的数量，设置不同的尺寸
-     *
-     * @param datas
-     * @param context
-     * @param norImg
-     * @param longImg
-     * @param gifImg
-     */
-    private static void setImgSize(ArrayList<String> datas, Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
-        if (datas.size() == 1) {
-            setSingleImgSize(context, norImg, longImg, gifImg);
-        } else if (datas.size() == 2 || datas.size() == 4) {
-            setDoubleImgSize(context, norImg, longImg, gifImg);
-        } else if (datas.size() == 3 || datas.size() >= 5) {
-            setThreeImgSize(context, norImg, longImg, gifImg);
-        }
-    }
-
-    private static void setDoubleImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
-        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
-        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
-        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
-        longImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
-        norImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
-        gifImgLayout.width = ScreenUtil.getScreenWidth(context) / 2;
-        norImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
-        longImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
-        gifImgLayout.height = ScreenUtil.getScreenWidth(context) / 2;
-    }
-
-    private static void setSingleImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
-        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
-        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
-        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
-        longImgLayout.width = ScreenUtil.getScreenWidth(context);
-        norImgLayout.width = ScreenUtil.getScreenWidth(context);
-        gifImgLayout.width = ScreenUtil.getScreenWidth(context);
-        norImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
-        longImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
-        gifImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
-    }
-
-    private static void setThreeImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
-        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
-        FrameLayout.LayoutParams longImgLayout = (FrameLayout.LayoutParams) longImg.getLayoutParams();
-        FrameLayout.LayoutParams gifImgLayout = (FrameLayout.LayoutParams) gifImg.getLayoutParams();
-        longImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
-        norImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
-        gifImgLayout.width = ScreenUtil.getScreenWidth(context) / 3;
-        norImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
-        longImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
-        gifImgLayout.height = ScreenUtil.getScreenWidth(context) / 3;
-    }
 
     /**
      * 为Gif图设置图标，根据url来决定是否设置

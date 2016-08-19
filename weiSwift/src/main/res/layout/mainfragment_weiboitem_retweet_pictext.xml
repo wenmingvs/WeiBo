@@ -3,9 +3,9 @@
     android:id="@+id/retweet_weibo_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     android:background="@drawable/timeline_feedcard_retweet_background_auto"
     android:clickable="true"
-    android:layout_marginBottom="8dp"
     android:orientation="vertical">
 
     <include layout="@layout/home_weiboitem_titlebar" />
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"/>
+            android:layout_marginRight="6dp" />
 
     </LinearLayout>
 

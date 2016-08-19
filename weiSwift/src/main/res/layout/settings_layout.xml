@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#F2F2F2"
         android:orientation="vertical">
 
 
@@ -32,7 +31,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="帐号管理"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -59,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="通知"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -86,7 +85,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="隐私与安全"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -113,7 +112,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="通用设置"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -140,7 +139,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="意见反馈"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -167,7 +166,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="关于微博"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <ImageView
@@ -194,10 +193,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="夜间模式"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
             <CheckBox
+                android:id="@+id/nightMode_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -221,7 +221,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="清理缓存"
-                android:textColor="#111111"
+                android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
 
 
@@ -242,7 +242,6 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="20dp"
                 android:text="退出微博"
-
                 android:textColor="@color/red"
                 android:textSize="16sp" />
         </RelativeLayout>

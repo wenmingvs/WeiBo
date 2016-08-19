@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,7 +7,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,6 +28,7 @@ import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.lang.reflect.Field;
 
@@ -102,12 +104,20 @@ public class MainActivity extends AppCompatActivity {
      */
     private FragmentTransaction mTransaction;
 
+    /**
+     * 管理顶部与底部的导航栏的显示与隐藏
+     */
     private BarManager mBarManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
+
+
+
         mContext = this;
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
@@ -115,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
+       // mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
 
-        LogReport.getInstance().upload(mContext);
+        //LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);
         mFragmentManager = getSupportFragmentManager();
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
@@ -128,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
             setTabFragment(HOME_FRAGMENT);
         }
         setUpListener();
-        StatusBarUtils.from(this).setTransparentStatusbar(true).setStatusBarColor(Color.WHITE).setLightStatusBar(true).process(this);
+        StatusBarUtils.from(this)
+                .setTransparentStatusbar(true)
+                .setStatusBarColor(mContext.getResources().getColor(R.color.home_status_bg))
+                .setLightStatusBar(true)
+                .process(this);
     }
 
     @Override
@@ -442,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
      * 显示退出窗口
      */
     public void showExitDialog() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage("确定要退出？")
                 .setCancelable(true)
@@ -458,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+
     }
 
 

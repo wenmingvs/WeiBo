@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ import com.wenming.weiswift.utils.ToastUtil;
 /**
  * Created by wenmingvs on 16/5/9.
  */
-public class UnLoginActivity extends FragmentActivity {
+public class UnLoginActivity extends AppCompatActivity {
 
     private static final int HOME_FRAGMENT = 0X001;
     private static final int MESSAGE_FRAGMENT = 0X002;
@@ -62,11 +63,11 @@ public class UnLoginActivity extends FragmentActivity {
         mFragmentManager = getSupportFragmentManager();
         setTabFragment(HOME_FRAGMENT);
         setUpListener();
-        StatusBarUtils.from(this)
-                .setTransparentStatusbar(true)
-                .setStatusBarColor(Color.WHITE)
-                .setLightStatusBar(true)
-                .process(this);
+//        StatusBarUtils.from(this)
+//                .setTransparentStatusbar(true)
+//                .setStatusBarColor(Color.WHITE)
+//                .setLightStatusBar(true)
+//                .process(this);
     }
 
     private void setTabFragment(int index) {

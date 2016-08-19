@@ -48,7 +48,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="80dp"
                     android:text="\@我的"
-                    android:textColor="#111111"
+                    android:textColor="@color/rl_textcolor"
                     android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
@@ -88,7 +88,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="80dp"
                     android:text="评论"
-                    android:textColor="#111111"
+                    android:textColor="@color/rl_textcolor"
                     android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
@@ -127,7 +127,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="80dp"
                     android:text="赞"
-                    android:textColor="#111111"
+                    android:textColor="@color/rl_textcolor"
                     android:textSize="@dimen/home_original_weiboitem_font" />
 
                 <ImageView
