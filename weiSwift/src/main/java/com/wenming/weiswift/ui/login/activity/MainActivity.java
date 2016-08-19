@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
        // mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
 
-        //LogReport.getInstance().upload(mContext);
+        LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);
         mFragmentManager = getSupportFragmentManager();
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
