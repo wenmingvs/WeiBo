@@ -49,6 +49,18 @@
     <!--正在加载时候图片的占位图颜色-白天 -->
     <color name="loadding_img_bg">#2c2c2c</color><!--状态栏的的背景颜色-->
 
+    <!--单条评论的颜色-黑夜 -->
+    <color name="comment_item_bg">#252525</color>
+    <color name="comment_item_name">#888888</color>
+    <color name="comment_ite_comefrom">#45484a</color>
+    <color name="comment_item_content">#6c6c6c</color>
+    <color name="comment_item_top_drive">#202020</color>
+
+    <!--数字，包括评论，转发，点赞栏的颜色-白天 -->
+    <color name="detail_count_bg">#2b2b2b</color>
+    <color name="night_detail_normal_text">#45484a</color>
+    <color name="night_detail_highlight_text">#888888</color>
+
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->

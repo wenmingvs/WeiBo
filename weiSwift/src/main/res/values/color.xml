@@ -50,8 +50,18 @@
     <color name="loadding_img_bg">#E4E4E4</color> <!--正在加载时候图片的占位图颜色-白天 -->
 
 
+    <!--微博详细内容-白天 -->
+    <!--单条评论的颜色-白天 -->
+    <color name="comment_item_bg">#FFFFFF</color>
+    <color name="comment_item_name">#2f2f2f</color>
+    <color name="comment_item_comefrom">#808080</color>
+    <color name="comment_item_content">#808080</color>
+    <color name="comment_item_top_drive">#f2f2f2</color>
 
-
+    <!--数字，包括评论，转发，点赞栏的颜色-白天 -->
+    <color name="detail_count_bg">#FFFFFF</color>
+    <color name="detail_normal_text">#828282</color>
+    <color name="detail_highlight_text">#000000</color>
 
 
     <color name="white">#FFFFFF</color><!--白色 -->
