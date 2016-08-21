@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.profile.setting;
 
 import android.app.AlertDialog;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -100,7 +101,6 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
                     SharedPreferencesUtil.put(mContext, "setNightMode", true);
                     getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
@@ -109,12 +109,12 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
                 }
 
 
-//               ((MyApplication)mContext.getApplicationContext()).recreateAll();
+                ((MyApplication) mContext.getApplicationContext()).recreateAll();
 
+//                Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
 
-                final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
 
             }
         });

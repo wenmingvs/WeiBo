@@ -8,11 +8,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * 与保存相关的工具类
@@ -118,44 +118,33 @@ public class SaveImgUtil {
     /**
      * @param bitmap 保存Bitmap
      */
-    public void saveImage(File file) {
-
-//                File file = null;
-//                FileOutputStream fos = null;
-//                try {
-//                    file = new File(mOutputDirectory, mFileName);
-//                    fos = new FileOutputStream(file);
-//                    if (bitmap.compress(mFormat, mQuality, fos)) {
-//                        fos.flush();
-//                        fos.close();
-//                    }
-//                    MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), file.getName(), "");
-//                    mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-//                    mHandler.sendEmptyMessage(0x1);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-
-
+    public void saveImage(File imgFile, Bitmap bitmap) {
         // 首先保存图片
-//        File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
-//        if (!appDir.exists()) {
-//            appDir.mkdir();
-//        }
-//        String fileName = System.currentTimeMillis() + ".jpg";
-//        File file = new File(appDir, fileName);
-//        try {
-//            FileOutputStream fos = new FileOutputStream(file);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//            fos.flush();
-//            fos.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        File appDir = new File(Environment.getExternalStorageDirectory(), "weiSwiftImg");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + appDir)));
+        Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
     }
 
 

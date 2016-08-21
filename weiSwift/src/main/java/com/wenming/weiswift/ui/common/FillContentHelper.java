@@ -109,6 +109,10 @@ public class FillContentHelper {
             status.singleImgSizeType = String.valueOf(new Random().nextInt(3) + 1);
         }
     }
+
+
+
+
 }
 
 

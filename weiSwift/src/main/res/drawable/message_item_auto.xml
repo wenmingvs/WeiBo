@@ -4,5 +4,4 @@
     <item android:drawable="@color/rl_highlight_bg" android:state_pressed="true" />
     <item android:drawable="@color/rl_normal_bg" />
 
-
 </selector>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- searchHeadView-夜晚-->
-    <color name="searchHeadView_toolbar_bg">#1e1e1e</color><!--window的背景样式-->
-    <color name="searchHeadView_inner_bg">#1e1e1e</color><!--微博的普通背景颜色-->
+    <color name="night_searchHeadView_toolbar_bg">#1e1e1e</color><!--window的背景样式-->
+    <color name="night_searchHeadView_inner_bg">#1e1e1e</color><!--微博的普通背景颜色-->
 
-    <!-- 微博内容颜色-夜晚-->
+    <!-- 原创微博内容颜色-夜晚-->
     <color name="windowBackground">#1a1a1a</color><!--window的背景样式-->
-    <color name="origin_nor_bg">#262626</color><!--普通背景颜色-->
-    <color name="origin_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
+    <color name="night_origin_nor_bg">#262626</color><!--普通背景颜色-->
+    <color name="night_origin_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
     <color name="home_weiboitem_title_profile_name">#f46403</color><!--用户名称-->
     <color name="home_weiboitem_title_profile_time">#434446</color><!--微博时间-->
     <color name="home_weiboitem_title_weibocomefrom">#434446</color><!--微博来源-->
@@ -15,14 +15,14 @@
     <color name="home_weiboitem_content_keyword">#33607f</color><!--关键词的颜色-->
 
     <!--转发的内容区-夜晚-->
-    <color name="retweet_nor_bg">#202020</color><!--普通背景颜色-->
-    <color name="retweet_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
+    <color name="night_retweet_nor_bg">#202020</color><!--普通背景颜色-->
+    <color name="night_retweet_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
     <color name="home_retweet_weiboitem_font">#6e6e6e</color><!--转发内容中的字体颜色-->
     <color name="home_retweet_weiboitem_bg">#f7f7f7</color><!--转发内容中的背景颜色-->
 
     <!--显示微博转发数，评论数，赞数的bar-->
     <color name="commentbar_bg">#262626</color><!--普通背景颜色-->
-    <color name="commentbar_highlight_bg">#202020</color><!--press的背景颜色-->
+    <color name="night_commentbar_highlight_bg">#202020</color><!--press的背景颜色-->
     <color name="commentbar_top_drive">#202020</color><!--顶部的分割线-->
     <color name="commentbar_vertical_drive">#1f1f1f</color><!--竖直的分割线-->
 
@@ -42,8 +42,8 @@
     <color name="home_status_text">#FFFFFF</color><!--状态栏的的文字样颜色-->
 
     <!--按钮栏-白天 -->
-    <color name="rl_normal_bg">#262626</color><!--状态栏的的文字样颜色-->
-    <color name="rl_highlight_bg">#1c1c1c</color><!--状态栏的的文字样颜色-->
+    <color name="night_rl_normal_bg">#262626</color><!--状态栏的的文字样颜色-->
+    <color name="night_rl_highlight_bg">#1c1c1c</color><!--状态栏的的文字样颜色-->
     <color name="rl_textcolor">#878787</color>
 
     <!--正在加载时候图片的占位图颜色-白天 -->

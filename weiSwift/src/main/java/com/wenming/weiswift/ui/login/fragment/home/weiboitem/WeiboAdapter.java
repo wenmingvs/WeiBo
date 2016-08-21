@@ -59,6 +59,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             retweetViewHolder.retweet_imageList.addOnScrollListener(new NewPauseOnScrollListener(ImageLoader.getInstance().getInstance(), true, true));
             return retweetViewHolder;
         }
+
         return null;
     }
 

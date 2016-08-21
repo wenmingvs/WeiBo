@@ -16,9 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:layout_marginBottom="@dimen/home_weiboitem_bottombar_height"
-            >
+            android:layout_weight="1">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -171,6 +170,8 @@
                 </LinearLayout>
 
                 <include layout="@layout/profilefragment_layout_moreline" />
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

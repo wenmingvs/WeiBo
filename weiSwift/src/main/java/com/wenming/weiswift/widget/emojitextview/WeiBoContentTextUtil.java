@@ -145,7 +145,6 @@ public class WeiBoContentTextUtil {
                     }
                 }
             }
-
         }
         return spannableStringBuilder;
     }

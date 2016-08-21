@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
-
-
-
         mContext = this;
         mHomeTab = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTab = (RelativeLayout) findViewById(R.id.tv_message);
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
        // mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
 
-        LogReport.getInstance().upload(mContext);
+        //LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);
         mFragmentManager = getSupportFragmentManager();
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);

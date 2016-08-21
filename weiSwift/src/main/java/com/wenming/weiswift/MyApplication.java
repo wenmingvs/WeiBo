@@ -44,7 +44,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
         config.memoryCache(new WeakMemoryCache());
-        config.memoryCacheSize(20 * 1024 * 1024);
+        config.memoryCacheSize(20 * 1024 * 1024);//设置内存缓存的最大字节数为 App 最大可用内存的 1/8。
         config.diskCacheSize(200 * 1024 * 1024); // 200 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.writeDebugLogs(); // Remove for release app
@@ -67,7 +67,6 @@ public class MyApplication extends Application implements Application.ActivityLi
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-
     }
 
     private void initCrashReport() {
@@ -90,7 +89,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         }
     }
 
-    public void recreateAll(){
+    public void recreateAll() {
         for (Activity activity : mActivityList) {
             if (!activity.isFinishing()) {
                 activity.recreate();
