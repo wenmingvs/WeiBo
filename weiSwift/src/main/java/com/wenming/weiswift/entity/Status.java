@@ -19,6 +19,7 @@ package com.wenming.weiswift.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.SpannableStringBuilder;
 
 import com.sina.weibo.sdk.openapi.models.Geo;
 import com.sina.weibo.sdk.openapi.models.Visible;
@@ -166,6 +167,8 @@ public class Status implements Parcelable {
      * 单张微博的尺寸，本地私有的字段，服务器不会返回此字段，在gson赋值完成后，需要手动为此字段赋值
      */
     public String singleImgSizeType;
+
+
 
 
     public static class PicUrlsBean implements Parcelable {
@@ -319,7 +322,7 @@ public class Status implements Parcelable {
         dest.writeInt(this.mlevel);
         dest.writeParcelable(this.visible, flags);
         dest.writeInt(this.source_allowclick);
-        dest.writeList(this.pic_urls);
+        dest.writeTypedList(this.pic_urls);
         dest.writeStringList(this.thumbnail_pic_urls);
         dest.writeStringList(this.bmiddle_pic_urls);
         dest.writeStringList(this.origin_pic_urls);
@@ -353,8 +356,7 @@ public class Status implements Parcelable {
         this.mlevel = in.readInt();
         this.visible = in.readParcelable(Visible.class.getClassLoader());
         this.source_allowclick = in.readInt();
-        this.pic_urls = new ArrayList<PicUrlsBean>();
-        in.readList(this.pic_urls, PicUrlsBean.class.getClassLoader());
+        this.pic_urls = in.createTypedArrayList(PicUrlsBean.CREATOR);
         this.thumbnail_pic_urls = in.createStringArrayList();
         this.bmiddle_pic_urls = in.createStringArrayList();
         this.origin_pic_urls = in.createStringArrayList();

@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:visibility="gone">
+            android:layout_marginBottom="@dimen/home_weiboitem_bottombar_height"
+            android:layout_weight="1">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="10dp"
                             android:hint="昵称"
-                            android:textColor="#222222"
+                            android:textColor="@color/rl_textcolor"
                             android:textSize="@dimen/home_original_weiboitem_font" />
 
                         <TextView
@@ -65,7 +65,7 @@
                             android:layout_centerInParent="true"
                             android:hint="简介"
                             android:textColor="@color/gray"
-                            android:textSize="@dimen/home_retweet_weiboitem_font" />
+                            android:textSize="13dp" />
                     </LinearLayout>
 
                     <ImageView
@@ -100,8 +100,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="13sp"
-                            android:textColor="#222222" />
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -128,8 +128,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="13sp"
-                            android:textColor="#222222" />
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -157,8 +157,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="13sp"
-                            android:textColor="#222222" />
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -170,6 +170,8 @@
                 </LinearLayout>
 
                 <include layout="@layout/profilefragment_layout_moreline" />
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

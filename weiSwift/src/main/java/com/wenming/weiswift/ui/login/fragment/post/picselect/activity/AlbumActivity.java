@@ -1,7 +1,6 @@
 package com.wenming.weiswift.ui.login.fragment.post.picselect.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.utils.ScreenUtil;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.adapter.GirdViewAdapter;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.AlbumFolderInfo;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.popwindow.ImgFolderPopWindow;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.util.ImageScan;
+import com.wenming.weiswift.utils.ScreenUtil;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/5.
  */
-public class AlbumActivity extends Activity implements ImgFolderPopWindow.OnFolderClickListener, GirdViewAdapter.OnImgSelectListener {
+public class AlbumActivity extends BaseActivity implements ImgFolderPopWindow.OnFolderClickListener, GirdViewAdapter.OnImgSelectListener {
 
     private Context mContext;
     private TextView mCancal;

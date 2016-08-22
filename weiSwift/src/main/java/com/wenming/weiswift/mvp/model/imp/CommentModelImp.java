@@ -148,7 +148,7 @@ public class CommentModelImp implements CommentModel {
                 mCommentList = temp;
                 mOnDataFinishedListener.onDataFinish(mCommentList);
             } else {
-                ToastUtil.showShort(mContext, "没有更新的内容了");
+                //ToastUtil.showShort(mContext, "没有更新的内容了");
                 mOnDataFinishedListener.noMoreDate();
             }
             mRefrshCommentList = false;

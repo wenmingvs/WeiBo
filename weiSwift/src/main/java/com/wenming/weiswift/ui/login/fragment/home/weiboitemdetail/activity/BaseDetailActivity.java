@@ -18,7 +18,7 @@ import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.mvp.view.DetailActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/20.
  */
-public abstract class BaseDetailActivity extends BaseSwipeActivity implements DetailActivityView {
+public abstract class BaseDetailActivity extends BaseActivity implements DetailActivityView {
 
     public Status mStatus;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
@@ -228,7 +228,6 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mRepostFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(mLastestComments, 0, mLastestAttitudes);
@@ -241,7 +240,6 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mCommentFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(0, mLastestReposts, mLastestAttitudes);
@@ -321,9 +319,10 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             View topView = recyclerView.getLayoutManager().getChildAt(0);          //获取可视的第一个view
-            lastOffset = topView.getTop();                                         //获取与该view的顶部的偏移量
-            lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
-
+            if (topView != null) {
+                lastOffset = topView.getTop();                                         //获取与该view的顶部的偏移量
+                lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+            }
         }
 
         @Override
@@ -331,8 +330,10 @@ public abstract class BaseDetailActivity extends BaseSwipeActivity implements De
             super.onScrollStateChanged(recyclerView, newState);
             if (recyclerView != null) {
                 View topView = recyclerView.getLayoutManager().getChildAt(0);         //获取可视的第一个view
-                lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
-                lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+                if (topView != null) {
+                    lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
+                    lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+                }
             }
 
 

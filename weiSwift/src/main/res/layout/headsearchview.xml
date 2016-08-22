@@ -15,6 +15,4 @@
         android:background="@drawable/rect_white"
         android:searchIcon="@drawable/searchbar_second_textfield_search_icon" />
 
-
-
 </LinearLayout>

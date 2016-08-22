@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContentHelper;
+import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,8 @@ public class StatusList implements Parcelable {
                 FillContentHelper.setImgUrl(status.retweeted_status);
             }
         }
+
+
         return statuses;
     }
 

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonBarId"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:background="@color/white"
+    android:layout_height="@dimen/home_weiboitem_bottombar_height"
+    android:layout_gravity="bottom"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#eaeaea" />
+        android:background="@color/home_bottombar_topdrive" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#fafafa"
+        android:background="@color/home_bottombar_bg"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -34,6 +34,7 @@
                 android:drawableTop="@drawable/tabbar_home_auto"
                 android:gravity="center"
                 android:text="首页"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="10sp" />
 
             <ImageView
@@ -62,6 +63,7 @@
                 android:drawableTop="@drawable/tabbar_message_auto"
                 android:gravity="center"
                 android:text="消息"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="10sp" />
 
             <ImageView
@@ -79,7 +81,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-            
+
             <ImageView
                 android:id="@+id/fl_post"
                 android:layout_width="match_parent"
@@ -113,6 +115,7 @@
                 android:drawableTop="@drawable/tabbar_discover_auto"
                 android:gravity="center"
                 android:text="发现"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="10sp" />
 
             <ImageView
@@ -142,6 +145,7 @@
                 android:drawableTop="@drawable/tabbar_profile_auto"
                 android:gravity="center"
                 android:text="发现"
+                android:textColor="@color/home_bottombar_font"
                 android:textSize="10sp" />
 
 

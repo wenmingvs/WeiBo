@@ -453,7 +453,6 @@ public class UserModelImp implements UserModel {
                 cacheSave_statuslist(mCurrentGroup, mContext, response);
                 mOnStatusListFinishedListener.onDataFinish(mStatusList);
             } else {
-                ToastUtil.showShort(mContext, "没有更新的内容了");
                 mOnStatusListFinishedListener.noMoreDate();
             }
         }

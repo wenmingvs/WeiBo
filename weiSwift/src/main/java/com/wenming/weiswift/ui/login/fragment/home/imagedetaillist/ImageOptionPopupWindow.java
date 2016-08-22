@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BasePopupWindow;
+import com.wenming.weiswift.utils.SaveImgUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -103,25 +104,15 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
+
+
+
                 ImageLoader.getInstance().loadImage(mImgURL, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
                         File imgFile = DiskCacheUtils.findInCache(mImgURL, ImageLoader.getInstance().getDiskCache());
-//                        if (mImgURL.endsWith(".gif")) {
-//                            String fileName = imgFile.getName();
-//                            fileName.replace(".JPG", ".gif");
-//                            imgFile.renameTo(new File(fileName));
-//                        }
-                        // 其次把文件插入到系统图库
-                        try {
-                            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), imgFile.getAbsolutePath(), String.valueOf(System.currentTimeMillis()), null);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        // 最后通知图库更新
-                        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imgFile.getAbsolutePath())));
-                        ToastUtil.showShort(mContext, "图片保存成功！");
+                        SaveImgUtil.create(mContext).saveImage(imgFile,loadedImage);
                     }
                 });
 

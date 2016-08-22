@@ -3,13 +3,14 @@ package com.wenming.swipebacklayout.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.wenming.swipebacklayout.SwipeBackLayout;
 import com.wenming.swipebacklayout.Utils;
 
 
-public class SwipeBackActivity extends Activity implements SwipeBackActivityBase {
+public class SwipeBackActivity extends AppCompatActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override

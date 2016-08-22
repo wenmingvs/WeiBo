@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_home_weiboitem_detail_title"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/white">
+    android:background="@color/home_topbar_bg">
 
     <ImageView
         android:id="@+id/toolbar_back"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的收藏"
-            android:textColor="#545454"
+            android:textColor="@color/home_topbar_font"
             android:textSize="20sp" />
 
         <ImageView
@@ -61,6 +61,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/home_topbar_bottom_drive" />
 
 </RelativeLayout>

@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="210dp"
     android:layout_marginBottom="30dp"
-    android:background="@color/white"
-    android:visibility="gone"
-    android:orientation="vertical">
+    android:background="@color/windowBackground"
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey" />
+        android:background="@color/commentbar_top_drive" />
 
     <TextView
         android:id="@+id/tv_normal_refresh_footer_status"

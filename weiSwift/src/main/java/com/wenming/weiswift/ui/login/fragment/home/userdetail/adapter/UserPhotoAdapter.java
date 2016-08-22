@@ -48,7 +48,7 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //FillContent.fillImageList(mContext, mStatus, position, holder.imageItem, holder.imageType);
-        //FillContent.fillImageList(mContext, mStatus, position, holder.longImg, holder.norImg, holder.gifImageView, holder.imageLabel);
+        //FillContent.fillImageList(mContext, mStatus, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
         ImageLoader.getInstance().displayImage(bmiddle_pic_urls.get(position), holder.imageItem, options);
     }
 

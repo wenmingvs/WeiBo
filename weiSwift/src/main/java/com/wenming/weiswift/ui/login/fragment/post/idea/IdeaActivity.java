@@ -24,6 +24,7 @@ import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/2.
  */
-public class IdeaActivity extends Activity implements ImgListAdapter.OnFooterViewClickListener {
+public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFooterViewClickListener {
     private UsersAPI mUsersAPI;
     private Context mContext;
     private TextView mCancal;

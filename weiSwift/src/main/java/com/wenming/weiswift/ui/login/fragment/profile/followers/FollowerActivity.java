@@ -15,7 +15,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FollowerActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FollowerActivityPresentImp;
 import com.wenming.weiswift.mvp.view.FollowActivityView;
-import com.wenming.weiswift.ui.common.BaseSwipeActivity;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FollowerActivity extends BaseSwipeActivity implements FollowActivityView {
+public class FollowerActivity extends BaseActivity implements FollowActivityView {
 
     public FollowerAdapter mAdapter;
     private ArrayList<User> mDatas;

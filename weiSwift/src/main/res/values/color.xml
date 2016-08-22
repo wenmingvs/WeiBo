@@ -1,25 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- searchHeadView-白天 -->
+    <color name="searchHeadView_toolbar_bg">#E3E4E6</color><!--发现页的toolbar的收缩栏-->
+    <color name="searchHeadView_inner_bg">#FFFFFF</color><!--微博的普通背景颜色-->
 
-    <!--微博顶部TitleBar-->
-    <color name="home_weiboitem_title_profile_name">#f46200</color><!--发微博用户-->
+    <!-- 微博内容颜色-白天 -->
+    <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->
+    <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->
+    <color name="origin_highlight_bg">#f2f2f2</color><!--微博的按压状态下的背景颜色-->
+    <color name="home_weiboitem_title_profile_name">#f46200</color><!--用户名称-->
     <color name="home_weiboitem_title_profile_time">#828282</color><!--微博时间-->
     <color name="home_weiboitem_title_weibocomefrom">#828282</color><!--微博来源-->
+    <color name="home_original_weiboitem_font">#333333</color><!--微博内容-->
+    <color name="home_weiboitem_content_keyword">#507daf</color><!--关键词的颜色-->
 
-    <!--原创微博内容区-->
-    <color name="home_original_weiboitem_font">#333333</color><!--微博内容中字体颜色-->
-    <color name="home_original_weiboitem_bg_normal">#ffffff</color><!--微博背景颜色-->
-    <color name="home_original_weiboitem_bg_pressed">#ffffff</color><!--微博背景颜色-->
-
-    <!--转发的内容区-->
+    <!--转发的内容区-白天 -->
+    <color name="retweet_nor_bg">#f7f7f7</color><!--微博的普通背景颜色-->
+    <color name="retweet_highlight_bg">#f0f0f0</color><!--微博的按压状态下的背景颜色-->
     <color name="home_retweet_weiboitem_font">#5d5d5d</color><!--转发内容中的字体颜色-->
     <color name="home_retweet_weiboitem_bg">#f7f7f7</color><!--转发内容中的背景颜色-->
 
-    <!--微博底部Bar-->
-    <color name="home_weiboitem_bottombar_font">#929292</color><!--底部Bar颜色-->
+    <!--显示微博转发数，评论数，赞数的bar-->
+    <color name="commentbar_bg">#FFFFFF</color><!--普通背景颜色-->
+    <color name="commentbar_highlight_bg">#f2f2f2</color><!--press的背景颜色-->
+    <color name="commentbar_top_drive">#f2f2f2</color><!--顶部的分割线-->
+    <color name="commentbar_vertical_drive">#f2f2f2</color><!--竖直的分割线-->
 
-    <!--微博item的其他设置-->
-    <color name="home_weiboitem_content_keyword">#507daf</color><!--关键词高亮-->
+    <!--微博底部Bar-白天 -->
+    <color name="home_bottombar_bg">#FFFFFF</color><!--底部bar的背景样式-->
+    <color name="home_bottombar_font">#929292</color><!--底部bar字体颜色-->
+    <color name="home_bottombar_topdrive">#eaeaea</color><!--顶部分割线的颜色-->
+
+    <!--微博顶部Bar-白天 -->
+    <color name="home_topbar_bg">#FFFFFF</color><!--底部bar的背景样式-->
+    <color name="home_topbar_font">#545454</color><!--顶部Bar字体颜色-->
+    <color name="home_topbar_bottom_drive">#e3e3e3</color><!--顶部Bar的底部分割线-->
+    <color name="home_topbar_font_highlight_bg">#e7e7e7</color><!--顶部Bar的按压颜色-->
+
+    <!--状态栏-白天 -->
+    <color name="home_status_text">#FFFFFF</color><!--状态栏的的文字样颜色-->
+    <color name="home_status_bg">#FFFFFF</color><!--状态栏的的文字样颜色-->
+
+    <!--按钮栏-白天 -->
+    <color name="rl_normal_bg">#FFFFFF</color><!--状态栏的的背景颜色-->
+    <color name="rl_highlight_bg">#f2f2f2</color><!--状态栏的的背景颜色-->
+    <color name="rl_textcolor">#111111</color>
+
+    <!--正在加载时候图片的占位图颜色-白天 -->
+    <color name="loadding_img_bg">#E4E4E4</color> <!--正在加载时候图片的占位图颜色-白天 -->
+
+
+    <!--微博详细内容-白天 -->
+    <!--单条评论的颜色-白天 -->
+    <color name="comment_item_bg">#FFFFFF</color>
+    <color name="comment_item_name">#2f2f2f</color>
+    <color name="comment_item_comefrom">#808080</color>
+    <color name="comment_item_content">#808080</color>
+    <color name="comment_item_top_drive">#f2f2f2</color>
+
+    <!--数字，包括评论，转发，点赞栏的颜色-白天 -->
+    <color name="detail_count_bg">#FFFFFF</color>
+    <color name="detail_normal_text">#828282</color>
+    <color name="detail_highlight_text">#000000</color>
 
 
     <color name="white">#FFFFFF</color><!--白色 -->
@@ -30,16 +72,15 @@
     <color name="black">#000000</color>
 
     <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
 
     <color name="color_ff">#F0F0F0</color>
     <color name="color_00">#8A000000</color>
-    <color name="foldername_highlight">#e7e7e7</color>
 
-    <color name="weibo_holo_bg">#f2f2f2</color>
+
 
     <!-- toast的背景色 -->
     <color name="bg_toast">#f79f43</color>
-
 
 
 </resources>

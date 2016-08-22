@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="16分钟前  "
-                    android:textColor="@color/home_weiboitem_title_weibocomefrom"
+                    android:textColor="@color/home_weiboitem_title_profile_time"
                     android:textSize="@dimen/home_weiboitem_title_profile_time" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="来自 微博weibo.com"
-                    android:textColor="@color/home_weiboitem_title_profile_time"
+                    android:textColor="@color/home_weiboitem_title_weibocomefrom"
                     android:textSize="@dimen/home_weiboitem_title_weibocomefrom" />
             </LinearLayout>
 
