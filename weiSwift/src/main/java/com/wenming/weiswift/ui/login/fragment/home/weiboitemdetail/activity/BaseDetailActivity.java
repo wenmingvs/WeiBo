@@ -228,7 +228,6 @@ public abstract class BaseDetailActivity extends BaseActivity implements DetailA
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRepostFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mRepostFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(mLastestComments, 0, mLastestAttitudes);
@@ -241,7 +240,6 @@ public abstract class BaseDetailActivity extends BaseActivity implements DetailA
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mCommentFooterAdapter);
         mRecyclerView.clearOnScrollListeners();
-        mRecyclerView.addOnScrollListener(mScrollListener);
         addHeaderView(mCurrentGroup);
         mCommentFooterAdapter.notifyDataSetChanged();
         refreshDetailBar(0, mLastestReposts, mLastestAttitudes);
@@ -321,9 +319,10 @@ public abstract class BaseDetailActivity extends BaseActivity implements DetailA
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             View topView = recyclerView.getLayoutManager().getChildAt(0);          //获取可视的第一个view
-            lastOffset = topView.getTop();                                         //获取与该view的顶部的偏移量
-            lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
-
+            if (topView != null) {
+                lastOffset = topView.getTop();                                         //获取与该view的顶部的偏移量
+                lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+            }
         }
 
         @Override
@@ -331,8 +330,10 @@ public abstract class BaseDetailActivity extends BaseActivity implements DetailA
             super.onScrollStateChanged(recyclerView, newState);
             if (recyclerView != null) {
                 View topView = recyclerView.getLayoutManager().getChildAt(0);         //获取可视的第一个view
-                lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
-                lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+                if (topView != null) {
+                    lastOffset = topView.getTop();                                        //获取与该view的顶部的偏移量
+                    lastPosition = recyclerView.getLayoutManager().getPosition(topView);  //得到该View的数组位置
+                }
             }
 
 

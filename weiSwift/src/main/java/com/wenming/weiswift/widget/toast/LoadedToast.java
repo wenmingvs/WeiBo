@@ -19,7 +19,7 @@ import com.wenming.weiswift.R;
 public class LoadedToast extends Toast {
 
     private static final int DEFAULT_OFFSET_X = 0;
-    private int DEFAULT_OFFSET_Y;
+    private int mDefault_offset_y;
 
     private static LoadedToast mLoadedToast;
     private static TextView mTvMsg;
@@ -33,12 +33,14 @@ public class LoadedToast extends Toast {
      */
     private LoadedToast(Context context, String msg) {
         super(context);
+        // toast settings
+        mDefault_offset_y = (int) context.getResources().getDimension(R.dimen.dp_45);
         View mToastView = LayoutInflater.from(context).inflate(R.layout.loaded_toast, null);
         mTvMsg = (TextView) mToastView.findViewById(R.id.toast_msg);
         mTvMsg.setText(msg);
-        // toast settings
-        DEFAULT_OFFSET_Y = (int) context.getResources().getDimension(R.dimen.dp_45);
-        setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, DEFAULT_OFFSET_X, DEFAULT_OFFSET_Y);
+        //mToastView.getLayoutParams().height = mDefault_offset_y;
+
+        setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, DEFAULT_OFFSET_X, mDefault_offset_y);
         setDuration(Toast.LENGTH_SHORT);
         setView(mToastView);
     }
