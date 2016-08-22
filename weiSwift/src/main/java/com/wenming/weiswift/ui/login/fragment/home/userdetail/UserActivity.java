@@ -6,8 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
@@ -16,10 +16,13 @@ import com.wenming.weiswift.mvp.presenter.UserActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.mvp.view.UserActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserInfoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserPhotoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -103,8 +106,15 @@ public class UserActivity extends BaseActivity implements UserActivityView {
             mMyWeiBoAdapter = new WeiboAdapter(statuselist, mContext) {
                 @Override
                 public void arrowClick(Status status, int position) {
-                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
-                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
+//                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+                    ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext,statuselist.get(position),mMyWeiBoAdapter, position, "我的微博")
+                            .setCanceledOnTouchOutside(true)
+                            .setCancelable(true)
+                            .create();
+                    int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                    arrowDialog.show();
+                    arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
             };
             mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mMyWeiBoAdapter);

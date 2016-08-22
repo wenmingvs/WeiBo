@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.wenming.weiswift.mvp.presenter.MyWeiBoActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MyWeiBoActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MyWeiBoActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
@@ -90,8 +92,15 @@ public class MyWeiBoActivity extends BaseActivity implements MyWeiBoActivityView
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
             public void arrowClick(Status status, int position) {
-                MyWeiBoArrowWindow popupWindow = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
-                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                MyWeiBoArrowWindow popupWindow = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
+//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+                ArrowDialog arrowDialog = new MyWeiBoArrowWindow.Builder(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString())
+                        .setCanceledOnTouchOutside(true)
+                        .setCancelable(true)
+                        .create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);

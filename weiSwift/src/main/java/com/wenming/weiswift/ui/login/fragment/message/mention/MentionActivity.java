@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.wenming.weiswift.mvp.presenter.MentionActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.MentionActivityPresentImp;
 import com.wenming.weiswift.mvp.view.MentionActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 import com.wenming.weiswift.ui.login.fragment.message.comment.CommentAdapter;
@@ -116,9 +118,19 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
         mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
             @Override
             public void arrowClick(Status status, int position) {
-                //TODO 完善点击事件
-                MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
-                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
+//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+
+                ArrowDialog arrowDialog = new MentionArrowWindow
+                        .Builder(mContext, status)
+                        .setCanceledOnTouchOutside(true)
+                        .setCancelable(true)
+                        .create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
             }
         };
         mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);
@@ -156,8 +168,16 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
             mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
                 @Override
                 public void arrowClick(Status status, int position) {
-                    MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
-                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                    MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
+//                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+
+                    ArrowDialog arrowDialog = new MentionArrowWindow.Builder(mContext, status)
+                            .setCanceledOnTouchOutside(true)
+                            .setCancelable(true)
+                            .create();
+                    int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                    arrowDialog.show();
+                    arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
             };
             mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);

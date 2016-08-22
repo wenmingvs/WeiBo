@@ -7,19 +7,26 @@ import android.widget.TextView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.view.WeiBoArrowView;
-import com.wenming.weiswift.ui.common.ArrowPopWindow;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 
 /**
  * 设置监听事件
  * Created by xiangflight on 2016/4/22.
  */
-public class MentionArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
+public class MentionArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
     public MentionArrowWindow(Context context, Status status) {
         super(context, status);
     }
 
+    @Override
+    public void initContent() {
+        super.initContent();
+        this.setFavoriteTextContext(mStatus, mFavoriteTextView);
+        this.setFriendShipContext(mStatus, mFriendShipTextView);
+        this.setDeleteViewContent(mStatus, mDeleteTextView);
+    }
 
     /**
      * 设置收藏的TextView的内容，如果收藏了此微博，则显示取消收藏，如果没有收藏，则显示收藏
@@ -79,6 +86,5 @@ public class MentionArrowWindow extends ArrowPopWindow implements WeiBoArrowView
     public void setDeleteViewContent(final Status status, final TextView textView) {
         mDeleteLayout.setVisibility(View.GONE);
         mFriendShipTextView.setBackgroundResource(R.drawable.home_weiboitem_arrow_pop_bottomitem_bg_auto);
-
     }
 }

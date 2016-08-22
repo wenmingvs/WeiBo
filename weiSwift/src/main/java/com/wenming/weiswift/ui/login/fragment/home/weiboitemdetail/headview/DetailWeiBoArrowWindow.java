@@ -7,14 +7,14 @@ import android.widget.TextView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.view.WeiBoArrowView;
-import com.wenming.weiswift.ui.common.ArrowPopWindow;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class DetailWeiBoArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
+public class DetailWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
 
     public DetailWeiBoArrowWindow(Context context, Status status, WeiboAdapter weiboAdapter, int position, String groupName) {

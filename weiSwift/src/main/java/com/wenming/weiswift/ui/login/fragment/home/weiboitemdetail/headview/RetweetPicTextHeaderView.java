@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,7 +15,11 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.FillContent;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
@@ -111,8 +115,13 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         mPopover_arrow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailWeiBoArrowWindow detailWeiBoArrowWindow = new DetailWeiBoArrowWindow(mContext, status);
-                detailWeiBoArrowWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
+                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, status)
+                        .setCanceledOnTouchOutside(true)
+                        .setCancelable(true)
+                        .create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         });
 

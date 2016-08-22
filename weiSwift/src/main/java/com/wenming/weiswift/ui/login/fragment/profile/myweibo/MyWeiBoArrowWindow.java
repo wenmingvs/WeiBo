@@ -5,17 +5,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wenming.weiswift.entity.Status;
-import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent;
-import com.wenming.weiswift.mvp.presenter.imp.WeiBoArrowPresenterImp;
 import com.wenming.weiswift.mvp.view.WeiBoArrowView;
-import com.wenming.weiswift.ui.common.ArrowPopWindow;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class MyWeiBoArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
+public class MyWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
 
     public MyWeiBoArrowWindow(Context context, Status status, WeiboAdapter weiboAdapter, int position, String groupName) {
@@ -64,8 +62,7 @@ public class MyWeiBoArrowWindow extends ArrowPopWindow implements WeiBoArrowView
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(MyWeiBoArrowWindow.this, mWeiboAdapter);
-                    weiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, mItemPosition, mGroupName);
+                    mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, mItemPosition, mGroupName);
                 }
             });
         } else {

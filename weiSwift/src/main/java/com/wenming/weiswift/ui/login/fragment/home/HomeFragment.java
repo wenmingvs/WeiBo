@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
+import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent2;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.BarManager;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HomeFragment extends Fragment implements HomeFragmentView {
+public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDialog.onDialogButtonClick {
 
     private ArrayList<Status> mDatas;
     public Context mContext;
@@ -124,7 +126,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         super.onDestroyView();
     }
 
-    public  HomeFragment() {
+    public HomeFragment() {
     }
 
     /**
@@ -145,8 +147,17 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
             public void arrowClick(Status status, int position) {
-                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString());
-                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString());
+//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+
+                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString())
+                        .setCanceledOnTouchOutside(true)
+                        .setCancelable(true)
+                        .create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.setOnDialogButtonClick(HomeFragment.this);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
@@ -316,6 +327,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     /**
      * 设置顶部导航栏的用户名
+     *
      * @param userName
      */
     @Override
@@ -388,6 +400,36 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     public void setOnBarListener(onButtonBarListener onBarListener) {
         this.mOnButtonBarListener = onBarListener;
     }
+
+    @Override
+    public void onDeleteButtonClick(Status status, int position, WeiBoArrowPresent2 weiBoArrowPresent2, TextView deleteTextView) {
+
+    }
+
+    @Override
+    public void onFriendShipButtonClick(Status status, int position, WeiBoArrowPresent2 weiBoArrowPresent2, TextView friendShipTextView) {
+
+    }
+
+    /**
+     * 设置收藏按钮要执行的事件
+     *
+     * @param status
+     * @param position
+     * @param weiBoArrowPresent2
+     * @param favoriteTextView
+     */
+    @Override
+    public void onFavoriteButtonClick(final Status status, final int position, final WeiBoArrowPresent2 weiBoArrowPresent2, TextView favoriteTextView) {
+        if (status.favorited) {
+            favoriteTextView.setText("取消收藏");
+            weiBoArrowPresent2.cancalFavorite(position, status, mContext, false);
+        } else {
+            favoriteTextView.setText("收藏");
+            weiBoArrowPresent2.createFavorite(status, mContext);
+        }
+    }
+
 
     /**
      * 因为ButotnBar的布局并不在fragment中，而是在MainActivity中，所有隐藏和显示底部导航栏的工作要交给MainActivity去做

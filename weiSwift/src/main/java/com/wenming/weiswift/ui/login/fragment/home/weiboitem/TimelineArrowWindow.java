@@ -6,19 +6,24 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
-import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent;
-import com.wenming.weiswift.mvp.presenter.imp.WeiBoArrowPresenterImp;
 import com.wenming.weiswift.mvp.view.WeiBoArrowView;
-import com.wenming.weiswift.ui.common.ArrowPopWindow;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class TimelineArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
+public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
     public TimelineArrowWindow(Context context, Status status, WeiboAdapter weiboAdapter, int position, String groupName) {
         super(context, status, weiboAdapter, position, groupName);
+    }
+
+    @Override
+    public void initContent() {
+        this.setFavoriteTextContext(mStatus, mFavoriteTextView);
+        this.setFriendShipContext(mStatus, mFriendShipTextView);
+        this.setDeleteViewContent(mStatus, mDeleteTextView);
     }
 
     /**
@@ -82,8 +87,8 @@ public class TimelineArrowWindow extends ArrowPopWindow implements WeiBoArrowVie
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(TimelineArrowWindow.this, mWeiboAdapter);
-                    weiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, mItemPosition, mGroupName);
+                    //WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(TimelineArrowWindow.this, mWeiboAdapter);
+                    mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, mItemPosition, mGroupName);
                 }
             });
         } else {
