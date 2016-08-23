@@ -4,8 +4,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/uxin_call_sdk_incall_backgroud_bg">
+    android:background="@drawable/uxin_call_sdk_incall_backgroud_bg"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/compose_slogan"
@@ -169,7 +169,7 @@
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_alignParentBottom="true"
-        android:background="#fdfdfd">
+        android:background="@color/windowBackground">
 
         <ImageView
             android:id="@+id/compose_close"
