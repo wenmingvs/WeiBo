@@ -22,8 +22,6 @@ import java.util.List;
 public class GirdViewAdapter extends BaseAdapter {
 
     private static DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.message_image_default)
-            .showImageForEmptyUri(R.drawable.message_image_default)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .imageScaleType(ImageScaleType.EXACTLY)
             .considerExifParams(true)
@@ -71,7 +69,6 @@ public class GirdViewAdapter extends BaseAdapter {
     }
 
     private void initializeViews(final ImageInfo imageInfo, final ViewHolder holder, final int position) {
-
         if (imageInfo.isSelected()) {
             holder.select_img.setImageResource(R.drawable.compose_photo_preview_right);
             holder.itemImg.setColorFilter(Color.parseColor("#77000000"));

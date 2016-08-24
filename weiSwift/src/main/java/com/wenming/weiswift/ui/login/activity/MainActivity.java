@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
-       // mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
+        //mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
 
         //LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);

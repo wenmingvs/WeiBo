@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
      */
     private boolean mControlsVisible = true;
 
-    private onButtonBarListener mOnButtonBarListener;
+    private onButtonBarListener mOnBottonBarListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
 
 
     public void initRecyclerView() {
-        mDatas = new ArrayList<Status>();
+        mDatas = new ArrayList<>();
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
             public void arrowClick(Status status, int position) {
@@ -351,18 +351,18 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
             super.onScrolled(recyclerView, dx, dy);
             //手指向上滑动
             if (mScrolledDistance > HIDE_THRESHOLD && mControlsVisible) {
-                if (mOnButtonBarListener != null) {
+                if (mOnBottonBarListener != null) {
                     hideTopBar();
-                    mOnButtonBarListener.hideButtonBar();
+                    mOnBottonBarListener.hideButtonBar();
                 }
                 mControlsVisible = false;
                 mScrolledDistance = 0;
             }
             //手指向下滑动
             else if (mScrolledDistance < -HIDE_THRESHOLD && !mControlsVisible) {
-                if (mOnButtonBarListener != null) {
+                if (mOnBottonBarListener != null) {
                     showTopBar();
-                    mOnButtonBarListener.showButtonBar();
+                    mOnBottonBarListener.showButtonBar();
                 }
                 mControlsVisible = true;
                 mScrolledDistance = 0;
@@ -371,9 +371,17 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
                 mScrolledDistance += dy;
             }
         }
-
-
     };
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            showTopBar();
+            mOnBottonBarListener.showButtonBar();
+            mControlsVisible = true;
+        }
+    }
 
     /**
      * 隐藏底部导航栏
@@ -398,7 +406,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
      * @param onBarListener
      */
     public void setOnBarListener(onButtonBarListener onBarListener) {
-        this.mOnButtonBarListener = onBarListener;
+        this.mOnBottonBarListener = onBarListener;
     }
 
     @Override
