@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-    android:background="@color/home_topbar_bg">
+    android:background="@color/topbar_bg">
 
     <TextView
         android:id="@+id/idea_cancal"
@@ -54,12 +54,12 @@
         android:background="@drawable/compose_send_corners_bg"
         android:gravity="center"
         android:text="发送"
-        android:textColor="#b3b3b3"
+        android:textColor="@color/create_weibo_send_text"
         android:textSize="16sp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/home_topbar_bottom_drive"/>
+        android:background="@color/topbar_bottom_drive"/>
 </RelativeLayout>

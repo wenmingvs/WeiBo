@@ -3,6 +3,7 @@ package com.wenming.weiswift.ui.login.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,7 @@ import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.lang.reflect.Field;
 
@@ -130,11 +132,19 @@ public class MainActivity extends AppCompatActivity {
             setTabFragment(HOME_FRAGMENT);
         }
         setUpListener();
-        StatusBarUtils.from(this)
-                .setTransparentStatusbar(true)
-                .setStatusBarColor(mContext.getResources().getColor(R.color.home_status_bg))
-                .setLightStatusBar(true)
-                .process(this);
+        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        if (!setNightMode) {
+            StatusBarUtils.from(this)
+                    .setTransparentStatusbar(true)
+                    .setStatusBarColor(Color.parseColor("#FFFFFF"))
+                    .setLightStatusBar(true)
+                    .process(this);
+        }else {
+            StatusBarUtils.from(this)
+                    .setTransparentStatusbar(true)
+                    .setStatusBarColor(Color.parseColor("#262626"))
+                    .process(this);
+        }
     }
 
     @Override

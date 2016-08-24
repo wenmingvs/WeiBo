@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/home_topbar_bg">
+    android:background="@color/topbar_bg">
 
     <TextView
         android:id="@+id/cancal"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="相机胶卷"
-            android:textColor="@color/home_topbar_font"
+            android:textColor="@color/topbar_center"
             android:textSize="17sp" />
 
         <ImageView
@@ -66,5 +66,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/home_topbar_bottom_drive" />
+        android:background="@color/topbar_bottom_drive" />
 </RelativeLayout>

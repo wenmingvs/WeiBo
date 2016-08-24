@@ -15,7 +15,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/create_weibo_bg">
 
         <LinearLayout
             android:id="@+id/idea_linearLayout"
@@ -31,7 +31,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="12.5dp"
-                android:background="@color/white"
+                android:background="@color/create_weibo_input_text"
                 android:gravity="top"
                 android:hint="分享新鲜事..."
                 android:inputType="textMultiLine"
