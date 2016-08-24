@@ -3,13 +3,11 @@ package com.wenming.weiswift.ui.login.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.wenming.library.LogReport;
 import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.BarManager;
@@ -28,7 +25,6 @@ import com.wenming.weiswift.ui.login.fragment.message.MessageFragment;
 import com.wenming.weiswift.ui.login.fragment.post.PostActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.ProfileFragment;
 import com.wenming.weiswift.utils.LogUtil;
-import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.lang.reflect.Field;
 
@@ -215,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
      * 1. 切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
      *
      * @param index
-     * @param screenRotate
      */
     private void switchToFragment(String index) {
         mButtonBar.clearAnimation();
