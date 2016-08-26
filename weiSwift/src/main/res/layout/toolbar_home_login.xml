@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_home"
     android:layout_width="match_parent"
     android:layout_height="@dimen/home_weiboitem_topbar_height"
-    android:background="@color/home_topbar_bg">
+    android:background="@color/topbar_bg">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="首页"
-            android:textColor="@color/home_topbar_font"
+            android:textColor="@color/topbar_center"
             android:textSize="20sp" />
 
         <ImageView
@@ -57,5 +57,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/home_topbar_bottom_drive" />
+        android:background="@color/topbar_bottom_drive" />
 </RelativeLayout>

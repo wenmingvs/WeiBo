@@ -32,10 +32,12 @@
     <color name="home_bottombar_topdrive">#292929</color><!--顶部分割线的颜色-->
 
     <!--微博顶部Bar-夜晚 -->
-    <color name="home_topbar_bg">#262626</color><!--顶部Bar的背景样式-->
-    <color name="home_topbar_font">#868686</color><!--顶部Bar字体颜色-->
-    <color name="home_topbar_bottom_drive">#1b1b1b</color><!--顶部Bar的底部分割线-->
-    <color name="home_topbar_font_highlight_bg">#1c1c1c</color><!--顶部Bar的按压颜色-->
+    <color name="topbar_bg">#262626</color><!--顶部Bar的背景样式-->
+    <color name="topbar_center">#868686</color><!--顶部Bar字体颜色-->
+    <color name="topbar_bottom_drive">#1b1b1b</color><!--顶部Bar的底部分割线-->
+    <color name="topbar_center_highlight_bg">#1c1c1c</color><!--顶部Bar的按压颜色-->
+    <color name="topbar_leftright_text">#3c6aa6</color>
+    <color name="topbar_leftright_text_highlight">#2f4159</color>
 
     <!--状态栏-夜晚 -->
     <color name="home_status_bg">#262626</color><!--状态栏的背景样式-->
@@ -61,6 +63,16 @@
     <color name="night_detail_normal_text">#45484a</color>
     <color name="night_detail_highlight_text">#888888</color>
 
+    <!--发微博界面-白天 -->
+    <color name="create_weibo_bg">#FFFFFF</color>
+    <color name="create_weibo_send_text">#b3b3b3</color>
+    <color name="create_weibo_input_text">#FFFFFF</color>
+    <color name="create_weibo_input_hint">#454648</color>
+
+    <!-- toast的背景色 -->
+    <color name="bg_toast">#f79f43</color>
+
+
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->
@@ -68,17 +80,13 @@
     <color name="gray">#808080</color><!--灰色 -->
     <color name="red">#FF0000</color><!--红色 -->
     <color name="black">#000000</color>
-
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
-
     <color name="color_ff">#F0F0F0</color>
     <color name="color_00">#8A000000</color>
     <color name="foldername_highlight">#e7e7e7</color>
 
 
-    <!-- toast的背景色 -->
-    <color name="bg_toast">#f79f43</color>
 
 
 </resources>

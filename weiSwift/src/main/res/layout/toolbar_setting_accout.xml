@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_message"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/home_topbar_bg">
+    android:background="@color/topbar_bg">
 
     <ImageView
         android:id="@+id/toolbar_back"
@@ -24,13 +24,13 @@
         android:layout_margin="8dp"
         android:gravity="center"
         android:text="帐号管理"
-        android:textColor="@color/home_topbar_font"
+        android:textColor="@color/topbar_center"
         android:textSize="20sp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/home_topbar_bottom_drive" />
+        android:background="@color/topbar_bottom_drive" />
 
 </RelativeLayout>
