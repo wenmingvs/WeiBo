@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <application
         android:name=".MyApplication"
@@ -57,7 +57,7 @@
             android:theme="@style/WeiBoHoloWindowTranslucent" />
 
         <activity android:name=".ui.login.fragment.message.mention.MentionActivity"
-           
+
             />
 
         <activity android:name=".ui.login.fragment.message.comment.CommentActivity" />
@@ -84,7 +84,9 @@
 
         <activity android:name=".ui.login.fragment.post.PostActivity" />
 
-        <activity android:name=".ui.login.fragment.post.idea.IdeaActivity" />
+        <activity
+            android:name=".ui.login.fragment.post.idea.IdeaActivity"
+            android:windowSoftInputMode="adjustResize" />
 
 
         <activity

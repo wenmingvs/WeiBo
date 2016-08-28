@@ -7,15 +7,11 @@
 
     <include layout="@layout/toolbar_post_writeweibo" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/create_weibo_bg">
+        android:background="@color/post_bg">
 
         <LinearLayout
             android:id="@+id/idea_linearLayout"
@@ -31,11 +27,13 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="12.5dp"
-                android:background="@color/create_weibo_input_text"
+                android:background="@color/post_bg"
                 android:gravity="top"
                 android:hint="分享新鲜事..."
                 android:inputType="textMultiLine"
                 android:minHeight="100dp"
+                android:textColor="@color/post_text"
+                android:textColorHint="@color/post_hint"
                 android:textSize="@dimen/post_content_font" />
 
             <include layout="@layout/compose_repost_layout" />
@@ -54,12 +52,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white" />
+        android:background="@color/post_bg" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/post_bg"
         android:gravity="center_horizontal"
         android:paddingBottom="9dp"
         android:paddingTop="9dp">
@@ -94,14 +92,12 @@
             android:layout_toLeftOf="@id/publicbutton"
             android:gravity="center"
             android:textColor="#e03f22" />
-
-
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="#f9f9f9"
+        android:background="@color/post_bottomBar_bg"
         android:gravity="center_vertical">
 
         <ImageView
@@ -138,8 +134,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/compose_toolbar_more_auto" />
-
     </LinearLayout>
-
-
 </LinearLayout>

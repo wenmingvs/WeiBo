@@ -9,8 +9,6 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    s
-
     <include layout="@layout/home_weiboitem_titlebar" />
 
     <com.wenming.weiswift.widget.emojitextview.EmojiTextView
