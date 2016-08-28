@@ -9,7 +9,6 @@
     android:background="#f7f7f7"
     android:orientation="horizontal">
 
-
     <ImageView
         android:id="@+id/mentionitem_img"
         android:layout_width="70dp"
