@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->
+    <!-- TopBar 一系列颜色 -->
+    <color name="topbar_bg">#FFFFFF</color><!--顶部Bar的背景样式-->
+    <color name="topbar_center">#545454</color><!--顶部Bar字体颜色-->
+    <color name="topbar_bottom_drive">#e3e3e3</color><!--顶部Bar的底部分割线-->
+    <color name="topbar_center_highlight_bg">#e7e7e7</color><!--顶部Bar的分组的按压颜色-->
+    <color name="topbar_leftright_text">#4c4c4c</color><!--顶部Bar的左右字体的颜色-->
+    <color name="topbar_leftright_text_highlight">#f68008</color><!--顶部Bar的左右字体的高亮颜色-->
     <!-- searchHeadView-白天 -->
     <color name="searchHeadView_toolbar_bg">#E3E4E6</color><!--发现页的toolbar的收缩栏-->
     <color name="searchHeadView_inner_bg">#FFFFFF</color><!--微博的普通背景颜色-->
+    <color name="discover_fragment_searchHeadView_inner_bg">#E3E4E6</color>
+
+    <!--加载的进度条 -->
+    <color name="loadding_footer_bg">#FFFFFF</color><!--底部Loading的背景-->
+    <color name="loadding_footer_text">#8A000000</color><!--底部Loading的文字背景-->
+
+    <!--空的EmptyView -->
+    <color name="empty_bg">#fcfcfc</color>
+    <color name="empty_text">#bcbcbc</color>
+
+    <!--发微博界面 -->
+    <color name="post_bg">#FFFFFF</color>
+    <color name="post_hint">#808080</color>
+    <color name="post_text">#333333</color>
+    <color name="post_bottomBar_bg">#f9f9f9</color>
+    <color name="retweet_weibo_bg">#f7f7f7</color>
+    <color name="retweet_weibo_author">#313131</color>
+    <color name="retweet_weibo_text">#909090</color>
+
+    <!--@我的 -->
+    <color name="center_area_mention_item_bg">#f7f7f7</color>
+    <color name="center_area_mention_item_bg_hightlight">#f0f0f0</color>
+    <color name="center_area_mention_item_author">#313131</color>
+    <color name="center_area_mention_item_text">#909090</color>
+
+    <!--评论我的 -->
+    <color name="center_area_comment_reply_item_bg">#f7f7f7</color>
+    <color name="center_area_comment_reply_item_bg_hightlight">#f0f0f0</color>
+    <color name="center_area_comment_reply_item_text">#5b5b5b</color>
+
+    <color name="center_area_comment_item_bg">#f7f7f7</color>
+    <color name="center_area_comment_item_bg_hightlight">#f0f0f0</color>
+    <color name="center_area_comment_item_author">#313131</color>
+    <color name="center_area_comment_item_text">#909090</color>
 
     <!-- 微博内容颜色-白天 -->
-    <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->
     <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->
     <color name="origin_highlight_bg">#f2f2f2</color><!--微博的按压状态下的背景颜色-->
     <color name="home_weiboitem_title_profile_name">#f46200</color><!--用户名称-->
@@ -31,14 +72,6 @@
     <color name="home_bottombar_font">#929292</color><!--底部bar字体颜色-->
     <color name="home_bottombar_topdrive">#eaeaea</color><!--顶部分割线的颜色-->
 
-    <!--微博顶部Bar-白天 -->
-    <color name="topbar_bg">#FFFFFF</color><!--顶部Bar的背景样式-->
-    <color name="topbar_center">#545454</color><!--顶部Bar字体颜色-->
-    <color name="topbar_bottom_drive">#e3e3e3</color><!--顶部Bar的底部分割线-->
-    <color name="topbar_center_highlight_bg">#e7e7e7</color><!--顶部Bar的按压颜色-->
-    <color name="topbar_leftright_text">#4c4c4c</color>
-    <color name="topbar_leftright_text_highlight">#f68008</color>
-
     <!--状态栏-白天 -->
     <color name="home_status_text">#FFFFFF</color><!--状态栏的的文字样颜色-->
     <color name="home_status_bg">#FFFFFF</color><!--状态栏的的文字样颜色-->
@@ -50,7 +83,6 @@
 
     <!--正在加载时候图片的占位图颜色-白天 -->
     <color name="loadding_img_bg">#E4E4E4</color> <!--正在加载时候图片的占位图颜色-白天 -->
-
 
     <!--微博详细内容-白天 -->
     <!--单条评论的颜色-白天 -->
@@ -84,5 +116,4 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="color_ff">#F0F0F0</color>
-    <color name="color_00">#8A000000</color>
 </resources>

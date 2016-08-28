@@ -12,7 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:text="发现群"
-        android:textColor="@color/topbar_center"
+        android:textColor="@color/topbar_leftright_text"
         android:textSize="18sp" />
 
     <TextView

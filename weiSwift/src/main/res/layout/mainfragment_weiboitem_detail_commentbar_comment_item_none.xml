@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="210dp"
     android:layout_marginBottom="30dp"
-    android:background="@color/windowBackground"
-    android:orientation="vertical"
-    android:visibility="gone">
+    android:background="@color/empty_bg"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
@@ -21,8 +20,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
         android:text="还没有人评论"
-        android:textColor="#bcbcbc"
+        android:textColor="@color/empty_text"
         android:textSize="16sp" />
-
 
 </RelativeLayout>
