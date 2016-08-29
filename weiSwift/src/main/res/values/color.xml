@@ -127,6 +127,14 @@
     <color name="follow_item_constant_comefrom">#919191</color>
     <color name="follow_item_comefrom">#4d80b2</color>
 
+    <color name="follow_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="follow_item_button_follow_alreay">#898989</color><!--已关注 -->
+    <color name="follow_item_button_follow_none">#e98219</color><!--加关注 -->
+
+
+    <!-- account -->
+    <color name="account_item_drive">#e5e5e5</color>
+    <color name="account_item_name">#e5e5e5</color>
 
 
     <color name="white">#FFFFFF</color><!--白色 -->

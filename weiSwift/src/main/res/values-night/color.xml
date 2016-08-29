@@ -117,7 +117,21 @@
     <color name="night_friend_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
     <color name="night_friend_item_button_follow_none">#f79f43</color><!--加关注 -->
 
+    <!--我的粉丝 -->
+    <color name="follow_item_name">#8a8a8a</color>
+    <color name="follow_item_description">#444849</color>
+    <color name="follow_item_button_text">#e98219</color>
 
+    <color name="follow_item_constant_comefrom">#919191</color>
+    <color name="follow_item_comefrom">#4d80b2</color>
+
+    <color name="night_follow_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="night_follow_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
+    <color name="night_follow_item_button_follow_none">#f79f43</color><!--加关注 -->
+
+    <!-- account -->
+    <color name="account_item_drive">#1a1a1a</color>
+    <color name="account_item_name">#868686</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->

@@ -46,7 +46,7 @@
             android:singleLine="true"
             android:text="闭关写代码"
             android:textColor="@color/friend_item_name"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/friend_content"

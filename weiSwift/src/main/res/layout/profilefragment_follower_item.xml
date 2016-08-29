@@ -42,8 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="闭关写代码"
+            android:singleLine="true"
             android:textColor="@color/follow_item_name"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/follower_firstcontent"
@@ -67,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="来自"
                 android:textColor="@color/follow_item_constant_comefrom"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/profile_comefrom"
@@ -76,7 +77,7 @@
                 android:layout_marginLeft="2dp"
                 android:text="微博推荐"
                 android:textColor="@color/follow_item_comefrom"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -108,7 +109,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="加关注"
-            android:textColor="@color/follow_item_button_text"
+            android:textColor="@color/follow_item_button_follow_none"
             android:textSize="10sp" />
 
     </RelativeLayout>
