@@ -43,6 +43,7 @@ import com.wenming.weiswift.ui.login.fragment.post.PostService;
 import com.wenming.weiswift.ui.login.fragment.post.idea.IdeaActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 import com.wenming.weiswift.utils.TimeUtils;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
@@ -671,11 +672,33 @@ public class FillContent {
             profile_name.setVisibility(View.GONE);
             content.setText(retweetstatus.text);
         }
+    }
+
+    /**
+     * 设置评论页的回复评论区域的Bg
+     * @param context
+     * @param layout
+     */
+    public static void setReplyAreaBg(Context context, View layout) {
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(context, "setNightMode", false);
+        if (isNightMode) {
+
+        }else {
+
+        }
+
+    }
+
+    /**
+     * 设置评论页的评论内容的center Bg
+     * @param layout
+     */
+    public static void setReplyContentAreaBg(View layout) {
 
     }
 
     public static void fillCommentCenterContent(final Context context, Comment comment, LinearLayout bg_layout, LinearLayout comment_weibolayout, EmojiTextView mycomment, final CropImageView mentionitem_img, TextView profile_name, TextView content) {
-        //填充我回复的评论
+        //如果存在回复，则需要填充我回复的评论
         if (comment.reply_comment != null) {
             mycomment.setVisibility(View.VISIBLE);
             bg_layout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
@@ -684,7 +707,7 @@ public class FillContent {
             fillWeiBoContent(mycommenttext, context, mycomment);
         } else {
             mycomment.setVisibility(View.GONE);
-            bg_layout.setBackgroundColor(Color.parseColor("#fefefe"));
+            bg_layout.setBackgroundColor(Color.TRANSPARENT);
             comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
         }
 

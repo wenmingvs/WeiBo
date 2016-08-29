@@ -37,14 +37,19 @@
     <color name="center_area_mention_item_text">#909090</color>
 
     <!--评论我的 -->
-    <color name="center_area_comment_reply_item_bg">#f7f7f7</color>
-    <color name="center_area_comment_reply_item_bg_hightlight">#f0f0f0</color>
-    <color name="center_area_comment_reply_item_text">#5b5b5b</color>
+    <color name="comment_reply_item_bg">#f7f7f7</color>
+    <color name="comment_reply_item_bg_hightlight">#f0f0f0</color>
+    <color name="comment_reply_item_text">#5b5b5b</color>
 
-    <color name="center_area_comment_item_bg">#f7f7f7</color>
+    <color name="center_area_comment_item_bg">#fefefe</color>
     <color name="center_area_comment_item_bg_hightlight">#f0f0f0</color>
     <color name="center_area_comment_item_author">#313131</color>
     <color name="center_area_comment_item_text">#909090</color>
+
+    <color name="reply_buttom_bg">#FFFFFF</color>
+    <color name="reply_buttom_highlight_bg">#dcdcdc</color>
+    <color name="reply_buttom_text">#909090</color>
+    <color name="reply_buttom_stoke">#d6d6d6</color>
 
     <!-- 微博内容颜色-白天 -->
     <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->

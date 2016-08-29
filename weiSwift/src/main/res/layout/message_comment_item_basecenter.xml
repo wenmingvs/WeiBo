@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bg_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/center_area_comment_reply_item_bg"
+    android:background="@drawable/home_commentcenter_grey_bg_auto"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="@dimen/home_weiboitem_marginleftright"
@@ -18,7 +17,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="\@闭关写代码:多练练你也就成了老司机了"
-        android:textColor="@color/center_area_comment_reply_item_text"
+        android:textColor="@color/comment_reply_item_text"
         android:textSize="15sp" />
 
     <LinearLayout
@@ -39,7 +38,6 @@
             android:id="@+id/comment_weibolayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/home_retweet_weiboitem_bg_auto"
             android:gravity="center"
             android:orientation="vertical">
 
