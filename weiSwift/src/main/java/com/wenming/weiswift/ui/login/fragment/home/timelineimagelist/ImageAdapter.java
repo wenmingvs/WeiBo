@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
@@ -37,13 +39,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();
-    ;
+    private final ImageSize mSingleImageSize;
+    private final ImageSize mDoubleImgSize;
+    private final ImageSize mThreeImgSize;
 
     public ImageAdapter(Status status, Context context) {
         this.mStatus = status;
         this.mData = status.bmiddle_pic_urls;
         this.mContext = context;
-
+        mSingleImageSize = new ImageSize(ScreenUtil.getScreenWidth(context), (int) (ScreenUtil.getScreenWidth(context) * 0.7));
+        mDoubleImgSize = new ImageSize(ScreenUtil.getScreenWidth(context) / 2, ScreenUtil.getScreenWidth(context) / 2);
+        mThreeImgSize = new ImageSize(ScreenUtil.getScreenWidth(context) / 3,ScreenUtil.getScreenWidth(context) / 3);
     }
 
     @Override
@@ -57,7 +63,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        FillContent.fillImageList(mContext, mStatus, options, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
+        FillContent.fillImageList(mContext, mStatus, options, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel,mSingleImageSize,mDoubleImgSize,mThreeImgSize);
     }
 
     @Override
