@@ -38,7 +38,7 @@
 
     <!--评论我的 -->
     <color name="night_comment_reply_item_bg">#202020</color>
-    <color name="night_comment_reply_item_bg_hightlight">#f0f0f0</color>
+    <color name="night_comment_reply_item_bg_hightlight">#1f1f1f</color>
     <color name="comment_reply_item_text">#5b5b5b</color>
 
     <color name="night_center_area_comment_item_bg">#242424</color>

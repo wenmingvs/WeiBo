@@ -708,7 +708,7 @@ public class FillContent {
         } else {
             mycomment.setVisibility(View.GONE);
             bg_layout.setBackgroundColor(Color.TRANSPARENT);
-            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
+            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_white_bg_auto);
         }
 
         //填充我所评论的微博的内容，包括微博的主人名，微博图片，微博文本内容
