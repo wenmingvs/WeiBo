@@ -75,32 +75,32 @@ public class FriendActivityPresentImp implements FriendActivityPresent {
     }
 
     @Override
-    public void user_destroy(final User user, Context context, final ImageView friendIcon, final TextView friendText) {
+    public void user_destroy(final User user, final Context context, final ImageView friendIcon, final TextView friendText) {
         friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+                mFriendActivityView.updateRealtionShip(context,user, friendIcon, friendText);
                 //mFriendActivityView.disFocusSuccess(friendIcon, friendText);
             }
 
             @Override
             public void onError(String error) {
-                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+                mFriendActivityView.updateRealtionShip(context,user, friendIcon, friendText);
             }
         }, false);
     }
 
     @Override
-    public void user_create(final User user, Context context, final ImageView friendIcon, final TextView friendText) {
+    public void user_create(final User user, final Context context, final ImageView friendIcon, final TextView friendText) {
         friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+                mFriendActivityView.updateRealtionShip(context,user, friendIcon, friendText);
             }
 
             @Override
             public void onError(String error) {
-                mFriendActivityView.updateRealtionShip(user, friendIcon, friendText);
+                mFriendActivityView.updateRealtionShip(context,user, friendIcon, friendText);
             }
         }, false);
     }

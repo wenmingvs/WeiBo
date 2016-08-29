@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/center_area_comment_item_bg_hightlight" android:state_pressed="true" />
+    <item android:drawable="@color/center_area_noreply_comment_item_bg" />
+</selector>

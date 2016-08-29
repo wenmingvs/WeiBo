@@ -45,7 +45,7 @@ public abstract class FollowerAdapter extends RecyclerView.Adapter<ViewHolder> {
         FillContent.setWeiBoName(((FollowerViewHolder) holder).followerName, mDatas.get(position));
         FillContent.fillFollowerDescription(mDatas.get(position), ((FollowerViewHolder) holder).follower_firstcontent);
         FillContent.setFollowerComeFrom(((FollowerViewHolder) holder).profile_comefrom, mDatas.get(position).status);
-        FillContent.updateRealtionShip(mDatas.get(position), ((FollowerViewHolder) holder).follwerIcon, ((FollowerViewHolder) holder).follwerText);
+        FillContent.updateRealtionShip(mContext,mDatas.get(position), ((FollowerViewHolder) holder).follwerIcon, ((FollowerViewHolder) holder).follwerText);
 
         //设置点击事件
         ((FollowerViewHolder) holder).follower_layout.setOnClickListener(new View.OnClickListener() {

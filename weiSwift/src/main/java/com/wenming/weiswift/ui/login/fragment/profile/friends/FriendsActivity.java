@@ -149,8 +149,8 @@ public class FriendsActivity extends BaseActivity implements FriendActivityView 
 
 
     @Override
-    public void updateRealtionShip(User user, ImageView icon, TextView text) {
-        FillContent.updateRealtionShip(user, icon, text);
+    public void updateRealtionShip(Context context,User user, ImageView icon, TextView text) {
+        FillContent.updateRealtionShip(context,user, icon, text);
     }
 
 

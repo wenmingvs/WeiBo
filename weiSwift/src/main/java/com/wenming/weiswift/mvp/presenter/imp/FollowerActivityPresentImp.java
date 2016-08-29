@@ -74,31 +74,31 @@ public class FollowerActivityPresentImp implements FollowerActivityPresent {
     }
 
     @Override
-    public void user_destroy(final User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+    public void user_destroy(final User user, final Context context, final ImageView follwerIcon, final TextView follwerText) {
         friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(context,user, follwerIcon, follwerText);
             }
 
             @Override
             public void onError(String error) {
-                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(context,user, follwerIcon, follwerText);
             }
         }, true);
     }
 
     @Override
-    public void user_create(final User user, Context context, final ImageView follwerIcon, final TextView follwerText) {
+    public void user_create(final User user, final Context context, final ImageView follwerIcon, final TextView follwerText) {
         friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
             @Override
             public void onSuccess() {
-                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(context,user, follwerIcon, follwerText);
             }
 
             @Override
             public void onError(String error) {
-                mFollowActivityView.updateRealtionShip(user, follwerIcon, follwerText);
+                mFollowActivityView.updateRealtionShip(context,user, follwerIcon, follwerText);
             }
         }, true);
     }

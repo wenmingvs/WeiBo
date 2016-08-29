@@ -180,20 +180,38 @@ public class FillContent {
         }
     }
 
-    public static void updateRealtionShip(User user, ImageView icon, TextView text) {
-        if (user.follow_me && user.following) {
-            icon.setImageResource(R.drawable.card_icon_arrow);
-            text.setText("互相关注");
-            text.setTextColor(Color.parseColor("#5788BF"));
-        } else if (user.following) {
-            icon.setImageResource(R.drawable.card_icon_attention);
-            text.setText("已关注");
-            text.setTextColor(Color.parseColor("#000000"));
+    public static void updateRealtionShip(Context context, User user, ImageView icon, TextView text) {
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(context, "setNightMode", false);
+        if (!isNightMode) {
+            if (user.follow_me && user.following) {
+                icon.setImageResource(R.drawable.card_icon_arrow);
+                text.setText("互相关注");
+                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_each_other));
+            } else if (user.following) {
+                icon.setImageResource(R.drawable.card_icon_attention);
+                text.setText("已关注");
+                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_alreay));
+            } else {
+                icon.setImageResource(R.drawable.card_icon_addattention);
+                text.setText("加关注");
+                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_none));
+            }
         } else {
-            icon.setImageResource(R.drawable.card_icon_addattention);
-            text.setText("加关注");
-            text.setTextColor(Color.parseColor("#e98219"));
+            if (user.follow_me && user.following) {
+                icon.setImageResource(R.drawable.card_icon_arrow);
+                text.setText("互相关注");
+                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_each_other));
+            } else if (user.following) {
+                icon.setImageResource(R.drawable.card_icon_attention);
+                text.setText("已关注");
+                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_alreay));
+            } else {
+                icon.setImageResource(R.drawable.card_icon_addattention);
+                text.setText("加关注");
+                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_none));
+            }
         }
+
 
     }
 
@@ -676,6 +694,7 @@ public class FillContent {
 
     /**
      * 设置评论页的回复评论区域的Bg
+     *
      * @param context
      * @param layout
      */
@@ -683,7 +702,7 @@ public class FillContent {
         boolean isNightMode = (boolean) SharedPreferencesUtil.get(context, "setNightMode", false);
         if (isNightMode) {
 
-        }else {
+        } else {
 
         }
 
@@ -691,6 +710,7 @@ public class FillContent {
 
     /**
      * 设置评论页的评论内容的center Bg
+     *
      * @param layout
      */
     public static void setReplyContentAreaBg(View layout) {
@@ -708,7 +728,7 @@ public class FillContent {
         } else {
             mycomment.setVisibility(View.GONE);
             bg_layout.setBackgroundColor(Color.TRANSPARENT);
-            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_white_bg_auto);
+            comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_white_noreply_bg_auto);
         }
 
         //填充我所评论的微博的内容，包括微博的主人名，微博图片，微博文本内容

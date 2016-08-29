@@ -42,6 +42,8 @@
     <color name="comment_reply_item_text">#5b5b5b</color>
 
     <color name="center_area_comment_item_bg">#fefefe</color>
+
+    <color name="center_area_noreply_comment_item_bg">#f7f7f7</color>
     <color name="center_area_comment_item_bg_hightlight">#f0f0f0</color>
     <color name="center_area_comment_item_author">#313131</color>
     <color name="center_area_comment_item_text">#909090</color>
@@ -110,6 +112,21 @@
 
     <!-- toast的背景色 -->
     <color name="bg_toast">#f79f43</color>
+
+    <!--我的关注 -->
+    <color name="friend_item_name">#343434</color>
+    <color name="friend_item_description">#939393</color>
+    <color name="friend_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="friend_item_button_follow_alreay">#898989</color><!--已关注 -->
+    <color name="friend_item_button_follow_none">#e98219</color><!--加关注 -->
+
+    <!--我的粉丝 -->
+    <color name="follow_item_name">#343434</color>
+    <color name="follow_item_description">#595959</color>
+    <color name="follow_item_button_text">#e98219</color>
+    <color name="follow_item_constant_comefrom">#919191</color>
+    <color name="follow_item_comefrom">#4d80b2</color>
+
 
 
     <color name="white">#FFFFFF</color><!--白色 -->

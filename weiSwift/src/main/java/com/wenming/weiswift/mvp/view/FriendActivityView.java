@@ -1,5 +1,6 @@
 package com.wenming.weiswift.mvp.view;
 
+import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,5 +44,5 @@ public interface FriendActivityView {
      */
     public void showErrorFooterView();
 
-    public void updateRealtionShip(User user, ImageView icon, TextView text);
+    public void updateRealtionShip(Context context, User user, ImageView icon, TextView text);
 }
