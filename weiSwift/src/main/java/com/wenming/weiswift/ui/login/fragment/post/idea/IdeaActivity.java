@@ -332,18 +332,18 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
 
     private void pressSendButton() {
         mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_press_bg);
-        mSendButton.setTextColor(Color.parseColor("#ebeef3"));
+        mSendButton.setTextColor(getResources().getColor(R.color.press_send_button_text));
     }
 
     private void highlightSendButton() {
         mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_bg);
-        mSendButton.setTextColor(Color.parseColor("#fbffff"));
+        mSendButton.setTextColor(getResources().getColor(R.color.enable_send_button_text));
         mSendButton.setEnabled(true);
     }
 
     private void sendNormal() {
         mSendButton.setBackgroundResource(R.drawable.compose_send_corners_bg);
-        mSendButton.setTextColor(Color.parseColor("#b3b3b3"));
+        mSendButton.setTextColor(getResources().getColor(R.color.unable_send_button_text));
         mSendButton.setEnabled(false);
     }
 
@@ -422,14 +422,14 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         long length = calculateWeiboLength(content);
         if (length > TEXT_LIMIT) {
             long outOfNum = length - TEXT_LIMIT;
-            limitTextView.setTextColor(Color.parseColor("#e03f22"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_outofrange));
             limitTextView.setText("-" + outOfNum + "");
         } else if (length == TEXT_LIMIT) {
             limitTextView.setText(0 + "");
-            limitTextView.setTextColor(Color.parseColor("#929292"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_warning));
         } else if (TEXT_LIMIT - length <= TEXT_REMIND) {
             limitTextView.setText(TEXT_LIMIT - length + "");
-            limitTextView.setTextColor(Color.parseColor("#929292"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_warning));
         } else {
             limitTextView.setText("");
         }

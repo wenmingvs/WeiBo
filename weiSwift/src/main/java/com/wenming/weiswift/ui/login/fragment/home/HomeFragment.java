@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
     /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
      */
-    private static final int HIDE_THRESHOLD = 80;
+    private static  int sHideThreshold ;
     /**
      * 记录手指滑动的距离
      */
@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
         mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
         mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity");
-
+        sHideThreshold = DensityUtil.dp2px(mContext,20);
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mTopBar = (RelativeLayout) mView.findViewById(R.id.toolbar_home);
@@ -336,6 +336,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
     }
 
 
+    private static final int SHOW_THRESHOLD = 80;
+
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
@@ -350,7 +352,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             //手指向上滑动
-            if (mScrolledDistance > HIDE_THRESHOLD && mControlsVisible) {
+            if (mScrolledDistance > sHideThreshold && mControlsVisible) {
                 if (mOnBottonBarListener != null) {
                     hideTopBar();
                     mOnBottonBarListener.hideButtonBar();
@@ -359,7 +361,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
                 mScrolledDistance = 0;
             }
             //手指向下滑动
-            else if (mScrolledDistance < -HIDE_THRESHOLD && !mControlsVisible) {
+            else if (mScrolledDistance < -SHOW_THRESHOLD && !mControlsVisible) {
                 if (mOnBottonBarListener != null) {
                     showTopBar();
                     mOnBottonBarListener.showButtonBar();

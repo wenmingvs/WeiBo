@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.StatusBarUtils;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 
@@ -92,6 +94,11 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                 }
             }
         });
+
+        StatusBarUtils.from(this)
+                .setTransparentStatusbar(true)
+                .setStatusBarColor(getResources().getColor(R.color.black))
+                .process(this);
 
     }
 

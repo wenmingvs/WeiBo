@@ -26,9 +26,17 @@
     <color name="post_hint">#444849</color>
     <color name="post_text">#8a8a8a</color>
     <color name="post_bottomBar_bg">#1a1a1a</color>
+
     <color name="retweet_weibo_bg">#242424</color>
     <color name="retweet_weibo_author">#8a8a8a</color>
     <color name="retweet_weibo_text">#4f4f4f</color>
+
+    <color name="night_send_button_bg">#272727</color>
+    <color name="night_send_button_stoke">#141414</color>
+
+    <color name="unable_send_button_text">#b3b3b3</color>
+    <color name="create_weibo_input_text">#FFFFFF</color>
+    <color name="create_weibo_input_hint">#454648</color>
 
     <!--@我的 -->
     <color name="night_center_area_mention_item_bg">#242424</color>
@@ -101,11 +109,7 @@
     <color name="night_detail_normal_text">#45484a</color>
     <color name="night_detail_highlight_text">#888888</color>
 
-    <!--发微博界面-白天 -->
-    <color name="create_weibo_bg">#FFFFFF</color>
-    <color name="create_weibo_send_text">#b3b3b3</color>
-    <color name="create_weibo_input_text">#FFFFFF</color>
-    <color name="create_weibo_input_hint">#454648</color>
+
 
     <!-- toast的背景色 -->
     <color name="bg_toast">#f79f43</color>
@@ -132,6 +136,13 @@
     <!-- account -->
     <color name="account_item_drive">#1a1a1a</color>
     <color name="account_item_name">#868686</color>
+
+    <!--user详情页 -->
+    <color name="user_topbar_bg">#1d1d1d</color> <!--基本，微博，相册的bar的背景 -->
+    <color name="user_topbar_text">#434748</color> <!--基本，微博，相册的bar的文字 -->
+    <color name="user_topbar_text_highlight">#8a8a8a</color> <!--基本，微博，相册的bar的高亮文字 -->
+    <color name="user_topbar_text_drive">#236ead</color> <!--基本，微博，相册的bar的文字底部的高亮条 -->
+    <color name="user_topbar_driver">#171717</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->

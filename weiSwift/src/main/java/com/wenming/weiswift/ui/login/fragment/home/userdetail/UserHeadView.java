@@ -92,21 +92,22 @@ public abstract class UserHeadView extends RelativeLayout {
         userInfoIndicator.setVisibility(View.INVISIBLE);
         weiboIndicator.setVisibility(View.INVISIBLE);
         photoIndicator.setVisibility(View.INVISIBLE);
-        homepageTextview.setTextColor(Color.parseColor("#929292"));
-        weiboTextview.setTextColor(Color.parseColor("#929292"));
-        photoTextview.setTextColor(Color.parseColor("#929292"));
+
+        homepageTextview.setTextColor(getResources().getColor(R.color.user_topbar_text));
+        weiboTextview.setTextColor(getResources().getColor(R.color.user_topbar_text));
+        photoTextview.setTextColor(getResources().getColor(R.color.user_topbar_text));
 
         switch (group) {
             case UserActivity.USER_ACTIVITY_USER_INFO:
-                homepageTextview.setTextColor(Color.parseColor("#2f2f2f"));
+                homepageTextview.setTextColor(getResources().getColor(R.color.user_topbar_text_highlight));
                 userInfoIndicator.setVisibility(View.VISIBLE);
                 break;
             case UserActivity.USER_ACTIVITY_USER_STATUS:
-                weiboTextview.setTextColor(Color.parseColor("#2f2f2f"));
+                weiboTextview.setTextColor(getResources().getColor(R.color.user_topbar_text_highlight));
                 weiboIndicator.setVisibility(View.VISIBLE);
                 break;
             case UserActivity.USER_ACTIVITY__USER_PHOTO:
-                photoTextview.setTextColor(Color.parseColor("#2f2f2f"));
+                photoTextview.setTextColor(getResources().getColor(R.color.user_topbar_text_highlight));
                 photoIndicator.setVisibility(View.VISIBLE);
                 break;
         }

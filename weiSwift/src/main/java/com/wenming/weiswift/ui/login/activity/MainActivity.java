@@ -3,7 +3,6 @@ package com.wenming.weiswift.ui.login.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -132,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
             setTabFragment(HOME_FRAGMENT);
         }
         setUpListener();
-        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
-        if (!setNightMode) {
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        if (!isNightMode) {
             StatusBarUtils.from(this)
                     .setTransparentStatusbar(true)
-                    .setStatusBarColor(Color.parseColor("#FFFFFF"))
+                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
                     .setLightStatusBar(true)
                     .process(this);
-        }else {
+        } else {
             StatusBarUtils.from(this)
                     .setTransparentStatusbar(true)
-                    .setStatusBarColor(Color.parseColor("#262626"))
+                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
                     .process(this);
         }
     }

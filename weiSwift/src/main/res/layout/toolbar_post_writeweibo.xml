@@ -54,7 +54,7 @@
         android:background="@drawable/compose_send_corners_bg"
         android:gravity="center"
         android:text="发送"
-        android:textColor="@color/create_weibo_send_text"
+        android:textColor="@color/unable_send_button_text"
         android:textSize="16sp" />
 
     <ImageView

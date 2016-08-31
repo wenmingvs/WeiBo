@@ -483,126 +483,36 @@ public class FillContent {
      * @param norImg
      * @param gifImg
      * @param imageLabel
-     * @param mSingleImageSize
-     * @param mDoubleImgSize
-     * @param mThreeImgSize
      */
-    public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel, ImageSize mSingleImageSize, ImageSize mDoubleImgSize, ImageSize mThreeImgSize) {
+    public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         final ArrayList<String> urllist = status.bmiddle_pic_urls;
-        if (urllist.size() == 1) {
-            ImageLoader.getInstance().loadImage(urllist.get(position), mSingleImageSize, options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    setLabelForGif(urllist.get(position), imageLabel);
-                }
+        ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                setLabelForGif(urllist.get(position), imageLabel);
+            }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                    File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                    if (imageUri.endsWith(".gif")) {
-                        gifImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayGif(file, gifImg, imageLabel);
-                    } else if (isLongImg(file, bitmap)) {
-                        longImg.setVisibility(View.VISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayLongPic(file, bitmap, longImg, imageLabel);
-                    } else {
-                        norImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        displayNorImg(file, bitmap, norImg, imageLabel);
-                    }
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
+                File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
+                if (imageUri.endsWith(".gif")) {
+                    gifImg.setVisibility(View.VISIBLE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    norImg.setVisibility(View.INVISIBLE);
+                    displayGif(file, gifImg, imageLabel);
+                } else if (isLongImg(file, bitmap)) {
+                    longImg.setVisibility(View.VISIBLE);
+                    gifImg.setVisibility(View.INVISIBLE);
+                    norImg.setVisibility(View.INVISIBLE);
+                    displayLongPic(file, bitmap, longImg, imageLabel);
+                } else {
+                    norImg.setVisibility(View.VISIBLE);
+                    longImg.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.INVISIBLE);
+                    displayNorImg(file, bitmap, norImg, imageLabel);
                 }
-            });
-        }else if (urllist.size() == 2 || urllist.size() == 4){
-            ImageLoader.getInstance().loadImage(urllist.get(position), mDoubleImgSize, options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    setLabelForGif(urllist.get(position), imageLabel);
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                    File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                    if (imageUri.endsWith(".gif")) {
-                        gifImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayGif(file, gifImg, imageLabel);
-                    } else if (isLongImg(file, bitmap)) {
-                        longImg.setVisibility(View.VISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayLongPic(file, bitmap, longImg, imageLabel);
-                    } else {
-                        norImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        displayNorImg(file, bitmap, norImg, imageLabel);
-                    }
-                }
-            });
-        }else if (urllist.size()== 3 || urllist.size() >= 5){
-            ImageLoader.getInstance().loadImage(urllist.get(position), mThreeImgSize, options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    setLabelForGif(urllist.get(position), imageLabel);
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                    File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                    if (imageUri.endsWith(".gif")) {
-                        gifImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayGif(file, gifImg, imageLabel);
-                    } else if (isLongImg(file, bitmap)) {
-                        longImg.setVisibility(View.VISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayLongPic(file, bitmap, longImg, imageLabel);
-                    } else {
-                        norImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        displayNorImg(file, bitmap, norImg, imageLabel);
-                    }
-                }
-            });
-        }else {
-            ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    setLabelForGif(urllist.get(position), imageLabel);
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                    File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                    if (imageUri.endsWith(".gif")) {
-                        gifImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayGif(file, gifImg, imageLabel);
-                    } else if (isLongImg(file, bitmap)) {
-                        longImg.setVisibility(View.VISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        norImg.setVisibility(View.INVISIBLE);
-                        displayLongPic(file, bitmap, longImg, imageLabel);
-                    } else {
-                        norImg.setVisibility(View.VISIBLE);
-                        longImg.setVisibility(View.INVISIBLE);
-                        gifImg.setVisibility(View.INVISIBLE);
-                        displayNorImg(file, bitmap, norImg, imageLabel);
-                    }
-                }
-            });
-        }
-
+            }
+        });
         longImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

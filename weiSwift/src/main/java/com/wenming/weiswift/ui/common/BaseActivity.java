@@ -20,18 +20,17 @@ public class BaseActivity extends SwipeBackActivity {
         getSwipeBackLayout().setSwipeMode(SwipeBackLayout.FULL_SCREEN_LEFT);
         getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         getSwipeBackLayout().setSensitivity(BaseActivity.this, 0.3f);
-        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
-        if (!setNightMode) {
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        if (!isNightMode) {
             StatusBarUtils.from(this)
                     .setTransparentStatusbar(true)
-                    .setStatusBarColor(Color.parseColor("#FFFFFF"))
+                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
                     .setLightStatusBar(true)
                     .process(this);
-        }else {
+        } else {
             StatusBarUtils.from(this)
                     .setTransparentStatusbar(true)
-                    .setStatusBarColor(Color.parseColor("#262626"))
-                    .setLightStatusBar(true)
+                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
                     .process(this);
         }
 
