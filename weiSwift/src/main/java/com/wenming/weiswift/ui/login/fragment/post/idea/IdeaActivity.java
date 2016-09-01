@@ -118,7 +118,6 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         initContent();
         setUpListener();
         mEditText.setTag(false);
-        mSendButton.setEnabled(false);
         if (getIntent().getBooleanExtra("startAlumbAcitivity", false) == true) {
             Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
@@ -128,6 +127,7 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
             @Override
             public void run() {
                 setLimitTextColor(mLimitTextView, mEditText.getText().toString());
+                KeyBoardUtil.openKeybord(mEditText,mContext);
                 mEditText.requestFocus();
             }
         });

@@ -33,6 +33,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
     private SettingActivityPresent mSettingActivityPresent;
     private RelativeLayout mAccountLayout;
     private CheckBox mCheckBox;
+    private RelativeLayout mNightModeRl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
         mClearCache = (RelativeLayout) findViewById(R.id.clearCache_layout);
         mAccountLayout = (RelativeLayout) findViewById(R.id.accoutlayout);
         mCheckBox = (CheckBox) findViewById(R.id.nightMode_cb);
+        mNightModeRl = (RelativeLayout) findViewById(R.id.nightmode_rl);
         initView();
         setUpListener();
     }
@@ -99,6 +101,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if (isChecked) {
                     SharedPreferencesUtil.put(mContext, "setNightMode", true);
                     getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -109,6 +112,18 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
                 ((MyApplication) mContext.getApplicationContext()).recreateAll();
             }
         });
+
+        mNightModeRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCheckBox.isChecked()){
+                    mCheckBox.setChecked(false);
+                }else {
+                    mCheckBox.setChecked(true);
+                }
+            }
+        });
+
     }
 
 
