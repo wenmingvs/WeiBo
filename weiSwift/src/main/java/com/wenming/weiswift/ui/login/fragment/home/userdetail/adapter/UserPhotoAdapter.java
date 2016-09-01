@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +29,8 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.View
         this.bmiddle_pic_urls = bmiddle_pic_urls;
         this.mContext = context;
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.message_image_default)
-                .showImageForEmptyUri(R.drawable.message_image_default)
-                .showImageOnFail(R.drawable.message_image_default)
                 .imageScaleType(ImageScaleType.NONE_SAFE)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)

@@ -35,19 +35,23 @@
     <!--<color name="night_send_button_stoke">#141414</color>-->
 
     <!-- 发送按钮在普通状态下，不可点击 -->
-    <color name="normal_send_button_bg">#FFFFFF</color>
-    <color name="normal_send_button_stoke">#cbcbcb</color>
-    <color name="normal_send_button_text">#b3b3b3</color>
+    <color name="normal_send_button_bg">#272727</color>
+    <color name="normal_send_button_stoke">#141414</color>
+    <color name="normal_send_button_text">#4d4d4d</color>
 
     <!-- 发送按钮在按压状态下 -->
-    <color name="press_send_button_bg">#df7500</color>
-    <color name="press_send_button_stoke">#df7500</color>
-    <color name="press_send_button_text">#ffecd3</color>
+    <color name="press_send_button_bg">#00386b</color>
+    <color name="press_send_button_stoke">#00386b</color>
+    <color name="press_send_button_text">#7f9fb5</color>
 
     <!-- 发送按钮在可以点击的状态下 -->
-    <color name="highlight_send_button_bg">#fe8300</color>
-    <color name="highlight_send_button_stoke">#fe8300</color>
-    <color name="highlight_send_button_text">#fbffff</color>
+    <color name="highlight_send_button_bg">#1f6eac</color>
+    <color name="highlight_send_button_stoke">#1f6eac</color>
+    <color name="highlight_send_button_text">#bcd5e4</color>
+
+    <color name="cancel_text">#898989</color><!--取消按钮文本颜色 -->
+    <color name="middle_send_text">#868686</color><!--topbar中间区域 发微博文本颜色 -->
+    <color name="middle_username_text">#4e4e4e</color><!--topbar中间区域 用户名文本颜色 -->
 
     <color name="create_weibo_input_text">#FFFFFF</color>
     <color name="create_weibo_input_hint">#454648</color>
@@ -157,6 +161,12 @@
     <color name="user_topbar_text_highlight">#8a8a8a</color> <!--基本，微博，相册的bar的高亮文字 -->
     <color name="user_topbar_text_drive">#236ead</color> <!--基本，微博，相册的bar的文字底部的高亮条 -->
     <color name="user_topbar_driver">#171717</color>
+
+    <color name="user_homepage_item_bg">#1d1d1d</color>
+    <color name="user_homepage_item_bg_hight">#1a1a1a</color>
+    <color name="user_homepage_drive">#0e0e0e</color>
+    <color name="user_homepage_key">#4e4e4e</color>
+    <color name="user_homepage_value">#898989</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->

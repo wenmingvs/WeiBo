@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="47dp"
-    android:background="@drawable/message_item_auto"
+    android:background="@drawable/user_homepage_item_auto"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="更多基本资料"
-        android:textColor="#919191" />
+        android:textColor="@color/user_homepage_key" />
 
     <ImageView
         android:layout_width="337dp"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#ececec" />
+        android:background="@color/user_homepage_drive" />
 </RelativeLayout>
 

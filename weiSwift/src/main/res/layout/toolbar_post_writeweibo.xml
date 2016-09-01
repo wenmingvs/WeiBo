@@ -13,7 +13,7 @@
         android:clickable="true"
         android:padding="10dp"
         android:text="取消"
-        android:textColor="@color/toolbar_textview_background_auto"
+        android:textColor="@color/cancel_text"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发微博"
-            android:textColor="#545454"
+            android:textColor="@color/middle_send_text"
             android:textSize="17sp" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="闭关写代码"
-            android:textColor="#b6b6b6"
+            android:textColor="@color/middle_username_text"
             android:textSize="12sp" />
 
     </LinearLayout>
