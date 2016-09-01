@@ -184,12 +184,12 @@ public class AlbumActivity extends BaseActivity implements ImgFolderPopWindow.On
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void changeSendButtonBg(TextView textView, int length) {
         if (length > 0) {
-            textView.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_highlight_bg));
+            textView.setBackground(getResources().getDrawable(R.drawable.highlight_send_button_bg));
             textView.setTextColor(Color.parseColor("#fbffff"));
             textView.setText("下一步(" + length + ")");
             textView.setEnabled(true);
         } else {
-            textView.setBackground(getResources().getDrawable(R.drawable.compose_send_corners_bg));
+            textView.setBackground(getResources().getDrawable(R.drawable.normal_send_button_bg));
             textView.setTextColor(Color.parseColor("#b3b3b3"));
             textView.setText("下一步");
             textView.setEnabled(false);

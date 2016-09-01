@@ -32,19 +32,19 @@
     <color name="retweet_weibo_text">#909090</color>
 
     <!-- 发送按钮在普通状态下，不可点击 -->
-    <color name="unable_send_button_bg">#FFFFFF</color>
-    <color name="unable_send_button_stoke">#cbcbcb</color>
-    <color name="unable_send_button_text">#b3b3b3</color>
+    <color name="normal_send_button_bg">#272727</color>
+    <color name="normal_send_button_stoke">#cbcbcb</color>
+    <color name="normal_send_button_text">#4d4d4d</color>
 
     <!-- 发送按钮在按压状态下 -->
-    <color name="press_send_button_bg">#fe8300</color>
-    <color name="press_send_button_stoke">#fe8300</color>
-    <color name="press_send_button_text">#ebeef3</color>
+    <color name="press_send_button_bg">#df7500</color>
+    <color name="press_send_button_stoke">#df7500</color>
+    <color name="press_send_button_text">#ffecd3</color>
 
     <!-- 发送按钮在可以点击的状态下 -->
-    <color name="enable_send_button_bg">#fe8300</color>
-    <color name="enable_send_button_stoke">#fe8300</color>
-    <color name="enable_send_button_text">#fbffff</color>
+    <color name="highlight_send_button_bg">#fe8300</color>
+    <color name="highlight_send_button_stoke">#fe8300</color>
+    <color name="highlight_send_button_text">#fbffff</color>
 
 
     <color name="create_weibo_input_text">#FFFFFF</color>
