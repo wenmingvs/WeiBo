@@ -26,9 +26,31 @@
     <color name="post_hint">#444849</color>
     <color name="post_text">#8a8a8a</color>
     <color name="post_bottomBar_bg">#1a1a1a</color>
+
     <color name="retweet_weibo_bg">#242424</color>
     <color name="retweet_weibo_author">#8a8a8a</color>
     <color name="retweet_weibo_text">#4f4f4f</color>
+
+    <!--<color name="night_send_button_bg">#272727</color>-->
+    <!--<color name="night_send_button_stoke">#141414</color>-->
+
+    <!-- 发送按钮在普通状态下，不可点击 -->
+    <color name="normal_send_button_bg">#FFFFFF</color>
+    <color name="normal_send_button_stoke">#cbcbcb</color>
+    <color name="normal_send_button_text">#b3b3b3</color>
+
+    <!-- 发送按钮在按压状态下 -->
+    <color name="press_send_button_bg">#df7500</color>
+    <color name="press_send_button_stoke">#df7500</color>
+    <color name="press_send_button_text">#ffecd3</color>
+
+    <!-- 发送按钮在可以点击的状态下 -->
+    <color name="highlight_send_button_bg">#fe8300</color>
+    <color name="highlight_send_button_stoke">#fe8300</color>
+    <color name="highlight_send_button_text">#fbffff</color>
+
+    <color name="create_weibo_input_text">#FFFFFF</color>
+    <color name="create_weibo_input_hint">#454648</color>
 
     <!--@我的 -->
     <color name="night_center_area_mention_item_bg">#242424</color>
@@ -37,14 +59,19 @@
     <color name="center_area_mention_item_text">#4f4f4f</color>
 
     <!--评论我的 -->
-    <color name="center_area_comment_reply_item_bg">#262626</color>
-    <color name="center_area_comment_reply_item_bg_hightlight">#f0f0f0</color>
-    <color name="center_area_comment_reply_item_text">#5b5b5b</color>
+    <color name="night_comment_reply_item_bg">#1f1f1f</color>
+    <color name="night_comment_reply_item_bg_hightlight">#1c1c1c</color>
+    <color name="comment_reply_item_text">#5b5b5b</color>
 
     <color name="night_center_area_comment_item_bg">#242424</color>
     <color name="night_center_area_comment_item_bg_hightlight">#1f1f1f</color>
     <color name="center_area_comment_item_author">#8a8a8a</color>
     <color name="center_area_comment_item_text">#4f4f4f</color>
+    
+    <color name="night_reply_buttom_bg">#272727</color>
+    <color name="night_reply_buttom_highlight_bg">#1f1f1f</color>
+    <color name="night_reply_buttom_text">#4f4f4f</color>
+    <color name="night_reply_buttom_stoke">#131313</color>
 
     <!-- 原创微博内容颜色-夜晚-->
     <color name="night_origin_nor_bg">#262626</color><!--普通背景颜色-->
@@ -96,15 +123,40 @@
     <color name="night_detail_normal_text">#45484a</color>
     <color name="night_detail_highlight_text">#888888</color>
 
-    <!--发微博界面-白天 -->
-    <color name="create_weibo_bg">#FFFFFF</color>
-    <color name="create_weibo_send_text">#b3b3b3</color>
-    <color name="create_weibo_input_text">#FFFFFF</color>
-    <color name="create_weibo_input_hint">#454648</color>
+
 
     <!-- toast的背景色 -->
     <color name="bg_toast">#f79f43</color>
 
+    <!--我的关注 -->
+    <color name="friend_item_name">#8a8a8a</color>
+    <color name="friend_item_description">#444849</color>
+    <color name="night_friend_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="night_friend_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
+    <color name="night_friend_item_button_follow_none">#f79f43</color><!--加关注 -->
+
+    <!--我的粉丝 -->
+    <color name="follow_item_name">#8a8a8a</color>
+    <color name="follow_item_description">#444849</color>
+    <color name="follow_item_button_text">#e98219</color>
+
+    <color name="follow_item_constant_comefrom">#919191</color>
+    <color name="follow_item_comefrom">#4d80b2</color>
+
+    <color name="night_follow_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="night_follow_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
+    <color name="night_follow_item_button_follow_none">#f79f43</color><!--加关注 -->
+
+    <!-- account -->
+    <color name="account_item_drive">#1a1a1a</color>
+    <color name="account_item_name">#868686</color>
+
+    <!--user详情页 -->
+    <color name="user_topbar_bg">#1d1d1d</color> <!--基本，微博，相册的bar的背景 -->
+    <color name="user_topbar_text">#434748</color> <!--基本，微博，相册的bar的文字 -->
+    <color name="user_topbar_text_highlight">#8a8a8a</color> <!--基本，微博，相册的bar的高亮文字 -->
+    <color name="user_topbar_text_drive">#236ead</color> <!--基本，微博，相册的bar的文字底部的高亮条 -->
+    <color name="user_topbar_driver">#171717</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="orange">#FFA500</color><!--橙色 -->

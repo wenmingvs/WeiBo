@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="71dp"
-    android:layout_marginBottom="1dp"
     android:background="@drawable/message_item_auto"
-
     android:orientation="horizontal">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,7 +36,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:singleLine="true"
-        android:textColor="#343434"
+        android:textColor="@color/account_item_name"
         android:textSize="17sp" />
 
 </LinearLayout>

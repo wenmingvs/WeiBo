@@ -50,8 +50,8 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
     }
 
     private void initView() {
-        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
-        mCheckBox.setChecked(setNightMode);
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        mCheckBox.setChecked(isNightMode);
     }
 
     private void setUpListener() {

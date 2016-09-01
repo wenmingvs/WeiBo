@@ -120,7 +120,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:background="#f4f4f4"
+        android:background="@color/user_topbar_bg"
         android:gravity="center">
 
         <LinearLayout
@@ -141,7 +141,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
                 android:text="主页"
-                android:textColor="#2f2f2f"
+                android:textColor="@color/user_topbar_text_highlight"
                 android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
             <ImageView
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_gravity="bottom"
-                android:background="#ff8200" />
+                android:background="@color/user_topbar_text_drive" />
 
         </LinearLayout>
 
@@ -171,7 +171,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
                 android:text="微博"
-                android:textColor="#929292"
+                android:textColor="@color/user_topbar_text"
                 android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
             <ImageView
@@ -179,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_gravity="bottom"
-                android:background="#ff8300"
+                android:background="@color/user_topbar_text_drive"
                 android:visibility="invisible" />
 
         </LinearLayout>
@@ -202,7 +202,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
                 android:text="相册"
-                android:textColor="#929292"
+                android:textColor="@color/user_topbar_text"
                 android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
             <ImageView
@@ -210,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_gravity="bottom"
-                android:background="#ff8300"
+                android:background="@color/user_topbar_text_drive"
                 android:visibility="invisible" />
 
         </LinearLayout>
@@ -219,7 +219,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#e5e5e5" />
+        android:background="@color/user_topbar_driver" />
 </LinearLayout>
 
 

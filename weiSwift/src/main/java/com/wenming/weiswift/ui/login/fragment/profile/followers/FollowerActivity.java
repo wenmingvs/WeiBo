@@ -146,8 +146,8 @@ public class FollowerActivity extends BaseActivity implements FollowActivityView
     }
 
     @Override
-    public void updateRealtionShip(User user, ImageView icon, TextView text) {
-        FillContent.updateRealtionShip(user, icon, text);
+    public void updateRealtionShip(Context context,User user, ImageView icon, TextView text) {
+        FillContent.updateRealtionShip(context,user, icon, text);
     }
 
 

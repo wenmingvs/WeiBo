@@ -1,9 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.post.idea;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -120,6 +118,7 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         initContent();
         setUpListener();
         mEditText.setTag(false);
+        mSendButton.setEnabled(false);
         if (getIntent().getBooleanExtra("startAlumbAcitivity", false) == true) {
             Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
@@ -299,6 +298,10 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         mSendButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (!v.isEnabled()){
+                    return false;
+                }
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     pressSendButton();
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -326,25 +329,25 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         if (mEditText.getText().toString().length() > 0 || mSelectImgList.size() > 0 || (isRetweetWeiBoState())) {
             highlightSendButton();
         } else {
-            sendNormal();
+            normalSendButton();
         }
     }
 
     private void pressSendButton() {
-        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_press_bg);
-        mSendButton.setTextColor(Color.parseColor("#ebeef3"));
+        mSendButton.setBackgroundResource(R.drawable.press_send_button_bg);
+        mSendButton.setTextColor(getResources().getColor(R.color.press_send_button_text));
     }
 
     private void highlightSendButton() {
-        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_highlight_bg);
-        mSendButton.setTextColor(Color.parseColor("#fbffff"));
+        mSendButton.setBackgroundResource(R.drawable.highlight_send_button_bg);
+        mSendButton.setTextColor(getResources().getColor(R.color.highlight_send_button_text));
         mSendButton.setEnabled(true);
     }
 
-    private void sendNormal() {
-        mSendButton.setBackgroundResource(R.drawable.compose_send_corners_bg);
-        mSendButton.setTextColor(Color.parseColor("#b3b3b3"));
+    private void normalSendButton() {
         mSendButton.setEnabled(false);
+        mSendButton.setBackgroundResource(R.drawable.normal_send_button_bg);
+        mSendButton.setTextColor(getResources().getColor(R.color.normal_send_button_text));
     }
 
 
@@ -395,6 +398,8 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         public void afterTextChanged(Editable s) {
             changeSendButtonBg();
             setLimitTextColor(mLimitTextView, inputString.toString());
+
+
         }
     };
 
@@ -422,14 +427,14 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         long length = calculateWeiboLength(content);
         if (length > TEXT_LIMIT) {
             long outOfNum = length - TEXT_LIMIT;
-            limitTextView.setTextColor(Color.parseColor("#e03f22"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_outofrange));
             limitTextView.setText("-" + outOfNum + "");
         } else if (length == TEXT_LIMIT) {
             limitTextView.setText(0 + "");
-            limitTextView.setTextColor(Color.parseColor("#929292"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_warning));
         } else if (TEXT_LIMIT - length <= TEXT_REMIND) {
             limitTextView.setText(TEXT_LIMIT - length + "");
-            limitTextView.setTextColor(Color.parseColor("#929292"));
+            limitTextView.setTextColor(getResources().getColor(R.color.limittext_text_warning));
         } else {
             limitTextView.setText("");
         }

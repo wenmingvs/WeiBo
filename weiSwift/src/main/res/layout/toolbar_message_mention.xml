@@ -54,7 +54,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:text="设置"
-        android:textColor="@color/topbar_center"
+        android:textColor="@color/topbar_leftright_text"
         android:textSize="18sp" />
 
     <ImageView

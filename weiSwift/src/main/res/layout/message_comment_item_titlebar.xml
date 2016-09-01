@@ -66,7 +66,7 @@
             android:background="@drawable/message_comment_item_title_repley_bg_auto"
             android:gravity="center"
             android:text="回复"
-            android:textColor="#909090"
+            android:textColor="@color/reply_buttom_text"
             android:textSize="12dp" />
 
     </LinearLayout>

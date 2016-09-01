@@ -43,7 +43,7 @@ public abstract class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
         FillContent.fillProfileImg(mContext, mDatas.get(position), ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified);
         FillContent.setWeiBoName(((FriendsrViewHolder) holder).friendName, mDatas.get(position));
         FillContent.fillFollowerDescription(mDatas.get(position), ((FriendsrViewHolder) holder).friendContent);
-        FillContent.updateRealtionShip(mDatas.get(position), ((FriendsrViewHolder) holder).friendIcon, ((FriendsrViewHolder) holder).friendText);
+        FillContent.updateRealtionShip(mContext, mDatas.get(position), ((FriendsrViewHolder) holder).friendIcon, ((FriendsrViewHolder) holder).friendText);
         ((FriendsrViewHolder) holder).friend_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="71dp"
-    android:layout_marginBottom="1dp"
+    android:layout_marginBottom="0.5dp"
     android:background="@drawable/message_item_auto"
     android:clickable="true"
     android:orientation="horizontal">
@@ -45,8 +45,8 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="闭关写代码"
-            android:textColor="#343434"
-            android:textSize="17sp" />
+            android:textColor="@color/friend_item_name"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/friend_content"
@@ -56,7 +56,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="车窗摇下听你听你完美借口/ 音乐开大让我让我假装感动/ 贴心的你不用自导自演心痛/ 我看不懂我会更难过 五月 我要夏天 "
-            android:textColor="#939393"
+            android:textColor="@color/friend_item_description"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -66,7 +66,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/message_item_auto"
         android:gravity="center">
-
 
         <ImageView
             android:id="@+id/friendIcon"
@@ -87,7 +86,6 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="已关注"
-            android:textColor="#000000"
             android:textSize="10sp" />
 
     </RelativeLayout>

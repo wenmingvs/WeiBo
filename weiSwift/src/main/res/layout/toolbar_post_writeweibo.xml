@@ -51,10 +51,10 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="12dp"
-        android:background="@drawable/compose_send_corners_bg"
+        android:background="@drawable/normal_send_button_bg"
         android:gravity="center"
         android:text="发送"
-        android:textColor="@color/create_weibo_send_text"
+        android:textColor="@color/normal_send_button_text"
         android:textSize="16sp" />
 
     <ImageView

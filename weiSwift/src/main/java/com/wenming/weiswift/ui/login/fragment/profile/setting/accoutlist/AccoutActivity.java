@@ -124,15 +124,14 @@ public class AccoutActivity extends BaseActivity implements AccoutActivityView {
         mAddAccountBut = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.accout_layout_item_footerview, null);
         mAdapter = new AccoutAdapter(mContext, userArrayList);
         listview.addFooterView(mAddAccountBut);
-        listview.setDivider(new ColorDrawable(Color.parseColor("#e5e5e5")));
-        listview.setDividerHeight(DensityUtil.dp2px(mContext, 1));
+        //listview.setDivider(new ColorDrawable(Color.parseColor("#e5e5e5")));
+        //listview.setDividerHeight(DensityUtil.dp2px(mContext, 1));
         listview.setAdapter(mAdapter);
     }
 
     @Override
     public void finishItself() {
         finish();
-        ;
     }
 
     @Override
