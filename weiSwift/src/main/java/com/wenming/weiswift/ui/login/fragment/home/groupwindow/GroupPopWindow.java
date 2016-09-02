@@ -17,7 +17,7 @@ import com.wenming.weiswift.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.mvp.presenter.imp.GroupListPresenterImp;
 import com.wenming.weiswift.mvp.view.GroupPopWindowView;
 import com.wenming.weiswift.ui.common.NewFeature;
-import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageOptionPopupWindow;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailDialog;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -49,7 +49,7 @@ public class GroupPopWindow extends PopupWindow implements GroupPopWindowView {
 
     public static GroupPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
-            synchronized (ImageOptionPopupWindow.class) {
+            synchronized (ImageDetailDialog.class) {
                 if (mGroupPopWindow == null) {
                     mGroupPopWindow = new GroupPopWindow(context.getApplicationContext(), width, height);
                 }

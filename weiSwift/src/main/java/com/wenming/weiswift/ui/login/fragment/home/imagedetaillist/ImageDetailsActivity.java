@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.StatusBarUtils;
-import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 
@@ -86,12 +84,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         mImageDetailTopBar.setOnMoreOptionsListener(new ImageDetailTopBar.OnMoreOptionsListener() {
             @Override
             public void onClick(View view) {
-                ImageOptionPopupWindow mPopupWindow = new ImageOptionPopupWindow(mDatas.get(mViewPager.getCurrentItem()), mContext);
-                if (mPopupWindow.isShowing()) {
-                    mPopupWindow.dismiss();
-                } else {
-                    mPopupWindow.showAtLocation(findViewById(R.id.frameLayout), Gravity.BOTTOM, 0, 0);
-                }
+                SaveImageDialog.showDialog(mDatas.get(mViewPager.getCurrentItem()), mContext);
             }
         });
 
@@ -99,7 +92,6 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                 .setTransparentStatusbar(true)
                 .setStatusBarColor(getResources().getColor(R.color.black))
                 .process(this);
-
     }
 
 

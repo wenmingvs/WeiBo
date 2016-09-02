@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/home_weiboitem_arrow_pop_topitem_highlight_bg" android:state_pressed="true" />
+
+</selector>

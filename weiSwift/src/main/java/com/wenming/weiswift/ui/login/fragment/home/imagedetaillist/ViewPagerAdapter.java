@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.cesards.cropimageview.CropImageView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 /**
@@ -81,17 +82,24 @@ public class ViewPagerAdapter extends PagerAdapter {
         final RelativeLayout bgLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
         final DonutProgress donutProgress = (DonutProgress) mView.findViewById(R.id.donut_progress);
 
+        final PhotoView preImageView = (PhotoView) mView.findViewById(R.id.previewImg);
         final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) mView.findViewById(R.id.longImg);
         final GifImageView gifImageView = (GifImageView) mView.findViewById(R.id.gifView);
-        final uk.co.senab.photoview.PhotoView norImgView = (uk.co.senab.photoview.PhotoView) mView.findViewById(R.id.norImg);
-        setOnClickListener(bgLayout, longImg, gifImageView, norImgView);
-        setOnLongClickListener(bgLayout, longImg, gifImageView, norImgView, position);
+        final PhotoView norImgView = (uk.co.senab.photoview.PhotoView) mView.findViewById(R.id.norImg);
+
+
+        setOnClickListener(preImageView,bgLayout, longImg, gifImageView, norImgView);
+        setOnLongClickListener(preImageView,bgLayout, longImg, gifImageView, norImgView, position);
 
         ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                if (DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache()) == null) {
+
+                File bimiddleImg = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+
+                if (bimiddleImg == null) {
                     donutProgress.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(mDatas.get(position).replace("large", "bmiddle"), preImageView);
                 } else {
                     donutProgress.setVisibility(View.GONE);
                 }
@@ -100,29 +108,33 @@ public class ViewPagerAdapter extends PagerAdapter {
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
                 donutProgress.setVisibility(View.GONE);
+                preImageView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
-                File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+                preImageView.setVisibility(View.GONE);
                 if (mDatas.get(position).endsWith(".gif")) {
                     gifImageView.setVisibility(View.VISIBLE);
                     longImg.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
+                    File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
                     displayGif(file, gifImageView);
                 } else if (bitmap.getHeight() > bitmap.getWidth() * 3) {
                     longImg.setVisibility(View.VISIBLE);
                     gifImageView.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
+                    File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
                     displayLongPic(file, bitmap, longImg);
                 } else {
                     norImgView.setVisibility(View.VISIBLE);
                     gifImageView.setVisibility(View.INVISIBLE);
                     longImg.setVisibility(View.INVISIBLE);
-                    displayNormalImg(file, bitmap, norImgView);
+                    displayNormalImg(bitmap, norImgView);
                 }
                 donutProgress.setProgress(100);
                 donutProgress.setVisibility(View.GONE);
+
             }
         }, new ImageLoadingProgressListener() {
             @Override
@@ -134,7 +146,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         return mView;
     }
 
-    private void setOnLongClickListener(final RelativeLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, uk.co.senab.photoview.PhotoView photoView, final int position) {
+    private void setOnLongClickListener(PhotoView preImageView, final RelativeLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {
+        preImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
         longImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -158,10 +177,21 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
     }
 
-    private void setOnClickListener(RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, uk.co.senab.photoview.PhotoView photoView) {
+    private void setOnClickListener(PhotoView preImageView, RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView) {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
+        preImageView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                onSingleTagListener.onTag();
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
                 onSingleTagListener.onTag();
             }
         });
@@ -177,7 +207,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 onSingleTagListener.onTag();
             }
         });
-        photoView.setOnPhotoTapListener(new uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener() {
+        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float v, float v1) {
                 onSingleTagListener.onTag();
@@ -205,7 +235,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         }
     }
 
-    private void displayNormalImg(File file, Bitmap bitmap, PhotoView photoView) {
+    private void displayNormalImg(Bitmap bitmap, PhotoView photoView) {
         photoView.setImageBitmap(bitmap);
     }
 
@@ -220,12 +250,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void showPopWindow(View parent, int position) {
-        ImageOptionPopupWindow mPopupWindow = new ImageOptionPopupWindow(mDatas.get(position), mContext);
-        if (mPopupWindow.isShowing()) {
-            mPopupWindow.dismiss();
-        } else {
-            mPopupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        }
+        SaveImageDialog.showDialog(mDatas.get(position), mContext);
     }
 
 

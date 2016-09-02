@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.login.Constants;
-import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageOptionPopupWindow;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailDialog;
 import com.wenming.weiswift.ui.login.fragment.message.IGroupItemClick;
 
 /**
@@ -37,7 +37,7 @@ public class MyWeiBoPopWindow extends PopupWindow {
 
     public static MyWeiBoPopWindow getInstance(Context context, int width, int height) {
         if (mGroupPopWindow == null) {
-            synchronized (ImageOptionPopupWindow.class) {
+            synchronized (ImageDetailDialog.class) {
                 if (mGroupPopWindow == null) {
                     mGroupPopWindow = new MyWeiBoPopWindow(context.getApplicationContext(), width, height);
                 }

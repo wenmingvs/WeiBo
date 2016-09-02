@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/previewImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"/>
+
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/longImg"
         android:layout_width="match_parent"

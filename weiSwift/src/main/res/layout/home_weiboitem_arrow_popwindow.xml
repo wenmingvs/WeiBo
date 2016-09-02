@@ -13,7 +13,7 @@
         android:gravity="left|center_vertical"
         android:paddingLeft="20dp"
         android:text="收藏"
-        android:textColor="@color/black"
+        android:textColor="@color/arrow_dialog_item_text"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -35,7 +35,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="20dp"
             android:text="取消关注"
-            android:textColor="@color/black"
+            android:textColor="@color/arrow_dialog_item_text"
             android:textSize="16sp" />
 
 
@@ -61,7 +61,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="20dp"
             android:text="删除"
-            android:textColor="@color/black"
+            android:textColor="@color/arrow_dialog_item_text"
             android:textSize="16sp" />
 
 
