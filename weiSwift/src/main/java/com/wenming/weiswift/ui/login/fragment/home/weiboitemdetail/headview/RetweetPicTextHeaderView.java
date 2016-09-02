@@ -15,7 +15,6 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
 import com.wenming.weiswift.utils.DensityUtil;
@@ -115,10 +114,8 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         mPopover_arrow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, status)
-                        .setCanceledOnTouchOutside(true)
-                        .setCancelable(true)
-                        .create();
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, status);
+                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

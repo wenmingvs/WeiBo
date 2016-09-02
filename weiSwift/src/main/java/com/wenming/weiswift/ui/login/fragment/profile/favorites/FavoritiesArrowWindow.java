@@ -8,13 +8,13 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.imp.WeiBoArrowPresenterImp;
 import com.wenming.weiswift.mvp.view.WeiBoArrowView;
-import com.wenming.weiswift.ui.common.ArrowPopWindow;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class FavoritiesArrowWindow extends ArrowPopWindow implements WeiBoArrowView {
+public class FavoritiesArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
 
     public FavoritiesArrowWindow(Context context, Status status, WeiboAdapter weiboAdapter, int position, String groupName) {
@@ -26,7 +26,6 @@ public class FavoritiesArrowWindow extends ArrowPopWindow implements WeiBoArrowV
      */
     @Override
     public void setFavoriteTextContext(final Status status, TextView textView) {
-        mWeiBoArrowPresent = new WeiBoArrowPresenterImp(this, mWeiboAdapter);
         textView.setText("取消收藏");
         textView.setBackgroundResource(R.drawable.home_weiboitem_arrow_pop_corner_single_highlight_bg_auto);
         textView.setOnClickListener(new View.OnClickListener() {

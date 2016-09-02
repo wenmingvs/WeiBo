@@ -208,6 +208,7 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         mCancal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyBoardUtil.closeKeybord(mEditText,mContext);
                 finish();
             }
         });
@@ -345,9 +346,9 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
     }
 
     private void normalSendButton() {
-        mSendButton.setEnabled(false);
         mSendButton.setBackgroundResource(R.drawable.normal_send_button_bg);
         mSendButton.setTextColor(getResources().getColor(R.color.normal_send_button_text));
+        mSendButton.setEnabled(false);
     }
 
 
@@ -398,8 +399,6 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         public void afterTextChanged(Editable s) {
             changeSendButtonBg();
             setLimitTextColor(mLimitTextView, inputString.toString());
-
-
         }
     };
 

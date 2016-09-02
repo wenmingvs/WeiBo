@@ -19,6 +19,10 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
         super(context, status, weiboAdapter, position, groupName);
     }
 
+    public TimelineArrowWindow(Context context, Status status) {
+        super(context, status);
+    }
+
     @Override
     public void initContent() {
         this.setFavoriteTextContext(mStatus, mFavoriteTextView);

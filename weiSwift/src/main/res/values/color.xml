@@ -157,7 +157,7 @@
 
     <!-- account -->
     <color name="account_item_drive">#e5e5e5</color>
-    <color name="account_item_name">#e5e5e5</color>
+    <color name="account_item_name">#333333</color>
 
     <!--user详情页 -->
     <color name="user_topbar_bg">#f4f4f4</color> <!--基本，微博，相册的bar的背景 -->

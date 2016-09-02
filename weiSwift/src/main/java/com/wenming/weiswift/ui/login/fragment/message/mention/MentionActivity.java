@@ -121,11 +121,8 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
 //                MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
-                ArrowDialog arrowDialog = new MentionArrowWindow
-                        .Builder(mContext, status)
-                        .setCanceledOnTouchOutside(true)
-                        .setCancelable(true)
-                        .create();
+                MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status);
+                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -171,10 +168,8 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
 //                    MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
 //                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
-                    ArrowDialog arrowDialog = new MentionArrowWindow.Builder(mContext, status)
-                            .setCanceledOnTouchOutside(true)
-                            .setCancelable(true)
-                            .create();
+                    MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status);
+                    arrowDialog .create();
                     int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                     arrowDialog.show();
                     arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

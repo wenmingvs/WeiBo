@@ -16,7 +16,6 @@ import com.wenming.weiswift.mvp.presenter.UserActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.mvp.view.UserActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
-import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserInfoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.adapter.UserPhotoAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
@@ -108,10 +107,8 @@ public class UserActivity extends BaseActivity implements UserActivityView {
                 public void arrowClick(Status status, int position) {
 //                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
 //                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-                    ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext,statuselist.get(position),mMyWeiBoAdapter, position, "我的微博")
-                            .setCanceledOnTouchOutside(true)
-                            .setCancelable(true)
-                            .create();
+                    TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
+                    arrowDialog.create();
                     int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                     arrowDialog.show();
                     arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -109,10 +109,8 @@ public class OriginPicTextHeaderView extends LinearLayout {
 //                DetailWeiBoArrowWindow detailWeiBoArrowWindow = new DetailWeiBoArrowWindow(mContext, status);
 //                detailWeiBoArrowWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
 
-                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, status)
-                        .setCanceledOnTouchOutside(true)
-                        .setCancelable(true)
-                        .create();
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, status);
+                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

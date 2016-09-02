@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
@@ -15,7 +16,10 @@ import com.wenming.weiswift.mvp.presenter.imp.FavoritiesPresentImp;
 import com.wenming.weiswift.mvp.view.FavoritiesActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -73,8 +77,15 @@ public class FavoritiesActivity extends BaseActivity implements FavoritiesActivi
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
             public void arrowClick(Status status, int position) {
-                FavoritiesArrowWindow popupWindow = new FavoritiesArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
-                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+//                FavoritiesArrowWindow popupWindow = new FavoritiesArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
+//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+
+                FavoritiesArrowWindow arrowDialog = new FavoritiesArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
+                arrowDialog.create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
+
             }
         };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);

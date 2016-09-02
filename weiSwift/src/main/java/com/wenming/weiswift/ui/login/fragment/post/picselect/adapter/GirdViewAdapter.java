@@ -26,7 +26,6 @@ public class GirdViewAdapter extends BaseAdapter {
             .imageScaleType(ImageScaleType.EXACTLY)
             .considerExifParams(true)
             .cacheInMemory(true)
-            .cacheOnDisk(true)
             .build();
 
     private List<ImageInfo> mDatas = new ArrayList<ImageInfo>();

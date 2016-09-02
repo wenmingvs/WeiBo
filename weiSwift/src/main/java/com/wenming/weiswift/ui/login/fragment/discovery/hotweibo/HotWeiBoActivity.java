@@ -14,7 +14,6 @@ import com.wenming.weiswift.mvp.presenter.HotWeiBoPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HotWeiBoPresentImp;
 import com.wenming.weiswift.mvp.view.HotWeiBoActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
-import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
@@ -83,10 +82,8 @@ public class HotWeiBoActivity extends BaseActivity implements HotWeiBoActivityVi
 //                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
-                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, mDatas.get(position), mAdapter, position, "")
-                        .setCanceledOnTouchOutside(true)
-                        .setCancelable(true)
-                        .create();
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
+                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
