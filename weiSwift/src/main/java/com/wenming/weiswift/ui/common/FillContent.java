@@ -24,7 +24,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -495,6 +494,9 @@ public class FillContent {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
                 File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
+                if (file == null){
+                    return;
+                }
                 if (imageUri.endsWith(".gif")) {
                     gifImg.setVisibility(View.VISIBLE);
                     longImg.setVisibility(View.INVISIBLE);

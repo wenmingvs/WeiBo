@@ -94,7 +94,6 @@ public class MyWeiBoActivity extends BaseActivity implements MyWeiBoActivityView
 //                MyWeiBoArrowWindow popupWindow = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
                 MyWeiBoArrowWindow arrowDialog = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
-                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

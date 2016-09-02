@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,7 +15,6 @@ import com.wenming.weiswift.mvp.presenter.imp.FavoritiesPresentImp;
 import com.wenming.weiswift.mvp.view.FavoritiesActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
-import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
@@ -81,7 +79,6 @@ public class FavoritiesActivity extends BaseActivity implements FavoritiesActivi
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
                 FavoritiesArrowWindow arrowDialog = new FavoritiesArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
-                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

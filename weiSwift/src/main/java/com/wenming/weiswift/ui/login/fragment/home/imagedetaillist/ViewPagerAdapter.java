@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.cesards.cropimageview.CropImageView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -85,7 +84,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         final PhotoView preImageView = (PhotoView) mView.findViewById(R.id.previewImg);
         final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) mView.findViewById(R.id.longImg);
         final GifImageView gifImageView = (GifImageView) mView.findViewById(R.id.gifView);
-        final PhotoView norImgView = (uk.co.senab.photoview.PhotoView) mView.findViewById(R.id.norImg);
+        final PhotoView norImgView = (PhotoView) mView.findViewById(R.id.norImg);
 
 
         setOnClickListener(preImageView,bgLayout, longImg, gifImageView, norImgView);
@@ -119,12 +118,18 @@ public class ViewPagerAdapter extends PagerAdapter {
                     longImg.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
                     File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+                    if (file == null){
+                        return;
+                    }
                     displayGif(file, gifImageView);
                 } else if (bitmap.getHeight() > bitmap.getWidth() * 3) {
                     longImg.setVisibility(View.VISIBLE);
                     gifImageView.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
                     File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+                    if (file == null){
+                        return;
+                    }
                     displayLongPic(file, bitmap, longImg);
                 } else {
                     norImgView.setVisibility(View.VISIBLE);
@@ -177,7 +182,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
     }
 
-    private void setOnClickListener(PhotoView preImageView, RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView) {
+    private void setOnClickListener(PhotoView preImageView, RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView normalImg) {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,7 +212,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 onSingleTagListener.onTag();
             }
         });
-        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+        normalImg.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float v, float v1) {
                 onSingleTagListener.onTag();

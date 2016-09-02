@@ -108,7 +108,6 @@ public class UserActivity extends BaseActivity implements UserActivityView {
 //                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
 //                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
                     TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
-                    arrowDialog.create();
                     int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                     arrowDialog.show();
                     arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

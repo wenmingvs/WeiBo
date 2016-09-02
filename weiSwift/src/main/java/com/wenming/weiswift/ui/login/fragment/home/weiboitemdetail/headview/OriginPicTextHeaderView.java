@@ -14,7 +14,6 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.common.FillContent;
-import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
@@ -110,7 +109,6 @@ public class OriginPicTextHeaderView extends LinearLayout {
 //                detailWeiBoArrowWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
 
                 TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, status);
-                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

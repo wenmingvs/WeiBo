@@ -115,7 +115,6 @@ public class RetweetPicTextHeaderView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, status);
-                arrowDialog.create();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

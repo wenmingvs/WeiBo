@@ -151,10 +151,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
                 TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString());
-                arrowDialog.create();
+                arrowDialog.show();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.setOnDialogButtonClick(HomeFragment.this);
-                arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         };

@@ -83,9 +83,8 @@ public class HotWeiBoActivity extends BaseActivity implements HotWeiBoActivityVi
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 
                 TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
-                arrowDialog.create();
-                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
 
             }
