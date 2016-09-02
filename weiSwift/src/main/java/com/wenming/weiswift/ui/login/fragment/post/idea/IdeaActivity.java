@@ -82,7 +82,7 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
      * 在只剩下10个字可以输入的时候，做提醒
      */
     private static final int TEXT_REMIND = 10;
-
+    private boolean mStartAlumbAcitivity;
 
 
     @Override
@@ -118,7 +118,8 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         initContent();
         setUpListener();
         mEditText.setTag(false);
-        if (getIntent().getBooleanExtra("startAlumbAcitivity", false) == true) {
+        mStartAlumbAcitivity = getIntent().getBooleanExtra("startAlumbAcitivity", false);
+        if (mStartAlumbAcitivity == true) {
             Intent intent = new Intent(IdeaActivity.this, AlbumActivity.class);
             intent.putParcelableArrayListExtra("selectedImglist", mSelectImgList);
             startActivityForResult(intent, 0);
@@ -126,9 +127,11 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         mEditText.post(new Runnable() {
             @Override
             public void run() {
-                setLimitTextColor(mLimitTextView, mEditText.getText().toString());
-                KeyBoardUtil.openKeybord(mEditText,mContext);
-                mEditText.requestFocus();
+                if (mStartAlumbAcitivity == false){
+                    setLimitTextColor(mLimitTextView, mEditText.getText().toString());
+                    KeyBoardUtil.openKeybord(mEditText,mContext);
+                    mEditText.requestFocus();
+                }
             }
         });
     }
