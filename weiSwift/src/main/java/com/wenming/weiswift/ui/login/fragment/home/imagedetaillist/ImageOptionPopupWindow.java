@@ -104,9 +104,6 @@ public class ImageOptionPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
-
-
-
                 ImageLoader.getInstance().loadImage(mImgURL, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

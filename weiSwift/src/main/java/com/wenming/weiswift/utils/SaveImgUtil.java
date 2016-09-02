@@ -7,12 +7,16 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 
 /**
  * 与保存相关的工具类
@@ -120,31 +124,52 @@ public class SaveImgUtil {
      */
     public void saveImage(File imgFile, Bitmap bitmap) {
         // 首先保存图片
-        File appDir = new File(Environment.getExternalStorageDirectory(), "weiSwiftImg");
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(appDir, fileName);
-        try {
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        File appDir = new File(Environment.getExternalStorageDirectory(), "weiSwiftImg");
+//        if (!appDir.exists()) {
+//            appDir.mkdir();
+//        }
+//        String fileName = System.currentTimeMillis() + ".jpg";
+//        File file = new File(appDir, fileName);
+//        try {
+//            file.createNewFile();
+//            FileOutputStream fos = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//            fos.flush();
+//            fos.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        // 其次把文件插入到系统图库
-        try {
-            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), fileName, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // 最后通知图库更新
-        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + appDir)));
+//        // 其次把文件插入到系统图库
+//        try {
+//            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), imgFile.getAbsolutePath(), imgFile.getName(), null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        // 最后通知图库更新
+//        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + appDir));
+//        mContext.sendBroadcast(intent);
+//        Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
+
+        String destFilePath = Environment.getExternalStorageDirectory().getPath() + File.separator
+                + "weiSwift" + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + ".jpg";
+
+        final String targetPath = destFilePath.substring(0, destFilePath.lastIndexOf(File.separator) + 1);
+        final String targetName = destFilePath.substring(destFilePath.lastIndexOf(File.separator) + 1);
+        copyFileNio(imgFile.getAbsolutePath(), targetPath, targetName);
+
+		 /* 更新到相机相册中的代码，但是自测部分机器无效，所以就发广播，让相册里能看到原始路径图片就好了
+         MediaStore.Images.Media.insertImage(context.getContentResolver(),
+				file.getAbsolutePath(), fileName, null);
+		 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)));
+		 */
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(new File(destFilePath));
+        intent.setData(uri);
+        mContext.sendBroadcast(intent);
+
         Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -170,5 +195,77 @@ public class SaveImgUtil {
             ToastUtil.showShort(mContext, "保存成功");
         }
     };
+
+
+    public static void copyFileNio(String source, String targetPath, String targetName) {
+        final File sourceFile = new File(source);
+        if (!sourceFile.exists()) {
+            return;
+        }
+
+        final File targetPathFile = new File(targetPath);
+        if (!targetPathFile.exists()) {
+            targetPathFile.mkdirs();
+        }
+
+        final File targeFile = new File(targetPath + targetName);
+        if (!targeFile.exists()) {
+            try {
+                targeFile.createNewFile();
+            } catch (IOException e) {
+
+            }
+        }
+
+        copyFileNio(sourceFile, targeFile);
+    }
+
+    public static void copyFileNio(File source, File target) {
+        FileChannel in = null;
+        FileChannel out = null;
+        FileInputStream inStream = null;
+        FileOutputStream outStream = null;
+        try {
+            inStream = new FileInputStream(source);
+            outStream = new FileOutputStream(target);
+            in = inStream.getChannel();
+            out = outStream.getChannel();
+            in.transferTo(0, in.size(), out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(inStream);
+            close(in);
+            close(outStream);
+            close(out);
+        }
+    }
+
+    public static void close(InputStream inputStream) {
+        try {
+            if (null != inputStream) {
+                inputStream.close();
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void close(OutputStream outputStream) {
+        try {
+            if (null != outputStream) {
+                outputStream.close();
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void close(FileChannel fileChannel) {
+        try {
+            if (null != fileChannel) {
+                fileChannel.close();
+            }
+        } catch (IOException e) {
+        }
+    }
 
 }
