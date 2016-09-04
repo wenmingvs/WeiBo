@@ -123,34 +123,6 @@ public class SaveImgUtil {
      * @param bitmap 保存Bitmap
      */
     public void saveImage(File imgFile, Bitmap bitmap) {
-        // 首先保存图片
-//        File appDir = new File(Environment.getExternalStorageDirectory(), "weiSwiftImg");
-//        if (!appDir.exists()) {
-//            appDir.mkdir();
-//        }
-//        String fileName = System.currentTimeMillis() + ".jpg";
-//        File file = new File(appDir, fileName);
-//        try {
-//            file.createNewFile();
-//            FileOutputStream fos = new FileOutputStream(file);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//            fos.flush();
-//            fos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        // 其次把文件插入到系统图库
-//        try {
-//            MediaStore.Images.Media.insertImage(mContext.getContentResolver(), imgFile.getAbsolutePath(), imgFile.getName(), null);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        // 最后通知图库更新
-//        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + appDir));
-//        mContext.sendBroadcast(intent);
-//        Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
-
         String destFilePath = Environment.getExternalStorageDirectory().getPath() + File.separator
                 + "weiSwift" + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + ".jpg";
 
@@ -158,11 +130,6 @@ public class SaveImgUtil {
         final String targetName = destFilePath.substring(destFilePath.lastIndexOf(File.separator) + 1);
         copyFileNio(imgFile.getAbsolutePath(), targetPath, targetName);
 
-		 /* 更新到相机相册中的代码，但是自测部分机器无效，所以就发广播，让相册里能看到原始路径图片就好了
-         MediaStore.Images.Media.insertImage(context.getContentResolver(),
-				file.getAbsolutePath(), fileName, null);
-		 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)));
-		 */
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(new File(destFilePath));
         intent.setData(uri);

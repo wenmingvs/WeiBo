@@ -13,7 +13,6 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
@@ -64,6 +63,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         FillContent.fillImageList(mContext, mStatus, options, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
+
+
     }
 
     @Override

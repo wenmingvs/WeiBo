@@ -29,8 +29,8 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.View
         this.bmiddle_pic_urls = bmiddle_pic_urls;
         this.mContext = context;
         options = new DisplayImageOptions.Builder()
-                .imageScaleType(ImageScaleType.NONE_SAFE)
-                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -48,7 +48,9 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //FillContent.fillImageList(mContext, mStatus, position, holder.imageItem, holder.imageType);
         //FillContent.fillImageList(mContext, mStatus, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
-        ImageLoader.getInstance().displayImage(bmiddle_pic_urls.get(position), holder.imageItem, options);
+        if (bmiddle_pic_urls.size() > 0) {
+            ImageLoader.getInstance().displayImage(bmiddle_pic_urls.get(position), holder.imageItem, options);
+        }
     }
 
     @Override

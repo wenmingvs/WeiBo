@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
@@ -33,17 +32,9 @@ public class ImageDetailDialog extends Dialog {
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
     private static DisplayImageOptions mImageOptions = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.message_image_default)
-            .showImageForEmptyUri(R.drawable.message_image_default)
-            .showImageOnFail(R.drawable.timeline_image_failure)
-            .bitmapConfig(Bitmap.Config.ARGB_8888)
-            .imageScaleType(ImageScaleType.NONE)
-            .considerExifParams(true)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();
-    ;
-
 
     public ImageDetailDialog(String url, Context context) {
         super(context, R.style.ImageSaveDialog);
@@ -75,11 +66,15 @@ public class ImageDetailDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                ImageLoader.getInstance().loadImage(mImgURL, new SimpleImageLoadingListener() {
+                ImageLoader.getInstance().loadImage(mImgURL, mImageOptions, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
                         File imgFile = DiskCacheUtils.findInCache(mImgURL, ImageLoader.getInstance().getDiskCache());
+                        if (imgFile == null) {
+                            ToastUtil.showShort(mContext, "保存文件失败，请检查SD卡是否已满！");
+                            return;
+                        }
                         SaveImgUtil.create(mContext).saveImage(imgFile, loadedImage);
                     }
                 });

@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -19,7 +16,6 @@ import com.wenming.weiswift.mvp.presenter.imp.SettingActivityPresentImp;
 import com.wenming.weiswift.mvp.view.SettingActivityView;
 import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist.AccoutActivity;
-import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 /**
  * Created by wenmingvs on 2016/1/7.
@@ -32,8 +28,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
     private RelativeLayout mClearCache;
     private SettingActivityPresent mSettingActivityPresent;
     private RelativeLayout mAccountLayout;
-    private CheckBox mCheckBox;
-    private RelativeLayout mNightModeRl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +40,13 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
         mBackImageView = (ImageView) findViewById(R.id.toolbar_back);
         mClearCache = (RelativeLayout) findViewById(R.id.clearCache_layout);
         mAccountLayout = (RelativeLayout) findViewById(R.id.accoutlayout);
-        mCheckBox = (CheckBox) findViewById(R.id.nightMode_cb);
-        mNightModeRl = (RelativeLayout) findViewById(R.id.nightmode_rl);
+
         initView();
         setUpListener();
     }
 
     private void initView() {
-        boolean isNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
-        mCheckBox.setChecked(isNightMode);
+
     }
 
     private void setUpListener() {
@@ -98,31 +91,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityView
                 startActivity(intent);
             }
         });
-        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
-                    SharedPreferencesUtil.put(mContext, "setNightMode", true);
-                    getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    SharedPreferencesUtil.put(mContext, "setNightMode", false);
-                    getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-                ((MyApplication) mContext.getApplicationContext()).recreateAll();
-            }
-        });
-
-        mNightModeRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCheckBox.isChecked()){
-                    mCheckBox.setChecked(false);
-                }else {
-                    mCheckBox.setChecked(true);
-                }
-            }
-        });
 
     }
 

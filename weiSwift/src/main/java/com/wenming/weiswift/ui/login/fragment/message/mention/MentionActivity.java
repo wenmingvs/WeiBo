@@ -124,8 +124,6 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
-
-
             }
         };
         mMentionFooterAdapter = new HeaderAndFooterRecyclerViewAdapter(mMentionAdapter);

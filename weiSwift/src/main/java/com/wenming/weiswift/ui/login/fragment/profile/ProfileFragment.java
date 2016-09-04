@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.wenming.weiswift.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.api.UsersAPI;
 import com.wenming.weiswift.entity.User;
@@ -33,6 +38,7 @@ import com.wenming.weiswift.ui.login.fragment.profile.friends.FriendsActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.myphoto.MyPhotoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.SettingActivity;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 import com.wenming.weiswift.widget.mdprogressbar.CircleProgressBar;
 
 /**
@@ -60,6 +66,9 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private CircleProgressBar mProgressBar;
     private ScrollView mScrollView;
     private RelativeLayout mMyprofile_layout;
+    private RelativeLayout mSettingRl;
+    private CheckBox mCheckBox;
+    private RelativeLayout mNightModeRl;
     private User mUser;
 
     public ProfileFragment() {
@@ -101,11 +110,20 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mSettings = (TextView) mView.findViewById(R.id.setting);
         mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);
         mMyprofile_layout = (RelativeLayout) mView.findViewById(R.id.myprofile_layout);
+        mSettingRl = (RelativeLayout) mView.findViewById(R.id.settingRl);
+        mCheckBox = (CheckBox) mView.findViewById(R.id.nightMode_cb);
+        mNightModeRl = (RelativeLayout) mView.findViewById(R.id.nightmode_rl);
 
         mProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        refreshUserDetail(mContext, true);
+        initContent();
         setUpListener();
         return mView;
+    }
+
+    private void initContent() {
+        boolean isNightMode = (boolean) SharedPreferencesUtil.get(mContext, "setNightMode", false);
+        mCheckBox.setChecked(isNightMode);
+        refreshUserDetail(mContext, true);
     }
 
     @Override
@@ -180,6 +198,37 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("screenName", mUser.screen_name);
                 mContext.startActivity(intent);
+            }
+        });
+        mSettingRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+            }
+        });
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    SharedPreferencesUtil.put(mContext, "setNightMode", true);
+                    ((AppCompatActivity)getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    SharedPreferencesUtil.put(mContext, "setNightMode", false);
+                    ((AppCompatActivity)getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                ((MyApplication) mContext.getApplicationContext()).recreateAll();
+            }
+        });
+
+        mNightModeRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCheckBox.isChecked()){
+                    mCheckBox.setChecked(false);
+                }else {
+                    mCheckBox.setChecked(true);
+                }
             }
         });
     }

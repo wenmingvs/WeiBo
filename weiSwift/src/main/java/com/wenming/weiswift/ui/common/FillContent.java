@@ -34,6 +34,7 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailsActivity;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.SaveImageDialog;
 import com.wenming.weiswift.ui.login.fragment.home.timelineimagelist.ImageAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.activity.OriginPicTextCommentDetailActivity;
@@ -494,7 +495,7 @@ public class FillContent {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
                 File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                if (file == null){
+                if (file == null) {
                     return;
                 }
                 if (imageUri.endsWith(".gif")) {
@@ -541,6 +542,47 @@ public class FillContent {
                 intent.putExtra("imagelist_url", status.origin_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);
+            }
+        });
+        setOnLongClickListener(longImg, gifImg, norImg, context, status, position);
+    }
+
+    private static void setOnLongClickListener(SubsamplingScaleImageView longImg, GifImageView gifImg, ImageView norImg, final Context context, final Status status, final int position) {
+
+
+        longImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ArrayList<String> saveUrlArrayList;
+                if (NetUtil.isConnected(context)) {
+                    saveUrlArrayList = status.origin_pic_urls;
+                } else {
+                    saveUrlArrayList = status.bmiddle_pic_urls;
+                }
+                SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);
+                return false;
+            }
+        });
+
+        gifImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                SaveImageDialog.showDialog(status.bmiddle_pic_urls.get(position), context);
+                return false;
+            }
+        });
+
+        norImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ArrayList<String> saveUrlArrayList;
+                if (NetUtil.isConnected(context)) {
+                    saveUrlArrayList = status.origin_pic_urls;
+                } else {
+                    saveUrlArrayList = status.bmiddle_pic_urls;
+                }
+                SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);
+                return false;
             }
         });
     }

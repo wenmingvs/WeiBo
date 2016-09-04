@@ -178,8 +178,9 @@
                 android:src="@drawable/weibobrowser_goforward_disabled" />
         </RelativeLayout>
 
+
         <RelativeLayout
-            android:id="@+id/nightmode_rl"
+            android:id="@+id/clearCache_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
@@ -193,39 +194,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:text="夜间模式"
-                android:textColor="@color/rl_textcolor"
-                android:textSize="16sp" />
-
-            <CheckBox
-                android:id="@+id/nightMode_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/clearCache_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="0.5dp"
-            android:background="@drawable/message_item_auto"
-            android:clickable="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
                 android:text="清理缓存"
                 android:textColor="@color/rl_textcolor"
                 android:textSize="16sp" />
-
-
         </RelativeLayout>
 
         <RelativeLayout

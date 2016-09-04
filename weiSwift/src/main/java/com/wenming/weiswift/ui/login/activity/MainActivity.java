@@ -1,5 +1,8 @@
 package com.wenming.weiswift.ui.login.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -106,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private BarManager mBarManager;
 
+    private FrameLayout mFrameLayout;
+
+    private ImageView mThemeImg;
+    private static final long ANIMTION_TIME = 500;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
         mProfile = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTab = (ImageView) findViewById(R.id.fl_post);
         mButtonBar = (LinearLayout) findViewById(R.id.buttonBarId);
-        //mSnackBarContainer = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutId);
+        mFrameLayout = (FrameLayout) findViewById(R.id.main_layout);
+        mThemeImg = (ImageView) findViewById(R.id.themeImageView);
 
         //LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager(mContext);
@@ -473,7 +483,43 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
 
+    /**
+     * 获取布局的DrawableCahe给ImageView覆盖Fragment
+     */
+    private void changeTheme() {
+        //设置false清除缓存
+        mFrameLayout.setDrawingCacheEnabled(false);
+        //设置true之后可以获取Bitmap
+        mFrameLayout.setDrawingCacheEnabled(true);
+        mThemeImg.setImageBitmap(mFrameLayout.getDrawingCache());
+        mThemeImg.setAlpha(1f);
+        mThemeImg.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * ImageView的动画
+     * @param view
+     */
+    private void startAnimation(final View view) {
+        ValueAnimator animator = ValueAnimator.ofFloat(1f).setDuration(ANIMTION_TIME);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float n = (float) animation.getAnimatedValue();
+                view.setAlpha(1f - n);
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mThemeImg.setVisibility(View.INVISIBLE);
+            }
+        });
+        animator.start();
     }
 
 
