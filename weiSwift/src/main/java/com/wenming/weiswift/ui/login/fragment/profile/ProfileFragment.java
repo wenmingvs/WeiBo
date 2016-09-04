@@ -31,6 +31,7 @@ import com.wenming.weiswift.mvp.presenter.imp.ProfileFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.ProfileFragmentView;
 import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.login.activity.BackgroundActivity;
 import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.favorites.FavoritiesActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.followers.FollowerActivity;
@@ -40,6 +41,10 @@ import com.wenming.weiswift.ui.login.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.SettingActivity;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
 import com.wenming.weiswift.widget.mdprogressbar.CircleProgressBar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by wenmingvs on 15/12/26.
@@ -74,13 +79,26 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     public ProfileFragment() {
     }
 
+    public static ProfileFragment newInstance(User currentUser) {
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("currentUser",currentUser);
+        profileFragment.setArguments(args);
+        return profileFragment;
+    }
+
+    public static ProfileFragment newInstance() {
+        ProfileFragment profileFragment = new ProfileFragment();
+        return profileFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         mContext = getContext();
         mProfileFragmentPresent = new ProfileFragmentPresentImp(this);
-
+        mUser = getArguments().getParcelable("currentUser");
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.avator_default)
                 .showImageForEmptyUri(R.drawable.avator_default)
@@ -90,6 +108,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
                 .considerExifParams(true)
                 .displayer(new CircleBitmapDisplayer(14671839, 1))
                 .build();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -120,10 +139,24 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         return mView;
     }
 
+    @Override
+    public void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setNightMode(String message) {
+        ((MyApplication) mContext.getApplicationContext()).recreateForNightMode();
+    }
+
     private void initContent() {
         boolean isNightMode = (boolean) SharedPreferencesUtil.get(mContext, "setNightMode", false);
         mCheckBox.setChecked(isNightMode);
-        refreshUserDetail(mContext, true);
+        //User user = mAct
+        //setUserDetail();
     }
 
     @Override
@@ -141,6 +174,8 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     }
 
     public boolean haveAlreadyRefresh() {
+
+
         if (mProfile_myname == null || mProfile_myname.getText().length() == 0) {
             return false;
         } else {
@@ -180,9 +215,11 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mMyPhoto_Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, MyPhotoActivity.class);
-                intent.putExtra("screeenName", mUser.screen_name);
-                startActivity(intent);
+                if (mUser != null) {
+                    Intent intent = new Intent(mActivity, MyPhotoActivity.class);
+                    intent.putExtra("screeenName", mUser.screen_name);
+                    startActivity(intent);
+                }
             }
         });
         mFavorities_Layout.setOnClickListener(new View.OnClickListener() {
@@ -195,9 +232,11 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mMyprofile_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, UserActivity.class);
-                intent.putExtra("screenName", mUser.screen_name);
-                mContext.startActivity(intent);
+                if (mUser != null) {
+                    Intent intent = new Intent(mContext, UserActivity.class);
+                    intent.putExtra("screenName", mUser.screen_name);
+                    mContext.startActivity(intent);
+                }
             }
         });
         mSettingRl.setOnClickListener(new View.OnClickListener() {
@@ -210,23 +249,27 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
+                SharedPreferencesUtil.put(mContext, "changeTheme", true);
+
+                if (mCheckBox.isChecked()) {
                     SharedPreferencesUtil.put(mContext, "setNightMode", true);
-                    ((AppCompatActivity)getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    ((AppCompatActivity) getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     SharedPreferencesUtil.put(mContext, "setNightMode", false);
-                    ((AppCompatActivity)getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    ((AppCompatActivity) getActivity()).getDelegate().setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
-                ((MyApplication) mContext.getApplicationContext()).recreateAll();
+                Intent intent = new Intent(mContext, BackgroundActivity.class);
+                intent.putExtra("user",mUser);
+                mContext.startActivity(intent);
             }
         });
 
         mNightModeRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCheckBox.isChecked()){
+                if (mCheckBox.isChecked()) {
                     mCheckBox.setChecked(false);
-                }else {
+                } else {
                     mCheckBox.setChecked(true);
                 }
             }
@@ -254,7 +297,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         }
     }
 
-    @Override
+
     public void showScrollView() {
         mScrollView.setVisibility(View.VISIBLE);
     }

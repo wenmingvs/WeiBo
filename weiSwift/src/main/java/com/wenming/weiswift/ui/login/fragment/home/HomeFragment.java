@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent2;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     private LinearLayout mEmptyLayout;
     private GroupPopWindow mPopWindow;
-
+    private User mCurrentUser;
     private boolean mComeFromAccoutActivity;
     private String mUserName;
 
@@ -74,7 +75,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
     /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
      */
-    private static  int sHideThreshold ;
+    private static int sHideThreshold;
     /**
      * 记录手指滑动的距离
      */
@@ -91,7 +92,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
         mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
         mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity");
-        sHideThreshold = DensityUtil.dp2px(mContext,20);
+        sHideThreshold = DensityUtil.dp2px(mContext, 20);
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
         mTopBar = (RelativeLayout) mView.findViewById(R.id.toolbar_home);
@@ -223,6 +224,11 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
                 }
             });
         }
+    }
+
+    @Override
+    public void setCurrentUser(User user) {
+        mCurrentUser = user;
     }
 
     @Override
@@ -447,5 +453,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
         void hideButtonBar();
     }
 
-
+    public User getCurrentUser() {
+        return mCurrentUser;
+    }
 }

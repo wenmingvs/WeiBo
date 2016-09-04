@@ -52,6 +52,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
+                mHomeFragmentView.setCurrentUser(user);
                 mHomeFragmentView.setGroupName(user.name);
                 mHomeFragmentView.setUserName(user.name);
                 mHomeFragmentView.popWindowsDestory();

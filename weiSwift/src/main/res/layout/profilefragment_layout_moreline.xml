@@ -415,7 +415,7 @@
         android:id="@+id/settingRl"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0.5dp"
         android:background="@drawable/message_item_auto"
         android:clickable="true"
         android:orientation="horizontal">

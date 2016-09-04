@@ -313,7 +313,11 @@ public class MainActivity extends AppCompatActivity {
     private void showProfileFragment() {
         mProfile.setSelected(true);
         if (mProfileFragment == null) {
-            mProfileFragment = new ProfileFragment();
+            if (mHomeFragment != null && mHomeFragment.getCurrentUser() != null){
+                mProfileFragment = ProfileFragment.newInstance(mHomeFragment.getCurrentUser());
+            }else {
+                mProfileFragment =ProfileFragment.newInstance();
+            }
             mTransaction.add(R.id.contentLayout, mProfileFragment, PROFILE_FRAGMENT);
         } else {
             mTransaction.show(mProfileFragment);
@@ -501,6 +505,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * ImageView的动画
+     *
      * @param view
      */
     private void startAnimation(final View view) {

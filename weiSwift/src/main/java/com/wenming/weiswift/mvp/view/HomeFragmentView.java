@@ -1,6 +1,7 @@
 package com.wenming.weiswift.mvp.view;
 
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.User;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,12 @@ public interface HomeFragmentView {
      * 滑动到顶部
      */
     public void scrollToTop(boolean refreshData);
+
+    /**
+     * 设置当前的用户
+     * @param user
+     */
+    public void setCurrentUser(User user);
 
 
     public void showRecyclerView();

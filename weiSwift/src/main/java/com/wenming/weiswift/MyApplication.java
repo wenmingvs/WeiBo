@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.wenming.library.LogReport;
 import com.wenming.library.save.imp.CrashWriter;
 import com.wenming.library.upload.email.EmailReporter;
+import com.wenming.weiswift.ui.login.activity.BackgroundActivity;
 import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
@@ -89,8 +90,11 @@ public class MyApplication extends Application implements Application.ActivityLi
         }
     }
 
-    public void recreateAll() {
+    public void recreateForNightMode() {
         for (Activity activity : mActivityList) {
+            if (activity instanceof BackgroundActivity) {
+                return;
+            }
             if (!activity.isFinishing()) {
                 activity.recreate();
             }

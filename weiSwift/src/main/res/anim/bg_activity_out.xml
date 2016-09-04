@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <!-- 动画效果  从看不见到可以看见，也就是0到1，变幻时间为5000毫秒-->
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0"
+        android:duration="500"
+        />
+</set>

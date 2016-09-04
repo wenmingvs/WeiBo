@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '23.0.3'
 
     defaultConfig {
@@ -28,6 +28,8 @@ dependencies {
     compile project(':weiboSDK')
     compile project(path: ':swipebacklayout')
     compile files('libs/universal-image-loader-1.9.5.jar')
+    compile files('libs/sdk-v1.0.0.jar')
+    compile files('libs/multiwindow-v1.3.2.jar')
 
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
@@ -41,4 +43,6 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
