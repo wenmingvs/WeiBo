@@ -2,6 +2,7 @@ package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.Window;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.StatusBarUtils;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.animation.RotateDownPageTransformer;
+import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.animation.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
 
@@ -57,6 +60,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         mAdapter = new ViewPagerAdapter(mDatas, this);
         mAdapter.setOnSingleTagListener(this);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setPageTransformer(true,new ZoomOutPageTransformer());
         if (mImgNum == 1) {
             mImageDetailTopBar.setPageNumVisible(View.GONE);
         } else {
@@ -87,6 +91,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                 SaveImageDialog.showDialog(mDatas.get(mViewPager.getCurrentItem()), mContext);
             }
         });
+
 
         StatusBarUtils.from(this)
                 .setTransparentStatusbar(true)

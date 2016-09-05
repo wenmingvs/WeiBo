@@ -155,8 +155,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private void initContent() {
         boolean isNightMode = (boolean) SharedPreferencesUtil.get(mContext, "setNightMode", false);
         mCheckBox.setChecked(isNightMode);
-        //User user = mAct
-        //setUserDetail();
+        setUserDetail(mUser);
     }
 
     @Override
