@@ -110,7 +110,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
-                hidePreviewImg(preImageView, previewLongImg);
                 if (mDatas.get(position).endsWith(".gif")) {
                     gifImageView.setVisibility(View.VISIBLE);
                     longImg.setVisibility(View.INVISIBLE);
@@ -135,6 +134,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     longImg.setVisibility(View.INVISIBLE);
                     displayNormalImg(bitmap, norImgView);
                 }
+                hidePreviewImg(preImageView, previewLongImg);
                 progressBar.setProgress(100);
                 progressBar.post(new Runnable() {
                     @Override
@@ -305,7 +305,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
     }
 
-    private void hidePreviewImg(PhotoView norImg, SubsamplingScaleImageView longImg) {
+    private void hidePreviewImg(PhotoView norImg, final SubsamplingScaleImageView longImg) {
         norImg.setVisibility(View.GONE);
         longImg.setVisibility(View.GONE);
     }
