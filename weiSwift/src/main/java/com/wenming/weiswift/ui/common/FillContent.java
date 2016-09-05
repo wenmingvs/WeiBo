@@ -461,16 +461,6 @@ public class FillContent {
         }
     }
 
-    public static boolean isLongImg(File file, Bitmap bitmap) {
-        //TODO file.length()的判断，需要根据OS的版本号做动态调整大小
-        if (file == null || file.length() == 0) {
-            return false;
-        }
-        if (bitmap.getHeight() > bitmap.getWidth() * 3 || file.length() >= 0.5 * 1024 * 1024) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * 填充微博列表图片
@@ -503,7 +493,7 @@ public class FillContent {
                     longImg.setVisibility(View.INVISIBLE);
                     norImg.setVisibility(View.INVISIBLE);
                     displayGif(file, gifImg, imageLabel);
-                } else if (isLongImg(file, bitmap)) {
+                } else if (ImageUtil.isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.INVISIBLE);
                     norImg.setVisibility(View.INVISIBLE);
