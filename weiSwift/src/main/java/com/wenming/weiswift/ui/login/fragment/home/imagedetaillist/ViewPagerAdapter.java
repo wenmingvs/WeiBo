@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -23,7 +23,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.ImageUtil;
-import com.wenming.weiswift.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,8 +43,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     private DisplayImageOptions options;
     public OnSingleTagListener onSingleTagListener;
-    private View mView;
-
 
     public interface OnSingleTagListener {
         public void onTag();
@@ -80,68 +77,72 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
-        final RelativeLayout bgLayout = (RelativeLayout) mView.findViewById(R.id.ImageViewItemLayout);
+        View mView = LayoutInflater.from(container.getContext()).inflate(R.layout.home_weiboitem_imagedetails_item, null);
+
+        final FrameLayout bgLayout = (FrameLayout) mView.findViewById(R.id.bgLayout);
+        //预览缩略图的控件
+        final PhotoView preNorImg = (PhotoView) mView.findViewById(R.id.previewImg);
+        final SubsamplingScaleImageView preLongImg = (SubsamplingScaleImageView) mView.findViewById(R.id.previewLongImg);
+        //显示原图的控件
+        final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) mView.findViewById(R.id.longImg);
+        final GifImageView gifImg = (GifImageView) mView.findViewById(R.id.gifView);
+        final PhotoView norImgView = (PhotoView) mView.findViewById(R.id.norImg);
+        //底部的进度条
         final NumberProgressBar progressBar = (NumberProgressBar) mView.findViewById(R.id.donut_progress);
 
-        final PhotoView preImageView = (PhotoView) mView.findViewById(R.id.previewImg);
-        final SubsamplingScaleImageView previewLongImg = (SubsamplingScaleImageView) mView.findViewById(R.id.previewLongImg);
-
-        final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) mView.findViewById(R.id.longImg);
-        final GifImageView gifImageView = (GifImageView) mView.findViewById(R.id.gifView);
-        final PhotoView norImgView = (PhotoView) mView.findViewById(R.id.norImg);
-
-
-        setOnClickListener(preImageView,previewLongImg, bgLayout, longImg, gifImageView, norImgView);
-        setOnLongClickListener(preImageView,previewLongImg, bgLayout, longImg, gifImageView, norImgView, position);
+        setOnClickListener(preNorImg, preLongImg, bgLayout, longImg, gifImg, norImgView);
+        setOnLongClickListener(preNorImg, preLongImg, bgLayout, longImg, gifImg, norImgView, position);
 
         ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                showPreviewImg(mDatas.get(position).replace("large", "bmiddle"), preImageView, previewLongImg);
+                showPreviewImg(mDatas.get(position), preNorImg, preLongImg);
             }
 
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
                 progressBar.setVisibility(View.INVISIBLE);
-                showPreviewImg(mDatas.get(position).replace("large", "bmiddle"), preImageView, previewLongImg);
             }
 
             @Override
             public void onLoadingComplete(String s, final View view, Bitmap bitmap) {
+                File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+
                 if (mDatas.get(position).endsWith(".gif")) {
-                    gifImageView.setVisibility(View.VISIBLE);
+                    gifImg.setVisibility(View.VISIBLE);
                     longImg.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
-                    File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
                     if (file == null) {
                         return;
                     }
-                    displayGif(file, gifImageView);
-                } else if (bitmap.getHeight() > bitmap.getWidth() * 3) {
+                    displayGif(file, gifImg);
+                } else if (ImageUtil.isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
-                    gifImageView.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.INVISIBLE);
                     norImgView.setVisibility(View.INVISIBLE);
-                    File file = DiskCacheUtils.findInCache(mDatas.get(position), ImageLoader.getInstance().getDiskCache());
+
                     if (file == null) {
                         return;
                     }
                     displayLongPic(file, longImg);
+                    longImg.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hidePreviewImg(preNorImg, preLongImg);
+                            progressBar.setProgress(100);
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    },500);
                 } else {
                     norImgView.setVisibility(View.VISIBLE);
-                    gifImageView.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.GONE);
                     longImg.setVisibility(View.INVISIBLE);
                     displayNormalImg(bitmap, norImgView);
+                    hidePreviewImg(preNorImg, preLongImg);
                 }
-                hidePreviewImg(preImageView, previewLongImg);
                 progressBar.setProgress(100);
-                progressBar.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
-                });
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }, new ImageLoadingProgressListener() {
             @Override
@@ -153,92 +154,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         return mView;
     }
 
-    private void setOnLongClickListener(PhotoView preImageView, SubsamplingScaleImageView previewLongImg, final RelativeLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {
-        preImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(bgLayout, position);
-                return false;
-            }
-        });
-        previewLongImg.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(bgLayout, position);
-                return false;
-            }
-        });
-        longImg.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(bgLayout, position);
-                return false;
-            }
-        });
-        gifImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(bgLayout, position);
-                return false;
-            }
-        });
-        photoView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showPopWindow(bgLayout, position);
-                return false;
-            }
-        });
-    }
-
-    private void setOnClickListener(PhotoView preImageView, SubsamplingScaleImageView previewLongImg, RelativeLayout relativeLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView normalImg) {
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSingleTagListener.onTag();
-            }
-        });
-        preImageView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(View view, float v, float v1) {
-                onSingleTagListener.onTag();
-            }
-
-            @Override
-            public void onOutsidePhotoTap() {
-                onSingleTagListener.onTag();
-            }
-        });
-        previewLongImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSingleTagListener.onTag();
-            }
-        });
-        longImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSingleTagListener.onTag();
-            }
-        });
-        gifImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSingleTagListener.onTag();
-            }
-        });
-        normalImg.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(View view, float v, float v1) {
-                onSingleTagListener.onTag();
-            }
-
-            @Override
-            public void onOutsidePhotoTap() {
-                onSingleTagListener.onTag();
-            }
-        });
-    }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
@@ -274,29 +189,41 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void showPreviewImg(final String url, final PhotoView preNorImg, final SubsamplingScaleImageView preLongImg) {
+        //直接显示Gif
         if (url.endsWith("gif")) {
             return;
         }
+        //存在原图，直接显示原图
+        File orgFile = DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache());
+        if (orgFile != null){
+            hidePreviewImg(preNorImg,preLongImg);
+            return;
+        }
+
+        final String bmiddleUrl = url.replace("large", "bmiddle");
         //加载图片
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
-                .cacheInMemory(true)
                 .build();
-        ImageLoader.getInstance().displayImage(url, preNorImg, options, new SimpleImageLoadingListener() {
+
+
+        ImageLoader.getInstance().loadImage(bmiddleUrl, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                File bimiddleImg = DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache());
+                File bimiddleImg = DiskCacheUtils.findInCache(bmiddleUrl, ImageLoader.getInstance().getDiskCache());
                 //存储卡空间不足
                 if (bimiddleImg == null) {
-                    ToastUtil.showShort(mContext, "存储卡空间不足，显示失败");
+                    //ToastUtil.showShort(mContext, "缩略图不存在");
                     return;
                 }
                 //如果是长图，显示长图
                 if (ImageUtil.isLongImg(bimiddleImg, loadedImage)) {
+                    //ToastUtil.showShort(mContext, "显示长图预览");
                     preNorImg.setVisibility(View.INVISIBLE);
                     preLongImg.setVisibility(View.VISIBLE);
                     displayLongPic(bimiddleImg, preLongImg);
                 } else {
+                    //ToastUtil.showShort(mContext, "显示普通图片预览");
                     preNorImg.setVisibility(View.VISIBLE);
                     preLongImg.setVisibility(View.INVISIBLE);
                     displayNormalImg(loadedImage, preNorImg);
@@ -310,4 +237,92 @@ public class ViewPagerAdapter extends PagerAdapter {
         longImg.setVisibility(View.GONE);
     }
 
+    private void setOnLongClickListener(PhotoView preImageView, SubsamplingScaleImageView previewLongImg, final FrameLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {
+        preImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+
+        previewLongImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+
+        longImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+        gifImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopWindow(bgLayout, position);
+                return false;
+            }
+        });
+    }
+
+    private void setOnClickListener(PhotoView preNorImg, SubsamplingScaleImageView preLongImg, FrameLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView normalImg) {
+        bgLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
+        preNorImg.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                onSingleTagListener.onTag();
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
+                onSingleTagListener.onTag();
+            }
+        });
+        preLongImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
+        longImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
+        gifImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSingleTagListener.onTag();
+            }
+        });
+        normalImg.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                onSingleTagListener.onTag();
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
+                onSingleTagListener.onTag();
+            }
+        });
+    }
 }

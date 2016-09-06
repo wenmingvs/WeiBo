@@ -1,29 +1,9 @@
 <resources>
 
-    <style name="WeiBoHoloNoWindowTranslucent" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/windowBackground</item>
-        <item name="android:windowIsTranslucent">true</item>
-
-    </style>
-
-    <style name="WeiBoHoloWindowTranslucent" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-
-
-    <!-- 图片详情页，长按的动画 -->
-    <style name="image_option_pop_window_anim_style">
-        <item name="android:windowEnterAnimation">@anim/home_image_detail_list_pop_window_in</item>
-        <item name="android:windowExitAnimation">@anim/home_image_detail_list_pop_window_out</item>
-    </style>
-
-    <!-- 时间线上，单条微博的右上角的箭头，点击后弹出pop的动画 -->
-    <style name="weiboitem_arrow_popwup_style">
-        <item name="android:windowEnterAnimation">@anim/home_weiboitem_arrow_popup_enter</item>
-        <item name="android:windowExitAnimation">@anim/home_weiboitem_arrow_popup_exit</item>
-    </style>
-
 
     <style name="ArrowDialog" parent="android:style/Theme.Dialog">
         <!-- 背景颜色及透明程度 -->
@@ -59,7 +39,7 @@
     </style>
 
 
-    <style name="noAnimationTheme" parent="WeiBoHoloWindowTranslucent">
+    <style name="noAnimationTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
     </style>
 

@@ -127,15 +127,19 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         mEditText.post(new Runnable() {
             @Override
             public void run() {
-                if (mStartAlumbAcitivity == false){
+                if (mStartAlumbAcitivity == false) {
                     setLimitTextColor(mLimitTextView, mEditText.getText().toString());
-                    KeyBoardUtil.openKeybord(mEditText,mContext);
+                    KeyBoardUtil.openKeybord(mEditText, mContext);
                     mEditText.requestFocus();
                 }
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     /**
      * 填充内容，
@@ -162,7 +166,6 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
      * 填充转发的内容
      */
     private void repostWeiBo() {
-
         if (mStatus == null) {
             return;
         }
@@ -211,7 +214,7 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
         mCancal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KeyBoardUtil.closeKeybord(mEditText,mContext);
+                KeyBoardUtil.closeKeybord(mEditText, mContext);
                 finish();
             }
         });
@@ -296,13 +299,14 @@ public class IdeaActivity extends BaseActivity implements ImgListAdapter.OnFoote
                         break;
                 }
                 startService(intent);
+                KeyBoardUtil.closeKeybord(mEditText, mContext);
                 finish();
             }
         });
         mSendButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!v.isEnabled()){
+                if (!v.isEnabled()) {
                     return false;
                 }
 

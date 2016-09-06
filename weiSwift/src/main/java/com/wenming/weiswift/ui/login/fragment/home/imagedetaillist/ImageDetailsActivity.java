@@ -10,7 +10,6 @@ import android.view.Window;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.StatusBarUtils;
-import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.animation.RotateDownPageTransformer;
 import com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.animation.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
         mAdapter = new ViewPagerAdapter(mDatas, this);
         mAdapter.setOnSingleTagListener(this);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setPageTransformer(true,new ZoomOutPageTransformer());
+        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (mImgNum == 1) {
             mImageDetailTopBar.setPageNumVisible(View.GONE);
         } else {
@@ -92,11 +91,15 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
             }
         });
 
+        //只有小米，或者魅族手机，或者6.0的手机，才适配状态栏
+        if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi") || Build.MANUFACTURER.equalsIgnoreCase("meizu") || Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            StatusBarUtils.from(this)
+                    .setTransparentStatusbar(true)
+                    .setStatusBarColor(getResources().getColor(R.color.black))
+                    .process(this);
+        }
+        
 
-        StatusBarUtils.from(this)
-                .setTransparentStatusbar(true)
-                .setStatusBarColor(getResources().getColor(R.color.black))
-                .process(this);
     }
 
 

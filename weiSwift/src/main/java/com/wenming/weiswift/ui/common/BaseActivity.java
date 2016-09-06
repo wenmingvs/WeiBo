@@ -1,7 +1,5 @@
 package com.wenming.weiswift.ui.common;
 
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.wenming.swipebacklayout.SwipeBackLayout;
