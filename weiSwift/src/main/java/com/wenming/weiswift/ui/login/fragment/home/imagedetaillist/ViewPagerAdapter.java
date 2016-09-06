@@ -45,7 +45,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     public OnSingleTagListener onSingleTagListener;
 
     public interface OnSingleTagListener {
-        public void onTag();
+        void onTag();
     }
 
     public void setOnSingleTagListener(OnSingleTagListener onSingleTagListener) {
@@ -102,7 +102,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -111,16 +111,16 @@ public class ViewPagerAdapter extends PagerAdapter {
 
                 if (mDatas.get(position).endsWith(".gif")) {
                     gifImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.INVISIBLE);
-                    norImgView.setVisibility(View.INVISIBLE);
+                    longImg.setVisibility(View.GONE);
+                    norImgView.setVisibility(View.GONE);
                     if (file == null) {
                         return;
                     }
                     displayGif(file, gifImg);
                 } else if (ImageUtil.isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
-                    gifImg.setVisibility(View.INVISIBLE);
-                    norImgView.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.GONE);
+                    norImgView.setVisibility(View.GONE);
 
                     if (file == null) {
                         return;
@@ -131,18 +131,18 @@ public class ViewPagerAdapter extends PagerAdapter {
                         public void run() {
                             hidePreviewImg(preNorImg, preLongImg);
                             progressBar.setProgress(100);
-                            progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setVisibility(View.GONE);
                         }
-                    },500);
+                    }, 500);
                 } else {
                     norImgView.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.GONE);
-                    longImg.setVisibility(View.INVISIBLE);
+                    longImg.setVisibility(View.GONE);
                     displayNormalImg(bitmap, norImgView);
-                    hidePreviewImg(preNorImg, preLongImg);
                 }
+                hidePreviewImg(preNorImg, preLongImg);
                 progressBar.setProgress(100);
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         }, new ImageLoadingProgressListener() {
             @Override
@@ -195,8 +195,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         }
         //存在原图，直接显示原图
         File orgFile = DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache());
-        if (orgFile != null){
-            hidePreviewImg(preNorImg,preLongImg);
+        if (orgFile != null) {
+            hidePreviewImg(preNorImg, preLongImg);
             return;
         }
 
@@ -219,13 +219,13 @@ public class ViewPagerAdapter extends PagerAdapter {
                 //如果是长图，显示长图
                 if (ImageUtil.isLongImg(bimiddleImg, loadedImage)) {
                     //ToastUtil.showShort(mContext, "显示长图预览");
-                    preNorImg.setVisibility(View.INVISIBLE);
+                    preNorImg.setVisibility(View.GONE);
                     preLongImg.setVisibility(View.VISIBLE);
                     displayLongPic(bimiddleImg, preLongImg);
                 } else {
                     //ToastUtil.showShort(mContext, "显示普通图片预览");
                     preNorImg.setVisibility(View.VISIBLE);
-                    preLongImg.setVisibility(View.INVISIBLE);
+                    preLongImg.setVisibility(View.GONE);
                     displayNormalImg(loadedImage, preNorImg);
                 }
             }
@@ -237,8 +237,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         longImg.setVisibility(View.GONE);
     }
 
-    private void setOnLongClickListener(PhotoView preImageView, SubsamplingScaleImageView previewLongImg, final FrameLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {
-        preImageView.setOnLongClickListener(new View.OnLongClickListener() {
+    private void setOnLongClickListener(PhotoView preNorImg, SubsamplingScaleImageView preLongImg, final FrameLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {
+        preNorImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showPopWindow(bgLayout, position);
@@ -246,7 +246,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        previewLongImg.setOnLongClickListener(new View.OnLongClickListener() {
+        preLongImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showPopWindow(bgLayout, position);

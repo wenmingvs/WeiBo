@@ -98,7 +98,10 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mActivity = getActivity();
         mContext = getContext();
         mProfileFragmentPresent = new ProfileFragmentPresentImp(this);
-        mUser = getArguments().getParcelable("currentUser");
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            mUser = bundle.getParcelable("currentUser");
+        }
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.avator_default)
                 .showImageForEmptyUri(R.drawable.avator_default)
