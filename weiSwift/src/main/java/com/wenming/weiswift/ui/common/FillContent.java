@@ -439,8 +439,12 @@ public class FillContent {
         longImg.setZoomEnabled(false);
         longImg.setPanEnabled(false);
         longImg.setQuickScaleEnabled(false);
-        longImg.setImage(ImageSource.uri(file.getAbsolutePath()), new ImageViewState(0, new PointF(0, 0), 0));
-        longImg.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+        if (NewFeature.timeline_img_quality != NewFeature.thumbnail_quality) {
+            longImg.setImage(ImageSource.uri(file.getAbsolutePath()), new ImageViewState(0, new PointF(0, 0), 0));
+            longImg.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+        } else {
+            longImg.setImage(ImageSource.uri(file.getAbsolutePath()));
+        }
     }
 
     public static void displayNorImg(File file, Bitmap bitmap, ImageView norImg, ImageView imageLable) {
@@ -475,7 +479,14 @@ public class FillContent {
      * @param imageLabel
      */
     public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
-        final ArrayList<String> urllist = status.bmiddle_pic_urls;
+        final ArrayList<String> urllist;
+        if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+            urllist = status.thumbnail_pic_urls;
+        } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
+            urllist = status.bmiddle_pic_urls;
+        } else {
+            urllist = status.origin_pic_urls;
+        }
         ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {

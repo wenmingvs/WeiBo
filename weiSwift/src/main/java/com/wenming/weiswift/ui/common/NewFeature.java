@@ -82,5 +82,13 @@ public class NewFeature {
      */
     public static boolean refresh_profileLayout = false;
 
+    public static int bmiddle_quality = 1;
+
+    public static int thumbnail_quality = 2;
+
+    public static int origin_quality = 3;
+
+    public static int timeline_img_quality = bmiddle_quality;
+
 
 }

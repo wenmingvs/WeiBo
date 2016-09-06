@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.ui.common.FillContent;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.utils.ScreenUtil;
 
 import java.util.ArrayList;
@@ -38,17 +38,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();
-    private final ImageSize mSingleImageSize;
-    private final ImageSize mDoubleImgSize;
-    private final ImageSize mThreeImgSize;
+
 
     public ImageAdapter(Status status, Context context) {
         this.mStatus = status;
-        this.mData = status.bmiddle_pic_urls;
+        if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+            this.mData = status.thumbnail_pic_urls;
+        } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
+            this.mData = status.bmiddle_pic_urls;
+        } else {
+            this.mData = status.origin_pic_urls;
+        }
         this.mContext = context;
-        mSingleImageSize = new ImageSize(ScreenUtil.getScreenWidth(context), (int) (ScreenUtil.getScreenWidth(context) * 0.7));
-        mDoubleImgSize = new ImageSize(ScreenUtil.getScreenWidth(context) / 2, ScreenUtil.getScreenWidth(context) / 2);
-        mThreeImgSize = new ImageSize(ScreenUtil.getScreenWidth(context) / 3,ScreenUtil.getScreenWidth(context) / 3);
+
     }
 
     @Override
@@ -56,15 +58,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_imageitem, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         //设置加载中的图片样式
-        setImgSize(mData, mContext, viewHolder.norImg, viewHolder.longImg, viewHolder.gifImg);
+        if (NewFeature.timeline_img_quality != NewFeature.thumbnail_quality) {
+            setImgSize(mData, mContext, viewHolder.norImg, viewHolder.longImg, viewHolder.gifImg);
+        }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         FillContent.fillImageList(mContext, mStatus, options, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
-
-
     }
 
     @Override

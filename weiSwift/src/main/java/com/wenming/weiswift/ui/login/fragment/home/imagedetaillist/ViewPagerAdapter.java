@@ -23,6 +23,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.ImageUtil;
+import com.wenming.weiswift.ui.common.NewFeature;
 
 import java.io.File;
 import java.io.IOException;
@@ -199,8 +200,15 @@ public class ViewPagerAdapter extends PagerAdapter {
             hidePreviewImg(preNorImg, preLongImg);
             return;
         }
-
-        final String bmiddleUrl = url.replace("large", "bmiddle");
+        String replacement = "";
+        if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
+            replacement = "bmiddle";
+        } else if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+            replacement = "thumbnail";
+        } else {
+            replacement = "large";
+        }
+        final String bmiddleUrl = url.replace("large", replacement);
         //加载图片
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
