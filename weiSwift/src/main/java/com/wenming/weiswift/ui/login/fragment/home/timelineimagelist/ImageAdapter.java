@@ -33,7 +33,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .imageScaleType(ImageScaleType.EXACTLY)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheInMemory(true)
             .cacheOnDisk(true)
