@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+    <!--
+    	说明：
+    	
+    	1、表格中的第一项
+    		<ShareSDK 
+        		AppKey="api20" />
+    	是必须的，其中的AppKey是您在ShareSDK上注册的开发者帐号的AppKey
+    	
+    	2、所有集成到您项目的平台都应该为其在表格中填写相对应的开发者信息，以新浪微博为例：
+    	    <SinaWeibo
+                Id="1"
+                SortId="1"
+                AppKey="568898243"
+                AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
+                RedirectUrl="http://www.mob.com"
+                Enable="true" />
+    	其中的SortId是此平台在分享列表中的位置，由开发者自行定义，可以是任何整型数字，数值越大
+    	越靠后AppKey、AppSecret和RedirectUrl是您在新浪微博上注册开发者信息和应用后得到的信息
+    	Id是一个保留的识别符，整型，ShareSDK不使用此字段，供您在自己的项目中当作平台的识别符。
+    	Enable字段表示此平台是否有效，布尔值，默认为true，如果Enable为false，即便平台的jar包
+    	已经添加到应用中，平台实例依然不可获取。
+    	
+    	各个平台注册应用信息的地址如下：
+			新浪微博        http://open.weibo.com
+			腾讯微博        http://dev.t.qq.com
+			QQ空间          http://connect.qq.com/intro/login/
+			微信好友        http://open.weixin.qq.com
+			Facebook       https://developers.facebook.com
+			Twitter        https://dev.twitter.com
+			人人网          http://dev.renren.com
+			开心网          http://open.kaixin001.com
+			搜狐微博        http://open.t.sohu.com
+			网易微博        http://open.t.163.com
+			豆瓣           http://developers.douban.com
+			
+			有道云笔记      http://note.youdao.com/open/developguide.html#app
+			印象笔记        https://dev.evernote.com/
+			Linkedin       https://developer.linkedin.com
+			FourSquare     https://developer.foursquare.com/
+			搜狐随身看      https://open.sohu.com/
+			Flickr         http://www.flickr.com/services/
+			Pinterest      http://developers.pinterest.com/
+			Tumblr         http://www.tumblr.com/developers
+			Dropbox        https://www.dropbox.com/developers
+			Instagram      http://instagram.com/developer#
+			VKontakte      http://vk.com/dev
+			易信好友        http://open.yixin.im/
+			明道	           http://open.mingdao.com/
+			Line           http://media.line.me/zh-hant/
+			Pocket         http://getpocket.com/developer/apps/new
+			KakaoTalk      https://developers.kakao.com/
+			KakaoStory     https://developers.kakao.com/
+			Plurk          http://www.plurk.com/API
+    -->
+
+    <ShareSDK
+        AppKey = "16cfef9f446fa"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
+
+
+    <QZone
+        AppId="100371282"
+        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        Enable="true" />
+
+    <!-- 
+    	Wechat微信和WechatMoments微信朋友圈的appid是一样的；
+    
+                       注意：开发者不能用我们这两个平台的appid,否则分享不了
+    
+       	  微信测试的时候，微信测试需要先签名打包出apk,
+		sample测试微信，要先签名打包，keystore在sample项目中，密码123456
+		
+		BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过
+		审核的应用也可以执行分享，但是仅限于分享文字和图片，不能分享其他类型，
+		默认值为false。此外，微信收藏不支持此字段。
+	-->
+    <Wechat
+        AppId="wxede67531b591586b"
+        AppSecret="07c6b503d15c4f91ee58867aaa8a9db9"
+        BypassApproval="false"
+        Enable="true" />
+
+    <WechatMoments
+        AppId="wxede67531b591586b"
+        AppSecret="07c6b503d15c4f91ee58867aaa8a9db9"
+        BypassApproval="false"
+        Enable="true" />
+
+	<WechatFavorite
+        AppId="wxede67531b591586b"
+        AppSecret="07c6b503d15c4f91ee58867aaa8a9db9"
+        Enable="true" />
+
+	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+	<QQ
+        AppId="100371282"
+        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        ShareByAppClient="true"
+        Enable="true" />
+
+
+    <!-- 
+    	在中国大陆，印象笔记有两个服务器，一个是沙箱（sandbox），一个是生产服务器（china）。
+    	一般你注册应用，它会先让你使用sandbox，当你完成测试以后，可以到
+    	http://dev.yinxiang.com/support/上激活你的ConsumerKey，激活成功后，修改HostType
+    	为china就好了。至于如果您申请的是国际版的印象笔记（Evernote），则其生产服务器类型为
+    	“product”。
+    	
+    	如果目标设备上已经安装了印象笔记客户端，ShareSDK允许应用调用本地API来完成分享，但
+    	是需要将应用信息中的“ShareByAppClient”设置为true，此字段默认值为false。
+    -->
+    <Evernote
+        HostType="sandbox"
+    	ConsumerKey="sharesdk-7807"
+		ConsumerSecret="d05bf86993836004"
+		ShareByAppClient="true"
+		Enable="true" />
+
+
+</DevInfor>

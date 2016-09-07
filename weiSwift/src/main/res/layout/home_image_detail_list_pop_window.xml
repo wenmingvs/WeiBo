@@ -30,6 +30,37 @@
         android:textColor="@color/black"
         android:textSize="16sp" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/pop_wechat_friend_share"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/home_image_detail_popwindow_bg_auto"
+        android:gravity="center"
+        android:text="@string/home_image_detail_image_pop_window_wechat_friend_share"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/pop_wechat_timeline_share"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/home_image_detail_popwindow_bg_auto"
+        android:gravity="center"
+        android:text="@string/home_image_detail_image_pop_window_wechat_timeline_share"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="10dp"

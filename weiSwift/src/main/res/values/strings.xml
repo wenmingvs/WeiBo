@@ -7,6 +7,8 @@
 
     <string name="home_image_detail_image_pop_window_save_pic">保存图片</string>
     <string name="home_image_detail_image_pop_window_forward_weibo">转发微博</string>
+    <string name="home_image_detail_image_pop_window_wechat_friend_share">分享给微信好友</string>
+    <string name="home_image_detail_image_pop_window_wechat_timeline_share">分享到朋友圈</string>
     <string name="home_image_detail_image_pop_window_quit">取消</string>
 
 

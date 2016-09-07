@@ -17,16 +17,29 @@ android {
         }
     }
 
-    signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
+    signingConfigs{
+        release {
+            storeFile file("weiswift_keystore.jks")        //证书存放目录
+            storePassword "123456"                               //密码
+            keyAlias "China"                                                //别名
+            keyPassword "123456"                                //密码(就是设置证书那两个密码，建议都填一样的)
         }
     }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 dependencies {
     compile project(':weiboSDK')
     compile project(path: ':swipebacklayout')
+    compile project(path: ':sharesdk')
     compile files('libs/universal-image-loader-1.9.5.jar')
     compile files('libs/sdk-v1.0.0.jar')
     compile files('libs/multiwindow-v1.3.2.jar')
