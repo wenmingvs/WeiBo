@@ -16,73 +16,86 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/bottombar_retweet"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/timeline_feedcard_retweet_background_auto"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/bottombar_retweet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/timeline_feedcard_retweet_background_auto"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timeline_icon_redirect" />
+
+                <TextView
+                    android:id="@+id/redirect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="转发"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="@dimen/home_weiboitem_bottombar_font" />
+
+            </LinearLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/timeline_icon_redirect" />
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/commentbar_vertical_drive" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/redirect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="转发"
-                android:textColor="@color/home_bottombar_font"
-                android:textSize="@dimen/home_weiboitem_bottombar_font" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/commentbar_vertical_drive" />
-
-        <LinearLayout
-            android:id="@+id/bottombar_comment"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/timeline_feedcard_retweet_background_auto"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/bottombar_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/timeline_feedcard_retweet_background_auto"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timeline_icon_comment" />
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="评论"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="@dimen/home_weiboitem_bottombar_font" />
+
+            </LinearLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/timeline_icon_comment" />
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/commentbar_vertical_drive" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="评论"
-                android:textColor="@color/home_bottombar_font"
-                android:textSize="@dimen/home_weiboitem_bottombar_font" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/commentbar_vertical_drive" />
 
         <LinearLayout
             android:id="@+id/bottombar_attitude"

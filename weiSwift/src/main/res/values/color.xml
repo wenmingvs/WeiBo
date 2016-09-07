@@ -82,7 +82,7 @@
 
     <!-- 微博内容颜色-白天 -->
     <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->
-    <color name="origin_highlight_bg">#f2f2f2</color><!--微博的按压状态下的背景颜色-->
+    <color name="origin_highlight_bg">#ededed</color><!--微博的按压状态下的背景颜色-->
     <color name="home_weiboitem_title_profile_name">#f46200</color><!--用户名称-->
     <color name="home_weiboitem_title_profile_time">#828282</color><!--微博时间-->
     <color name="home_weiboitem_title_weibocomefrom">#828282</color><!--微博来源-->
@@ -91,15 +91,15 @@
 
     <!--转发的内容区-白天 -->
     <color name="retweet_nor_bg">#f7f7f7</color><!--微博的普通背景颜色-->
-    <color name="retweet_highlight_bg">#f0f0f0</color><!--微博的按压状态下的背景颜色-->
+    <color name="retweet_highlight_bg">#e2e1e1</color><!--微博的按压状态下的背景颜色-->
     <color name="home_retweet_weiboitem_font">#5d5d5d</color><!--转发内容中的字体颜色-->
     <color name="home_retweet_weiboitem_bg">#f7f7f7</color><!--转发内容中的背景颜色-->
 
     <!--显示微博转发数，评论数，赞数的bar-->
     <color name="commentbar_bg">#FFFFFF</color><!--普通背景颜色-->
-    <color name="commentbar_highlight_bg">#f2f2f2</color><!--press的背景颜色-->
+    <color name="commentbar_highlight_bg">#f4f4f4</color><!--press的背景颜色-->
     <color name="commentbar_top_drive">#f2f2f2</color><!--顶部的分割线-->
-    <color name="commentbar_vertical_drive">#f2f2f2</color><!--竖直的分割线-->
+    <color name="commentbar_vertical_drive">#f4f4f4</color><!--竖直的分割线-->
 
     <!--微博底部Bar-白天 -->
     <color name="home_bottombar_bg">#FFFFFF</color><!--底部bar的背景样式-->

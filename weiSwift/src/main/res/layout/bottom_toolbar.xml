@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/home_bottombar_bg"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -23,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/home_bottombar_bg"
             android:orientation="horizontal">
 
             <TextView
@@ -52,6 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/home_bottombar_bg"
             android:orientation="horizontal">
 
             <TextView
@@ -80,6 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/home_bottombar_bg"
             android:orientation="horizontal">
 
             <ImageView
@@ -104,6 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/home_bottombar_bg"
             android:orientation="horizontal">
 
             <TextView
@@ -133,6 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/home_bottombar_bg"
             android:orientation="horizontal">
 
 
