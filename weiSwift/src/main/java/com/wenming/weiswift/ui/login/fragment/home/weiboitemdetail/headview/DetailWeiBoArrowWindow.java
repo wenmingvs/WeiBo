@@ -2,6 +2,7 @@ package com.wenming.weiswift.ui.login.fragment.home.weiboitemdetail.headview;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -84,4 +85,6 @@ public class DetailWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowVie
         mDeleteLayout.setVisibility(View.GONE);
         mFriendShipTextView.setBackgroundResource(R.drawable.home_weiboitem_arrow_pop_bottomitem_bg_auto);
     }
+
+
 }

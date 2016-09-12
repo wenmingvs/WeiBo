@@ -2,6 +2,7 @@ package com.wenming.weiswift.ui.login.fragment.profile.favorites;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -51,4 +52,6 @@ public class FavoritiesArrowWindow extends ArrowDialog implements WeiBoArrowView
     public void setDeleteViewContent(final Status status, final TextView textView) {
         mDeleteLayout.setVisibility(View.GONE);
     }
+
+
 }

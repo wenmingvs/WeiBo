@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.discovery.hotweibo;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -78,7 +79,7 @@ public class HotWeiBoActivity extends BaseActivity implements HotWeiBoActivityVi
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
-            public void arrowClick(Status status, int position) {
+            public void arrowClick(Status status, int position,Bitmap bitmap) {
 //                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
 

@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.message.mention;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,8 +17,10 @@ import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
  */
 public class MentionArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
-    public MentionArrowWindow(Context context, Status status) {
-        super(context, status);
+
+
+    public MentionArrowWindow(Context mContext, Status status, Bitmap bitmap) {
+        super(mContext, status, bitmap);
     }
 
     @Override
@@ -87,4 +90,6 @@ public class MentionArrowWindow extends ArrowDialog implements WeiBoArrowView {
         mDeleteLayout.setVisibility(View.GONE);
         mFriendShipTextView.setBackgroundResource(R.drawable.home_weiboitem_arrow_pop_bottomitem_bg_auto);
     }
+
+
 }

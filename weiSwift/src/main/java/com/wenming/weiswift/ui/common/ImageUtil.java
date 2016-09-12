@@ -43,7 +43,12 @@ public class ImageUtil {
                     ToastUtil.showShort(context, "保存文件失败，请检查SD卡是否已满！");
                     return;
                 }
-                SaveImgUtil.create(context).saveImage(imgFile, loadedImage);
+                if (url.endsWith(".gif")){
+                    SaveImgUtil.create(context).saveImage(imgFile,".gif");
+                }else {
+                    SaveImgUtil.create(context).saveImage(imgFile,"jpg");
+                }
+
             }
         });
     }

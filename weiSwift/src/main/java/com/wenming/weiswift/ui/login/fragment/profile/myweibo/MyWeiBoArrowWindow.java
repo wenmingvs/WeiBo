@@ -69,4 +69,6 @@ public class MyWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowView {
             mDeleteLayout.setVisibility(View.GONE);
         }
     }
+
+
 }

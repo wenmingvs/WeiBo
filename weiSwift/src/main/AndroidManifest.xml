@@ -27,18 +27,6 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
 
-        <meta-data
-            android:name="com.samsung.android.sdk.multiwindow.enable"
-            android:value="true" />
-        <meta-data
-            android:name="com.samsung.android.sdk.multiwindow.multiinstance.enable"
-            android:value="true" />
-        <meta-data
-            android:name="com.sec.android.multiwindow.STYLE"
-            android:value="fixedRatio" />
-        <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
 
         <activity
             android:name=".ui.welcome.WelcomeActivity"

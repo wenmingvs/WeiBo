@@ -38,9 +38,33 @@
             android:textColor="@color/arrow_dialog_item_text"
             android:textSize="16sp" />
 
-
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/sharelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/pop_share"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/home_weiboitem_arrow_pop_centeritem_bg_auto"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20dp"
+            android:text="分享此微博截图"
+            android:textColor="@color/arrow_dialog_item_text"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/deleteLayout"
@@ -63,7 +87,6 @@
             android:text="删除"
             android:textColor="@color/arrow_dialog_item_text"
             android:textSize="16sp" />
-
 
     </LinearLayout>
 

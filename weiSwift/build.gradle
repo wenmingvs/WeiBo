@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '23.0.3'
 
     defaultConfig {
@@ -18,21 +18,27 @@ android {
     }
 
     signingConfigs{
-        release {
-            storeFile file("weiswift_keystore.jks")        //证书存放目录
-            storePassword "123456"                               //密码
-            keyAlias "China"                                                //别名
-            keyPassword "123456"                                //密码(就是设置证书那两个密码，建议都填一样的)
-        }
-    }
-    buildTypes {
         debug {
-            signingConfig signingConfigs.release
-        }
-        release {
-            signingConfig signingConfigs.release
+            storeFile file("debug.keystore")        //证书存放目录
         }
     }
+
+//    signingConfigs{
+//        release {
+//            storeFile file("weiswift_keystore.jks")        //证书存放目录
+//            storePassword "123456"                               //密码
+//            keyAlias "China"                                                //别名
+//            keyPassword "123456"                                //密码(就是设置证书那两个密码，建议都填一样的)
+//        }
+//    }
+//    buildTypes {
+//        debug {
+//            signingConfig signingConfigs.release
+//        }
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 
 }
 
@@ -40,15 +46,15 @@ dependencies {
     compile project(':weiboSDK')
     compile project(path: ':swipebacklayout')
     compile project(path: ':sharesdk')
+    compile project(path: ':multiwindow')
     compile files('libs/universal-image-loader-1.9.5.jar')
-    compile files('libs/sdk-v1.0.0.jar')
-    compile files('libs/multiwindow-v1.3.2.jar')
+
 
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
 
 
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.wenmingvs:LogReport:1.0.3'
     compile 'com.cesards.android:cropimageview:1.0.2.1'

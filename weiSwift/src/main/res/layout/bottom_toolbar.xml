@@ -148,7 +148,7 @@
                 android:drawablePadding="-5dp"
                 android:drawableTop="@drawable/tabbar_profile_auto"
                 android:gravity="center"
-                android:text="发现"
+                android:text="我"
                 android:textColor="@color/home_bottombar_font"
                 android:textSize="10sp" />
 

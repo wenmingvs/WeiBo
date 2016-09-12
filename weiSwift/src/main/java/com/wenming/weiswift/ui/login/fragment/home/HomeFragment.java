@@ -3,6 +3,7 @@ package com.wenming.weiswift.ui.login.fragment.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,11 +22,9 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
-import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent2;
 import com.wenming.weiswift.mvp.presenter.imp.HomeFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.BarManager;
-import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.GroupPopWindow;
 import com.wenming.weiswift.ui.login.fragment.home.groupwindow.IGroupItemClick;
@@ -45,7 +44,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDialog.onDialogButtonClick {
+public class HomeFragment extends Fragment implements HomeFragmentView {
 
     private ArrayList<Status> mDatas;
     public Context mContext;
@@ -147,14 +146,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
         mDatas = new ArrayList<>();
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
-            public void arrowClick(Status status, int position) {
-//                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString());
-//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-
-                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString());
+            public void arrowClick(Status status, int position,Bitmap bitmap) {
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString(),bitmap);
                 arrowDialog.show();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
-                arrowDialog.setOnDialogButtonClick(HomeFragment.this);
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         };
@@ -412,35 +407,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView, ArrowDia
      */
     public void setOnBarListener(onButtonBarListener onBarListener) {
         this.mOnBottonBarListener = onBarListener;
-    }
-
-    @Override
-    public void onDeleteButtonClick(Status status, int position, WeiBoArrowPresent2 weiBoArrowPresent2, TextView deleteTextView) {
-
-    }
-
-    @Override
-    public void onFriendShipButtonClick(Status status, int position, WeiBoArrowPresent2 weiBoArrowPresent2, TextView friendShipTextView) {
-
-    }
-
-    /**
-     * 设置收藏按钮要执行的事件
-     *
-     * @param status
-     * @param position
-     * @param weiBoArrowPresent2
-     * @param favoriteTextView
-     */
-    @Override
-    public void onFavoriteButtonClick(final Status status, final int position, final WeiBoArrowPresent2 weiBoArrowPresent2, TextView favoriteTextView) {
-        if (status.favorited) {
-            favoriteTextView.setText("取消收藏");
-            weiBoArrowPresent2.cancalFavorite(position, status, mContext, false);
-        } else {
-            favoriteTextView.setText("收藏");
-            weiBoArrowPresent2.createFavorite(status, mContext);
-        }
     }
 
 

@@ -2,6 +2,8 @@ package com.wenming.weiswift.ui.login.fragment.home.weiboitem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -68,7 +70,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
      * @param position
      */
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (holder instanceof OriginViewHolder) {
             //如果这条原创微博没有被删除
             if (mDatas.get(position).user != null) {
@@ -91,7 +93,9 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((OriginViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        arrowClick(mDatas.get(position), position);
+                        ((OriginViewHolder) holder).origin_weibo_layout.setDrawingCacheEnabled(true);
+                        ((OriginViewHolder) holder).origin_weibo_layout.buildDrawingCache(true);
+                        arrowClick(mDatas.get(position), position,  ((OriginViewHolder) holder).origin_weibo_layout.getDrawingCache());
                     }
                 });
 
@@ -119,7 +123,6 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                     public void onClick(View v) {
                         WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(WeiboAdapter.this);
                         weiBoArrowPresent.cancalFavorite(position, mDatas.get(position), mContext, true);
-                        //arrowClick(mDatas.get(position), position);
                     }
                 });
             }
@@ -147,7 +150,9 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    arrowClick(mDatas.get(position), position);
+                   ((RetweetViewHolder) holder).retweet_weibo_layout.setDrawingCacheEnabled(true);
+                    ((RetweetViewHolder) holder).retweet_weibo_layout.buildDrawingCache(true);
+                    arrowClick(mDatas.get(position), position,((RetweetViewHolder) holder).retweet_weibo_layout.getDrawingCache() );
                 }
             });
 
@@ -189,10 +194,25 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.mDatas = data;
     }
 
-    public abstract void arrowClick(Status status, int position);
+    public abstract void arrowClick(Status status, int position, Bitmap bitmap);
 
     public void removeDataItem(int position) {
         mDatas.remove(position);
+    }
+
+    /**
+     * 用于或者layout的截图
+     *
+     * @param v
+     * @return
+     */
+    public static Bitmap loadBitmapFromView(View v) {
+
+        Bitmap b = Bitmap.createBitmap(v.getLayoutParams().width, v.getLayoutParams().height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
+        v.draw(c);
+        return b;
     }
 
 

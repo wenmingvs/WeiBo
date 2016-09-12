@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.home.userdetail;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -104,10 +105,10 @@ public class UserActivity extends BaseActivity implements UserActivityView {
             mNoMoreData = false;
             mMyWeiBoAdapter = new WeiboAdapter(statuselist, mContext) {
                 @Override
-                public void arrowClick(Status status, int position) {
+                public void arrowClick(Status status, int position,Bitmap bitmap) {
 //                    TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
 //                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-                    TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博");
+                    TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, statuselist.get(position), mMyWeiBoAdapter, position, "我的微博",bitmap);
                     int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                     arrowDialog.show();
                     arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));

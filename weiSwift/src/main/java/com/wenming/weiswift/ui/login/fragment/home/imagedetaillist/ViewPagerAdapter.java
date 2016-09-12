@@ -103,7 +103,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -112,16 +112,16 @@ public class ViewPagerAdapter extends PagerAdapter {
 
                 if (mDatas.get(position).endsWith(".gif")) {
                     gifImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.INVISIBLE);
-                    norImgView.setVisibility(View.INVISIBLE);
+                    longImg.setVisibility(View.GONE);
+                    norImgView.setVisibility(View.GONE);
                     if (file == null) {
                         return;
                     }
                     displayGif(file, gifImg);
                 } else if (ImageUtil.isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
-                    gifImg.setVisibility(View.INVISIBLE);
-                    norImgView.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.GONE);
+                    norImgView.setVisibility(View.GONE);
 
                     if (file == null) {
                         return;
@@ -132,18 +132,18 @@ public class ViewPagerAdapter extends PagerAdapter {
                         public void run() {
                             hidePreviewImg(preNorImg, preLongImg);
                             progressBar.setProgress(100);
-                            progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setVisibility(View.GONE);
                         }
                     }, 500);
                 } else {
                     norImgView.setVisibility(View.VISIBLE);
-                    gifImg.setVisibility(View.INVISIBLE);
-                    longImg.setVisibility(View.INVISIBLE);
+                    gifImg.setVisibility(View.GONE);
+                    longImg.setVisibility(View.GONE);
                     displayNormalImg(bitmap, norImgView);
                 }
                 hidePreviewImg(preNorImg, preLongImg);
                 progressBar.setProgress(100);
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         }, new ImageLoadingProgressListener() {
             @Override
@@ -227,13 +227,13 @@ public class ViewPagerAdapter extends PagerAdapter {
                 //如果是长图，显示长图
                 if (ImageUtil.isLongImg(bimiddleImg, loadedImage)) {
                     //ToastUtil.showShort(mContext, "显示长图预览");
-                    preNorImg.setVisibility(View.INVISIBLE);
+                    preNorImg.setVisibility(View.GONE);
                     preLongImg.setVisibility(View.VISIBLE);
                     displayLongPic(bimiddleImg, preLongImg);
                 } else {
                     //ToastUtil.showShort(mContext, "显示普通图片预览");
                     preNorImg.setVisibility(View.VISIBLE);
-                    preLongImg.setVisibility(View.INVISIBLE);
+                    preLongImg.setVisibility(View.GONE);
                     displayNormalImg(loadedImage, preNorImg);
                 }
             }
@@ -241,8 +241,12 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void hidePreviewImg(PhotoView norImg, final SubsamplingScaleImageView longImg) {
-        norImg.setVisibility(View.INVISIBLE);
-        longImg.setVisibility(View.INVISIBLE);
+        if (norImg.getVisibility() == View.VISIBLE){
+            norImg.setVisibility(View.GONE);
+        }
+        if (longImg.getVisibility() == View.VISIBLE){
+            longImg.setVisibility(View.GONE);
+        }
     }
 
     private void setOnLongClickListener(PhotoView preNorImg, SubsamplingScaleImageView preLongImg, final FrameLayout bgLayout, SubsamplingScaleImageView longImg, GifImageView gifImageView, PhotoView photoView, final int position) {

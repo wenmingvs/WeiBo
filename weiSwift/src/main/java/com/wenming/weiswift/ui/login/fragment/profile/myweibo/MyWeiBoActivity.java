@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.profile.myweibo;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -90,7 +91,7 @@ public class MyWeiBoActivity extends BaseActivity implements MyWeiBoActivityView
     public void initRecyclerView() {
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
-            public void arrowClick(Status status, int position) {
+            public void arrowClick(Status status, int position,Bitmap bitmap) {
 //                MyWeiBoArrowWindow popupWindow = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());
 //                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
                 MyWeiBoArrowWindow arrowDialog = new MyWeiBoArrowWindow(mContext, mDatas.get(position), mAdapter, position, "我的" + mGroupName.getText().toString());

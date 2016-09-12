@@ -2,6 +2,7 @@ package com.wenming.weiswift.ui.login.fragment.message.mention;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -43,14 +44,17 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         FillContent.fillTitleBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).profile_img, ((MentionViewHolder) holder).profile_verified, ((MentionViewHolder) holder).profile_name, ((MentionViewHolder) holder).profile_time, ((MentionViewHolder) holder).weibo_comefrom);
         FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((MentionViewHolder) holder).mention_content);
         FillContent.fillButtonBar(mContext, mDatas.get(position), ((MentionViewHolder) holder).bottombar_retweet, ((MentionViewHolder) holder).bottombar_comment, ((MentionViewHolder) holder).bottombar_attitude, ((MentionViewHolder) holder).comment, ((MentionViewHolder) holder).redirect, ((MentionViewHolder) holder).feedlike);
         ((MentionViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrowClick(mDatas.get(position), position);
+                ((MentionViewHolder) holder).bg_layout.setDrawingCacheEnabled(true);
+                ((MentionViewHolder) holder).bg_layout.buildDrawingCache();
+                Bitmap bitmap = ((MentionViewHolder) holder).bg_layout.getDrawingCache();
+                arrowClick(mDatas.get(position), position, bitmap);
             }
         });
 
@@ -106,7 +110,7 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public abstract void arrowClick(Status status, int position);
+    public abstract void arrowClick(Status status, int position, Bitmap bitmap);
 
     @Override
     public int getItemCount() {

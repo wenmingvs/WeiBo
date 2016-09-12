@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.home.weiboitem;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,11 +24,17 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
         super(context, status);
     }
 
+    public TimelineArrowWindow(Context mContext, Status status, WeiboAdapter mAdapter, int position, String s, Bitmap bitmap) {
+        super(mContext, status, mAdapter, position, s, bitmap);
+    }
+
+
     @Override
     public void initContent() {
         this.setFavoriteTextContext(mStatus, mFavoriteTextView);
         this.setFriendShipContext(mStatus, mFriendShipTextView);
         this.setDeleteViewContent(mStatus, mDeleteTextView);
+        super.setShareViewContent(mStatus,mShareTv);
     }
 
     /**
@@ -91,7 +98,6 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //WeiBoArrowPresent weiBoArrowPresent = new WeiBoArrowPresenterImp(TimelineArrowWindow.this, mWeiboAdapter);
                     mWeiBoArrowPresent.weibo_destroy(Long.valueOf(status.id), mContext, mItemPosition, mGroupName);
                 }
             });
@@ -100,4 +106,10 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
             mFriendShipTextView.setBackgroundResource(R.drawable.home_weiboitem_arrow_pop_bottomitem_bg_auto);
         }
     }
+
+
+
+
+
+
 }

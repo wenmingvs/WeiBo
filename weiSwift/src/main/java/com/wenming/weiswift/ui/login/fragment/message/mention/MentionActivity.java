@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.message.mention;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -116,11 +117,9 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
     private void initRecyclerView() {
         mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
             @Override
-            public void arrowClick(Status status, int position) {
-//                MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
-//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+            public void arrowClick(Status status, int position, Bitmap bitmap) {
 
-                MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status);
+                MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status,bitmap);
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.show();
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -160,11 +159,10 @@ public class MentionActivity extends BaseActivity implements MentionActivityView
         if (resetAdapter) {
             mMentionAdapter = new MentionAdapter(mContext, mMentionDatas) {
                 @Override
-                public void arrowClick(Status status, int position) {
+                public void arrowClick(Status status, int position,Bitmap bitmap) {
 //                    MentionArrowWindow popupWindow = new MentionArrowWindow(mContext, status);
 //                    popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-
-                    MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status);
+                    MentionArrowWindow arrowDialog = new MentionArrowWindow(mContext, status,bitmap);
                     int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                     arrowDialog.show();
                     arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
