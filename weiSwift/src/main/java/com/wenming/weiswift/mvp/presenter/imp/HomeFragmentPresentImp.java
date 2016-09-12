@@ -130,6 +130,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
+        public void getNewWeiBo(int num) {
+            mHomeFragmentView.showOrangeToast(num);
+        }
+
+        @Override
         public void onDataFinish(ArrayList<Status> statuslist) {
             mHomeFragmentView.hideLoadingIcon();
             mHomeFragmentView.scrollToTop(false);
@@ -155,6 +160,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
 
         @Override
         public void noDataInFirstLoad(String text) {
+        }
+
+        @Override
+        public void getNewWeiBo(int num) {
+
         }
 
         @Override

@@ -17,6 +17,8 @@ public interface StatusListModel {
 
         void noDataInFirstLoad(String error);
 
+        void getNewWeiBo(int num);
+
         void onDataFinish(ArrayList<Status> statuslist);
 
         void onError(String error);

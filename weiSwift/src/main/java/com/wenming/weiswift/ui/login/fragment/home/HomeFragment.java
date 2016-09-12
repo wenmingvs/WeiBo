@@ -14,8 +14,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -69,7 +71,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     /**
      * 顶部导航栏
      */
-    private RelativeLayout mTopBar;
+    private LinearLayout mTopBar;
 
     /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
@@ -84,6 +86,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
      */
     private boolean mControlsVisible = true;
 
+    private TextView mToastTv;
+
     private onButtonBarListener mOnBottonBarListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,12 +98,13 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         sHideThreshold = DensityUtil.dp2px(mContext, 20);
         mView = inflater.inflate(R.layout.mainfragment_layout, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
-        mTopBar = (RelativeLayout) mView.findViewById(R.id.toolbar_home);
+        mTopBar = (LinearLayout) mView.findViewById(R.id.toolbar_home);
         mGroup = (LinearLayout) mView.findViewById(R.id.group);
         mUserNameTextView = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
+        mToastTv = (TextView) mView.findViewById(R.id.toast_msg);
         initRecyclerView();
         initRefreshLayout();
         initGroupWindows();
@@ -146,8 +151,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mDatas = new ArrayList<>();
         mAdapter = new WeiboAdapter(mDatas, mContext) {
             @Override
-            public void arrowClick(Status status, int position,Bitmap bitmap) {
-                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString(),bitmap);
+            public void arrowClick(Status status, int position, Bitmap bitmap) {
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString(), bitmap);
                 arrowDialog.show();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -262,6 +267,38 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
             mPopWindow.onDestory();
         }
     }
+
+    @Override
+    public void showOrangeToast(int num) {
+        mToastTv.setVisibility(View.VISIBLE);
+        mToastTv.setText(num + "条新微博");
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(2000);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mToastTv.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mToastTv.startAnimation(animation);
+    }
+
+    @Override
+    public void hideOrangeToast() {
+        mToastTv.setVisibility(View.GONE);
+    }
+
 
 
     @Override

@@ -23,7 +23,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/toolbar_home_login" />
+    <include layout="@layout/toolbar_home_login_toast" />
 
     <include layout="@layout/empty_default" />
 </FrameLayout>

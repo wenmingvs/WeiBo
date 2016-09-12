@@ -65,6 +65,7 @@ public interface HomeFragmentView {
 
     /**
      * 设置当前的用户
+     *
      * @param user
      */
     public void setCurrentUser(User user);
@@ -79,5 +80,18 @@ public interface HomeFragmentView {
     public void hideEmptyBackground();
 
     public void popWindowsDestory();
+
+    /**
+     * 显示加载到多少条微博
+     *
+     * @param num
+     */
+    public void showOrangeToast(int num);
+
+    /**
+     * 隐藏橙色的bar
+     * @param num
+     */
+    public void hideOrangeToast();
 
 }
