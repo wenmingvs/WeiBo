@@ -18,6 +18,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -87,6 +88,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     private boolean mControlsVisible = true;
 
     private TextView mToastTv;
+    private RelativeLayout mToastBg;
 
     private onButtonBarListener mOnBottonBarListener;
 
@@ -105,6 +107,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         mToastTv = (TextView) mView.findViewById(R.id.toast_msg);
+        mToastBg = (RelativeLayout) mView.findViewById(R.id.toast_bg);
         initRecyclerView();
         initRefreshLayout();
         initGroupWindows();
@@ -269,16 +272,15 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     }
 
     @Override
-    public void showOrangeToast(int num) {
-        mToastTv.setVisibility(View.VISIBLE);
-        mToastTv.setText(num + "条新微博");
-        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+    public void showOrangeToast(final int num) {
+        Animation animation = new AlphaAnimation(0.5f, 1.0f);
         animation.setDuration(2000);
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                mToastTv.setVisibility(View.VISIBLE);
+                mToastTv.setText(num + "条新微博");
             }
 
             @Override
@@ -291,7 +293,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
             }
         });
-        mToastTv.startAnimation(animation);
+        mToastBg.startAnimation(animation);
     }
 
     @Override
