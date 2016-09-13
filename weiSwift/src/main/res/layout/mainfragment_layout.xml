@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/home_weiboitem_topbar_height"
+            android:paddingTop="@dimen/topbar_height"
             android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

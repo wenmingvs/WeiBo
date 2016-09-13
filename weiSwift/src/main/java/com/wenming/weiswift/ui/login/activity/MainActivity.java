@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         mThemeImg = (ImageView) findViewById(R.id.themeImageView);
 
         //LogReport.getInstance().upload(mContext);
-        mBarManager = new BarManager(mContext);
+        mBarManager = new BarManager();
         mFragmentManager = getSupportFragmentManager();
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
 

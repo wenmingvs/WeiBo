@@ -12,7 +12,8 @@
     <dimen name="home_weiboitem_title_weibocomefrom">12sp</dimen><!--微博来源-->
 
     <!--顶部标题栏的高度-->
-    <dimen name="home_weiboitem_topbar_height">45dp</dimen>
+    <dimen name="topbar_height">45dp</dimen>
+    <dimen name="topbar_toast_height">40dp</dimen>
 
     <!--底部导航栏的高度-->
     <dimen name="home_weiboitem_bottombar_height">45dp</dimen>

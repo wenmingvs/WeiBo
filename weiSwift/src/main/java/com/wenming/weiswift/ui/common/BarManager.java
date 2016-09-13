@@ -2,54 +2,49 @@ package com.wenming.weiswift.ui.common;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-
-import com.wenming.weiswift.R;
 
 /**
  * Created by wenmingvs on 16/8/12.
  */
 public class BarManager {
 
-    private Animation showAnim;
-    private Animation dismissAnim;
 
-    public BarManager(Context applicatonContext) {
-        showAnim = AnimationUtils.loadAnimation(applicatonContext, R.anim.bottombar_show);
-        dismissAnim = AnimationUtils.loadAnimation(applicatonContext, R.anim.bottombar_dismiss);
-    }
-
-    public void hideAllBar(View topBar, View bottomBar) {
-        hideTopBar(topBar);
-        hideBottomBar(bottomBar);
-    }
-
-    public void showAllBar(View topBar, View bottomBar) {
-        showTopBar(topBar);
-        showBottomBar(bottomBar);
-    }
-
+    /**
+     * 显示顶部导航栏
+     *
+     * @param topBar
+     */
     public void showTopBar(final View topBar) {
+
         topBar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    public void hideTopBar(final View topBar) {
-        topBar.animate().translationY(-topBar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    /**
+     * 隐藏顶部导航栏
+     *
+     * @param topBar
+     */
+    public void hideTopBar(final ViewGroup topBar, Context context) {
+        int moveOffset;
+        View toast = topBar.getChildAt(1);
+        moveOffset = topBar.getHeight() - toast.getHeight();
+
+        topBar.animate().translationY(-moveOffset).setInterpolator(new AccelerateInterpolator(2));
     }
 
     /**
-     * 显示工具栏
+     * 显示底部导航栏
      */
     public void showBottomBar(final View bottomBar) {
         bottomBar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     /**
-     * 隐藏工具栏
+     * 隐藏底部导航栏
      */
     public void hideBottomBar(final View bottomBar) {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) bottomBar.getLayoutParams();

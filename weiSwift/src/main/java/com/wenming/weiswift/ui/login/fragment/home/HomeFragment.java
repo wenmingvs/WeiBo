@@ -426,8 +426,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
      * 隐藏底部导航栏
      */
     public void hideTopBar() {
-        BarManager barManager = new BarManager(mContext);
-        barManager.hideTopBar(mTopBar);
+        BarManager barManager = new BarManager();
+        barManager.hideTopBar(mTopBar,mContext);
     }
 
 
@@ -435,7 +435,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
      * 显示顶部导航栏
      */
     public void showTopBar() {
-        BarManager barManager = new BarManager(mContext);
+        BarManager barManager = new BarManager();
         barManager.showTopBar(mTopBar);
     }
 
