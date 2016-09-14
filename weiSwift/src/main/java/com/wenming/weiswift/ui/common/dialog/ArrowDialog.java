@@ -2,10 +2,9 @@ package com.wenming.weiswift.ui.common.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -17,7 +16,6 @@ import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.WeiBoArrowPresent2;
 import com.wenming.weiswift.mvp.presenter.imp.WeiBoArrowPresenterImp2;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
-import com.wenming.weiswift.utils.SaveImgUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.io.File;
@@ -164,7 +162,7 @@ public abstract class ArrowDialog extends Dialog {
 
     private File bitmap2File(Bitmap bitmap) {
         String filename = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + ".jpg";
-        String dir = SaveImgUtil.IMGDIR;
+        String dir =  Environment.getExternalStorageDirectory().getPath() + "/weiSwift/.cache/";
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
             dirFile.mkdirs();
@@ -186,12 +184,7 @@ public abstract class ArrowDialog extends Dialog {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //通知更新
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(bitmapFile);
-        intent.setData(uri);
-        mContext.sendBroadcast(intent);
-        Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "截图成功!", Toast.LENGTH_SHORT).show();
         return bitmapFile;
     }
 
