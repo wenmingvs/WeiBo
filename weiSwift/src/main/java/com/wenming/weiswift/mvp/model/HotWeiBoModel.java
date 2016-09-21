@@ -21,9 +21,9 @@ public interface HotWeiBoModel {
     }
 
 
-    public void getLatestComment(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void getHotWeiBo(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void getNextPageComment(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void getHotWeiBoNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
 
 }

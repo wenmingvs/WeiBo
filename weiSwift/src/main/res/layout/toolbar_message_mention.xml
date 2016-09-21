@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/white">
+    android:background="@color/topbar_bg">
 
     <ImageView
         android:id="@+id/toolbar_back"
@@ -16,7 +16,7 @@
         android:src="@drawable/navigationbar_back_auto" />
 
     <LinearLayout
-        android:id="@+id/folder"
+        android:id="@+id/mention_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -24,14 +24,17 @@
         android:clickable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp">
 
         <TextView
-            android:id="@+id/foldername"
+            android:id="@+id/mention_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所有微博"
-            android:textColor="#545454"
+            android:textColor="@color/topbar_center"
             android:textSize="20sp" />
 
         <ImageView
@@ -51,12 +54,12 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:text="设置"
-        android:textColor="@color/toolbar_textview_background_auto"
+        android:textColor="@color/topbar_leftright_text"
         android:textSize="18sp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/topbar_bottom_drive" />
 </RelativeLayout>

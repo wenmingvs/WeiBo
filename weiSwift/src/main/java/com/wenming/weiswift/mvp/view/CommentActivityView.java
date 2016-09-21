@@ -41,4 +41,9 @@ public interface CommentActivityView {
      */
     public void showErrorFooterView();
 
+    /**
+     * 滑动到顶部
+     */
+    public void scrollToTop(boolean refreshData);
+
 }

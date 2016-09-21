@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model;
 import android.content.Context;
 
 import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.entity.list.StatusList;
 
 import java.util.ArrayList;
 
@@ -14,29 +15,40 @@ public interface StatusListModel {
     interface OnDataFinishedListener {
         void noMoreData();
 
-        void noDataInFirstLoad();
+        void noDataInFirstLoad(String error);
 
         void onDataFinish(ArrayList<Status> statuslist);
 
         void onError(String error);
     }
 
+    interface OnRequestListener {
+        void onSuccess();
 
-    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void friendsTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void friendsTimelineCacheLoad(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void friendsTimelineCacheSave(Context context, String response);
-
-    public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
-
-    public void bilateralTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+        void onError(String error);
+    }
 
     public void timeline(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void weibo_destroy(long id, Context context, OnRequestListener onRequestListener);
+
+    public void friendsTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void bilateralTimelineNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+
     public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void setRefrshFriendsTimelineTask();
+
+    public void cancelTimer();
+
+    public boolean cacheLoad(long groupType, Context context, OnDataFinishedListener onDataFinishedListener);
+
+    public void cacheSave(long groupType, Context context, StatusList statusList);
 
 
 }

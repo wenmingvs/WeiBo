@@ -1,56 +1,66 @@
 package com.wenming.weiswift.ui.login.fragment.home.imagedetaillist;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.ui.common.BasePopupWindow;
+import com.wenming.weiswift.utils.SaveImgUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.ToastUtil;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by xiangflight on 2016/4/22.
  */
-public class ImageOptionPopupWindow extends PopupWindow {
+public class ImageOptionPopupWindow extends BasePopupWindow {
 
     private View mView;
     private TextView mCancalTextView;
     private TextView mSavePicTextView;
     private TextView mRetweetTextView;
-
-
-    /**
-     * 使用单例模式创建ImageOPtionPopupWindow
-     */
-    private static volatile ImageOptionPopupWindow mImageOptionPopupWindow;
-
-    public static ImageOptionPopupWindow getInstance(Context context) {
-        if (mImageOptionPopupWindow == null) {
-            synchronized (ImageOptionPopupWindow.class) {
-                if (mImageOptionPopupWindow == null) {
-                    mImageOptionPopupWindow = new ImageOptionPopupWindow(context.getApplicationContext());
-                }
-            }
-        }
-        return mImageOptionPopupWindow;
-    }
+    private Context mContext;
+    private String mImgURL;
 
     /**
-     * 创建一个ImageOptionPopupWindow
-     *
-     * @param context
+     * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
-    private ImageOptionPopupWindow(Context context) {
-        super(context);
-        initPopWindow(context);
-        // 设置popupwindow的布局
-        mView = LayoutInflater.from(context).inflate(R.layout.home_image_detail_list_pop_window, null);
+    private static DisplayImageOptions ImageOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.message_image_default)
+            .showImageForEmptyUri(R.drawable.message_image_default)
+            .showImageOnFail(R.drawable.timeline_image_failure)
+            .bitmapConfig(Bitmap.Config.ARGB_8888)
+            .imageScaleType(ImageScaleType.NONE)
+            .considerExifParams(true)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
+
+
+    public ImageOptionPopupWindow(String url, Context context) {
+        super(context, (Activity) context, 300);
+        mContext = context;
+        mImgURL = url;
+        initPopWindow(mContext);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.home_image_detail_list_pop_window, null);
         this.setContentView(mView);
-        initOnClickListener(context);
+        initOnClickListener(mContext);
     }
 
     private void initPopWindow(Context context) {
@@ -93,15 +103,30 @@ public class ImageOptionPopupWindow extends PopupWindow {
         mSavePicTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(context, "保存图片");
+                dismiss();
+
+
+
+                ImageLoader.getInstance().loadImage(mImgURL, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        File imgFile = DiskCacheUtils.findInCache(mImgURL, ImageLoader.getInstance().getDiskCache());
+                        SaveImgUtil.create(mContext).saveImage(imgFile,loadedImage);
+                    }
+                });
+
             }
         });
 
         mRetweetTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 ToastUtil.showShort(context, "转发微博");
             }
         });
+
     }
+
 }

@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/home_weiboitem_marginleftright">
+
+    <include layout="@layout/mainfragment_weiboitem_titlebar_profileimg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="红楼"
+                    android:textColor="@color/home_weiboitem_title_profile_name"
+                    android:textSize="@dimen/home_weiboitem_title_profile_name" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/profile_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16分钟前  "
+                    android:textColor="@color/home_weiboitem_title_weibocomefrom"
+                    android:textSize="@dimen/home_weiboitem_title_profile_time" />
+
+                <TextView
+                    android:id="@+id/weiboComeFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="来自 微博weibo.com"
+                    android:textColor="@color/home_weiboitem_title_profile_time"
+                    android:textSize="@dimen/home_weiboitem_title_weibocomefrom" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comment_reply"
+            android:layout_width="45dp"
+            android:layout_height="28dp"
+            android:layout_margin="@dimen/home_weiboitem_marginleftright"
+            android:background="@drawable/message_comment_item_title_repley_bg_auto"
+            android:gravity="center"
+            android:text="回复"
+            android:textColor="@color/reply_buttom_text"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

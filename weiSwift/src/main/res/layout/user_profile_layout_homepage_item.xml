@@ -18,7 +18,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="所在地"
-            android:textColor="#919191" />
+            android:textColor="#919191"
+            android:textSize="@dimen/home_retweet_weiboitem_font" />
 
         <TextView
             android:id="@+id/content"
@@ -31,7 +32,8 @@
             android:gravity="center_vertical"
             android:minHeight="37dp"
             android:text="上海 静安区"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/home_original_weiboitem_font" />
     </LinearLayout>
 
     <ImageView

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_commentcenter_grey_bg_auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/home_weiboitem_marginleftright"
+    android:paddingRight="@dimen/home_weiboitem_marginleftright">
+
+    <com.wenming.weiswift.widget.emojitextview.EmojiTextView
+        android:id="@+id/commentitem_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="\@闭关写代码:多练练你也就成了老司机了"
+        android:textColor="@color/comment_reply_item_text"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/commentitem_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/timeline_feedcard_retweet_background_auto"
+        android:orientation="horizontal">
+
+        <com.cesards.cropimageview.CropImageView
+            android:id="@+id/commentitem_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/comment_weibolayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/home_commentcenter_grey_bg_auto"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/commentitem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
+                android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+                android:gravity="center"
+                android:textColor="@color/center_area_comment_item_author"
+                android:textSize="@dimen/home_original_weiboitem_font" />
+
+            <TextView
+                android:id="@+id/comment_weibocontent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
+                android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+                android:ellipsize="end"
+                android:lines="2"
+                android:textColor="@color/center_area_comment_item_text"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

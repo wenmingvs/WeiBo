@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.ui.common.FillContent;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
+public abstract class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<User> mDatas = new ArrayList<User>();
     private Context mContext;
@@ -38,13 +39,21 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        FillContent.fillFriendContent(mContext, mDatas.get(position),
-                ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified,
-                ((FriendsrViewHolder) holder).follow_me,
-                ((FriendsrViewHolder) holder).friendName, ((FriendsrViewHolder) holder).friendContent);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        FillContent.fillProfileImg(mContext, mDatas.get(position), ((FriendsrViewHolder) holder).friendImg, ((FriendsrViewHolder) holder).friendVerified);
+        FillContent.setWeiBoName(((FriendsrViewHolder) holder).friendName, mDatas.get(position));
+        FillContent.fillFollowerDescription(mDatas.get(position), ((FriendsrViewHolder) holder).friendContent);
+        FillContent.updateRealtionShip(mContext, mDatas.get(position), ((FriendsrViewHolder) holder).friendIcon, ((FriendsrViewHolder) holder).friendText);
+        ((FriendsrViewHolder) holder).friend_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friendLayoutClick(mDatas.get(position), position, ((FriendsrViewHolder) holder).friendIcon, ((FriendsrViewHolder) holder).friendText);
+            }
+        });
 
     }
+
+    public abstract void friendLayoutClick(User user, int position, ImageView friendIcon, TextView friendText);
 
     @Override
     public int getItemCount() {
@@ -53,7 +62,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             return 0;
         }
-
     }
 
 
@@ -64,17 +72,21 @@ public class FriendsAdapter extends RecyclerView.Adapter<ViewHolder> {
     protected class FriendsrViewHolder extends ViewHolder {
         public ImageView friendImg;
         public ImageView friendVerified;
-        public ImageView follow_me;
         public TextView friendName;
         public TextView friendContent;
+        public ImageView friendIcon;
+        public TextView friendText;
+        public RelativeLayout friend_layout;
 
         public FriendsrViewHolder(View view) {
             super(view);
             friendImg = (ImageView) view.findViewById(R.id.friend_img);
             friendVerified = (ImageView) view.findViewById(R.id.friend_verified);
-            follow_me = (ImageView) view.findViewById(R.id.follow_me);
+            friendIcon = (ImageView) view.findViewById(R.id.friendIcon);
             friendName = (TextView) view.findViewById(R.id.friend_name);
             friendContent = (TextView) view.findViewById(R.id.friend_content);
+            friendText = (TextView) view.findViewById(R.id.friendText);
+            friend_layout = (RelativeLayout) view.findViewById(R.id.friend_layout);
 
         }
     }

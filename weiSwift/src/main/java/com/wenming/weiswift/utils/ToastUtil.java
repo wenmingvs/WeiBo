@@ -23,8 +23,9 @@ public class ToastUtil {
      * @param message
      */
     public static void showShort(Context context, CharSequence message) {
-        if (isShow)
+        if (isShow) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

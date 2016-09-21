@@ -44,13 +44,23 @@ public interface UserModel {
     }
 
 
-    public void showUserDetail(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+    public void show(long uid, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+
+    public void show(String screenName, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
 
     public User showUserDetailSync(long uid, Context context);
 
-    public void userTimeline(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
-    public void userTimelineNextPage(long uid, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+    public void userTimeline(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+
+    public void userPhoto(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+
+    public void userTimelineNextPage(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+
+    public void userTimelineNextPage(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
+
+    public void userPhotoNextPage(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
     public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish);
 
@@ -63,6 +73,19 @@ public interface UserModel {
     public void getUserDetailList(Context context, OnUserListRequestFinish onUserListRequestFinish);
 
     public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener);
+
+    public void cacheSave_statuslist(int groupType, Context context, String response);
+
+    public void cacheLoad_statuslist(int groupType, Context context, OnStatusListFinishedListener onStatusListFinishedListener);
+
+    public void cacheSave_user(Context context, String response);
+
+    public void cacheLoad_user(Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
+
+    public void cacheSave_userlist(int groupType, Context context, String response);
+
+    public void cacheLoad_userlist(int groupType, Context context, OnUserListRequestFinish onUserListRequestFinish);
+
 }
 
 

@@ -1,5 +1,9 @@
 package com.wenming.weiswift.mvp.view;
 
+import android.content.Context;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.wenming.weiswift.entity.User;
 
 import java.util.ArrayList;
@@ -39,4 +43,6 @@ public interface FriendActivityView {
      * 显示FooterView，提示没有网络
      */
     public void showErrorFooterView();
+
+    public void updateRealtionShip(Context context, User user, ImageView icon, TextView text);
 }

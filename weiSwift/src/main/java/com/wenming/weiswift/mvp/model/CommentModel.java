@@ -3,6 +3,7 @@ package com.wenming.weiswift.mvp.model;
 import android.content.Context;
 
 import com.wenming.weiswift.entity.Comment;
+import com.wenming.weiswift.entity.list.CommentList;
 
 import java.util.ArrayList;
 
@@ -17,17 +18,19 @@ public interface CommentModel {
         void onDataFinish(ArrayList<Comment> commentlist);
 
         void onError(String error);
-
     }
 
 
-    public void toMe(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMe(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void toMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void toMeNextPage(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void toMeCacheSave(Context context, String response);
+    public void byMe(Context context, OnDataFinishedListener onDataFinishedListener);
 
-    public void ToMeCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
+    public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
 
+    public void cacheSave(int groupType, Context context, CommentList commentList);
+
+    public void cacheLoad(int groupType, Context context, OnDataFinishedListener onDataFinishedListener);
 
 }

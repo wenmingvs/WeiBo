@@ -28,7 +28,7 @@
         android:layout_gravity="center"
         android:singleLine="true"
         android:text="添加帐号"
-        android:textColor="#343434"
+        android:textColor="@color/account_item_name"
         android:textSize="17sp" />
 
 </LinearLayout>

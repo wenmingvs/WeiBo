@@ -1,6 +1,5 @@
 package com.wenming.weiswift.ui.login.fragment.profile.setting.accoutlist;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +20,7 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.AccoutActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.AccoutActivityPresentImp;
 import com.wenming.weiswift.mvp.view.AccoutActivityView;
+import com.wenming.weiswift.ui.common.BaseActivity;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/18.
  */
-public class AccoutActivity extends Activity implements AccoutActivityView {
+public class AccoutActivity extends BaseActivity implements AccoutActivityView {
 
     private ListView listview;
     private RelativeLayout mCurrentAccoutLogOut;
@@ -103,10 +103,8 @@ public class AccoutActivity extends Activity implements AccoutActivityView {
                                 if (!uid.equals(currentUid)) {
                                     mAccoutActivityPresent.logout(mContext, uid);
                                 } else {
-                                    mCurrentAccoutLogOut.callOnClick();
+                                    mCurrentAccoutLogOut.performClick();
                                 }
-
-
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -126,15 +124,14 @@ public class AccoutActivity extends Activity implements AccoutActivityView {
         mAddAccountBut = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.accout_layout_item_footerview, null);
         mAdapter = new AccoutAdapter(mContext, userArrayList);
         listview.addFooterView(mAddAccountBut);
-        listview.setDivider(new ColorDrawable(Color.parseColor("#e5e5e5")));
-        listview.setDividerHeight(DensityUtil.dp2px(mContext, 1));
+        //listview.setDivider(new ColorDrawable(Color.parseColor("#e5e5e5")));
+        //listview.setDividerHeight(DensityUtil.dp2px(mContext, 1));
         listview.setAdapter(mAdapter);
     }
 
     @Override
     public void finishItself() {
         finish();
-        ;
     }
 
     @Override

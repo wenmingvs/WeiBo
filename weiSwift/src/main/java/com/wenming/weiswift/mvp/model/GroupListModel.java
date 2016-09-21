@@ -22,9 +22,9 @@ public interface GroupListModel {
 
     public void groupsOnlyOnce(Context context, OnGroupListFinishedListener onDataFinishedListener);
 
-    public void groupsCacheSave(Context context, String response);
+    public void cacheLoad(Context context, OnGroupListFinishedListener onGroupListFinishedListener);
 
-    public void groupsCacheLoad(Context context, OnGroupListFinishedListener onDataFinishedListener);
+    public void cacheSave(Context context, String response);
 
 
 }

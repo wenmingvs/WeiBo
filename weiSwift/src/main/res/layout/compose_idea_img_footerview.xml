@@ -3,10 +3,9 @@
 
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addpic"
-    android:layout_width="110dp"
-    android:layout_height="110dp"
+    android:layout_width="107.5dp"
+    android:layout_height="107.5dp"
     android:layout_margin="2dp"
-    android:scaleType="fitCenter"
-    android:src="@drawable/compose_photo_add_auto" />
+    android:background="@drawable/compose_photo_add_auto" />
 
 

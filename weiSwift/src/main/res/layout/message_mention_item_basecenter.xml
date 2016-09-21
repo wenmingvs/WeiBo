@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mentionitem_layout"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
+    android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+    android:background="#f7f7f7"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/mentionitem_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_commentcenter_grey_bg_auto"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mentionitem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
+            android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+            android:gravity="center"
+            android:textColor="@color/center_area_mention_item_author"
+            android:textSize="@dimen/home_original_weiboitem_font" />
+
+        <TextView
+            android:id="@+id/mentionitem_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
+            android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textColor="@color/center_area_mention_item_text"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

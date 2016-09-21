@@ -18,24 +18,25 @@ package com.wenming.weiswift.entity.list;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wenming.weiswift.entity.Group;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
  * 好友分组列表。
- * 
+ *
  * @author SINA
  * @since 2013-11-27
  */
 public class GroupList {
-    /** 分组列表 **/
-    public ArrayList<Group> groupList;
-    /** 分组数目 **/
+    /**
+     * 分组列表
+     **/
+    public ArrayList<Group> lists;
+    /**
+     * 分组数目
+     **/
     public int total_number;
 
     public static GroupList parse(String jsonString) {
@@ -43,23 +44,8 @@ public class GroupList {
             return null;
         }
 
-        GroupList groupList = new GroupList();
-        try {
-            JSONObject jsonObject  = new JSONObject(jsonString);
-            groupList.total_number = jsonObject.optInt("total_number");
-
-            JSONArray jsonArray = jsonObject.optJSONArray("lists");
-            if (jsonArray != null && jsonArray.length() > 0) {
-                int length = jsonArray.length();
-                groupList.groupList = new ArrayList<Group>(length);
-                for (int ix = 0; ix < length; ix++) {
-                    groupList.groupList.add(Group.parse(jsonArray.optJSONObject(ix)));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        GroupList groupList = new Gson().fromJson(jsonString, GroupList.class);
         return groupList;
+
     }
 }

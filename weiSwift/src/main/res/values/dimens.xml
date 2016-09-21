@@ -5,25 +5,31 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="weibo_item_space">8dp</dimen>
 
-
     <!--微博顶部TitleBar的各项字体大小-->
     <dimen name="home_weiboitem_title_profile_pic">38dp</dimen><!--头像大小（长宽相等）-->
     <dimen name="home_weiboitem_title_profile_name">14sp</dimen><!--发微博用户-->
     <dimen name="home_weiboitem_title_profile_time">12sp</dimen><!--微博时间-->
     <dimen name="home_weiboitem_title_weibocomefrom">12sp</dimen><!--微博来源-->
 
+    <!--顶部标题栏的高度-->
+    <dimen name="home_weiboitem_topbar_height">45dp</dimen>
+
+    <!--底部导航栏的高度-->
+    <dimen name="home_weiboitem_bottombar_height">45dp</dimen>
 
     <!--微博顶部BottomBar的各项字体大小-->
     <dimen name="home_weiboitem_bottombar_font">12sp</dimen><!--底部Bar的字体大小-->
 
-
     <!--原创内容的字体大小-->
-    <dimen name="home_original_weiboitem_font">16sp</dimen><!--微博内容中字体大小-->
+    <dimen name="home_original_weiboitem_font">16sp</dimen><!--微博内容中字体大小:16中号,15小号-->
     <dimen name="home_original_weiboitem_linespace">3dp</dimen><!--微博内容中行距大小-->
 
     <!--转发内容的字体大小-->
-    <dimen name="home_retweet_weiboitem_font">16sp</dimen><!--转发内容中的字体大小-->
+    <dimen name="home_retweet_weiboitem_font">15sp</dimen><!--转发内容中的字体大小：15中号，14小号-->
 
+    <!--发微博的内容字体大小-->
+    <dimen name="post_content_font">15sp</dimen><!--发微博的内容字体大小：15中号，14小号-->
+    s
     <!--首页的其他设置-->
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
     <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
@@ -46,11 +52,14 @@
 
     <dimen name="dp_066">0.66dp</dimen>
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_14">14dp</dimen>
     <dimen name="dp_22">22dp</dimen>
     <dimen name="dp_36">36dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_72">72dp</dimen>
 

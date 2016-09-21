@@ -1,5 +1,6 @@
 package com.wenming.weiswift.mvp.view;
 
+import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
@@ -9,7 +10,9 @@ import java.util.ArrayList;
  */
 public interface MentionActivityView {
 
-    public void updateListView(ArrayList<Status> statuselist);
+    public void updateMentionListView(ArrayList<Status> statuselist, boolean resetAdapter);
+
+    public void updateCommentListView(ArrayList<Comment> statuselist, boolean resetAdapter);
 
     /**
      * 显示loading动画
@@ -24,7 +27,7 @@ public interface MentionActivityView {
     /**
      * 显示正在加载的FooterView
      */
-    public void showLoadFooterView();
+    public void showLoadFooterView(int currentgroup);
 
     /**
      * 隐藏FooterView
@@ -40,6 +43,11 @@ public interface MentionActivityView {
      * 显示FooterView，提示没有网络
      */
     public void showErrorFooterView();
+
+    /**
+     * 滑动到顶部
+     */
+    public void scrollToTop(boolean refreshData);
 
 
 }

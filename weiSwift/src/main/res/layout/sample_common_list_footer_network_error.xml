@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/loadding_footer_bg"
     android:orientation="horizontal">
 
     <ImageView
@@ -17,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_4"
         android:text="@string/list_footer_network_error"
-        android:textColor="@color/color_00"
+        android:textColor="@color/loadding_footer_text"
         android:textSize="@dimen/sp_14" />
 </LinearLayout>

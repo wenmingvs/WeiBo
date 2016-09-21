@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -23,9 +24,13 @@ import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.ProfileFragmentPresent;
 import com.wenming.weiswift.mvp.presenter.imp.ProfileFragmentPresentImp;
 import com.wenming.weiswift.mvp.view.ProfileFragmentView;
+import com.wenming.weiswift.ui.common.NewFeature;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.login.fragment.home.userdetail.UserActivity;
+import com.wenming.weiswift.ui.login.fragment.profile.favorites.FavoritiesActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.followers.FollowerActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.friends.FriendsActivity;
+import com.wenming.weiswift.ui.login.fragment.profile.myphoto.MyPhotoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.myweibo.MyWeiBoActivity;
 import com.wenming.weiswift.ui.login.fragment.profile.setting.SettingActivity;
 import com.wenming.weiswift.widget.mdprogressbar.CircleProgressBar;
@@ -49,9 +54,16 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     private LinearLayout mMyWeiBo_Layout;
     private LinearLayout mFollowers_Layout;
     private LinearLayout mFriends_Layout;
+    private RelativeLayout mFavorities_Layout;
+    private RelativeLayout mMyPhoto_Layout;
     private ProfileFragmentPresent mProfileFragmentPresent;
     private CircleProgressBar mProgressBar;
     private ScrollView mScrollView;
+    private RelativeLayout mMyprofile_layout;
+    private User mUser;
+
+    public ProfileFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +96,12 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.yyweibo_layout);
         mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
         mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
+        mFavorities_Layout = (RelativeLayout) mView.findViewById(R.id.favorities_layout);
+        mMyPhoto_Layout = (RelativeLayout) mView.findViewById(R.id.myphoto_layout);
         mSettings = (TextView) mView.findViewById(R.id.setting);
         mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);
+        mMyprofile_layout = (RelativeLayout) mView.findViewById(R.id.myprofile_layout);
+
         mProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         refreshUserDetail(mContext, true);
         setUpListener();
@@ -119,7 +135,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, MyWeiBoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0x1);
             }
         });
 
@@ -143,12 +159,43 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
             }
         });
+        mMyPhoto_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, MyPhotoActivity.class);
+                intent.putExtra("screeenName", mUser.screen_name);
+                startActivity(intent);
+            }
+        });
+        mFavorities_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, FavoritiesActivity.class);
+                startActivity(intent);
+            }
+        });
+        mMyprofile_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, UserActivity.class);
+                intent.putExtra("screenName", mUser.screen_name);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (NewFeature.refresh_profileLayout == true) {
+            refreshUserDetail(mContext, false);
+            NewFeature.refresh_profileLayout = false;
+        }
+    }
 
     @Override
     public void setUserDetail(User user) {
         if (user != null) {
+            mUser = user;
             ImageLoader.getInstance().displayImage(user.avatar_hd, mProfile_myimg, options);
             mProfile_myname.setText(user.name);
             mProfile_mydescribe.setText("简介:" + user.description);

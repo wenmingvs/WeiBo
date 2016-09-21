@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -119,7 +120,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:background="#f5f5f5"
+        android:background="#f4f4f4"
         android:gravity="center">
 
         <LinearLayout
@@ -140,13 +141,13 @@
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
                 android:text="主页"
-                android:textColor="#fe8000"
+                android:textColor="#2f2f2f"
                 android:textSize="@dimen/home_weiboitem_detail_bottom_bar_font" />
 
             <ImageView
                 android:id="@+id/homepage_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="4dp"
                 android:layout_gravity="bottom"
                 android:background="#ff8200" />
 
@@ -176,7 +177,7 @@
             <ImageView
                 android:id="@+id/weibo_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="4dp"
                 android:layout_gravity="bottom"
                 android:background="#ff8300"
                 android:visibility="invisible" />
@@ -207,9 +208,8 @@
             <ImageView
                 android:id="@+id/photo_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="4dp"
                 android:layout_gravity="bottom"
-
                 android:background="#ff8300"
                 android:visibility="invisible" />
 
@@ -219,7 +219,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/grey" />
+        android:background="#e5e5e5" />
 </LinearLayout>
 
 

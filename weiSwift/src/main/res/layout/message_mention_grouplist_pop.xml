@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="185dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popover_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/allweibo"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@drawable/home_groupitem_bg_auto"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="所有微博"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/friends_weibo"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@drawable/home_groupitem_bg_auto"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="关注人的微博"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/origin_weibo"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@drawable/home_groupitem_bg_auto"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="原创微博"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="7.5dp"
+                android:layout_height="2dp"
+                android:background="#4d4d4d" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3.5dp"
+                android:layout_marginRight="3.5dp"
+                android:text="\@我的评论"
+                android:textColor="#323232"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#4d4d4d" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/all_comment"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@drawable/home_groupitem_bg_auto"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="所有评论"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/friends_comment"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@drawable/home_groupitem_bg_auto"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="关注人的评论"
+            android:textColor="@color/home_groupitem_textview_background_auto"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

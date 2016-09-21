@@ -3,8 +3,7 @@
     android:id="@+id/toolbar_home_unlogin"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/topbar_bg">
 
     <TextView
         android:id="@+id/register"
@@ -26,7 +25,7 @@
         android:layout_margin="8dp"
         android:gravity="center"
         android:text="热门"
-        android:textColor="#525252"
+        android:textColor="@color/topbar_center"
         android:textSize="20sp" />
 
     <TextView
@@ -46,6 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#e3e3e3" />
+        android:background="@color/topbar_bottom_drive" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,21 +13,27 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.NotificationCompat;
+import android.view.View;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.entity.Status;
+import com.wenming.weiswift.api.CommentsAPI;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
-import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
+import com.wenming.weiswift.ui.login.fragment.post.bean.CommentReplyBean;
+import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCommentBean;
+import com.wenming.weiswift.ui.login.fragment.post.bean.WeiBoCreateBean;
 import com.wenming.weiswift.utils.ToastUtil;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.File;
 
 
 /**
@@ -34,16 +41,31 @@ import java.util.ArrayList;
  */
 public class PostService extends Service {
 
-    private StatusesAPI mStatusesAPI;
-    private ArrayList<ImageInfo> mSelectImgList;
-    private String mContent;
+
+    private Context mContext;
     private NotificationManager mSendNotifity;
-    private Status mStatus;
+    private StatusesAPI mStatusesAPI;
 
+    public String mPostType;
+
+    public static final String POST_SERVICE_REPOST_STATUS = "转发微博";
+    public static final String POST_SERVICE_CREATE_WEIBO = "发微博";
+    public static final String POST_SERVICE_COMMENT_STATUS = "评论微博";
+    public static final String POST_SERVICE_REPLY_COMMENT = "回复评论";
+
+
+    /**
+     * 微博发送成功
+     */
     private static final int SEND_STATUS_SUCCESS = 1;
+    /**
+     * 微博发送失败
+     */
     private static final int SEND_STATUS_ERROR = 2;
+    /**
+     * 微博发送中
+     */
     private static final int SEND_STATUS_SEND = 3;
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -53,27 +75,36 @@ public class PostService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mContext = this;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
-        mSelectImgList = intent.getParcelableArrayListExtra("select_img");
-        mContent = intent.getStringExtra("content").trim();
-        mStatus = intent.getParcelableExtra("status");
+        mPostType = intent.getStringExtra("postType");
         showSendNotifiy();
-
-        if (mStatus != null) {
-            repost();
-        } else {
-            if (mSelectImgList == null || mSelectImgList.size() == 0) {
-                sendTextContent();
-            } else {
-                sendImgTextContent();
-            }
+        switch (mPostType) {
+            case POST_SERVICE_CREATE_WEIBO:
+                WeiBoCreateBean createWeiBo = intent.getParcelableExtra("weiBoCreateBean");
+                if (createWeiBo.selectImgList == null || createWeiBo.selectImgList.size() == 0) {
+                    sendTextContent(createWeiBo);
+                } else {
+                    sendImgTextContent(createWeiBo);
+                }
+                break;
+            case POST_SERVICE_REPOST_STATUS:
+                WeiBoCreateBean repostBean = intent.getParcelableExtra("weiBoCreateBean");
+                repost(repostBean);
+                break;
+            case POST_SERVICE_REPLY_COMMENT:
+                CommentReplyBean commentReplyBean = intent.getParcelableExtra("commentReplyBean");
+                replyComment(commentReplyBean);
+                break;
+            case POST_SERVICE_COMMENT_STATUS:
+                WeiBoCommentBean weiBoCommentBean = intent.getParcelableExtra("weiBoCommentBean");
+                commentWeiBo(weiBoCommentBean);
+                break;
         }
-
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -83,86 +114,72 @@ public class PostService extends Service {
         super.onDestroy();
     }
 
-
     /**
      * 发送图文微博
      */
-    private void sendImgTextContent() {
-
-        Bitmap bitmap = getLoacalBitmap(mSelectImgList.get(0).getImageFile().getAbsolutePath());
-
-        if (mContent.isEmpty()) {
-            mContent = "分享图片";
+    private void sendImgTextContent(final WeiBoCreateBean weiBoCreateBean) {
+        if (weiBoCreateBean.content.isEmpty() && weiBoCreateBean.status == null) {
+            weiBoCreateBean.content = "分享图片";
+        } else if (weiBoCreateBean.content.isEmpty() && weiBoCreateBean.status != null) {
+            weiBoCreateBean.content = "转发微博";
         }
-        mStatusesAPI.upload(mContent, bitmap, "0", "0", new RequestListener() {
+
+        DisplayImageOptions imageItemOptions;
+
+        if (new File(weiBoCreateBean.selectImgList.get(0).getImageFile().getAbsolutePath()).length() > 5 * 1024 * 1024) {
+            imageItemOptions = new DisplayImageOptions.Builder()
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                    .imageScaleType(ImageScaleType.NONE)
+                    .considerExifParams(true)
+                    .build();
+        } else {
+            imageItemOptions = new DisplayImageOptions.Builder()
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .considerExifParams(true)
+                    .build();
+        }
+
+        ImageLoader.getInstance().loadImage("file:///" + weiBoCreateBean.selectImgList.get(0).getImageFile().getAbsolutePath(), imageItemOptions, new SimpleImageLoadingListener() {
             @Override
-            public void onComplete(String s) {
-                //ToastUtil.showShort(PostService.this, "发送成功！");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showSuccessNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_SEND;
-                mHandler.postDelayed(new Runnable() {
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                mStatusesAPI.upload(weiBoCreateBean.content, loadedImage, "0", "0", new RequestListener() {
                     @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
+                    public void onComplete(String s) {
+                        onRequestComplete();
                     }
-                }, 2000);
 
-
+                    @Override
+                    public void onWeiboException(WeiboException e) {
+                        onRequestError(e, "发送失败");
+                    }
+                });
             }
 
             @Override
-            public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(PostService.this, "发送失败！");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showErrorNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_ERROR;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                ToastUtil.showShort(mContext, "本地找不到此图片");
+                ToastUtil.showShort(mContext, failReason.getCause().getMessage());
             }
         });
+
+
     }
 
 
     /**
      * 发送纯文字的微博
      */
-    private void sendTextContent() {
-        mStatusesAPI.update(mContent.toString(), "0.0", "0.0", new RequestListener() {
+    private void sendTextContent(WeiBoCreateBean weiBoCreateBean) {
+        mStatusesAPI.update(weiBoCreateBean.content.toString(), "0.0", "0.0", new RequestListener() {
             @Override
             public void onComplete(String s) {
-                //ToastUtil.showShort(PostService.this, "发送成功");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showSuccessNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_SEND;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+                onRequestComplete();
             }
 
             @Override
             public void onWeiboException(WeiboException e) {
-                //ToastUtil.showShort(PostService.this, "发送失败！");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showErrorNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_ERROR;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+                onRequestError(e, "发送失败");
             }
         });
 
@@ -171,55 +188,101 @@ public class PostService extends Service {
     /**
      * 转发一条微博
      */
-    private void repost() {
-        mStatusesAPI.repost(Long.valueOf(mStatus.id), mContent.toString(), 0, new RequestListener() {
+    private void repost(WeiBoCreateBean weiBoCreateBean) {
+        mStatusesAPI.repost(Long.valueOf(weiBoCreateBean.status.id), weiBoCreateBean.content.toString(), 0, new RequestListener() {
             @Override
             public void onComplete(String s) {
-                //ToastUtil.showShort(PostService.this, "转发成功");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showSuccessNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_SEND;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+                onRequestComplete();
             }
 
             @Override
             public void onWeiboException(WeiboException e) {
-                ToastUtil.showShort(PostService.this, "转发失败");
-                mSendNotifity.cancel(SEND_STATUS_SEND);
-                showErrorNotifiy();
-                final Message message = Message.obtain();
-                message.what = SEND_STATUS_ERROR;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mHandler.sendMessage(message);
-                    }
-                }, 2000);
+                onRequestError(e, "转发失败");
             }
         });
     }
 
+    /**
+     * 评论一条微博
+     *
+     * @param weiBoCommentBean
+     */
+    public void commentWeiBo(WeiBoCommentBean weiBoCommentBean) {
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
+        commentsAPI.create(weiBoCommentBean.content, Long.valueOf(weiBoCommentBean.status.id), false, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                onRequestComplete();
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                onRequestError(e, "评论失败");
+
+            }
+        });
+    }
 
     /**
-     * 获取本地的图片
+     * 回复一条评论
+     *
+     * @param commentReplyBean
+     */
+    public void replyComment(CommentReplyBean commentReplyBean) {
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
+        commentsAPI.reply(Long.valueOf(commentReplyBean.comment.id), Long.valueOf(commentReplyBean.comment.status.id), commentReplyBean.content, false, false,
+                new RequestListener() {
+                    @Override
+                    public void onComplete(String s) {
+                        onRequestComplete();
+                    }
+
+                    @Override
+                    public void onWeiboException(WeiboException e) {
+                        onRequestError(e, "回复评论失败");
+                    }
+                });
+    }
+
+    public void onRequestComplete() {
+        mSendNotifity.cancel(SEND_STATUS_SEND);
+        showSuccessNotifiy();
+        final Message message = Message.obtain();
+        message.what = SEND_STATUS_SEND;
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.sendMessage(message);
+            }
+        }, 2000);
+    }
+
+    public void onRequestError(WeiboException e, String errorRemind) {
+        if (e.getMessage().contains("repeat content")) {
+            ToastUtil.showShort(PostService.this, errorRemind + "：请不要回复重复的内容");
+        } else {
+            ToastUtil.showShort(PostService.this, errorRemind);
+        }
+        mSendNotifity.cancel(SEND_STATUS_SEND);
+        showErrorNotifiy();
+        final Message message = Message.obtain();
+        message.what = SEND_STATUS_ERROR;
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.sendMessage(message);
+            }
+        }, 2000);
+    }
+
+
+    /**
+     * 获取本地的图片,并且根据图片鞋带的信息纠正旋转方向
      *
      * @param absolutePath
      * @return
      */
     private Bitmap getLoacalBitmap(String absolutePath) {
-        try {
-            FileInputStream fis = new FileInputStream(absolutePath);
-            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
@@ -227,7 +290,6 @@ public class PostService extends Service {
      * 显示发送的notify
      */
     private void showSendNotifiy() {
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -244,7 +306,6 @@ public class PostService extends Service {
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setProgress(0, 0, true);
         Notification notification = builder.build();
-        // 发送该通知
         mSendNotifity = (NotificationManager) this.getSystemService(Activity.NOTIFICATION_SERVICE);
         mSendNotifity.notify(SEND_STATUS_SEND, notification);
     }

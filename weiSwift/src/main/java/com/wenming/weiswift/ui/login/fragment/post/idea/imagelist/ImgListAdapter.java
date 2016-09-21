@@ -1,6 +1,7 @@
 package com.wenming.weiswift.ui.login.fragment.post.idea.imagelist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -8,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.login.fragment.post.picselect.bean.ImageInfo;
 
@@ -22,6 +25,17 @@ public class ImgListAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
     private View mView;
     private OnFooterViewClickListener onFooterViewClickListener;
+
+    private DisplayImageOptions mImageItemOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.message_image_default)
+            .showImageForEmptyUri(R.drawable.message_image_default)
+            .showImageOnFail(R.drawable.timeline_image_failure)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .considerExifParams(true)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
 
     private static final int ITEM_TYPE_IMAGE = 1;
     private static final int ITEM_TYPE_DELETE = 2;
@@ -50,7 +64,7 @@ public class ImgListAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         if (holder instanceof ImgViewHolder) {
-            ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position).getImageFile().getAbsolutePath(), ((ImgViewHolder) holder).imageView);
+            ImageLoader.getInstance().displayImage("file:///" + mDatas.get(position).getImageFile().getAbsolutePath(), ((ImgViewHolder) holder).imageView, mImageItemOptions);
             ((ImgViewHolder) holder).delteImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

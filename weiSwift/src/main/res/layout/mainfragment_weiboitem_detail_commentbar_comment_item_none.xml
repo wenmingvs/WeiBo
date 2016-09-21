@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="210dp"
     android:layout_marginBottom="30dp"
-    android:background="@color/white"
-    android:visibility="gone"
+    android:background="@color/empty_bg"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey" />
+        android:background="@color/commentbar_top_drive" />
 
     <TextView
         android:id="@+id/tv_normal_refresh_footer_status"
@@ -21,8 +20,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
         android:text="还没有人评论"
-        android:textColor="#bcbcbc"
+        android:textColor="@color/empty_text"
         android:textSize="16sp" />
-
 
 </RelativeLayout>

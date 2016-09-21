@@ -11,6 +11,7 @@ import com.wenming.weiswift.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.mvp.view.HomeFragmentView;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
+import com.wenming.weiswift.ui.common.login.Constants;
 import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -48,17 +49,17 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
     @Override
     public void refreshUserName(Context context) {
         LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
-        ;
-        mUserModel.showUserDetail(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
+        mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
+                mHomeFragmentView.setGroupName(user.name);
                 mHomeFragmentView.setUserName(user.name);
                 mHomeFragmentView.popWindowsDestory();
             }
 
             @Override
             public void onError(String error) {
-                mHomeFragmentView.setUserName("我的首页");
+                mHomeFragmentView.setGroupName("我的首页");
             }
         });
     }
@@ -67,7 +68,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      * 刚进来，如果有缓存数据，而且不是第一次登录的，则不进行下拉刷新操作，否则进行下拉刷新操作
      *
      * @param context
-     * @param comefromlogin 刚刚登录成功
+     * @param comefromlogin 刚刚登录成功，本地并没有缓存
      */
     @Override
     public void firstLoadData(Context context, boolean comefromlogin) {
@@ -75,7 +76,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
             mHomeFragmentView.showLoadingIcon();
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
         } else {
-            mStatusListModel.friendsTimelineCacheLoad(context, onPullFinishedListener);
+            //加载本地缓存失败，则做请求操作
+            if (mStatusListModel.cacheLoad(Constants.GROUP_TYPE_ALL, context, onPullFinishedListener) == false) {
+                mHomeFragmentView.showLoadingIcon();
+                mStatusListModel.friendsTimeline(context, onPullFinishedListener);
+            }
         }
     }
 
@@ -102,6 +107,11 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
     }
 
+    @Override
+    public void cancelTimer() {
+        mStatusListModel.cancelTimer();
+    }
+
 
     public StatusListModel.OnDataFinishedListener onPullFinishedListener = new StatusListModel.OnDataFinishedListener() {
         @Override
@@ -112,10 +122,10 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void noDataInFirstLoad() {
+        public void noDataInFirstLoad(String text) {
             mHomeFragmentView.hideLoadingIcon();
             mHomeFragmentView.hideRecyclerView();
-            mHomeFragmentView.showEmptyBackground();
+            mHomeFragmentView.showEmptyBackground(text);
         }
 
         @Override
@@ -143,7 +153,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void noDataInFirstLoad() {
+        public void noDataInFirstLoad(String text) {
         }
 
         @Override

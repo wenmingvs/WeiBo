@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:orientation="vertical">
+    android:background="@color/windowBackground"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
-    <include layout="@layout/mainfragment_weiboitem_original_pictext" />
+    <include layout="@layout/home_weiboitem_original_pictext" />
 
     <include layout="@layout/home_weiboitem_detail_bottom_bar" />
 

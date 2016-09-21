@@ -109,14 +109,12 @@ public class GroupAdapter extends BaseAdapter {
         switch (type) {
             case ITEM_TYPE_HEAD_FIRST:
                 firstHeadHolder.home.setSelected(mSelectList.get(0));
-                firstHeadHolder.home.setFocusable(mSelectList.get(0));
                 firstHeadHolder.home.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mIGroupItemClick.onGroupItemClick(position, Constants.GROUP_TYPE_ALL, "首页");
                         deSelectAll();
                         ((TextView) v).setSelected(true);
-                        ((TextView) v).setFocusable(true);
                         mSelectList.set(0, true);
                         notifyDataSetChanged();
                     }
@@ -124,7 +122,6 @@ public class GroupAdapter extends BaseAdapter {
                 break;
             case ITEM_TYPE_HEAD_SECOND:
                 secondHeadHolder.friendCircle.setSelected(mSelectList.get(1));
-                secondHeadHolder.friendCircle.setFocusable(mSelectList.get(1));
                 secondHeadHolder.friendCircle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -141,10 +138,8 @@ public class GroupAdapter extends BaseAdapter {
                 groupViewHolder.groupitem.setText(mDatas.get(position).name);
                 if (mSelectList.size() > 2 && mSelectList.get(position).compareTo(Boolean.FALSE) == 0) {
                     groupViewHolder.groupitem.setSelected(false);
-                    groupViewHolder.groupitem.setFocusable(false);
                 } else {
                     groupViewHolder.groupitem.setSelected(true);
-                    groupViewHolder.groupitem.setFocusable(true);
                 }
                 groupViewHolder.groupitem.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -152,7 +147,6 @@ public class GroupAdapter extends BaseAdapter {
                         mIGroupItemClick.onGroupItemClick(position, Long.valueOf(mDatas.get(position).id), mDatas.get(position).name);
                         deSelectAll();
                         ((TextView) v).setSelected(true);
-                        ((TextView) v).setFocusable(true);
                         mSelectList.set(position, true);
                         notifyDataSetChanged();
                     }

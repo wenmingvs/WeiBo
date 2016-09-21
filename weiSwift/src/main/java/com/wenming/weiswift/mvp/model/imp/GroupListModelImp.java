@@ -18,53 +18,54 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/5/14.
  */
 public class GroupListModelImp implements GroupListModel {
-
+    private ArrayList<Group> mGroupList;
     private boolean mFirstGetGroup = true;
+    private Context mContext;
+    private OnGroupListFinishedListener mOnGroupListFinishedListener;
 
-
-    public void groupsOnlyOnce(Context context, OnGroupListFinishedListener onDataFinishedListener) {
+    public void groupsOnlyOnce(Context context, OnGroupListFinishedListener onGroupListFinishedListener) {
         if (mFirstGetGroup) {
-            groups(context, onDataFinishedListener);
+            groups(context, onGroupListFinishedListener);
         } else {
-            groupsCacheLoad(context, onDataFinishedListener);
+            cacheLoad(context, onGroupListFinishedListener);
         }
     }
 
 
-    private void groups(Context context, final OnGroupListFinishedListener onDataFinishedListener) {
+    private void groups(final Context context, final OnGroupListFinishedListener onGroupListFinishedListener) {
         GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
-        groupAPI.groups(new RequestListener() {
-            @Override
-            public void onComplete(String response) {
-                mFirstGetGroup = false;
-                ArrayList<Group> groupslist = GroupList.parse(response).groupList;
-                onDataFinishedListener.onDataFinish(groupslist);
-            }
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                onDataFinishedListener.onError(e.getMessage());
-            }
-        });
+        mContext = context;
+        mOnGroupListFinishedListener = onGroupListFinishedListener;
+        groupAPI.groups(mGroupRequestListener);
     }
 
     @Override
-    public void groupsCacheSave(Context context, String response) {
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博分组列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
-    }
-
-    @Override
-    public void groupsCacheLoad(Context context, OnGroupListFinishedListener onDataFinishedListener) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "微博分组列表缓存_" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+    public void cacheLoad(Context context, OnGroupListFinishedListener onGroupListFinishedListener) {
+        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         if (response != null) {
-            ArrayList<Group> temp = GroupList.parse(response).groupList;
-            if (temp == null || temp.size() == 0) {
-                onDataFinishedListener.noMoreDate();
-            } else {
-                onDataFinishedListener.onDataFinish(temp);
-            }
+            mGroupList = GroupList.parse(response).lists;
+            onGroupListFinishedListener.onDataFinish(mGroupList);
         }
     }
 
+    @Override
+    public void cacheSave(Context context, String response) {
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+    }
 
+    public RequestListener mGroupRequestListener = new RequestListener() {
+        @Override
+        public void onComplete(String response) {
+            mFirstGetGroup = false;
+            cacheSave(mContext, response);
+            ArrayList<Group> groupslist = GroupList.parse(response).lists;
+            mOnGroupListFinishedListener.onDataFinish(groupslist);
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            mOnGroupListFinishedListener.onError(e.getMessage());
+            cacheLoad(mContext, mOnGroupListFinishedListener);
+        }
+    };
 }

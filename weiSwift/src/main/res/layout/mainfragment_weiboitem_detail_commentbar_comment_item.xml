@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey" />
+        android:background="@color/comment_item_top_drive" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,15 +32,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:text="红楼"
-                android:textColor="#2f2f2f"
-                android:textSize="@dimen/home_weiboitem_title_profile_name" />
+                android:textColor="@color/comment_item_name"
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/comment_profile_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="16分钟前  "
-                android:textColor="#808080"
+                android:textColor="@color/comment_item_comefrom"
                 android:textSize="10sp" />
 
             <com.wenming.weiswift.widget.emojitextview.EmojiTextView
@@ -50,7 +50,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:text="转发微博"
-                android:textColor="#5d5d5d" />
+                android:textColor="@color/comment_item_content"
+                android:textSize="@dimen/home_retweet_weiboitem_font" />
         </LinearLayout>
 
     </LinearLayout>

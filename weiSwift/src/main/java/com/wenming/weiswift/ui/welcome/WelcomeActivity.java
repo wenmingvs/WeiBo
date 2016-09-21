@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.ui.login.activity.MainActivity;
 import com.wenming.weiswift.ui.unlogin.activity.UnLoginActivity;
+import com.wenming.weiswift.utils.LogUtil;
+import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +27,7 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_layout);
+
         if (AccessTokenKeeper.readAccessToken(this).isSessionValid()) {
             mStartIntent = new Intent(WelcomeActivity.this, MainActivity.class);
         } else {
@@ -34,7 +38,7 @@ public class WelcomeActivity extends Activity {
             public void run() {
                 mHandler.sendMessage(Message.obtain());
             }
-        }, 2000);
+        }, 500);
     }
 
 
@@ -46,5 +50,9 @@ public class WelcomeActivity extends Activity {
         }
     };
 
-
+    @Override
+    protected void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 }

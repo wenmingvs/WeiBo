@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_home_weiboitem_detail_title"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/topbar_bg">
+
+    <ImageView
+        android:id="@+id/toolbar_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:onClick="onArrorClick"
+        android:scaleType="centerCrop"
+        android:src="@drawable/navigationbar_back_auto" />
+
+    <LinearLayout
+        android:id="@+id/myweibo_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/compose_toolbar_foldername_auto"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/myweibo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的相册"
+            android:textColor="@color/topbar_center"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/folder_arrow"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/navigationbar_arrow_down"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/toolbar_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/navigationbar_more_auto" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/topbar_bottom_drive" />
+
+</RelativeLayout>

@@ -11,5 +11,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url "http://dl.bintray.com/jjhesk/maven" }
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }

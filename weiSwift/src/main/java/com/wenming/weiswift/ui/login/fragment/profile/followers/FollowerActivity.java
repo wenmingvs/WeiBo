@@ -1,19 +1,22 @@
 package com.wenming.weiswift.ui.login.fragment.profile.followers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.User;
 import com.wenming.weiswift.mvp.presenter.FollowerActivityPresent;
 import com.wenming.weiswift.mvp.presenter.imp.FollowerActivityPresentImp;
 import com.wenming.weiswift.mvp.view.FollowActivityView;
+import com.wenming.weiswift.ui.common.BaseActivity;
+import com.wenming.weiswift.ui.common.FillContent;
 import com.wenming.weiswift.ui.common.login.AccessTokenKeeper;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/5/1.
  */
-public class FollowerActivity extends Activity implements FollowActivityView {
+public class FollowerActivity extends BaseActivity implements FollowActivityView {
 
     public FollowerAdapter mAdapter;
     private ArrayList<User> mDatas;
@@ -36,7 +39,6 @@ public class FollowerActivity extends Activity implements FollowActivityView {
     public boolean mRefrshAllData;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private FollowerActivityPresent mFollowerActivityPresent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +73,22 @@ public class FollowerActivity extends Activity implements FollowActivityView {
 
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mAdapter = new FollowerAdapter(mDatas, mContext);
+        mAdapter = new FollowerAdapter(mDatas, mContext) {
+            @Override
+            public void followerLayoutClick(User user, int position, ImageView follwerIcon, TextView follwerText) {
+                follwerIcon.setImageResource(R.drawable.bga_refresh_loading02);
+                follwerText.setText("");
+                if (user.following) {
+                    mFollowerActivityPresent.user_destroy(user, mContext, follwerIcon, follwerText);
+                } else {
+                    mFollowerActivityPresent.user_create(user, mContext, follwerIcon, follwerText);
+                }
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-
     }
 
 
@@ -132,4 +144,11 @@ public class FollowerActivity extends Activity implements FollowActivityView {
     public void showErrorFooterView() {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
+
+    @Override
+    public void updateRealtionShip(Context context,User user, ImageView icon, TextView text) {
+        FillContent.updateRealtionShip(context,user, icon, text);
+    }
+
+
 }

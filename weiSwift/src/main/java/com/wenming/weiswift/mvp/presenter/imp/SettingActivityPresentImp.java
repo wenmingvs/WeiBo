@@ -3,7 +3,6 @@ package com.wenming.weiswift.mvp.presenter.imp;
 import android.content.Context;
 import android.content.Intent;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.mvp.model.TokenListModel;
 import com.wenming.weiswift.mvp.model.imp.TokenListModelImp;
@@ -52,7 +51,6 @@ public class SettingActivityPresentImp implements SettingActivityPresent {
     public void clearCache(Context context) {
         ImageLoader.getInstance().clearDiskCache();
         ImageLoader.getInstance().clearMemoryCache();
-        Fresco.getImagePipeline().clearCaches();
         ToastUtil.showShort(context, "缓存清理成功！");
     }
 }

@@ -13,16 +13,10 @@ public class NewFeature {
     public static int LOADMORE_WEIBO_ITEM = 20;
 
     //每次刷新微博，获取评论的数量
-    public static int GET_COMMENT_ITEM = 30;
+    public static int GET_COMMENT_ITEM = 20;
 
     //滑动到底部，获取评论的数量
-    public static int LOADMORE_COMMENT_ITEM = 20;
-
-    //每次刷新微博，获取转发的数量
-    public static int GET_RETWEET_ITEM = 20;
-
-    //滑动到底部，获取转发的数量
-    public static int LOADMORE_RETWEET_ITEM = 10;
+    public static int LOADMORE_COMMENT_ITEM = 10;
 
     //每次刷新，获取@的数量
     public static int GET_MENTION_ITEM = 20;
@@ -30,11 +24,26 @@ public class NewFeature {
     //滑动到底部，获取@的数量
     public static int LOADMORE_MENTION_ITEM = 10;
 
+    //每次刷新微博，获取转发的数量
+    public static int GET_RETWEET_ITEM = 20;
+
+    public static int GET_FOLLOWER_NUM = 20;
+    public static int LOADMORE_FOLLOWER_NUM = 20;
+    public static int GET_FRIENDS_NUM = 20;
+    public static int LOADMORE_FRIENDS_NUM = 20;
+
+    //滑动到底部，获取转发的数量
+    public static int LOADMORE_RETWEET_ITEM = 10;
+
     //每次刷新，获取公共微博的数量
     public static int GET_PUBLICWEIBO_NUMS = 30;
 
     //滑动到底部，获取公共微博的数量
     public static int LOAD_PUBLICWEIBO_ITEM = 20;
+
+    //每次刷新获取收藏微博的数量
+    public static int GET_FAVORITE_NUMS = 30;
+
 
     //通用设置
     public static boolean HAVA_IMAGE = true;
@@ -58,13 +67,20 @@ public class NewFeature {
     public static boolean CACHE_WEIBOLIST = true;
 
     //缓存单条微博的评论数据
-    public static boolean CACHE_DETAIL_ACTIVITY = true;
+    public static boolean CACHE_DETAIL_ACTIVITY = false;
 
     //缓存message模块的@数据
     public static boolean CACHE_MESSAGE_MENTION = true;
 
     //缓存message模块的评论数据
     public static boolean CACHE_MESSAGE_COMMENT = true;
+
+    public static int GROUP_SHOW_NUM = 7;
+
+    /**
+     * 切换底部选项卡的时候，是否需要刷新profilelayot
+     */
+    public static boolean refresh_profileLayout = false;
 
 
 }

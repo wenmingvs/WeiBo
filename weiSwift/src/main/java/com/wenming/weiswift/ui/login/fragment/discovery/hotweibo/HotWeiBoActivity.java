@@ -1,22 +1,26 @@
 package com.wenming.weiswift.ui.login.fragment.discovery.hotweibo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.api.StatusesAPI;
 import com.wenming.weiswift.entity.Status;
 import com.wenming.weiswift.mvp.presenter.HotWeiBoPresent;
 import com.wenming.weiswift.mvp.presenter.imp.HotWeiBoPresentImp;
 import com.wenming.weiswift.mvp.view.HotWeiBoActivityView;
+import com.wenming.weiswift.ui.common.BaseActivity;
+import com.wenming.weiswift.ui.common.dialog.ArrowDialog;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.SeachHeadView;
+import com.wenming.weiswift.ui.login.fragment.home.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboAdapter;
 import com.wenming.weiswift.ui.login.fragment.home.weiboitem.WeiboItemSapce;
+import com.wenming.weiswift.utils.DensityUtil;
+import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.RecyclerViewUtils;
@@ -28,13 +32,12 @@ import java.util.ArrayList;
 /**
  * Created by wenmingvs on 16/4/27.
  */
-public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
+public class HotWeiBoActivity extends BaseActivity implements HotWeiBoActivityView {
     private ArrayList<Status> mDatas = new ArrayList<Status>();
     public WeiboAdapter mAdapter;
     public Context mContext;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView mRecyclerView;
-    public StatusesAPI mStatusesAPI;
     public boolean mRefrshAllData;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private HotWeiBoPresent mHotWeiBoPresent;
@@ -74,7 +77,22 @@ public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
 
     public void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mAdapter = new WeiboAdapter(mDatas, mContext);
+        mAdapter = new WeiboAdapter(mDatas, mContext) {
+            @Override
+            public void arrowClick(Status status, int position) {
+//                TimelineArrowWindow popupWindow = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, "");
+//                popupWindow.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
+
+                ArrowDialog arrowDialog = new TimelineArrowWindow.Builder(mContext, mDatas.get(position), mAdapter, position, "")
+                        .setCanceledOnTouchOutside(true)
+                        .setCancelable(true)
+                        .create();
+                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                arrowDialog.show();
+                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            }
+        };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -102,13 +120,9 @@ public class HotWeiBoActivity extends Activity implements HotWeiBoActivityView {
     @Override
     public void updateListView(final ArrayList<Status> statuselist) {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
-        if (mDatas != null && mDatas.size() > 0) {
-            mDatas.clear();
-            mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
-        }
-        mDatas.addAll(statuselist);
+        mDatas = statuselist;
+        mAdapter.setData(statuselist);
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(0);
     }
 
     @Override

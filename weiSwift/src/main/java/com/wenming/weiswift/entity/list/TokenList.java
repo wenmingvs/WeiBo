@@ -17,6 +17,9 @@ public class TokenList {
     public static TokenList parse(String jsonString) {
         Gson gson = new Gson();
         TokenList tokenList = gson.fromJson(jsonString, TokenList.class);
+        if (tokenList == null) {
+            
+        }
         return tokenList;
     }
 

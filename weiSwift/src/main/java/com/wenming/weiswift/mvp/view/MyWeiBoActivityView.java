@@ -41,8 +41,11 @@ public interface MyWeiBoActivityView {
     public void showErrorFooterView();
 
     /**
-     * Created by wenmingvs on 16/5/18.
+     * 滑动到顶部
      */
-    class SettingActivityView {
-    }
+    public void scrollToTop(boolean refreshData);
+
+
+    public void delete_item(int positon);
+
 }

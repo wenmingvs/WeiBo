@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="110dp"
-    android:layout_height="110dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="2dp">
 
     <ImageView
         android:id="@+id/imageitem"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="107.5dp"
+        android:layout_height="107.5dp"
         android:scaleType="centerCrop" />
 
     <ImageView
@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
+        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:src="@drawable/compose_photo_close" />
 

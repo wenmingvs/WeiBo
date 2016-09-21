@@ -31,11 +31,14 @@ public class MessageFragment extends Fragment {
     private RelativeLayout mComment_layout;
     private RelativeLayout mAttitude_layout;
 
+    public MessageFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.messagefragment_layout, container, false);
         mActivity = getActivity();
-        mContext = mActivity;
+        mContext = getContext();
         initRefreshLayout();
         setUpListener();
         return mView;

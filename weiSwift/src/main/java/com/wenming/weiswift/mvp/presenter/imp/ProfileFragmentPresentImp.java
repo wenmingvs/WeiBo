@@ -26,7 +26,7 @@ public class ProfileFragmentPresentImp implements ProfileFragmentPresent {
         if (loadIcon) {
             mProfileFragmentView.showProgressDialog();
         }
-        mUserModel.showUserDetail(uid, context, new UserModel.OnUserDetailRequestFinish() {
+        mUserModel.show(uid, context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mProfileFragmentView.showScrollView();

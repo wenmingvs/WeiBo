@@ -26,7 +26,7 @@ public class HotWeiBoPresentImp implements HotWeiBoPresent {
     @Override
     public void pullToRefreshData(Context context) {
         mHotWeiBoActivityView.showLoadingIcon();
-        mHotWeiBoModel.getLatestComment(context, new HotWeiBoModel.OnDataFinishedListener() {
+        mHotWeiBoModel.getHotWeiBo(context, new HotWeiBoModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHotWeiBoActivityView.hideLoadingIcon();
@@ -49,7 +49,7 @@ public class HotWeiBoPresentImp implements HotWeiBoPresent {
 
     @Override
     public void requestMoreData(Context context) {
-        mHotWeiBoModel.getNextPageComment(context, new HotWeiBoModel.OnDataFinishedListener() {
+        mHotWeiBoModel.getHotWeiBoNextPage(context, new HotWeiBoModel.OnDataFinishedListener() {
             @Override
             public void noMoreDate() {
                 mHotWeiBoActivityView.showEndFooterView();

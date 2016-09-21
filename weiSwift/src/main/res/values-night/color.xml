@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="windowBackground">#1a1a1a</color><!--window的背景样式-->
+    <!-- TopBar 一系列颜色 -->
+    <color name="topbar_bg">#262626</color><!--顶部Bar的背景样式-->
+    <color name="topbar_center">#868686</color><!--顶部Bar字体颜色-->
+    <color name="topbar_bottom_drive">#1b1b1b</color><!--顶部Bar的底部分割线-->
+    <color name="topbar_center_highlight_bg">#1c1c1c</color><!--顶部Bar的按压颜色-->
+    <color name="topbar_leftright_text">#3c6aa6</color><!--顶部Bar的左右字体的颜色-->
+    <color name="topbar_leftright_text_highlight">#2f4159</color><!--顶部Bar的左右字体的高亮颜色-->
+    <!-- searchHeadView-夜晚-->
+    <color name="night_searchHeadView_toolbar_bg">#1e1e1e</color><!--window的背景样式-->
+    <color name="night_searchHeadView_inner_bg">#1e1e1e</color><!--微博的普通背景颜色-->
+    <color name="night_discover_fragment_searchHeadView_inner_bg">#1e1e1e</color>
+
+    <!--加载的进度条 -->
+    <color name="loadding_footer_bg">#252525</color><!--底部Loading的背景-->
+    <color name="loadding_footer_text">#44494c</color><!--底部Loading的文字背景-->
+
+    <!--空的EmptyView -->
+    <color name="empty_bg">#252525</color>
+    <color name="empty_text">#4e4e4e</color>
+
+    <!--发微博界面 -->
+    <color name="post_bg">#1a1a1a</color>
+    <color name="post_hint">#444849</color>
+    <color name="post_text">#8a8a8a</color>
+    <color name="post_bottomBar_bg">#1a1a1a</color>
+    <color name="retweet_weibo_bg">#242424</color>
+    <color name="retweet_weibo_author">#8a8a8a</color>
+    <color name="retweet_weibo_text">#4f4f4f</color>
+
+    <!--@我的 -->
+    <color name="night_center_area_mention_item_bg">#242424</color>
+    <color name="night_center_area_mention_item_bg_hightlight">#1f1f1f</color>
+    <color name="center_area_mention_item_author">#8a8a8a</color>
+    <color name="center_area_mention_item_text">#4f4f4f</color>
+
+    <!--评论我的 -->
+    <color name="night_comment_reply_item_bg">#1f1f1f</color>
+    <color name="night_comment_reply_item_bg_hightlight">#1c1c1c</color>
+    <color name="comment_reply_item_text">#5b5b5b</color>
+
+    <color name="night_center_area_comment_item_bg">#242424</color>
+    <color name="night_center_area_comment_item_bg_hightlight">#1f1f1f</color>
+    <color name="center_area_comment_item_author">#8a8a8a</color>
+    <color name="center_area_comment_item_text">#4f4f4f</color>
+    
+    <color name="night_reply_buttom_bg">#272727</color>
+    <color name="night_reply_buttom_highlight_bg">#1f1f1f</color>
+    <color name="night_reply_buttom_text">#4f4f4f</color>
+    <color name="night_reply_buttom_stoke">#131313</color>
+
+    <!-- 原创微博内容颜色-夜晚-->
+    <color name="night_origin_nor_bg">#262626</color><!--普通背景颜色-->
+    <color name="night_origin_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
+    <color name="home_weiboitem_title_profile_name">#f46403</color><!--用户名称-->
+    <color name="home_weiboitem_title_profile_time">#434446</color><!--微博时间-->
+    <color name="home_weiboitem_title_weibocomefrom">#434446</color><!--微博来源-->
+    <color name="home_original_weiboitem_font">#898989</color><!--微博内容-->
+    <color name="home_weiboitem_content_keyword">#33607f</color><!--关键词的颜色-->
+
+    <!--转发的内容区-夜晚-->
+    <color name="night_retweet_nor_bg">#202020</color><!--普通背景颜色-->
+    <color name="night_retweet_highlight_bg">#1c1c1c</color><!--press的背景颜色-->
+    <color name="home_retweet_weiboitem_font">#6e6e6e</color><!--转发内容中的字体颜色-->
+    <color name="home_retweet_weiboitem_bg">#f7f7f7</color><!--转发内容中的背景颜色-->
+
+    <!--显示微博转发数，评论数，赞数的bar-->
+    <color name="commentbar_bg">#262626</color><!--普通背景颜色-->
+    <color name="night_commentbar_highlight_bg">#202020</color><!--press的背景颜色-->
+    <color name="commentbar_top_drive">#202020</color><!--顶部的分割线-->
+    <color name="commentbar_vertical_drive">#1f1f1f</color><!--竖直的分割线-->
+
+    <!--微博底部Bar-夜晚-->
+    <color name="home_bottombar_bg">#262626</color><!--底部bar的背景样式-->
+    <color name="home_bottombar_font">#6c6c6c</color><!--底部bar字体颜色-->
+    <color name="home_bottombar_topdrive">#292929</color><!--顶部分割线的颜色-->
+
+    <!--状态栏-夜晚 -->
+    <color name="home_status_bg">#262626</color><!--状态栏的背景样式-->
+    <color name="home_status_text">#FFFFFF</color><!--状态栏的的文字样颜色-->
+
+    <!--按钮栏-白天 -->
+    <color name="night_rl_normal_bg">#262626</color><!--状态栏的的文字样颜色-->
+    <color name="night_rl_highlight_bg">#1c1c1c</color><!--状态栏的的文字样颜色-->
+    <color name="rl_textcolor">#878787</color>
+
+    <!--正在加载时候图片的占位图颜色-白天 -->
+    <color name="loadding_img_bg">#2c2c2c</color><!--状态栏的的背景颜色-->
+
+    <!--单条评论的颜色-黑夜 -->
+    <color name="comment_item_bg">#252525</color>
+    <color name="comment_item_name">#888888</color>
+    <color name="comment_ite_comefrom">#45484a</color>
+    <color name="comment_item_content">#6c6c6c</color>
+    <color name="comment_item_top_drive">#202020</color>
+
+    <!--数字，包括评论，转发，点赞栏的颜色-白天 -->
+    <color name="detail_count_bg">#2b2b2b</color>
+    <color name="night_detail_normal_text">#45484a</color>
+    <color name="night_detail_highlight_text">#888888</color>
+
+    <!--发微博界面-白天 -->
+    <color name="create_weibo_bg">#FFFFFF</color>
+    <color name="create_weibo_send_text">#b3b3b3</color>
+    <color name="create_weibo_input_text">#FFFFFF</color>
+    <color name="create_weibo_input_hint">#454648</color>
+
+    <!-- toast的背景色 -->
+    <color name="bg_toast">#f79f43</color>
+
+    <!--我的关注 -->
+    <color name="friend_item_name">#8a8a8a</color>
+    <color name="friend_item_description">#444849</color>
+    <color name="night_friend_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="night_friend_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
+    <color name="night_friend_item_button_follow_none">#f79f43</color><!--加关注 -->
+
+    <!--我的粉丝 -->
+    <color name="follow_item_name">#8a8a8a</color>
+    <color name="follow_item_description">#444849</color>
+    <color name="follow_item_button_text">#e98219</color>
+
+    <color name="follow_item_constant_comefrom">#919191</color>
+    <color name="follow_item_comefrom">#4d80b2</color>
+
+    <color name="night_follow_item_button_follow_each_other">#5788BF</color> <!--互相关注 -->
+    <color name="night_follow_item_button_follow_alreay">#8b8b8b</color><!--已关注 -->
+    <color name="night_follow_item_button_follow_none">#f79f43</color><!--加关注 -->
+
+    <!-- account -->
+    <color name="account_item_drive">#1a1a1a</color>
+    <color name="account_item_name">#868686</color>
+
+    <color name="white">#FFFFFF</color><!--白色 -->
+    <color name="orange">#FFA500</color><!--橙色 -->
+    <color name="grey">#f2f2f2</color><!--灰色 -->
+    <color name="gray">#808080</color><!--灰色 -->
+    <color name="red">#FF0000</color><!--红色 -->
+    <color name="black">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="color_ff">#F0F0F0</color>
+    <color name="color_00">#8A000000</color>
+    <color name="foldername_highlight">#e7e7e7</color>
+
+</resources>

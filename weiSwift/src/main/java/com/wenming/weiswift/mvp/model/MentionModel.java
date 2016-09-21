@@ -2,6 +2,7 @@ package com.wenming.weiswift.mvp.model;
 
 import android.content.Context;
 
+import com.wenming.weiswift.entity.Comment;
 import com.wenming.weiswift.entity.Status;
 
 import java.util.ArrayList;
@@ -11,21 +12,34 @@ import java.util.ArrayList;
  */
 public interface MentionModel {
 
-    interface OnDataFinishedListener {
+    interface OnMentionFinishedListener {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Status> statuslist);
+        void onDataFinish(ArrayList<Status> mentionlist);
 
         void onError(String error);
-
     }
 
+    interface OnCommentFinishedListener {
+        void noMoreDate();
 
-    public void mentions(Context context, OnDataFinishedListener onDataFinishedListener);
+        void onDataFinish(ArrayList<Comment> commentlist);
 
-    public void mentionsNextPage(Context context, OnDataFinishedListener onDataFinishedListener);
+        void onError(String error);
+    }
 
-    public void mentionCacheSave(Context context, String response);
+    public void mentions(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener);
 
-    public void mentionCacheLoad(Context context,OnDataFinishedListener onDataFinishedListener);
+    public void mentionsNextPage(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener);
+
+    public void cacheSave(int groupType, Context context, String response);
+
+    public void cacheLoad(int groupType, Context context, OnMentionFinishedListener onDataFinishedListener);
+
+    public void cacheLoad(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener);
+
+    public void commentMentions(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener);
+
+    public void commentMentionsNextPage(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener);
+
 }

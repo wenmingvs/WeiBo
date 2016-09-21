@@ -3,7 +3,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/black"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailViewPager

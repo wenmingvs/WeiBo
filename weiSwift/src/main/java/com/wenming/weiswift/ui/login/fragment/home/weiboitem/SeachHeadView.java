@@ -26,6 +26,12 @@ public class SeachHeadView extends RelativeLayout {
         init(context);
     }
 
+    public SeachHeadView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
+
+    }
+
     public void init(Context context) {
         inflate(context, R.layout.headsearchview, this);
     }
