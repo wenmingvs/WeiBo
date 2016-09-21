@@ -41,7 +41,7 @@ public class Visible implements Parcelable {
     /**
      * 分组的组号
      */
-    public int list_id;
+    public long list_id;
 
     public static Visible parse(JSONObject jsonObject) {
         if (null == jsonObject) {
@@ -50,7 +50,7 @@ public class Visible implements Parcelable {
 
         Visible visible = new Visible();
         visible.type = jsonObject.optInt("type", 0);
-        visible.list_id = jsonObject.optInt("list_id", 0);
+        visible.list_id = jsonObject.optLong("list_id", 0);
 
         return visible;
     }
@@ -64,7 +64,7 @@ public class Visible implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.type);
-        dest.writeInt(this.list_id);
+        dest.writeLong(this.list_id);
     }
 
     public Visible() {
@@ -72,7 +72,7 @@ public class Visible implements Parcelable {
 
     protected Visible(Parcel in) {
         this.type = in.readInt();
-        this.list_id = in.readInt();
+        this.list_id = in.readLong();
     }
 
     public static final Parcelable.Creator<Visible> CREATOR = new Parcelable.Creator<Visible>() {
