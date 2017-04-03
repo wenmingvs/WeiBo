@@ -1,16 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/main_bottom_toolbar" />
-
     <FrameLayout
         android:id="@+id/main_content_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/buttonBarId"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/home_bottombar_topdrive" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/tv_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home_bottombar_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/home_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:drawablePadding="-5dp"
+                    android:drawableTop="@drawable/tabbar_home_auto"
+                    android:gravity="center"
+                    android:text="首页"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignEnd="@+id/home_layout"
+                    android:layout_alignRight="@+id/home_layout"
+                    android:layout_alignTop="@+id/home_layout"
+                    android:src="@drawable/new_dot"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tv_message"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home_bottombar_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/message_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="-5dp"
+                    android:drawableTop="@drawable/tabbar_message_auto"
+                    android:gravity="center"
+                    android:text="消息"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignEnd="@+id/message_layout"
+                    android:layout_alignRight="@+id/message_layout"
+                    android:layout_alignTop="@+id/message_layout"
+                    android:src="@drawable/new_dot"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home_bottombar_bg"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/fl_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/rect_orgin_auto"
+                    android:scaleType="center"
+                    android:src="@drawable/tabbar_compose_icon_add" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/tv_discovery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home_bottombar_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/discovery_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:drawablePadding="-5dp"
+                    android:drawableTop="@drawable/tabbar_discover_auto"
+                    android:gravity="center"
+                    android:text="发现"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignEnd="@+id/discovery_layout"
+                    android:layout_alignRight="@+id/discovery_layout"
+                    android:layout_alignTop="@+id/discovery_layout"
+                    android:src="@drawable/new_dot"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tv_profile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home_bottombar_bg"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="-5dp"
+                    android:drawableTop="@drawable/tabbar_profile_auto"
+                    android:gravity="center"
+                    android:text="我"
+                    android:textColor="@color/home_bottombar_font"
+                    android:textSize="10sp" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignEnd="@+id/profile_layout"
+                    android:layout_alignRight="@+id/profile_layout"
+                    android:layout_alignTop="@+id/profile_layout"
+                    android:src="@drawable/new_dot"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>

@@ -39,7 +39,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheOnDisk(true)
             .build();
 
-
     public ImageAdapter(Status status, Context context) {
         this.mStatus = status;
         if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
@@ -107,13 +106,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (datas == null || datas.size() == 0) {
             return;
         }
-        if (datas.size() == 1) {
-            setSingleImgSize(context, norImg, longImg, gifImg);
-        } else if (datas.size() == 2 || datas.size() == 4) {
-            setDoubleImgSize(context, norImg, longImg, gifImg);
-        } else if (datas.size() == 3 || datas.size() >= 5) {
-            setThreeImgSize(context, norImg, longImg, gifImg);
-        }
+        setThreeImgSize(context, norImg, longImg, gifImg);
+
+//        if (datas.size() == 1) {
+//            setSingleImgSize(context, norImg, longImg, gifImg);
+//        } else if (datas.size() == 2 || datas.size() == 4) {
+//            setDoubleImgSize(context, norImg, longImg, gifImg);
+//        } else if (datas.size() == 3 || datas.size() >= 5) {
+//            setThreeImgSize(context, norImg, longImg, gifImg);
+//        }
     }
 
     private static void setDoubleImgSize(Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {

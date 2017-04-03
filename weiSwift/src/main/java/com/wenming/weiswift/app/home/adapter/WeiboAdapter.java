@@ -3,7 +3,6 @@ package com.wenming.weiswift.app.home.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -15,11 +14,11 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.home.weiboitem.NewPauseOnScrollListener;
 import com.wenming.weiswift.app.mvp.presenter.WeiBoArrowPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WeiBoArrowPresenterImp;
-import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
@@ -62,7 +61,6 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             retweetViewHolder.retweet_imageList.addOnScrollListener(new NewPauseOnScrollListener(ImageLoader.getInstance().getInstance(), true, true));
             return retweetViewHolder;
         }
-
         return null;
     }
 
@@ -96,7 +94,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                     public void onClick(View v) {
                         ((OriginViewHolder) holder).origin_weibo_layout.setDrawingCacheEnabled(true);
                         ((OriginViewHolder) holder).origin_weibo_layout.buildDrawingCache(true);
-                        arrowClick(mDatas.get(position), position,  ((OriginViewHolder) holder).origin_weibo_layout.getDrawingCache());
+                        arrowClick(mDatas.get(position), position, ((OriginViewHolder) holder).origin_weibo_layout.getDrawingCache());
                     }
                 });
 
@@ -151,9 +149,9 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RetweetViewHolder) holder).popover_arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   ((RetweetViewHolder) holder).retweet_weibo_layout.setDrawingCacheEnabled(true);
+                    ((RetweetViewHolder) holder).retweet_weibo_layout.setDrawingCacheEnabled(true);
                     ((RetweetViewHolder) holder).retweet_weibo_layout.buildDrawingCache(true);
-                    arrowClick(mDatas.get(position), position,((RetweetViewHolder) holder).retweet_weibo_layout.getDrawingCache() );
+                    arrowClick(mDatas.get(position), position, ((RetweetViewHolder) holder).retweet_weibo_layout.getDrawingCache());
                 }
             });
 
@@ -179,7 +177,6 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else {
             return 0;
         }
-
     }
 
     @Override
@@ -201,23 +198,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         mDatas.remove(position);
     }
 
-    /**
-     * 用于或者layout的截图
-     *
-     * @param v
-     * @return
-     */
-    public static Bitmap loadBitmapFromView(View v) {
-
-        Bitmap b = Bitmap.createBitmap(v.getLayoutParams().width, v.getLayoutParams().height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
-        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
-        v.draw(c);
-        return b;
-    }
-
-
-    public static class OriginViewHolder extends ViewHolder {
+    private static class OriginViewHolder extends ViewHolder {
         public LinearLayout origin_weibo_layout;
         public LinearLayout titlebar_layout;
         public ImageView profile_img;
@@ -262,7 +243,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public static class RetweetViewHolder extends ViewHolder {
+    private static class RetweetViewHolder extends ViewHolder {
         public LinearLayout retweet_weibo_layout;
         public ImageView profile_img;
         public ImageView profile_verified;

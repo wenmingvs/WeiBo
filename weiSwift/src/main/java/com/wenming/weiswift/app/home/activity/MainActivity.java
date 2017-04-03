@@ -59,7 +59,6 @@ public class MainActivity extends BaseAppCompatActivity {
         initData();
         initView();
         initListener();
-
         //如果是从崩溃中恢复，还需要加载之前的缓存
         if (savedInstanceState != null) {
             restoreFragment(savedInstanceState);
@@ -71,6 +70,7 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //TODO 能否抽出来作为一个公共方法
         fixInputMethodManagerLeak(this);
     }
 
@@ -90,9 +90,9 @@ public class MainActivity extends BaseAppCompatActivity {
     private void initView() {
         //LogReport.getInstance().upload(mContext);
         mBarManager = new BarManager();
+        mBarManager.showBottomBar(mButtonBarLl);
         mFragmentManager = getSupportFragmentManager();
         initStatusBar();
-
     }
 
     private void initStatusBar() {
@@ -276,15 +276,15 @@ public class MainActivity extends BaseAppCompatActivity {
      * 注意：
      * 1. 如果选项卡已经位于当前页，则执行其他操作
      *
-     * @param index 需要切换到的具体页面
+     * @param tabName 需要切换到的具体页面
      */
-    private void setTabFragment(String index) {
+    private void setTabFragment(String tabName) {
         if (mHomeFragment != null) {
             mBarManager.showBottomBar(mButtonBarLl);
         }
 
-        if (!index.equals(mCurrentIndex)) {
-            switchToFragment(index);
+        if (!tabName.equals(mCurrentIndex)) {
+            switchToFragment(tabName);
         } else {
             alreadyAtFragment(mCurrentIndex);
         }

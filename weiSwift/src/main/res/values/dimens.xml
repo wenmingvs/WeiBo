@@ -15,9 +15,6 @@
     <dimen name="topbar_height">45dp</dimen>
     <dimen name="topbar_toast_height">40dp</dimen>
 
-    <!--底部导航栏的高度-->
-    <dimen name="home_weiboitem_bottombar_height">45dp</dimen>
-
     <!--微博顶部BottomBar的各项字体大小-->
     <dimen name="home_weiboitem_bottombar_font">12sp</dimen><!--底部Bar的字体大小-->
 

@@ -545,7 +545,7 @@ public class FillContent {
                 context.startActivity(intent);
             }
         });
-        setOnLongClickListener(longImg, gifImg, norImg, context, status, position);
+        //setOnLongClickListener(longImg, gifImg, norImg, context, status, position);
     }
 
     private static void setOnLongClickListener(SubsamplingScaleImageView longImg, GifImageView gifImg, ImageView norImg, final Context context, final Status status, final int position) {
