@@ -9,7 +9,7 @@
 
     <include layout="@layout/profilefragment_layout" />
 
-    <include layout="@layout/bottom_toolbar" />
+    <include layout="@layout/main_bottom_toolbar" />
 
 
 </FrameLayout>

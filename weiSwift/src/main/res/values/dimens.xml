@@ -22,7 +22,7 @@
     <dimen name="home_weiboitem_bottombar_font">12sp</dimen><!--底部Bar的字体大小-->
 
     <!--原创内容的字体大小-->
-    <dimen name="home_original_weiboitem_font">16sp</dimen><!--微博内容中字体大小:16中号,15小号-->
+    <dimen name="home_original_weiboitem_font">15sp</dimen><!--微博内容中字体大小:16中号,15小号-->
     <dimen name="home_original_weiboitem_linespace">3dp</dimen><!--微博内容中行距大小-->
 
     <!--转发内容的字体大小-->

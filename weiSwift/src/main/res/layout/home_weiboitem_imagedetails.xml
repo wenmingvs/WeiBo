@@ -7,12 +7,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailViewPager
+    <com.wenming.weiswift.app.imgpreview.ImageDetailViewPager
         android:id="@+id/viewpagerId"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.wenming.weiswift.ui.login.fragment.home.imagedetaillist.ImageDetailTopBar
+    <com.wenming.weiswift.app.imgpreview.ImageDetailTopBar
         android:id="@+id/imageTopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
