@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -74,10 +76,12 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
         getActivity().finish();
     }
 
-    //TODO wenming 显示动画
     @Override
     public void showLogin() {
         mLoginTv.setVisibility(View.VISIBLE);
         mLoginBt.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.login_bt_animation);
+        mLoginTv.setAnimation(animation);
+        mLoginBt.setAnimation(animation);
     }
 }
