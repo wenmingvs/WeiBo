@@ -20,7 +20,6 @@ public class ImageUtil {
 
 
     public static boolean isLongImg(File file, Bitmap bitmap) {
-        //TODO file.length()的判断，需要根据OS的版本号做动态调整大小
         if (file == null || file.length() == 0) {
             return false;
         }

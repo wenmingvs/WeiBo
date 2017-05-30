@@ -17,8 +17,8 @@ import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
-import com.wenming.weiswift.app.login.fragment.post.PostService;
-import com.wenming.weiswift.app.login.fragment.post.idea.IdeaSwipeActivity;
+import com.wenming.weiswift.app.login.post.PostService;
+import com.wenming.weiswift.app.login.post.idea.IdeaSwipeActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 

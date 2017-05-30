@@ -21,7 +21,7 @@ import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
 import com.wenming.weiswift.app.discover.DiscoverFragment;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
-import com.wenming.weiswift.app.login.fragment.post.PostSwipeActivity;
+import com.wenming.weiswift.app.login.post.PostSwipeActivity;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
 import com.wenming.weiswift.app.myself.fragment.MySelfFragment;
 import com.wenming.weiswift.utils.LogUtil;
@@ -70,7 +70,6 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //TODO 能否抽出来作为一个公共方法
         fixInputMethodManagerLeak(this);
     }
 

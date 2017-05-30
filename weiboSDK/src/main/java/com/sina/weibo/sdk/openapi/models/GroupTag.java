@@ -34,7 +34,6 @@ public class GroupTag {
         }
 
         GroupTag tag = new GroupTag();
-        // TODO: 结构不明？
         //tag.tag = jsonObject.optString("", "");
         return tag;
     }

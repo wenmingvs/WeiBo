@@ -125,8 +125,6 @@ public class CodingRuler {
      */
     public void doSomething(int param1, float param2, String paramXX) {
         // 以下注释标签可以通过Eclipse内置的Task插件看到
-        // TODO  使用TODO来标记代码，说明标识处有功能代码待编写
-        // FIXME 使用FIXME来标记代码，说明标识处代码需要修正，甚至代码是
         //       错误的，不能工作，需要修复
         // XXX   使用XXX来标记代码，说明标识处代码虽然实现了功能，但是实现
         //       的方法有待商榷，希望将来能改进
@@ -257,6 +255,5 @@ public class CodingRuler {
      * 其它原则（整理中...）。
      */
     private void otherFun() {
-        // TODO
-    }    
+    }
 }

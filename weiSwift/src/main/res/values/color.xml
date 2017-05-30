@@ -188,4 +188,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="color_ff">#F0F0F0</color>
+
+    <color name="login_bt_bg">#ffffff</color>
 </resources>

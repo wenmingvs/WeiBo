@@ -28,12 +28,12 @@
         android:windowSoftInputMode="adjustResize">
 
         <activity
-            android:name=".app.welcome.activity.WelcomeActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+            android:name=".app.startup.activity.SplashActivity"
+            android:theme="@style/FullScreenAppTheme">
 
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -68,21 +68,21 @@
 
         <activity android:name=".app.profile.activity.ProfileSwipeActivity" />
 
-        <activity android:name=".app.login.fragment.post.PostSwipeActivity" />
+        <activity android:name=".app.login.post.PostSwipeActivity" />
 
         <activity
-            android:name=".app.login.fragment.post.idea.IdeaSwipeActivity"
+            android:name=".app.login.post.idea.IdeaSwipeActivity"
             android:windowSoftInputMode="adjustResize" />
 
 
-        <activity android:name=".app.login.fragment.post.picselect.activity.AlbumSwipeActivity" />
+        <activity android:name=".app.login.post.picselect.activity.AlbumSwipeActivity" />
 
         <activity android:name=".app.unlogin.activity.WebViewActivity" />
         <activity android:name=".app.settings.accouts.activity.AccoutSwipeActivity" />
         <activity android:name=".app.myself.collect.activity.CollectSwipeActivity" />
         <activity android:name=".app.myself.myphoto.activity.MyPhotoSwipeActivity" />
 
-        <service android:name=".app.login.fragment.post.PostService" />
+        <service android:name=".app.login.post.PostService" />
 
         <!-- 登录web界面-->
         <activity

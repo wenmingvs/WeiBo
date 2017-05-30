@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_activity_bg" />
+
+    <TextView
+        android:id="@+id/login_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:text="@string/login_hint"
+        android:textColor="#e2c3d7"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/login_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:drawableLeft="@drawable/weibo_icon"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:text="@string/login_text"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:theme="@style/LoginButton"
+        android:visibility="gone" />
+</RelativeLayout>

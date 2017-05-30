@@ -88,7 +88,6 @@ public class GroupAPI extends AbsOpenAPI {
         requestAsync(SERVER_URL_PRIX + "/timeline.json", params, HTTPMETHOD_GET, listener);
     }
 
-    // TODO 获取当前登陆用户某一好友分组的微博ID列表
     public void timelineIds() {
     }
 
@@ -108,11 +107,9 @@ public class GroupAPI extends AbsOpenAPI {
         requestAsync(SERVER_URL_PRIX + "/members.json", params, HTTPMETHOD_GET, listener);
     }
 
-    // TODO 获取某一好友分组下的成员列表的ID
     public void membersIds() {
     }
 
-    // TODO 批量取好友分组成员的分组说明
     public void memberDescriptionPatch() {
     }
 
@@ -128,7 +125,6 @@ public class GroupAPI extends AbsOpenAPI {
         requestAsync(SERVER_URL_PRIX + "/is_member.json", params, HTTPMETHOD_GET, listener);
     }
 
-    // TODO 批量获取某些用户在指定用户的好友分组中的收录信息
     public void listed() {
     }
 

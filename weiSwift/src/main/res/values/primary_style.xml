@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用主题（支持夜间模式） -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!-- 全屏主题 -->
+    <style name="FullScreenAppTheme" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

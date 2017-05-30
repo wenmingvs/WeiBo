@@ -2,14 +2,18 @@
 <resources>
 
     <string name="app_name">WeiSwift</string>
-    <string name="action_settings">Settings</string>
 
+    <!--登录-->
+    <string name="login_text">登录</string>
+    <string name="login_hint">登录一下，精彩内容马上就来</string>
+
+
+    <string name="action_settings">Settings</string>
 
     <string name="home_image_detail_image_pop_window_save_pic">保存图片</string>
     <string name="home_image_detail_image_pop_window_forward_weibo">转发微博</string>
     <string name="home_image_detail_image_pop_window_share">分享</string>
     <string name="home_image_detail_image_pop_window_quit">取消</string>
-
 
     <string name="header_text">The Header</string>
     <string name="footer_text">The Footer</string>
