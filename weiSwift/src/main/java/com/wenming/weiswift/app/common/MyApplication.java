@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.wenming.weiswift.app;
+package com.wenming.weiswift.app.common;
 
 import android.app.Activity;
 import android.app.Application;
@@ -37,7 +37,7 @@ import java.util.List;
 
 
 public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
-
+    private static Application sContext;
     private List<Activity> mActivityList = new LinkedList<Activity>();
 
     public static void initImageLoader(Context context) {
@@ -153,5 +153,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         LogReport.getInstance().setUploadType(email);
     }
 
-
+    public static Application getContext() {
+        return sContext;
+    }
 }

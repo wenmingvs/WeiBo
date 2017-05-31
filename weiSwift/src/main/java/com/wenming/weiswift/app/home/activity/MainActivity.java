@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.MyApplication;
+import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.app.common.BarManager;
 import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;

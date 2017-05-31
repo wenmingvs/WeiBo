@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
@@ -21,8 +22,10 @@ import com.wenming.weiswift.app.startup.contract.SplashContract;
  */
 
 public class SplashFragment extends BaseFragment implements SplashContract.View {
-    private Button mLoginBt;
-    private TextView mLoginTv;
+    private Button mWebAuthBt;
+    private Button mSSOAuthBt;
+    private LinearLayout mAuthContainerLl;
+    private TextView mAuthHintTv;
     private SplashContract.Presenter mPresenter;
 
     @Override
@@ -43,15 +46,23 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     }
 
     private void prepareViews() {
-        mLoginTv = (TextView) findViewById(R.id.login_text_tv);
-        mLoginBt = (Button) findViewById(R.id.login_bt);
+        mAuthContainerLl = (LinearLayout) findViewById(R.id.login_container_ll);
+        mAuthHintTv = (TextView) findViewById(R.id.login_text_tv);
+        mSSOAuthBt = (Button) findViewById(R.id.login_sso_auth_bt);
+        mWebAuthBt = (Button) findViewById(R.id.login_web_auth_bt);
     }
 
     private void initListener() {
-        mLoginBt.setOnClickListener(new View.OnClickListener() {
+        mSSOAuthBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.login(mContext);
+                mPresenter.ssoAuth(getActivity());
+            }
+        });
+        mWebAuthBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.webAuth(mContext);
             }
         });
     }
@@ -77,11 +88,15 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     }
 
     @Override
-    public void showLogin() {
-        mLoginTv.setVisibility(View.VISIBLE);
-        mLoginBt.setVisibility(View.VISIBLE);
+    public void showAuth() {
+        mAuthContainerLl.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.login_bt_animation);
-        mLoginTv.setAnimation(animation);
-        mLoginBt.setAnimation(animation);
+        mAuthContainerLl.setAnimation(animation);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.ssoAuthorizeCallBack(requestCode, resultCode, data);
     }
 }

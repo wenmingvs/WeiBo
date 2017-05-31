@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.wenming.weiswift.app.MyApplication;
+import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.SettingActivityPresentImp;

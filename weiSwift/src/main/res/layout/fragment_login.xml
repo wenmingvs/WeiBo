@@ -12,6 +12,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:text="@string/login_text" />
+        android:text="@string/login_web_auth_text" />
 
 </RelativeLayout>

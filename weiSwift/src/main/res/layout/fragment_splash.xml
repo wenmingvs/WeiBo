@@ -9,31 +9,56 @@
         android:scaleType="centerCrop"
         android:src="@drawable/login_activity_bg" />
 
-    <TextView
-        android:id="@+id/login_text_tv"
+    <LinearLayout
+        android:id="@+id/login_container_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp"
-        android:text="@string/login_hint"
-        android:textColor="#e2c3d7"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <Button
-        android:id="@+id/login_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:drawableLeft="@drawable/weibo_icon"
-        android:drawablePadding="20dp"
-        android:gravity="center"
-        android:text="@string/login_text"
-        android:textColor="#666666"
-        android:textSize="15sp"
-        android:theme="@style/LoginButton"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/login_text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/login_hint"
+            android:textColor="#e2c3d7"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="45dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/login_sso_auth_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="35dp"
+                android:drawableLeft="@drawable/weibo_icon"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:text="@string/login_sso_auth_text"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                android:theme="@style/LoginButton" />
+
+            <Button
+                android:id="@+id/login_web_auth_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/weibo_icon"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:text="@string/login_web_auth_text"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                android:theme="@style/LoginButton" />
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

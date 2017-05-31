@@ -176,7 +176,8 @@ public class UnLoginActivity extends AppCompatActivity {
     }
 
     public void openLoginWebView(View view) {
-        String authurl = "https://open.weibo.cn/oauth2/authorize" + "?" + "client_id=" + Constants.APP_KEY
+        String authurl = "https://open.weibo.cn/oauth2/authorize?"
+                + "client_id=" + Constants.APP_KEY
                 + "&response_type=token&redirect_uri=" + Constants.REDIRECT_URL
                 + "&key_hash=" + Constants.AppSecret + (TextUtils.isEmpty(Constants.PackageName) ? "" : "&packagename=" + Constants.PackageName)
                 + "&display=mobile" + "&scope=" + Constants.SCOPE;
