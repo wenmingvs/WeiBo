@@ -7,14 +7,15 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.CommentsAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.list.CommentList;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
-import com.wenming.weiswift.app.mvp.model.MentionModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.mvp.model.MentionModel;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -35,7 +36,7 @@ public class MentionModelImp implements MentionModel {
 
     @Override
     public void mentions(int groupType, Context context, OnMentionFinishedListener onMentionFinishedListener) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         long sinceId = checkout(groupType);
         mContext = context;
         mOnMentionFinishedListener = onMentionFinishedListener;
@@ -55,7 +56,7 @@ public class MentionModelImp implements MentionModel {
 
     @Override
     public void commentMentions(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnCommentFinishedListener = onCommentFinishedListener;
         long sinceId = checkout(groupType);
@@ -71,7 +72,7 @@ public class MentionModelImp implements MentionModel {
 
     @Override
     public void mentionsNextPage(int groupType, Context context, OnMentionFinishedListener onMentionFinishedListener) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         String maxId = mMentionList.get(mMentionList.size() - 1).id;
         mContext = context;
         mOnMentionFinishedListener = onMentionFinishedListener;
@@ -90,7 +91,7 @@ public class MentionModelImp implements MentionModel {
 
     @Override
     public void commentMentionsNextPage(int groupType, Context context, OnCommentFinishedListener onCommentFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnCommentFinishedListener = onCommentFinishedListener;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
@@ -109,19 +110,19 @@ public class MentionModelImp implements MentionModel {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             switch (groupType) {
                 case Constants.GROUP_RETWEET_TYPE_ALL:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_RETWEET_TYPE_FRIENDS:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
             }
 
@@ -134,13 +135,13 @@ public class MentionModelImp implements MentionModel {
             String response = null;
             switch (groupType) {
                 case Constants.GROUP_RETWEET_TYPE_ALL:
-                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                     break;
                 case Constants.GROUP_RETWEET_TYPE_FRIENDS:
-                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                     break;
                 case Constants.GROUP_RETWEET_TYPE_ORIGINWEIBO:
-                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "原创微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                     break;
             }
 
@@ -160,10 +161,10 @@ public class MentionModelImp implements MentionModel {
             String response = null;
             switch (groupType) {
                 case Constants.GROUP_RETWEET_TYPE_ALLCOMMENT:
-                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "所有评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                     break;
                 case Constants.GROUP_RETWEET_TYPE_FRIEDNSCOMMENT:
-                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                    response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mention", "关注人的评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                     break;
             }
             if (response != null) {

@@ -9,16 +9,17 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.FriendshipsAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
 import com.wenming.weiswift.app.api.UsersAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.Token;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
 import com.wenming.weiswift.app.common.entity.list.TokenList;
 import com.wenming.weiswift.app.common.entity.list.UserList;
-import com.wenming.weiswift.app.mvp.model.UserModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.mvp.model.UserModel;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
@@ -54,7 +55,7 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public void show(long uid, final Context context, final OnUserDetailRequestFinish onUserDetailRequestFinish) {
-        UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        UsersAPI mUsersAPI = new UsersAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnUserDetailRequestFinish = onUserDetailRequestFinish;
         mUsersAPI.show(uid, user_PullToRefresh);
@@ -62,7 +63,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void show(String screenName, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish) {
-        UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        UsersAPI mUsersAPI = new UsersAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnUserDetailRequestFinish = onUserDetailRequestFinish;
         mUsersAPI.show(screenName, user_PullToRefresh);
@@ -77,7 +78,7 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public User showUserDetailSync(long uid, Context context) {
-        UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        UsersAPI mUsersAPI = new UsersAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         return User.parse(mUsersAPI.showSync(uid));
     }
@@ -92,7 +93,7 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         //long sinceId = checkout(groupId);
@@ -101,7 +102,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void userTimeline(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         //long sinceId = checkout(groupId);
@@ -110,7 +111,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void userPhoto(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         //long sinceId = checkout(groupId);
@@ -126,7 +127,7 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public void followers(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
-        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mUserListType = FOLLOWERS_LISTS;
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
@@ -142,7 +143,7 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public void friends(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
-        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mUserListType = FRIENDS_LISTS;
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
@@ -151,7 +152,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void userTimelineNextPage(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         mStatusesAPI.userTimeline(uid, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, groupId, false, statuslist_NextPage);
@@ -159,7 +160,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void userTimelineNextPage(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         mStatusesAPI.userTimeline(screenName, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, groupId, false, statuslist_NextPage);
@@ -167,7 +168,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void userPhotoNextPage(String screenName, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnStatusListFinishedListener = onStatusFinishedListener;
         mStatusesAPI.userTimeline(screenName, 0, Long.valueOf(mStatusList.get(mStatusList.size() - 1).id), 50, 1, false, StatusesAPI.FEATURE_PICTURE, false, statuslist_NextPage);
@@ -176,7 +177,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void followersNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
-        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
         mFriendshipsAPI.followers(uid, NewFeature.LOADMORE_FOLLOWER_NUM, mFollowersCursor, false, userlist_NextPage);
@@ -185,7 +186,7 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void friendsNextPage(long uid, Context context, OnUserListRequestFinish onUserListRequestFinish) {
-        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI mFriendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnUserListRequestFinish = onUserListRequestFinish;
         mFriendshipsAPI.friends(uid, NewFeature.LOADMORE_FRIENDS_NUM, mFriendsCursor, false, userlist_NextPage);
@@ -200,7 +201,7 @@ public class UserModelImp implements UserModel {
     @Override
     public void getUserDetailList(final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
         String jsonstring = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt");
-        if (jsonstring == null && AccessTokenKeeper.readAccessToken(context).isSessionValid()) {
+        if (jsonstring == null && AccessTokenManager.getAccessToken().isSessionValid()) {
             cacheCurrentOuthToken(context);
         }
         TokenList tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt"));
@@ -254,13 +255,13 @@ public class UserModelImp implements UserModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_MYWEIBO_TYPE_ALL:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_ORIGIN:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_PICWEIBO:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                 break;
         }
     }
@@ -271,13 +272,13 @@ public class UserModelImp implements UserModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_MYWEIBO_TYPE_ALL:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_ORIGIN:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_PICWEIBO:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
         }
         if (response != null) {
@@ -288,12 +289,12 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void cacheSave_user(Context context, String response) {
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
     }
 
     @Override
     public void cacheLoad_user(Context context, OnUserDetailRequestFinish onUserDetailRequestFinish) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
         if (response != null) {
             onUserDetailRequestFinish.onComplete(User.parse(response));
         }
@@ -303,10 +304,10 @@ public class UserModelImp implements UserModel {
     public void cacheSave_userlist(int groupType, Context context, String response) {
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                 break;
             case FRIENDS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                 break;
         }
     }
@@ -317,10 +318,10 @@ public class UserModelImp implements UserModel {
         mUserListType = groupType;
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
             case FRIENDS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
         }
         if (response != null) {
@@ -332,10 +333,10 @@ public class UserModelImp implements UserModel {
     }
 
     public void cacheCurrentOuthToken(Context context) {
-        String tokenString = AccessTokenKeeper.readAccessToken(context).getToken();
-        String expiresIn = String.valueOf(AccessTokenKeeper.readAccessToken(context).getExpiresTime());
-        String refresh_token = AccessTokenKeeper.readAccessToken(context).getRefreshToken();
-        String uid = AccessTokenKeeper.readAccessToken(context).getUid();
+        String tokenString = AccessTokenManager.getAccessToken().getToken();
+        String expiresIn = String.valueOf(AccessTokenManager.getInstance().getAccessToken().getExpiresTime());
+        String refresh_token = AccessTokenManager.getInstance().getAccessToken().getRefreshToken();
+        String uid = AccessTokenManager.getInstance().getAccessToken().getUid();
         Token token = new Token(tokenString, expiresIn, refresh_token, uid);
         TokenList tokenList = new TokenList();
         tokenList.tokenList.add(token);

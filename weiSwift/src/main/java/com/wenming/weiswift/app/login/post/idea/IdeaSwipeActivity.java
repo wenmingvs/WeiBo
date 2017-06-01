@@ -19,13 +19,13 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.UsersAPI;
+import com.wenming.weiswift.app.common.FillContent;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.User;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.common.FillContent;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.post.PostService;
 import com.wenming.weiswift.app.login.post.bean.CommentReplyBean;
 import com.wenming.weiswift.app.login.post.bean.WeiBoCommentBean;
@@ -90,7 +90,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compose_idea_layout);
         mContext = this;
-        mUsersAPI = new UsersAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mUsersAPI = new UsersAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mInputType = (TextView) findViewById(R.id.inputType);
         mCancal = (TextView) findViewById(R.id.idea_cancal);
         mUserName = (TextView) findViewById(R.id.idea_username);
@@ -189,7 +189,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
      * 刷新顶部的名字
      */
     private void refreshUserName() {
-        long uid = Long.parseLong(AccessTokenKeeper.readAccessToken(this).getUid());
+        long uid = Long.parseLong(AccessTokenManager.getInstance().getAccessToken().getUid());
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {

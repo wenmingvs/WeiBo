@@ -7,9 +7,9 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.GroupAPI;
 import com.wenming.weiswift.app.common.entity.Group;
 import com.wenming.weiswift.app.common.entity.list.GroupList;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.GroupListModel;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.utils.SDCardUtil;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class GroupListModelImp implements GroupListModel {
 
 
     private void groups(final Context context, final OnGroupListFinishedListener onGroupListFinishedListener) {
-        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        GroupAPI groupAPI = new GroupAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnGroupListFinishedListener = onGroupListFinishedListener;
         groupAPI.groups(mGroupRequestListener);
@@ -41,7 +41,7 @@ public class GroupListModelImp implements GroupListModel {
 
     @Override
     public void cacheLoad(Context context, OnGroupListFinishedListener onGroupListFinishedListener) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
         if (response != null) {
             mGroupList = GroupList.parse(response).lists;
             onGroupListFinishedListener.onDataFinish(mGroupList);
@@ -50,7 +50,7 @@ public class GroupListModelImp implements GroupListModel {
 
     @Override
     public void cacheSave(Context context, String response) {
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
     }
 
     public RequestListener mGroupRequestListener = new RequestListener() {

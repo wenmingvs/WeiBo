@@ -1,10 +1,9 @@
 package com.wenming.weiswift.app.common.preference;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.wenming.weiswift.app.common.MyApplication;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by wenmingvs on 2017/4/3.
@@ -12,58 +11,76 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class UserAccountPrefences {
     private static final String SP_NAME_SUFFIX = "_account_sp";
-    private static final String ACCOUNT_ACCESS_TOKEN = "_account_access_token";
-    private static final String ACCOUNT_EXPIRES_TIME = "_account_expires_time";
+    private static final String ACCOUNT_UID = "account_uid";
+    private static final String ACCOUNT_ACCESS_TOKEN = "account_access_token";
+    private static final String ACCOUNT_REFRESH_TOKEN = "account_refresh_token";
+    private static final String ACCOUNT_EXPIRES_TIME = "account_expires_time";
 
-
-    public static void setAccessToken(String uid, String accessToken) {
-        setString(uid, ACCOUNT_ACCESS_TOKEN, accessToken);
+    public static void setUid(String uid) {
+        setString(ACCOUNT_UID, uid);
     }
 
-    public static String getAccessToken(String uid) {
-        return getSp(uid).getString(ACCOUNT_ACCESS_TOKEN, "");
+    public static String getUid() {
+        return getSp().getString(ACCOUNT_UID, "");
     }
 
-    public static void setExpiresTime(String uid, long expires) {
-        setLong(uid, ACCOUNT_EXPIRES_TIME, expires);
+    public static void setAccessToken(String accessToken) {
+        setString(ACCOUNT_ACCESS_TOKEN, accessToken);
     }
 
-    public static long getExpiresTime(String uid) {
-        return getSp(uid).getLong(ACCOUNT_EXPIRES_TIME, 0);
+    public static String getAccessToken() {
+        return getSp().getString(ACCOUNT_ACCESS_TOKEN, "");
     }
 
-    private static SharedPreferences getSp(String uid) {
-        String spName = uid + SP_NAME_SUFFIX;
-        return MyApplication.getContext().getSharedPreferences(uid, MODE_PRIVATE);
+    public static void setRefreshAccessToken(String refreshToken) {
+        setString(ACCOUNT_REFRESH_TOKEN, refreshToken);
     }
 
-    protected static void setString(String uid, String key, String value) {
-        final SharedPreferences.Editor settingsEditor = getSp(uid).edit();
-        settingsEditor.putString(key, value);
-        settingsEditor.apply();
+    public static String getRefreshAccessToken() {
+        return getSp().getString(ACCOUNT_REFRESH_TOKEN, "");
     }
 
-    protected static void setBoolean(String uid, String key, boolean value) {
-        final SharedPreferences.Editor settingsEditor = getSp(uid).edit();
-        settingsEditor.putBoolean(key, value);
-        settingsEditor.apply();
+    public static void setExpiresTime(long expires) {
+        setLong(ACCOUNT_EXPIRES_TIME, expires);
     }
 
-    protected static void setInt(String uid, String key, int value) {
-        final SharedPreferences.Editor settingsEditor = getSp(uid).edit();
-        settingsEditor.putInt(key, value);
-        settingsEditor.apply();
+    public static long getExpiresTime() {
+        return getSp().getLong(ACCOUNT_EXPIRES_TIME, 0);
     }
 
-    protected static void setFloat(String uid, String key, float value) {
-        final SharedPreferences.Editor settingsEditor = getSp(uid).edit();
-        settingsEditor.putFloat(key, value);
-        settingsEditor.apply();
+    private static final String FILE_NAME = "common_preference";
+
+    private static SharedPreferences getSp() {
+        return MyApplication.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
-    protected static void setLong(String uid, String key, long value) {
-        final SharedPreferences.Editor settingsEditor = getSp(uid).edit();
-        settingsEditor.putLong(key, value);
-        settingsEditor.apply();
+    private static void setString(String key, String value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    private static void setBoolean(String key, boolean value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    private static void setInt(String key, int value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    private static void setLong(String key, long value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putLong(key, value);
+        editor.apply();
+    }
+
+    private static void setFloat(String key, float value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putFloat(key, value);
+        editor.apply();
     }
 }

@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.FillContent;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.presenter.FollowerActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.FollowerActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.FollowActivityView;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.common.FillContent;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.myself.fans.adapter.FansAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -52,7 +52,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         });
     }
@@ -66,7 +66,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         });
     }
@@ -99,7 +99,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mFollowerActivityPresent.requestMoreData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFollowerActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         }
     };

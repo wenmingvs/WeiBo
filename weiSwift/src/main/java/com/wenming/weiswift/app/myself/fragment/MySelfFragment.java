@@ -26,11 +26,11 @@ import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.UsersAPI;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.presenter.ProfileFragmentPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.ProfileFragmentPresentImp;
 import com.wenming.weiswift.app.mvp.view.ProfileFragmentView;
 import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.login.activity.BackgroundActivity;
 import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
 import com.wenming.weiswift.app.myself.collect.activity.CollectSwipeActivity;
@@ -172,7 +172,7 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
     }
 
     public void refreshUserDetail(Context context, boolean loadicon) {
-        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenKeeper.readAccessToken(context).getUid()), context, loadicon);
+        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenManager.getInstance().getAccessToken().getUid()), context, loadicon);
     }
 
     public boolean haveAlreadyRefresh() {

@@ -25,8 +25,8 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.CommentsAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.login.post.bean.CommentReplyBean;
 import com.wenming.weiswift.app.login.post.bean.WeiBoCommentBean;
@@ -80,7 +80,7 @@ public class PostService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(this));
+        mStatusesAPI = new StatusesAPI(this, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mPostType = intent.getStringExtra("postType");
         showSendNotifiy();
         switch (mPostType) {
@@ -208,7 +208,7 @@ public class PostService extends Service {
      * @param weiBoCommentBean
      */
     public void commentWeiBo(WeiBoCommentBean weiBoCommentBean) {
-        CommentsAPI commentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         commentsAPI.create(weiBoCommentBean.content, Long.valueOf(weiBoCommentBean.status.id), false, new RequestListener() {
             @Override
             public void onComplete(String s) {
@@ -229,7 +229,7 @@ public class PostService extends Service {
      * @param commentReplyBean
      */
     public void replyComment(CommentReplyBean commentReplyBean) {
-        CommentsAPI commentsAPI = new CommentsAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         commentsAPI.reply(Long.valueOf(commentReplyBean.comment.id), Long.valueOf(commentReplyBean.comment.status.id), commentReplyBean.content, false, false,
                 new RequestListener() {
                     @Override

@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
-import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.home.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 
 /**
  * Created by xiangflight on 2016/4/22.
@@ -54,7 +54,7 @@ public class DetailWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowVie
      */
     @Override
     public void setFriendShipContext(final Status status, TextView textView) {
-        if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
             mFollerLayout.setVisibility(View.GONE);
         }
         if (status.user.following) {

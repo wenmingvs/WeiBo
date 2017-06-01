@@ -16,6 +16,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.startup.contract.SplashContract;
+import com.wenming.weiswift.utils.ToastUtil;
 
 /**
  * Created by wenmingvs on 2017/5/30.
@@ -74,6 +75,21 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     @Override
     public void setPresenter(SplashContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void showCancel() {
+        ToastUtil.showShort(mContext, mContext.getString(R.string.login_web_auth_cancel));
+    }
+
+    @Override
+    public void showAuthSuccess() {
+        ToastUtil.showShort(mContext, mContext.getString(R.string.login_web_auth_success));
+    }
+
+    @Override
+    public void showAuthError(String errorText) {
+        ToastUtil.showShort(mContext, errorText);
     }
 
     @Override

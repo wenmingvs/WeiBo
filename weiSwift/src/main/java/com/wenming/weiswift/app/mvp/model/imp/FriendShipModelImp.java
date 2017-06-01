@@ -6,12 +6,12 @@ import com.google.gson.Gson;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.FriendshipsAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.entity.list.UserList;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.FriendShipModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -27,7 +27,7 @@ public class FriendShipModelImp implements FriendShipModel {
 
     @Override
     public void user_destroy(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
-        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnRequestUIListener = onRequestListener;
         friendshipsAPI.destroy(Long.valueOf(user.id), user.screen_name, new RequestListener() {
@@ -53,7 +53,7 @@ public class FriendShipModelImp implements FriendShipModel {
 
     @Override
     public void user_create(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
-        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnRequestUIListener = onRequestListener;
         friendshipsAPI.create(Long.valueOf(user.id), user.screen_name, new RequestListener() {
@@ -78,7 +78,7 @@ public class FriendShipModelImp implements FriendShipModel {
      * @param context
      */
     private void updateCache(Context context, User usertoUpdate) {
-        String follerResponse = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+        String follerResponse = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
         if (follerResponse != null) {
             UserList userList = UserList.parse(follerResponse);
             ArrayList<User> usersList = userList.users;
@@ -89,7 +89,7 @@ public class FriendShipModelImp implements FriendShipModel {
                 }
             }
             userList.users = usersList;
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", new Gson().toJson(userList));
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt", new Gson().toJson(userList));
 
         }
 

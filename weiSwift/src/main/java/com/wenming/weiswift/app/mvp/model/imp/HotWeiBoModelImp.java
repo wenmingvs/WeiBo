@@ -5,12 +5,12 @@ import android.content.Context;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.HotWeiBoModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.toast.LoadedToast;
 
@@ -35,7 +35,7 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
     }
 
     private void getPublicWeiBo(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {

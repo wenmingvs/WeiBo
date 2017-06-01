@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.model.TokenListModel;
 import com.wenming.weiswift.app.mvp.model.imp.TokenListModelImp;
 import com.wenming.weiswift.app.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.app.mvp.view.SettingActivityView;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.unlogin.activity.UnLoginActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -28,8 +28,8 @@ public class SettingActivityPresentImp implements SettingActivityPresent {
 
     @Override
     public void logout(final Context context) {
-        tokenListModel.deleteToken(context, AccessTokenKeeper.readAccessToken(context).getUid());
-        AccessTokenKeeper.clear(context);
+        tokenListModel.deleteToken(context, AccessTokenManager.getInstance().getAccessToken().getUid());
+        AccessTokenManager.clearAccessToken();
         tokenListModel.switchToken(context, 0, new TokenListModel.OnTokenSwitchListener() {
             @Override
             public void onSuccess() {

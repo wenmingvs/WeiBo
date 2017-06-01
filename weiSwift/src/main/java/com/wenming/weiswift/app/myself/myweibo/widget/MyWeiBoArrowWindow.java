@@ -5,10 +5,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wenming.weiswift.app.common.entity.Status;
-import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.home.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 
 /**
  * Created by xiangflight on 2016/4/22.
@@ -57,7 +57,7 @@ public class MyWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setDeleteViewContent(final Status status, final TextView textView) {
-        if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
             textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override

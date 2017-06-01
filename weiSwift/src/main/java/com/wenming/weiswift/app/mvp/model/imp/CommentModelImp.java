@@ -7,12 +7,13 @@ import com.google.gson.Gson;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.CommentsAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.list.CommentList;
-import com.wenming.weiswift.app.mvp.model.CommentModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.mvp.model.CommentModel;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -37,7 +38,7 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void toMe(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
@@ -51,7 +52,7 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void byMe(Context context, OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = checkout(Constants.GROUP_COMMENT_TYPE_BYME);
@@ -60,7 +61,7 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void toMeNextPage(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
         mOnDataFinishedListener = onDataFinishedListener;
@@ -69,7 +70,7 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void byMeNextPage(Context context, OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         String maxId = mCommentList.get(mCommentList.size() - 1).id;
@@ -83,13 +84,13 @@ public class CommentModelImp implements CommentModel {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             switch (groupType) {
                 case Constants.GROUP_COMMENT_TYPE_ALL:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
                 case Constants.GROUP_COMMENT_TYPE_BYME:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
                     break;
             }
         }
@@ -101,13 +102,13 @@ public class CommentModelImp implements CommentModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_COMMENT_TYPE_ALL:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
             case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
             case Constants.GROUP_COMMENT_TYPE_BYME:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
                 break;
         }
         if (response != null) {

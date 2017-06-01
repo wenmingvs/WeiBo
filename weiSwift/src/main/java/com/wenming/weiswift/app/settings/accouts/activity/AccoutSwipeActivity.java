@@ -14,14 +14,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.WeicoAuthConstants;
+import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.AccoutActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.AccoutActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.AccoutActivityView;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.settings.accouts.adapter.AccoutAdapter;
 import com.wenming.weiswift.app.unlogin.activity.UnLoginActivity;
 import com.wenming.weiswift.app.unlogin.activity.WebViewActivity;
@@ -69,7 +69,7 @@ public class AccoutSwipeActivity extends BaseSwipeActivity implements AccoutActi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, WebViewActivity.class);
-                intent.putExtra("url", Constants.authurl);
+                intent.putExtra("url", WeicoAuthConstants.AUTHURL);
                 intent.putExtra("comeFromAccoutActivity", true);
                 startActivity(intent);
             }
@@ -96,7 +96,7 @@ public class AccoutSwipeActivity extends BaseSwipeActivity implements AccoutActi
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 String uid = ((User) listview.getAdapter().getItem(position)).id;
-                                String currentUid = AccessTokenKeeper.readAccessToken(mContext).getUid();
+                                String currentUid = AccessTokenManager.getInstance().getAccessToken().getUid();
 
                                 if (!uid.equals(currentUid)) {
                                     mAccoutActivityPresent.logout(mContext, uid);

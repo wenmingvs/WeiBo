@@ -12,18 +12,18 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.FillContent;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
+import com.wenming.weiswift.app.home.adapter.CommentDetailAdapter;
+import com.wenming.weiswift.app.home.adapter.MentionDetailAdapter;
 import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.app.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.DetailActivityView;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.common.FillContent;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
-import com.wenming.weiswift.app.home.adapter.CommentDetailAdapter;
-import com.wenming.weiswift.app.home.adapter.MentionDetailAdapter;
 import com.wenming.weiswift.app.weibodetail.headview.OnDetailButtonClickListener;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -129,7 +129,7 @@ public abstract class BaseDetailSwipeActivity extends BaseSwipeActivity implemen
      */
     public void getWeiBoCount() {
         mSwipeRefreshLayout.setRefreshing(true);
-        StatusesAPI statusesAPI = new StatusesAPI(mContext, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(mContext));
+        StatusesAPI statusesAPI = new StatusesAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         statusesAPI.count(new String[]{mStatus.id}, new RequestListener() {
             @Override
             public void onComplete(String response) {

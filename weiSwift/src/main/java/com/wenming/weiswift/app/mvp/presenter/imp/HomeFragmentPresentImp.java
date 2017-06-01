@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.StatusListModel;
 import com.wenming.weiswift.app.mvp.model.UserModel;
 import com.wenming.weiswift.app.mvp.model.imp.StatusListModelImp;
 import com.wenming.weiswift.app.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.app.mvp.presenter.HomeFragmentPresent;
 import com.wenming.weiswift.app.mvp.view.HomeFragmentView;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      */
     @Override
     public void refreshUserName(Context context) {
-        LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
-        mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
+        LogUtil.d(AccessTokenManager.getInstance().getAccessToken().toString());
+        mUserModel.show(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
                 mHomeFragmentView.setCurrentUser(user);

@@ -8,12 +8,13 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.GroupAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
-import com.wenming.weiswift.app.mvp.model.StatusListModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.mvp.model.StatusListModel;
 import com.wenming.weiswift.utils.SDCardUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.toast.LoadedToast;
@@ -54,7 +55,7 @@ public class StatusListModelImp implements StatusListModel {
      */
     @Override
     public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
@@ -71,7 +72,7 @@ public class StatusListModelImp implements StatusListModel {
      */
     @Override
     public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
@@ -81,7 +82,7 @@ public class StatusListModelImp implements StatusListModel {
 
     @Override
     public void timeline(long newGroupId, Context context, OnDataFinishedListener onDataFinishedListener) {
-        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        GroupAPI groupAPI = new GroupAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
@@ -99,7 +100,7 @@ public class StatusListModelImp implements StatusListModel {
      */
     @Override
     public void weibo_destroy(long id, Context context, OnRequestListener onRequestListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnDestroyWeiBoUIListener = onRequestListener;
         mStatusesAPI.destroy(id, destroyRequestListener);
@@ -115,7 +116,7 @@ public class StatusListModelImp implements StatusListModel {
      */
     @Override
     public void timelineNextPage(long groundId, Context context, OnDataFinishedListener onDataFinishedListener) {
-        GroupAPI groupAPI = new GroupAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        GroupAPI groupAPI = new GroupAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
         setRefrshFriendsTimelineTask();
@@ -134,7 +135,7 @@ public class StatusListModelImp implements StatusListModel {
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
         mStatusesAPI.homeTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, 0, false, nextPageListener);
     }
@@ -151,7 +152,7 @@ public class StatusListModelImp implements StatusListModel {
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         String maxId = mStatusList.get(mStatusList.size() - 1).id;
         mStatusesAPI.bilateralTimeline(0, Long.valueOf(maxId), NewFeature.LOADMORE_WEIBO_ITEM, 1, false, StatusesAPI.FEATURE_ORIGINAL, false, nextPageListener);
     }
@@ -162,11 +163,11 @@ public class StatusListModelImp implements StatusListModel {
         mCurrentGroup = groupType;
         mOnDataFinishedUIListener = onDataFinishedListener;
         if (groupType == Constants.GROUP_TYPE_ALL) {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
         } else {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
+            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getAccessToken().getUid() + ".txt");
         }
         if (response != null) {
             mStatusList = (ArrayList<Status>) StatusList.parse(response).statuses;
@@ -183,11 +184,11 @@ public class StatusListModelImp implements StatusListModel {
     public void cacheSave(long groupType, Context context, StatusList statusList) {
         String response = new Gson().toJson(statusList);
         if (groupType == Constants.GROUP_TYPE_ALL) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
         } else {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt", response);
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getAccessToken().getUid() + ".txt", response);
         }
     }
 

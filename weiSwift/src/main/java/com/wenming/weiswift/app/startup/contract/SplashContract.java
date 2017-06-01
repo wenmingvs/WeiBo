@@ -14,6 +14,12 @@ import com.wenming.weiswift.app.common.base.mvp.BaseView;
 public interface SplashContract {
     interface View extends BaseView<Presenter> {
 
+        void showCancel();
+
+        void showAuthSuccess();
+
+        void showAuthError(String errorText);
+
         void goToMainActivity();
 
         void finishActivity();

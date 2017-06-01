@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.FillContent;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.presenter.FriendActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.FriendActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.FriendActivityView;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.common.FillContent;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.myself.focus.adapter.FocusAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -53,7 +53,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         });
     }
@@ -67,7 +67,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         });
     }
@@ -101,7 +101,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mFriendActivityPresent.requestMoreData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mContext);
+                mFriendActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
             }
         }
     };
@@ -150,8 +150,8 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
 
 
     @Override
-    public void updateRealtionShip(Context context,User user, ImageView icon, TextView text) {
-        FillContent.updateRealtionShip(context,user, icon, text);
+    public void updateRealtionShip(Context context, User user, ImageView icon, TextView text) {
+        FillContent.updateRealtionShip(context, user, icon, text);
     }
 
 

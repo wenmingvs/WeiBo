@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.startup.constant;
+package com.wenming.weiswift.app.common.oauth.constant;
 
 import android.text.TextUtils;
 

@@ -12,11 +12,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.app.common.oauth.constant.WeicoAuthConstants;
+import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.WebViewActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WebViewActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.WebViewActivityView;
-import com.wenming.weiswift.app.login.Constants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
 
 /**
  * Created by wenmingvs on 16/5/12.
@@ -38,7 +38,7 @@ public class WebViewActivity extends Activity implements WebViewActivityView {
         setContentView(R.layout.webview_layout);
         mLoginURL = getIntent().getStringExtra("url");
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
-        sRedirectUri = Constants.REDIRECT_URL;
+        sRedirectUri = WeicoAuthConstants.REDIRECT_URL;
         mWeb = (WebView) findViewById(R.id.webview);
         mWebViewActivityPresent = new WebViewActivityPresentImp(this);
         initWebView();

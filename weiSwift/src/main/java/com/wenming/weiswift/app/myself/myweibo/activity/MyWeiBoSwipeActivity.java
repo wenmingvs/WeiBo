@@ -15,16 +15,16 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.home.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.home.weiboitem.SeachHeadView;
+import com.wenming.weiswift.app.login.Constants;
+import com.wenming.weiswift.app.message.IGroupItemClick;
 import com.wenming.weiswift.app.mvp.presenter.MyWeiBoActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.MyWeiBoActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.MyWeiBoActivityView;
-import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
-import com.wenming.weiswift.app.home.weiboitem.SeachHeadView;
-import com.wenming.weiswift.app.home.adapter.WeiboAdapter;
-import com.wenming.weiswift.app.message.IGroupItemClick;
 import com.wenming.weiswift.app.myself.myweibo.widget.MyWeiBoArrowWindow;
 import com.wenming.weiswift.app.myself.myweibo.widget.MyWeiBoPopWindow;
 import com.wenming.weiswift.utils.DensityUtil;
@@ -71,7 +71,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
             }
         });
     }
@@ -84,7 +84,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
             }
         });
     }
@@ -125,7 +125,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
                         mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mMyWeiBoPopWindow.dismiss();
-                        mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                        mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
                     }
                 });
             }
@@ -143,7 +143,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
             }
         }
     };
@@ -197,7 +197,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
             mRecyclerView.post(new Runnable() {
                 @Override
                 public void run() {
-                    mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenKeeper.readAccessToken(mContext).getUid()), mCurrentGroup, mContext);
+                    mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
                 }
             });
         }

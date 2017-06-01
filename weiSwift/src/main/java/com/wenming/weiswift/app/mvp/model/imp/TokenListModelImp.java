@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.app.common.entity.Token;
 import com.wenming.weiswift.app.common.entity.list.TokenList;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.model.TokenListModel;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.utils.SDCardUtil;
 
 /**
@@ -49,13 +49,13 @@ public class TokenListModelImp implements TokenListModel {
         tokenList.total_number = tokenList.tokenList.size();
         if (tokenList.tokenList.size() == 0) {
             SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
-            AccessTokenKeeper.clear(context);
+            AccessTokenManager.clearAccessToken();
             return;
         }
         tokenList.current_uid = tokenList.tokenList.get(0).uid;
         SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
-        if (AccessTokenKeeper.readAccessToken(context).getUid().equals(uid)) {
-            AccessTokenKeeper.clear(context);
+        if (AccessTokenManager.getInstance().getAccessToken().equals(uid)) {
+            AccessTokenManager.clearAccessToken();
             Token token = tokenList.tokenList.get(0);
             updateAccessToken(context, token.token, token.expiresIn, token.refresh_token, token.uid);
         }
@@ -93,6 +93,6 @@ public class TokenListModelImp implements TokenListModel {
         mAccessToken.setExpiresIn(expiresIn);
         mAccessToken.setRefreshToken(refresh_token);
         mAccessToken.setUid(uid);
-        AccessTokenKeeper.writeAccessToken(context, mAccessToken);
+        AccessTokenManager.writeAccessToken(mAccessToken);
     }
 }

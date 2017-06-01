@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
-import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 
 /**
  * 设置监听事件
@@ -60,7 +60,7 @@ public class MentionArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setFriendShipContext(final Status status, TextView textView) {
-        if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
             mFollerLayout.setVisibility(View.GONE);
         }
         if (status.user.following) {

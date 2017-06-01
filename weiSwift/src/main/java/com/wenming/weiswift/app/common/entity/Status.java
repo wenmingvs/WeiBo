@@ -312,14 +312,12 @@ public class Status implements Parcelable {
         dest.writeString(this.thumbnail_pic);
         dest.writeString(this.bmiddle_pic);
         dest.writeString(this.original_pic);
-        dest.writeParcelable(this.geo, flags);
         dest.writeParcelable(this.user, flags);
         dest.writeParcelable(this.retweeted_status, flags);
         dest.writeInt(this.reposts_count);
         dest.writeInt(this.comments_count);
         dest.writeInt(this.attitudes_count);
         dest.writeInt(this.mlevel);
-        dest.writeParcelable(this.visible, flags);
         dest.writeInt(this.source_allowclick);
         dest.writeTypedList(this.pic_urls);
         dest.writeStringList(this.thumbnail_pic_urls);

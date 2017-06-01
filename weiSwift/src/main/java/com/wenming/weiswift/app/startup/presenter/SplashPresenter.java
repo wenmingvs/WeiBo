@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.wenming.weiswift.app.common.ThreadHelper;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.startup.constant.AppAuthConstants;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.startup.contract.SplashContract;
 import com.wenming.weiswift.app.startup.data.SplashDataSource;
 
@@ -20,11 +21,15 @@ import com.wenming.weiswift.app.startup.data.SplashDataSource;
  */
 
 public class SplashPresenter implements SplashContract.Presenter {
+    private static final String BUDDLE_KEY_UID = "uid";
+    private static final String BUDDLE_KEY_ACCESS_TOKEN = "access_token";
+    private static final String BUDDLE_KEY_EXPIRES_IN = "expires_in";
+    private static final String BUDDLE_KEY_REFRESH_TOKEN = "refresh_token";
     private SplashContract.View mView;
     private SplashDataSource mDataSource;
     private static final int SPLASH_TIME = 1000;
     private Context mContext;
-    private WeiboAuth mWeiboAuth;
+    private AuthInfo mWeiboAuth;
     private SsoHandler mSsoHandler;
 
     public SplashPresenter(Context context, SplashContract.View view, SplashDataSource dataSource) {
@@ -39,7 +44,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         ThreadHelper.instance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (AccessTokenKeeper.readAccessToken(mContext).isSessionValid()) {
+                if (AccessTokenManager.getAccessToken().isSessionValid()) {
                     mView.goToMainActivity();
                 } else {
                     mView.showAuth();
@@ -50,7 +55,7 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     private void initAuth() {
         if (mWeiboAuth == null) {
-            mWeiboAuth = new WeiboAuth(mContext, AppAuthConstants.APP_KEY, AppAuthConstants.REDIRECT_URL, AppAuthConstants.SCOPE);
+            mWeiboAuth = new AuthInfo(mContext, AppAuthConstants.APP_KEY, AppAuthConstants.REDIRECT_URL, AppAuthConstants.SCOPE);
         }
     }
 
@@ -62,27 +67,32 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void ssoAuth(Activity activity) {
         initAuth();
-        mSsoHandler = new SsoHandler(activity, mWeiboAuth);
-        mSsoHandler.authorize(new WeiboAuthListener() {
+        mSsoHandler = new SsoHandler(activity,mWeiboAuth);
+        mSsoHandler.authorizeClientSso(new WeiboAuthListener() {
             @Override
             public void onComplete(Bundle bundle) {
-                String uid = bundle.getString("uid", "");
-                String accessToken = bundle.getString("access_token", "");
-                String expiresTime = bundle.getString("expires_in", "");
-                String refreshToken = bundle.getString("refresh_token", "");
-                if (){
-
-                }
+                String uid = bundle.getString(BUDDLE_KEY_UID, "");
+                String accessToken = bundle.getString(BUDDLE_KEY_ACCESS_TOKEN, "");
+                String expiresIn = bundle.getString(BUDDLE_KEY_EXPIRES_IN, "");
+                String refreshToken = bundle.getString(BUDDLE_KEY_REFRESH_TOKEN, "");
+                Oauth2AccessToken oauth2AccessToken = new Oauth2AccessToken();
+                oauth2AccessToken.setUid(uid);
+                oauth2AccessToken.setToken(accessToken);
+                oauth2AccessToken.setExpiresIn(expiresIn);
+                oauth2AccessToken.setRefreshToken(refreshToken);
+                AccessTokenManager.getInstance().writeAccessToken(oauth2AccessToken);
+                mView.showAuthSuccess();
+                mView.goToMainActivity();
             }
 
             @Override
             public void onWeiboException(WeiboException e) {
-
+                mView.showAuthError(e.getMessage());
             }
 
             @Override
             public void onCancel() {
-
+                mView.showCancel();
             }
         });
     }

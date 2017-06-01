@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.startup.constant;
+package com.wenming.weiswift.app.common.oauth.constant;
 
 /**
  * Created by wenmingvs on 2017/5/31.

@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.User;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 
 import java.util.ArrayList;
 
@@ -83,7 +83,7 @@ public class AccoutAdapter extends BaseAdapter {
 
     private void initAccoutViewHolder(AccoutViewHolder holder, int position) {
         holder.accoutName.setText(mUserList.get(position).name);
-        if (getItem(position).id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
+        if (getItem(position).id.equals(AccessTokenManager.getInstance().getAccessToken())) {
             holder.accout_hightlight.setVisibility(View.VISIBLE);
         } else {
             holder.accout_hightlight.setVisibility(View.INVISIBLE);

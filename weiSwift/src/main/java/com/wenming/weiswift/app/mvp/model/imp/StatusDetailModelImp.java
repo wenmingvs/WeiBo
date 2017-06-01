@@ -7,14 +7,14 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.wenming.weiswift.app.api.CommentsAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
+import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.list.CommentList;
 import com.wenming.weiswift.app.common.entity.list.RetweetList;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.StatusDetailModel;
-import com.wenming.weiswift.app.common.NewFeature;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
-import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.toast.LoadedToast;
 
@@ -33,7 +33,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void comment(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         commentsAPI.show(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -60,7 +60,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void commentNextPage(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         String maxId = "";
         if (mCommentList.size() == 0) {
             maxId = "0";
@@ -96,7 +96,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void repost(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         statusesAPI.repostTimeline(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -123,7 +123,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void repostNextPage(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         String maxId;
         if (mRepostList.size() == 0) {
             maxId = "0";

@@ -12,13 +12,13 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.model.TokenListModel;
 import com.wenming.weiswift.app.mvp.model.UserModel;
 import com.wenming.weiswift.app.mvp.model.imp.TokenListModelImp;
 import com.wenming.weiswift.app.mvp.model.imp.UserModelImp;
 import com.wenming.weiswift.app.mvp.presenter.AccoutActivityPresent;
 import com.wenming.weiswift.app.mvp.view.AccoutActivityView;
-import com.wenming.weiswift.app.login.AccessTokenKeeper;
 import com.wenming.weiswift.app.unlogin.activity.UnLoginActivity;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -54,7 +54,7 @@ public class AccoutActivityPresentImp implements AccoutActivityPresent {
 
     @Override
     public void logoutCurrentAccout(final Context context) {
-        logout(context, AccessTokenKeeper.readAccessToken(context).getUid());
+        logout(context, AccessTokenManager.getInstance().getAccessToken().getUid());
     }
 
     public void logout(final Context context, String uid) {
