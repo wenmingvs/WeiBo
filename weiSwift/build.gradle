@@ -48,7 +48,10 @@ dependencies {
     compile project(path: ':swipebacklayout')
     compile project(path: ':sharesdk')
     compile project(path: ':multiwindow')
+
     compile files('libs/universal-image-loader-1.9.5.jar')
+    compile files('libs/weibosdkcore_output.jar')
+
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.google.code.gson:gson:2.4'
@@ -61,5 +64,4 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
-    compile files('libs/weibosdkcore.jar')
 }
