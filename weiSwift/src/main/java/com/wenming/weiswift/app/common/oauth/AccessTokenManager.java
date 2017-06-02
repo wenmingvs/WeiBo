@@ -1,7 +1,5 @@
 package com.wenming.weiswift.app.common.oauth;
 
-import android.content.Context;
-
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.wenming.weiswift.app.common.ThreadHelper;
 import com.wenming.weiswift.app.common.preference.UserAccountPrefences;
@@ -30,9 +28,13 @@ public class AccessTokenManager {
     }
 
     private void initData() {
+        String uid = UserAccountPrefences.getUid();
         String accessToken = UserAccountPrefences.getAccessToken();
+        String refreshToken = UserAccountPrefences.getRefreshAccessToken();
         long expiresTime = UserAccountPrefences.getExpiresTime();
         sAccessToken = new Oauth2AccessToken(accessToken, String.valueOf(expiresTime));
+        sAccessToken.setUid(uid);
+        sAccessToken.setRefreshToken(refreshToken);
         sAccessToken.setExpiresTime(expiresTime);
     }
 

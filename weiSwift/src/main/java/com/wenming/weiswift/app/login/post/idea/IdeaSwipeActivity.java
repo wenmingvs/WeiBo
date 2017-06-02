@@ -90,7 +90,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compose_idea_layout);
         mContext = this;
-        mUsersAPI = new UsersAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
+        mUsersAPI = new UsersAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mInputType = (TextView) findViewById(R.id.inputType);
         mCancal = (TextView) findViewById(R.id.idea_cancal);
         mUserName = (TextView) findViewById(R.id.idea_username);

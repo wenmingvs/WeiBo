@@ -38,7 +38,7 @@ public class CommentModelImp implements CommentModel {
 
     @Override
     public void toMe(int groupType, Context context, OnDataFinishedListener onDataFinishedListener) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getAccessToken());
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
         mContext = context;
         mOnDataFinishedListener = onDataFinishedListener;
         long sinceId = 0;
