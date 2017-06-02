@@ -83,6 +83,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                 AccessTokenManager.getInstance().writeAccessToken(oauth2AccessToken);
                 mView.showAuthSuccess();
                 mView.goToMainActivity();
+                mView.finishActivity();
             }
 
             @Override
