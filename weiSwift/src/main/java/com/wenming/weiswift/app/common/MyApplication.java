@@ -37,7 +37,7 @@ import java.util.List;
 
 
 public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
-    private static Application sContext;
+    private static Context sContext;
     private List<Activity> mActivityList = new LinkedList<Activity>();
 
     public static void initImageLoader(Context context) {
@@ -67,6 +67,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        sContext = getApplicationContext();
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
@@ -153,7 +154,11 @@ public class MyApplication extends Application implements Application.ActivityLi
         LogReport.getInstance().setUploadType(email);
     }
 
-    public static Application getContext() {
+    public static void setContext(Application context) {
+        sContext = context;
+    }
+
+    public static Context getContext() {
         return sContext;
     }
 }

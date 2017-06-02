@@ -48,7 +48,7 @@ public class UserAccountPrefences {
         return getSp().getLong(ACCOUNT_EXPIRES_TIME, 0);
     }
 
-    private static final String FILE_NAME = "common_preference";
+    private static final String FILE_NAME = "user_account_preference";
 
     private static SharedPreferences getSp() {
         return MyApplication.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
