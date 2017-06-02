@@ -27,7 +27,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     private static final String BUDDLE_KEY_REFRESH_TOKEN = "refresh_token";
     private SplashContract.View mView;
     private SplashDataSource mDataSource;
-    private static final int SPLASH_TIME = 1000;
+    private static final int SPLASH_TIME = 500;
     private Context mContext;
     private AuthInfo mWeiboAuth;
     private SsoHandler mSsoHandler;

@@ -39,12 +39,7 @@
 
         <activity android:name=".app.unlogin.activity.UnLoginActivity" />
 
-        <activity android:name=".app.home.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".app.home.activity.MainActivity"/>
 
         <activity android:name=".app.settings.activity.SettingSwipeActivity" />
 
