@@ -10,6 +10,8 @@
     <string name="login_web_auth_success">客户端授权成功</string>
     <string name="login_web_auth_cancel">客户端授权取消</string>
 
+    <!--主界面-->
+    <string name="main_tab_default">全部</string>
 
     <string name="action_settings">Settings</string>
 
