@@ -26,7 +26,7 @@ public class TokenListModelImp implements TokenListModel {
         //重复登录的话，不进行重复token的添加
         for (int i = 0; i < tokenList.tokenList.size(); i++) {
             if (tokenList.tokenList.get(i).uid.equals(uid)) {
-                updateAccessToken(context, token, expiresIn, refresh_token, uid);
+                updateAccessToken(token, expiresIn, refresh_token, uid);
                 return;
             }
         }
@@ -34,7 +34,7 @@ public class TokenListModelImp implements TokenListModel {
         tokenList.total_number = tokenList.tokenList.size();
         tokenList.current_uid = uid;
         SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
-        updateAccessToken(context, token, expiresIn, refresh_token, uid);
+        updateAccessToken(token, expiresIn, refresh_token, uid);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class TokenListModelImp implements TokenListModel {
         if (AccessTokenManager.getInstance().getAccessToken().equals(uid)) {
             AccessTokenManager.clearAccessToken();
             Token token = tokenList.tokenList.get(0);
-            updateAccessToken(context, token.token, token.expiresIn, token.refresh_token, token.uid);
+            updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);
         }
 
     }
@@ -68,7 +68,8 @@ public class TokenListModelImp implements TokenListModel {
         for (int i = 0; i < tokenList.tokenList.size(); i++) {
             if (tokenList.tokenList.get(i).uid.equals(uid)) {
                 Token token = tokenList.tokenList.get(i);
-                updateAccessToken(context, token.token, token.expiresIn, token.refresh_token, token.uid);                break;
+                updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);
+                break;
             }
         }
     }
@@ -78,7 +79,7 @@ public class TokenListModelImp implements TokenListModel {
         TokenList tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt"));
         if (tokenList.total_number > 0) {
             Token token = tokenList.tokenList.get(positonInCache);
-            updateAccessToken(context, token.token, token.expiresIn, token.refresh_token, token.uid);
+            updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);
             onTokenSwitchListener.onSuccess();
         } else {
             onTokenSwitchListener.onError("切换失败,本地token缓存为空");
@@ -87,7 +88,7 @@ public class TokenListModelImp implements TokenListModel {
     }
 
 
-    public void updateAccessToken(Context context, String token, String expiresIn, String refresh_token, String uid) {
+    public void updateAccessToken(String token, String expiresIn, String refresh_token, String uid) {
         Oauth2AccessToken mAccessToken = new Oauth2AccessToken();
         mAccessToken.setToken(token);
         mAccessToken.setExpiresIn(expiresIn);

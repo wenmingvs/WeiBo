@@ -22,6 +22,8 @@ public interface SplashContract {
 
         void goToMainActivity();
 
+        void goToWebAuthActivity();
+
         void finishActivity();
 
         void showAuth();

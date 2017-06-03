@@ -62,6 +62,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void webAuth(Context context) {
         initAuth();
+        mView.goToWebAuthActivity();
     }
 
     @Override

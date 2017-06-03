@@ -17,13 +17,14 @@ import com.wenming.weiswift.app.home.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.WebViewActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WebViewActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.WebViewActivityView;
+import com.wenming.weiswift.app.startup.activity.SplashActivity;
 
 /**
  * Created by wenmingvs on 16/5/12.
  */
 
 public class WebViewActivity extends Activity implements WebViewActivityView {
-
+    public static final String EXTRA_URL = "extra_url";
     private Context mContext;
     private String sRedirectUri;
     private WebView mWeb;
@@ -36,7 +37,7 @@ public class WebViewActivity extends Activity implements WebViewActivityView {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(R.layout.webview_layout);
-        mLoginURL = getIntent().getStringExtra("url");
+        mLoginURL = getIntent().getStringExtra(EXTRA_URL);
         mComeFromAccoutActivity = getIntent().getBooleanExtra("comeFromAccoutActivity", false);
         sRedirectUri = WeicoAuthConstants.REDIRECT_URL;
         mWeb = (WebView) findViewById(R.id.webview);
@@ -61,7 +62,7 @@ public class WebViewActivity extends Activity implements WebViewActivityView {
                             mWeb.goBack();
                         } else {
                             if (!mComeFromAccoutActivity) {
-                                Intent intent = new Intent(WebViewActivity.this, UnLoginActivity.class);
+                                Intent intent = new Intent(mContext, SplashActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

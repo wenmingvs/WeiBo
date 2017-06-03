@@ -31,7 +31,7 @@ public class WebViewActivityPresentImp implements WebViewActivityPresent {
             String token = url.substring(tokenIndex + 13, url.indexOf("&", tokenIndex));
             String expiresIn = url.substring(expiresIndex + 11, url.indexOf("&", expiresIndex));
             String refresh_token = url.substring(refresh_token_Index + 14, url.indexOf("&", refresh_token_Index));
-            String uid = new String();
+            String uid;
             if (url.contains("scope=")) {
                 uid = url.substring(uid_Index + 4, url.indexOf("&", uid_Index));
             } else {
