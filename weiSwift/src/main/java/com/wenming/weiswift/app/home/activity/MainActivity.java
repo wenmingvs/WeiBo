@@ -20,6 +20,8 @@ import com.wenming.weiswift.app.common.BarManager;
 import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
+import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.user.UserManager;
 import com.wenming.weiswift.app.discover.DiscoverFragment;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
 import com.wenming.weiswift.app.login.post.PostSwipeActivity;
@@ -258,12 +260,12 @@ public class MainActivity extends BaseAppCompatActivity {
     private void showProfileFragment() {
         mMySelfTabRl.setSelected(true);
         if (mMySelfFragment == null) {
-//            if (mHomeFragment != null && mHomeFragment.getCurrentUser() != null) {
-//                mMySelfFragment = MySelfFragment.newInstance(mHomeFragment.getCurrentUser());
-//            } else {
-//                mMySelfFragment = MySelfFragment.newInstance();
-//            }
-            mMySelfFragment = MySelfFragment.newInstance();
+            User currentUser = UserManager.getInstance().getUser();
+            if (mHomeFragment != null && currentUser != null) {
+                mMySelfFragment = MySelfFragment.newInstance(currentUser);
+            } else {
+                mMySelfFragment = MySelfFragment.newInstance();
+            }
             mTransaction.add(R.id.main_content_fl, mMySelfFragment, TAB_PROFILE_FRAGMENT);
         } else {
             mTransaction.show(mMySelfFragment);

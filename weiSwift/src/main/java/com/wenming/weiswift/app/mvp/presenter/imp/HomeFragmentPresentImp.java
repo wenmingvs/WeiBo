@@ -5,6 +5,7 @@ import android.content.Context;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.user.UserManager;
 import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.StatusListModel;
 import com.wenming.weiswift.app.mvp.model.UserModel;
@@ -52,6 +53,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         mUserModel.show(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), context, new UserModel.OnUserDetailRequestFinish() {
             @Override
             public void onComplete(User user) {
+                UserManager.getInstance().setUser(user);
                 mHomeFragmentView.setCurrentUser(user);
                 mHomeFragmentView.setGroupName(user.name);
                 mHomeFragmentView.setUserName(user.name);

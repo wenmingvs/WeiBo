@@ -1,6 +1,7 @@
 package com.wenming.weiswift.app.common.user;
 
 import com.wenming.weiswift.app.common.ThreadHelper;
+import com.wenming.weiswift.app.common.entity.User;
 
 /**
  * Created by wenmingvs on 2017/4/3.
@@ -9,6 +10,7 @@ import com.wenming.weiswift.app.common.ThreadHelper;
 public class UserManager {
     private static final String TAG = UserManager.class.getName();
     private static UserManager mInstance;
+    private User mUser;
 
     private UserManager() {
     }
@@ -24,7 +26,11 @@ public class UserManager {
         return mInstance;
     }
 
+    public User getUser() {
+        return mUser;
+    }
 
-
-
+    public void setUser(User user) {
+        this.mUser = user;
+    }
 }
