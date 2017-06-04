@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,14 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.wenming.library.LogReport;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.BarManager;
 import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
 import com.wenming.weiswift.app.discover.DiscoverFragment;
-import com.wenming.weiswift.app.home.adapter.GroupPagerAdapter;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
+import com.wenming.weiswift.app.login.post.PostSwipeActivity;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
 import com.wenming.weiswift.app.myself.fragment.MySelfFragment;
 import com.wenming.weiswift.utils.LogUtil;
@@ -52,11 +50,6 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private String mCurrentIndex;
     private boolean mComeFromAccoutActivity;
-    private ImageView mAppBarBg;
-
-    private Toolbar mToolBar;
-    private TabLayout mGourpTl;
-    private ViewPager mGroupVp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +59,12 @@ public class MainActivity extends BaseAppCompatActivity {
         initData();
         initView();
         initListener();
-        //如果是从崩溃中恢复，还需要加载之前的缓存
-//        if (savedInstanceState != null) {
-//            restoreFragment(savedInstanceState);
-//        } else {
-//            setTabFragment(TAB_HOME_FRAGMENT);
-//        }
+//        如果是从崩溃中恢复，还需要加载之前的缓存
+        if (savedInstanceState != null) {
+            restoreFragment(savedInstanceState);
+        } else {
+            setTabFragment(TAB_HOME_FRAGMENT);
+        }
     }
 
     @Override
@@ -81,16 +74,13 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void prepareView() {
-        //mAppBarBg = (ImageView) findViewById(R.id.main_appbar_Iv);
         mHomeTabRl = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTabRl = (RelativeLayout) findViewById(R.id.tv_message);
         mDiscoverTabRl = (RelativeLayout) findViewById(R.id.tv_discovery);
         mMySelfTabRl = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTabIv = (ImageView) findViewById(R.id.fl_post);
         mButtonBarLl = (LinearLayout) findViewById(R.id.buttonBarId);
-        mToolBar = (Toolbar) findViewById(R.id.main_toolbar);
-        mGourpTl = (TabLayout) findViewById(R.id.main_tablayout);
-        mGroupVp = (ViewPager) findViewById(R.id.main_groups_vp);
+
     }
 
     private void initData() {
@@ -98,35 +88,11 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initView() {
-        initToolBar();
-        initTabViewPager();
-
-        //LogReport.getInstance().upload(mContext);
-//        mBarManager = new BarManager();
-//        mBarManager.showBottomBar(mButtonBarLl);
-//        mFragmentManager = getSupportFragmentManager();
-//        initStatusBar();
-
-    }
-
-    /**
-     * 初始化ToolBar
-     */
-    private void initToolBar() {
-        setSupportActionBar(mToolBar);
-    }
-
-    /**
-     * 初始化TabLayot
-     */
-    private void initTabViewPager() {
-        GroupPagerAdapter adapter = new GroupPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment(), getString(R.string.main_tab_default));
-        adapter.addFragment(new HomeFragment(), getString(R.string.main_tab_default));
-        mGroupVp.setAdapter(adapter);
-        mGourpTl.setupWithViewPager(mGroupVp);
-        //默认展示第一个
-        mGroupVp.setCurrentItem(0, false);
+        LogReport.getInstance().upload(mContext);
+        mBarManager = new BarManager();
+        mBarManager.showBottomBar(mButtonBarLl);
+        mFragmentManager = getSupportFragmentManager();
+        initStatusBar();
     }
 
     private void initStatusBar() {
@@ -145,51 +111,51 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initListener() {
-//        mHomeTabRl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setTabFragment(TAB_HOME_FRAGMENT);
-//            }
-//        });
-//        mMessageTabRl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setTabFragment(TAB_MESSAGE_FRAGMENT);
-//            }
-//        });
-//        mPostTabIv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, PostSwipeActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        mDiscoverTabRl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setTabFragment(TAB_DISCOVERY_FRAGMENT);
-//            }
-//        });
-//
-//        mMySelfTabRl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setTabFragment(TAB_PROFILE_FRAGMENT);
-//            }
-//        });
+        mHomeTabRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(TAB_HOME_FRAGMENT);
+            }
+        });
+        mMessageTabRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(TAB_MESSAGE_FRAGMENT);
+            }
+        });
+        mPostTabIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostSwipeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mDiscoverTabRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(TAB_DISCOVERY_FRAGMENT);
+            }
+        });
+
+        mMySelfTabRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTabFragment(TAB_PROFILE_FRAGMENT);
+            }
+        });
     }
 
     /**
      * 如果fragment因为内存不够或者其他原因被销毁掉，在这个方法中执行恢复操作
      */
     private void restoreFragment(Bundle savedInstanceState) {
-//        mCurrentIndex = savedInstanceState.getString("index");
-//        mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(TAB_HOME_FRAGMENT);
-//        mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(TAB_MESSAGE_FRAGMENT);
-//        mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(TAB_DISCOVERY_FRAGMENT);
-//        mMySelfFragment = (MySelfFragment) mFragmentManager.findFragmentByTag(TAB_PROFILE_FRAGMENT);
-//        switchToFragment(mCurrentIndex);
+        mCurrentIndex = savedInstanceState.getString("index");
+        mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(TAB_HOME_FRAGMENT);
+        mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(TAB_MESSAGE_FRAGMENT);
+        mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(TAB_DISCOVERY_FRAGMENT);
+        mMySelfFragment = (MySelfFragment) mFragmentManager.findFragmentByTag(TAB_PROFILE_FRAGMENT);
+        switchToFragment(mCurrentIndex);
     }
 
     /**
@@ -199,8 +165,8 @@ public class MainActivity extends BaseAppCompatActivity {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-//        outState.putString("index", mCurrentIndex);
-//        super.onSaveInstanceState(outState);
+        outState.putString("index", mCurrentIndex);
+        super.onSaveInstanceState(outState);
     }
 
     /**
@@ -239,25 +205,25 @@ public class MainActivity extends BaseAppCompatActivity {
     private void showHomeFragment() {
         mHomeTabRl.setSelected(true);
         if (mHomeFragment == null) {
-            mHomeFragment = HomeFragment.newInstance(mComeFromAccoutActivity);
+            mHomeFragment = HomeFragment.newInstance();
             mTransaction.add(R.id.main_content_fl, mHomeFragment, TAB_HOME_FRAGMENT);
         } else {
             mTransaction.show(mHomeFragment);
-            if (mCurrentIndex.equals(TAB_HOME_FRAGMENT) && mHomeFragment != null && mHomeFragment.mRecyclerView != null) {
-                mHomeFragment.scrollToTop(false);
-            }
+//            if (mCurrentIndex.equals(TAB_HOME_FRAGMENT) && mHomeFragment != null && mHomeFragment.mRecyclerView != null) {
+//                mHomeFragment.scrollToTop(false);
+//            }
         }
-        mHomeFragment.setOnBarListener(new HomeFragment.onButtonBarListener() {
-            @Override
-            public void showButtonBar() {
-                mBarManager.showBottomBar(mButtonBarLl);
-            }
-
-            @Override
-            public void hideButtonBar() {
-                mBarManager.hideBottomBar(mButtonBarLl);
-            }
-        });
+//        mHomeFragment.setOnBarListener(new HomeFragment.onButtonBarListener() {
+//            @Override
+//            public void showButtonBar() {
+//                mBarManager.showBottomBar(mButtonBarLl);
+//            }
+//
+//            @Override
+//            public void hideButtonBar() {
+//                mBarManager.hideBottomBar(mButtonBarLl);
+//            }
+//        });
     }
 
     /**
@@ -292,11 +258,12 @@ public class MainActivity extends BaseAppCompatActivity {
     private void showProfileFragment() {
         mMySelfTabRl.setSelected(true);
         if (mMySelfFragment == null) {
-            if (mHomeFragment != null && mHomeFragment.getCurrentUser() != null) {
-                mMySelfFragment = MySelfFragment.newInstance(mHomeFragment.getCurrentUser());
-            } else {
-                mMySelfFragment = MySelfFragment.newInstance();
-            }
+//            if (mHomeFragment != null && mHomeFragment.getCurrentUser() != null) {
+//                mMySelfFragment = MySelfFragment.newInstance(mHomeFragment.getCurrentUser());
+//            } else {
+//                mMySelfFragment = MySelfFragment.newInstance();
+//            }
+            mMySelfFragment = MySelfFragment.newInstance();
             mTransaction.add(R.id.main_content_fl, mMySelfFragment, TAB_PROFILE_FRAGMENT);
         } else {
             mTransaction.show(mMySelfFragment);
@@ -337,9 +304,9 @@ public class MainActivity extends BaseAppCompatActivity {
         //如果在当前页
         switch (currentIndex) {
             case TAB_HOME_FRAGMENT:
-                if (mHomeFragment != null) {
-                    mHomeFragment.scrollToTop(true);
-                }
+//                if (mHomeFragment != null) {
+//                    mHomeFragment.scrollToTop(true);
+//                }
                 break;
             case TAB_MESSAGE_FRAGMENT:
                 break;

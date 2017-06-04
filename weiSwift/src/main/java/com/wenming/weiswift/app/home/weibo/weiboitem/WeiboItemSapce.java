@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.weiboitem;
+package com.wenming.weiswift.app.home.weibo.weiboitem;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

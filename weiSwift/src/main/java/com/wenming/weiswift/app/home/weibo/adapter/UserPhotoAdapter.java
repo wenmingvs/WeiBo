@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.adapter;
+package com.wenming.weiswift.app.home.weibo.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

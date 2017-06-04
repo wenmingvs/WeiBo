@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.widget;
+package com.wenming.weiswift.app.home.weibo.widget;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Group;
-import com.wenming.weiswift.app.home.adapter.GroupAdapter;
+import com.wenming.weiswift.app.home.weibo.adapter.GroupAdapter;
 import com.wenming.weiswift.app.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.app.mvp.presenter.imp.GroupListPresenterImp;
 import com.wenming.weiswift.app.mvp.view.GroupPopWindowView;

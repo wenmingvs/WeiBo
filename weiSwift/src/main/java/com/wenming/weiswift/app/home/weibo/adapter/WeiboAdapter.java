@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.adapter;
+package com.wenming.weiswift.app.home.weibo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.common.entity.Status;
-import com.wenming.weiswift.app.home.weiboitem.NewPauseOnScrollListener;
+import com.wenming.weiswift.app.home.weibo.weiboitem.NewPauseOnScrollListener;
 import com.wenming.weiswift.app.mvp.presenter.WeiBoArrowPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WeiBoArrowPresenterImp;
 import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;

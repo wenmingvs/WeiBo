@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.adapter;
+package com.wenming.weiswift.app.home.weibo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Group;
-import com.wenming.weiswift.app.home.widget.IGroupItemClick;
+import com.wenming.weiswift.app.home.weibo.widget.IGroupItemClick;
 import com.wenming.weiswift.app.login.Constants;
 
 import java.util.ArrayList;
