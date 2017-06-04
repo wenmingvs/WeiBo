@@ -64,4 +64,5 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+    compile 'com.android.volley:volley:1.0.0'
 }

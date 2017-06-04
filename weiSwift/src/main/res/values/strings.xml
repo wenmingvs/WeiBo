@@ -3,6 +3,9 @@
 
     <string name="app_name">WeiSwift</string>
 
+    <!--common -->
+    <string name="common_loading">正在加载...</string>
+
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
     <string name="login_sso_auth_text">客户端授权</string>
