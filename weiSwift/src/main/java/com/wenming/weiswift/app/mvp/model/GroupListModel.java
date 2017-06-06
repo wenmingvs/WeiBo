@@ -2,7 +2,7 @@ package com.wenming.weiswift.app.mvp.model;
 
 import android.content.Context;
 
-import com.wenming.weiswift.app.common.entity.Group;
+import com.wenming.weiswift.app.home.entity.Group;
 
 import java.util.ArrayList;
 

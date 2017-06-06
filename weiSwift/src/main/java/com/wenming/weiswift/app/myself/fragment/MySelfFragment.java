@@ -172,7 +172,7 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
     }
 
     public void refreshUserDetail(Context context, boolean loadicon) {
-        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenManager.getInstance().getAccessToken().getUid()), context, loadicon);
+        mProfileFragmentPresent.refreshUserDetail(Long.parseLong(AccessTokenManager.getInstance().getOAuthToken().getUid()), context, loadicon);
     }
 
     public boolean haveAlreadyRefresh() {

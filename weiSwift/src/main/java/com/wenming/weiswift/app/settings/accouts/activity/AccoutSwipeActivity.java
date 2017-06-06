@@ -96,7 +96,7 @@ public class AccoutSwipeActivity extends BaseSwipeActivity implements AccoutActi
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 String uid = ((User) listview.getAdapter().getItem(position)).id;
-                                String currentUid = AccessTokenManager.getInstance().getAccessToken().getUid();
+                                String currentUid = AccessTokenManager.getInstance().getOAuthToken().getUid();
 
                                 if (!uid.equals(currentUid)) {
                                     mAccoutActivityPresent.logout(mContext, uid);

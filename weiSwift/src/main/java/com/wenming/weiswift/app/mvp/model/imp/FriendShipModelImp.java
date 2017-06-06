@@ -27,7 +27,7 @@ public class FriendShipModelImp implements FriendShipModel {
 
     @Override
     public void user_destroy(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
-        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         mContext = context;
         mOnRequestUIListener = onRequestListener;
         friendshipsAPI.destroy(Long.valueOf(user.id), user.screen_name, new RequestListener() {
@@ -53,7 +53,7 @@ public class FriendShipModelImp implements FriendShipModel {
 
     @Override
     public void user_create(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
-        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         mContext = context;
         mOnRequestUIListener = onRequestListener;
         friendshipsAPI.create(Long.valueOf(user.id), user.screen_name, new RequestListener() {
@@ -78,7 +78,7 @@ public class FriendShipModelImp implements FriendShipModel {
      * @param context
      */
     private void updateCache(Context context, User usertoUpdate) {
-        String follerResponse = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
+        String follerResponse = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (follerResponse != null) {
             UserList userList = UserList.parse(follerResponse);
             ArrayList<User> usersList = userList.users;
@@ -89,7 +89,7 @@ public class FriendShipModelImp implements FriendShipModel {
                 }
             }
             userList.users = usersList;
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getAccessToken() + ".txt", new Gson().toJson(userList));
+            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(userList));
 
         }
 

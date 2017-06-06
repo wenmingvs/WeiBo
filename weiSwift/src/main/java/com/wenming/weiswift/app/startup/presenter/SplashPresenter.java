@@ -44,7 +44,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         ThreadHelper.instance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (AccessTokenManager.getInstance().getAccessToken() != null && AccessTokenManager.getInstance().getAccessToken().isSessionValid()) {
+                if (AccessTokenManager.getInstance().getOAuthToken() != null && AccessTokenManager.getInstance().getOAuthToken().isSessionValid()) {
                     mView.goToMainActivity();
                 } else {
                     mView.showAuth();

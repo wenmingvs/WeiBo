@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.wenming.weiswift.app.common.entity;
+package com.wenming.weiswift.app.home.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sina.weibo.sdk.openapi.models.Tag;
+import com.wenming.weiswift.app.common.entity.User;
 
 import java.util.ArrayList;
 

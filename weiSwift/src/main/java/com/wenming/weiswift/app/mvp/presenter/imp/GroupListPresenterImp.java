@@ -2,7 +2,7 @@ package com.wenming.weiswift.app.mvp.presenter.imp;
 
 import android.content.Context;
 
-import com.wenming.weiswift.app.common.entity.Group;
+import com.wenming.weiswift.app.home.entity.Group;
 import com.wenming.weiswift.app.mvp.model.GroupListModel;
 import com.wenming.weiswift.app.mvp.model.imp.GroupListModelImp;
 import com.wenming.weiswift.app.mvp.presenter.GroupListPresenter;

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.wenming.weiswift.app.common.entity.list;
+package com.wenming.weiswift.app.home.entity;
 
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wenming.weiswift.app.common.entity.Group;
 
 import java.util.ArrayList;
 
@@ -43,9 +42,7 @@ public class GroupList {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
-
         GroupList groupList = new Gson().fromJson(jsonString, GroupList.class);
         return groupList;
-
     }
 }

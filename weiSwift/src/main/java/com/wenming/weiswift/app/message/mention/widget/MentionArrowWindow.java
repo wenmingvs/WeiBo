@@ -60,7 +60,7 @@ public class MentionArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setFriendShipContext(final Status status, TextView textView) {
-        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getOAuthToken())) {
             mFollerLayout.setVisibility(View.GONE);
         }
         if (status.user.following) {

@@ -35,7 +35,7 @@ public class HotWeiBoModelImp implements HotWeiBoModel {
     }
 
     private void getPublicWeiBo(final Context context, final OnDataFinishedListener onDataFinishedListener) {
-        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        StatusesAPI mStatusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         mStatusesAPI.publicTimeline(NewFeature.LOAD_PUBLICWEIBO_ITEM, 1, false, new RequestListener() {
             @Override
             public void onComplete(String response) {

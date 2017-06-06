@@ -7,5 +7,9 @@ import com.wenming.weiswift.app.common.AppConstants;
  */
 
 public class Constants {
-    private static final String API_FRIENDSHIPS_GROUPS = AppConstants.API_SERVER + "/friendships/groups.json";
+
+    /**
+     * 获取当前登陆用户好友分组列表
+     */
+    public static final String API_FRIENDSHIPS_GROUPS = AppConstants.API_SERVER + "/friendships/groups.json";
 }

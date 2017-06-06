@@ -83,7 +83,7 @@ public class AccoutAdapter extends BaseAdapter {
 
     private void initAccoutViewHolder(AccoutViewHolder holder, int position) {
         holder.accoutName.setText(mUserList.get(position).name);
-        if (getItem(position).id.equals(AccessTokenManager.getInstance().getAccessToken())) {
+        if (getItem(position).id.equals(AccessTokenManager.getInstance().getOAuthToken())) {
             holder.accout_hightlight.setVisibility(View.VISIBLE);
         } else {
             holder.accout_hightlight.setVisibility(View.INVISIBLE);

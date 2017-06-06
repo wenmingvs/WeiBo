@@ -5,6 +5,7 @@
 
     <!--common -->
     <string name="common_loading">正在加载...</string>
+    <string name="common_none_network">网络连接断开，请确保网络连接正常</string>
 
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
@@ -12,6 +13,10 @@
     <string name="login_web_auth_text">网页端授权</string>
     <string name="login_web_auth_success">客户端授权成功</string>
     <string name="login_web_auth_cancel">客户端授权取消</string>
+
+    <!-- 首页-->
+    <string name="home_request_groups_ing">正在加载分组信息...</string>
+
 
     <!--主界面-->
     <string name="main_tab_default">全部</string>

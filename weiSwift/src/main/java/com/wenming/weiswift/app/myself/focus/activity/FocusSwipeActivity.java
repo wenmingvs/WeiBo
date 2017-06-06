@@ -53,7 +53,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         });
     }
@@ -67,7 +67,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFriendActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         });
     }
@@ -101,7 +101,7 @@ public class FocusSwipeActivity extends BaseSwipeActivity implements FriendActiv
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mFriendActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFriendActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         }
     };

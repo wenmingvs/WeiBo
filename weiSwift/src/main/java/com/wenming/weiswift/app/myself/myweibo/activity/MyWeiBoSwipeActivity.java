@@ -71,7 +71,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mCurrentGroup, mContext);
             }
         });
     }
@@ -84,7 +84,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mCurrentGroup, mContext);
             }
         });
     }
@@ -125,7 +125,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
                         mCurrentGroup = (int) groupId;
                         setGroupName(groupName);
                         mMyWeiBoPopWindow.dismiss();
-                        mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
+                        mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mCurrentGroup, mContext);
                     }
                 });
             }
@@ -143,7 +143,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
+                mMyWeiBoActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mCurrentGroup, mContext);
             }
         }
     };
@@ -197,7 +197,7 @@ public class MyWeiBoSwipeActivity extends BaseSwipeActivity implements MyWeiBoAc
             mRecyclerView.post(new Runnable() {
                 @Override
                 public void run() {
-                    mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mCurrentGroup, mContext);
+                    mMyWeiBoActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mCurrentGroup, mContext);
                 }
             });
         }

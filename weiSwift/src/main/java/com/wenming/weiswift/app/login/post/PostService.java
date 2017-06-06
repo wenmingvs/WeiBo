@@ -80,7 +80,7 @@ public class PostService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mStatusesAPI = new StatusesAPI(this, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        mStatusesAPI = new StatusesAPI(this, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         mPostType = intent.getStringExtra("postType");
         showSendNotifiy();
         switch (mPostType) {
@@ -208,7 +208,7 @@ public class PostService extends Service {
      * @param weiBoCommentBean
      */
     public void commentWeiBo(WeiBoCommentBean weiBoCommentBean) {
-        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         commentsAPI.create(weiBoCommentBean.content, Long.valueOf(weiBoCommentBean.status.id), false, new RequestListener() {
             @Override
             public void onComplete(String s) {
@@ -229,7 +229,7 @@ public class PostService extends Service {
      * @param commentReplyBean
      */
     public void replyComment(CommentReplyBean commentReplyBean) {
-        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        CommentsAPI commentsAPI = new CommentsAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         commentsAPI.reply(Long.valueOf(commentReplyBean.comment.id), Long.valueOf(commentReplyBean.comment.status.id), commentReplyBean.content, false, false,
                 new RequestListener() {
                     @Override

@@ -31,7 +31,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
     public void createFavorite(final Status status, Context context, OnRequestUIListener onRequestUIListener) {
         mContext = context;
         mOnRequestUIListener = onRequestUIListener;
-        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         favoritesAPI.create(Long.valueOf(status.id), new RequestListener() {
             @Override
             public void onComplete(String s) {
@@ -59,7 +59,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
     public void cancelFavorite(final Status status, Context context, OnRequestUIListener onRequestUIListener) {
         mContext = context;
         mOnRequestUIListener = onRequestUIListener;
-        final FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        final FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         favoritesAPI.destroy(Long.valueOf(status.id), new RequestListener() {
             @Override
             public void onComplete(String s) {
@@ -80,7 +80,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
     @Override
     public void favorites(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         mContext = context;
-        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         favoritesAPI.favorites(NewFeature.GET_FAVORITE_NUMS, mPage, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -110,7 +110,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
     @Override
     public void favoritesNextPage(final Context context, final OnDataFinishedListener onDataFinishedListener) {
         mContext = context;
-        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        FavoritesAPI favoritesAPI = new FavoritesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         favoritesAPI.favorites(NewFeature.GET_FAVORITE_NUMS, mPage, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -137,12 +137,12 @@ public class FavoriteListModelImp implements FavoriteListModel {
 
     @Override
     public void cacheSave(Context context, String response) {
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getAccessToken() + ".txt", response);
+        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
     }
 
     @Override
     public void cacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getAccessToken() + ".txt");
+        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (response != null) {
             ArrayList<Favorite> temp = FavoriteList.parse(response).favorites;
             if (temp != null && temp.size() > 0) {

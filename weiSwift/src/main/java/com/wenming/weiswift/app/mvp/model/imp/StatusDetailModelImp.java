@@ -33,7 +33,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void comment(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         commentsAPI.show(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -60,7 +60,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void commentNextPage(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
-        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        CommentsAPI commentsAPI = new CommentsAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         String maxId = "";
         if (mCommentList.size() == 0) {
             maxId = "0";
@@ -96,7 +96,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void repost(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         statusesAPI.repostTimeline(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
             public void onComplete(String response) {
@@ -123,7 +123,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
 
     @Override
     public void repostNextPage(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
-        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        StatusesAPI statusesAPI = new StatusesAPI(context, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         String maxId;
         if (mRepostList.size() == 0) {
             maxId = "0";

@@ -12,7 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.entity.Group;
+import com.wenming.weiswift.app.home.entity.Group;
 import com.wenming.weiswift.app.home.weibo.adapter.GroupAdapter;
 import com.wenming.weiswift.app.mvp.presenter.GroupListPresenter;
 import com.wenming.weiswift.app.mvp.presenter.imp.GroupListPresenterImp;

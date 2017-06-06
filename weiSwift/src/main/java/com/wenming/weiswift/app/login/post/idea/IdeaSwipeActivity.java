@@ -90,7 +90,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compose_idea_layout);
         mContext = this;
-        mUsersAPI = new UsersAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        mUsersAPI = new UsersAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         mInputType = (TextView) findViewById(R.id.inputType);
         mCancal = (TextView) findViewById(R.id.idea_cancal);
         mUserName = (TextView) findViewById(R.id.idea_username);
@@ -189,7 +189,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
      * 刷新顶部的名字
      */
     private void refreshUserName() {
-        long uid = Long.parseLong(AccessTokenManager.getInstance().getAccessToken().getUid());
+        long uid = Long.parseLong(AccessTokenManager.getInstance().getOAuthToken().getUid());
         mUsersAPI.show(uid, new RequestListener() {
             @Override
             public void onComplete(String response) {

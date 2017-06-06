@@ -54,7 +54,7 @@ public class AccoutActivityPresentImp implements AccoutActivityPresent {
 
     @Override
     public void logoutCurrentAccout(final Context context) {
-        logout(context, AccessTokenManager.getInstance().getAccessToken().getUid());
+        logout(context, AccessTokenManager.getInstance().getOAuthToken().getUid());
     }
 
     public void logout(final Context context, String uid) {

@@ -52,7 +52,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         });
     }
@@ -66,7 +66,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFollowerActivityPresent.pullToRefreshData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         });
     }
@@ -99,7 +99,7 @@ public class FansSwipeActivity extends BaseSwipeActivity implements FollowActivi
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mFollowerActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getAccessToken().getUid()), mContext);
+                mFollowerActivityPresent.requestMoreData(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mContext);
             }
         }
     };

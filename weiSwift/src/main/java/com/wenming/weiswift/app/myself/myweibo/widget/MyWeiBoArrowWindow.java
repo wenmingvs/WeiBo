@@ -57,7 +57,7 @@ public class MyWeiBoArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setDeleteViewContent(final Status status, final TextView textView) {
-        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getOAuthToken())) {
             textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override

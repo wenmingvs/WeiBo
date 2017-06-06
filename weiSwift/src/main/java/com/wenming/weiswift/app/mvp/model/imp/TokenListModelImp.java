@@ -54,7 +54,7 @@ public class TokenListModelImp implements TokenListModel {
         }
         tokenList.current_uid = tokenList.tokenList.get(0).uid;
         SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
-        if (AccessTokenManager.getInstance().getAccessToken().equals(uid)) {
+        if (AccessTokenManager.getInstance().getOAuthToken().equals(uid)) {
             AccessTokenManager.clearAccessToken();
             Token token = tokenList.tokenList.get(0);
             updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);

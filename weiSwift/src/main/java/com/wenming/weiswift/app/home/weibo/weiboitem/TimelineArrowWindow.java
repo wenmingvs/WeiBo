@@ -67,7 +67,7 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setFriendShipContext(final Status status, TextView textView) {
-        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getOAuthToken())) {
             mFollerLayout.setVisibility(View.GONE);
         }
         if (status.user.following) {
@@ -94,7 +94,7 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
      */
     @Override
     public void setDeleteViewContent(final Status status, final TextView textView) {
-        if (status.user.id.equals(AccessTokenManager.getInstance().getAccessToken())) {
+        if (status.user.id.equals(AccessTokenManager.getInstance().getOAuthToken())) {
             textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override

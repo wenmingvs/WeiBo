@@ -129,7 +129,7 @@ public abstract class BaseDetailSwipeActivity extends BaseSwipeActivity implemen
      */
     public void getWeiBoCount() {
         mSwipeRefreshLayout.setRefreshing(true);
-        StatusesAPI statusesAPI = new StatusesAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getAccessToken());
+        StatusesAPI statusesAPI = new StatusesAPI(mContext, AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken());
         statusesAPI.count(new String[]{mStatus.id}, new RequestListener() {
             @Override
             public void onComplete(String response) {

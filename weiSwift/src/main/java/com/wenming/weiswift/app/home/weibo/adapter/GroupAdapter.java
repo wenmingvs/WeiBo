@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.entity.Group;
+import com.wenming.weiswift.app.home.entity.Group;
 import com.wenming.weiswift.app.home.weibo.widget.IGroupItemClick;
 import com.wenming.weiswift.app.login.Constants;
 

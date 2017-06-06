@@ -49,13 +49,24 @@ public class AccessTokenManager {
         UserAccountPrefences.setExpiresTime(token.getExpiresTime());
     }
 
-    /**
-     * 从 SharedPreferences 读取 Token 信息。
-     *
-     * @return 返回 Token 对象
-     */
-    public static Oauth2AccessToken getAccessToken() {
+    public static Oauth2AccessToken getOAuthToken() {
         return sAccessToken;
+    }
+
+    public static long getUid() {
+        return Long.valueOf(sAccessToken.getUid());
+    }
+
+    public static String getAccessToken() {
+        return sAccessToken.getToken();
+    }
+
+    public static String getRefreshToken() {
+        return sAccessToken.getRefreshToken();
+    }
+
+    public static long getExpiresTime() {
+        return sAccessToken.getExpiresTime();
     }
 
     /**
