@@ -33,7 +33,7 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onSuccess(List<Group> groups) {
                 mView.hideRetryBg();
-                mView.();
+                //mView.();
             }
 
             @Override
