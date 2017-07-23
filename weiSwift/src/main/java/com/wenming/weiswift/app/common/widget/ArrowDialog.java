@@ -15,7 +15,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.mvp.presenter.WeiBoArrowPresent2;
 import com.wenming.weiswift.app.mvp.presenter.imp.WeiBoArrowPresenterImp2;
-import com.wenming.weiswift.app.home.weibo.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.home.timeline.adapter.WeiboAdapter;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.io.File;

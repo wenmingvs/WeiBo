@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.oauth.constant.WeicoAuthConstants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
+import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.WebViewActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WebViewActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.WebViewActivityView;

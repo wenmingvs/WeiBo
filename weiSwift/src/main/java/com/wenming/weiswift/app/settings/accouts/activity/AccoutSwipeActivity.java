@@ -18,7 +18,7 @@ import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.WeicoAuthConstants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
+import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.AccoutActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.AccoutActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.AccoutActivityView;

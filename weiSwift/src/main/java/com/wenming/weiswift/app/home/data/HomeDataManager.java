@@ -5,8 +5,8 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.wenming.weiswift.app.common.user.UserManager;
-import com.wenming.weiswift.app.home.entity.Group;
-import com.wenming.weiswift.app.home.entity.GroupList;
+import com.wenming.weiswift.app.home.data.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.GroupList;
 import com.wenming.weiswift.app.home.net.HomeHttpHelper;
 import com.wenming.weiswift.utils.NetUtil;
 
@@ -21,18 +21,19 @@ import java.util.List;
 
 public class HomeDataManager implements HomeDataSource {
     private Context mContext;
+    private Object mRequestTag = new Object();
 
     public HomeDataManager(Context context) {
         this.mContext = context;
     }
 
     @Override
-    public void requestGroups(String accessToken, final RequestCallBack callBack) {
+    public void requestGroups(String accessToken, final GroupCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        HomeHttpHelper.getGroups(accessToken, new Object(), new Response.Listener<String>() {
+        HomeHttpHelper.getGroups(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

@@ -8,7 +8,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.home.weibo.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.home.timeline.adapter.WeiboAdapter;
 
 /**
  * Created by xiangflight on 2016/4/22.

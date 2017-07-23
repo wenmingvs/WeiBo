@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
-import com.wenming.weiswift.app.home.activity.MainActivity;
+import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.model.TokenListModel;
 import com.wenming.weiswift.app.mvp.model.imp.TokenListModelImp;
 import com.wenming.weiswift.app.mvp.presenter.SettingActivityPresent;

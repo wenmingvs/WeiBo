@@ -1,6 +1,6 @@
 package com.wenming.weiswift.app.home.data;
 
-import com.wenming.weiswift.app.home.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.Group;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  */
 
 public interface HomeDataSource {
-    void requestGroups(String accessToken, RequestCallBack callBack);
+    void requestGroups(String accessToken, GroupCallBack callBack);
 
-    public interface RequestCallBack {
+    interface GroupCallBack {
         void onSuccess(List<Group> data);
 
         void onFail(String error);

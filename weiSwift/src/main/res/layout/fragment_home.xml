@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".app.home.activity.MainActivity">
+    tools:context=".app.main.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main_appbar_Al"
@@ -28,8 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/main_toolbar"
-            app:tabGravity="fill"
-            app:tabMode="fixed" />
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/group_tabSelectedTextColor"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/group_tabSelectedTextColor"
+            app:tabTextColor="@color/group_tabTextColor" />
 
     </android.support.design.widget.AppBarLayout>
 

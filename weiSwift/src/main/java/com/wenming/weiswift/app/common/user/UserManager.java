@@ -4,8 +4,8 @@ import com.wenming.weiswift.app.common.ThreadHelper;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.preference.UserPrefences;
-import com.wenming.weiswift.app.home.entity.Group;
-import com.wenming.weiswift.app.home.entity.GroupList;
+import com.wenming.weiswift.app.home.data.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.GroupList;
 
 import java.util.List;
 

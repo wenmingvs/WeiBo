@@ -15,7 +15,7 @@ import com.wenming.weiswift.app.mvp.presenter.imp.UserActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.UserActivityView;
 import com.wenming.weiswift.app.common.base.BaseSwipeActivity;
 import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
-import com.wenming.weiswift.app.home.weibo.adapter.UserPhotoAdapter;
+import com.wenming.weiswift.app.home.timeline.adapter.UserPhotoAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.wenming.weiswift.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.wenming.weiswift.widget.endlessrecyclerview.utils.RecyclerViewStateUtils;

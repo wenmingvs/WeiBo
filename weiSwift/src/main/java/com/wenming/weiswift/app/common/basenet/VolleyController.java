@@ -12,7 +12,7 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class VolleyController {
-    private static final String TAG = VolleyController.class.getSimpleName();
+    private static final String TAG = "VolleyController";
     private Context mContext;
     private RequestQueue mRequestQueue;
     private static volatile VolleyController mInstance;

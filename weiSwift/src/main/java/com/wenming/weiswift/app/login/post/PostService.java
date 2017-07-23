@@ -27,7 +27,7 @@ import com.wenming.weiswift.app.api.CommentsAPI;
 import com.wenming.weiswift.app.api.StatusesAPI;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
+import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.login.post.bean.CommentReplyBean;
 import com.wenming.weiswift.app.login.post.bean.WeiBoCommentBean;
 import com.wenming.weiswift.app.login.post.bean.WeiBoCreateBean;

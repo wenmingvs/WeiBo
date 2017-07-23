@@ -3,7 +3,7 @@ package com.wenming.weiswift.app.home.presenter;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.home.contract.HomeContract;
 import com.wenming.weiswift.app.home.data.HomeDataSource;
-import com.wenming.weiswift.app.home.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.Group;
 
 import java.util.List;
 
@@ -29,27 +29,31 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void requestGroups() {
         mView.showLoading();
-        mDataModel.requestGroups(AccessTokenManager.getInstance().getOAuthToken().getToken(), new HomeDataSource.RequestCallBack() {
+        mDataModel.requestGroups(AccessTokenManager.getInstance().getOAuthToken().getToken(), new HomeDataSource.GroupCallBack() {
             @Override
             public void onSuccess(List<Group> groups) {
+                mView.dismissLoading();
+                mView.setGroupsList(groups);
                 mView.hideRetryBg();
-                //mView.();
             }
 
             @Override
             public void onFail(String error) {
+                mView.dismissLoading();
                 mView.showServerMessage(error);
                 mView.showRetryBg();
             }
 
             @Override
             public void onNetWorkNotConnected() {
+                mView.dismissLoading();
                 mView.showNoneNetWork();
                 mView.showRetryBg();
             }
 
             @Override
             public void onTimeOut() {
+                mView.dismissLoading();
                 mView.showRetryBg();
             }
         });

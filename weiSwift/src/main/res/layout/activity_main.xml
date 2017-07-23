@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".app.home.activity.MainActivity">
+    tools:context=".app.main.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/main_content_fl"

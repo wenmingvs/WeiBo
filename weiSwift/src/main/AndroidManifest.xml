@@ -39,7 +39,7 @@
 
         <activity android:name=".app.unlogin.activity.UnLoginActivity" />
 
-        <activity android:name=".app.home.activity.MainActivity"/>
+        <activity android:name=".app.main.activity.MainActivity"/>
 
         <activity android:name=".app.settings.activity.SettingSwipeActivity" />
 

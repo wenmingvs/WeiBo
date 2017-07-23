@@ -2,7 +2,7 @@ package com.wenming.weiswift.app.home.contract;
 
 import com.wenming.weiswift.app.common.base.mvp.BasePresenter;
 import com.wenming.weiswift.app.common.base.mvp.BaseView;
-import com.wenming.weiswift.app.home.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.Group;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface HomeContract {
     interface View extends BaseView<Presenter> {
-        void initTabViewPager(List<Group> groups);
+        void setGroupsList(List<Group> groups);
 
         void showServerMessage(String text);
 

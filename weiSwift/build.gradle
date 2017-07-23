@@ -65,4 +65,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile 'com.android.volley:volley:1.0.0'
+    //Debug模式下编译LeakCanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 }

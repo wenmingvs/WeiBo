@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="pink_for_text">#ff2f65</color>
+
+    <!--分组-->
+    <color name="group_tabTextColor">#a0d1d9</color>
+    <color name="group_tabSelectedTextColor">#FFFFFF</color>
+
+
     <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->
     <!-- TopBar 一系列颜色 -->
     <color name="topbar_bg">#FFFFFF</color><!--顶部Bar的背景样式-->
@@ -178,13 +185,6 @@
     <color name="arrow_dialog_item_text">#000000</color>
     <color name="arrow_dialog_item_drive">#f2f2f2</color>
 
-
-    <color name="white">#FFFFFF</color><!--白色 -->
-    <color name="orange">#FFA500</color><!--橙色 -->
-    <color name="grey">#f2f2f2</color><!--灰色 -->
-    <color name="gray">#808080</color><!--灰色 -->
-    <color name="red">#FF0000</color><!--红色 -->
-    <color name="black">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="color_ff">#F0F0F0</color>

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.home.weibo.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.home.timeline.adapter.WeiboAdapter;
 import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 
 /**

@@ -15,8 +15,8 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.home.adapter.GroupPagerAdapter;
 import com.wenming.weiswift.app.home.contract.HomeContract;
-import com.wenming.weiswift.app.home.entity.Group;
-import com.wenming.weiswift.app.home.weibo.fragment.WeiBoFragment;
+import com.wenming.weiswift.app.home.data.entity.Group;
+import com.wenming.weiswift.app.home.timeline.fragment.TimeLineFragment;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.List;
@@ -30,6 +30,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     private ViewPager mGroupVp;
     private AppCompatActivity mActivity;
     private HomeContract.Presenter mPresenter;
+    private GroupPagerAdapter mGroupAdapter;
 
     public HomeFragment() {
     }
@@ -47,6 +48,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         super.onViewCreated(view, savedInstanceState);
         prepareView();
         initView();
+        mPresenter.start();
     }
 
     private void prepareView() {
@@ -66,15 +68,25 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     @Override
-    public void initTabViewPager(List<Group> groups) {
-        GroupPagerAdapter mAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
-        for (int i = 0; i < groups.size(); i++) {
-            mAdapter.addFragment(new WeiBoFragment(), getString(R.string.main_tab_default));
+    public void setGroupsList(List<Group> groups) {
+        mGroupAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
+        TimeLineFragment defaultFragment = initTimeLineFragment();
+        mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
+        if (groups != null && groups.size() > 0) {
+            for (int i = 0; i < groups.size(); i++) {
+                TimeLineFragment groupFragment = initTimeLineFragment();
+                mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
+            }
         }
-        mGroupVp.setAdapter(mAdapter);
+        mGroupVp.setAdapter(mGroupAdapter);
         mGourpTl.setupWithViewPager(mGroupVp);
-        //默认展示第一个
         mGroupVp.setCurrentItem(0, false);
+    }
+
+    private TimeLineFragment initTimeLineFragment() {
+        TimeLineFragment timeLineFragment = TimeLineFragment.newInstance();
+        //TODO 初始化presenter
+        return timeLineFragment;
     }
 
     @Override
@@ -84,7 +96,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void showLoading() {
-        showLoadingDialog(R.string.home_request_groups_ing, false);
+        showLoadingDialog(R.string.groups_loading, false);
     }
 
     @Override
@@ -94,12 +106,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void showRetryBg() {
-
+        //TODO 获取不到微博数据
     }
 
     @Override
     public void hideRetryBg() {
-
+        //TODO 获取不到微博数据
     }
 
     @Override

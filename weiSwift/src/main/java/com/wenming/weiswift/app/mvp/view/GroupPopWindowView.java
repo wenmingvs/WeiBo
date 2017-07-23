@@ -1,6 +1,6 @@
 package com.wenming.weiswift.app.mvp.view;
 
-import com.wenming.weiswift.app.home.entity.Group;
+import com.wenming.weiswift.app.home.data.entity.Group;
 
 import java.util.ArrayList;
 

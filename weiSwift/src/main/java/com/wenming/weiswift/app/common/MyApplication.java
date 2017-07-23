@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.wenming.library.LogReport;
 import com.wenming.library.save.imp.CrashWriter;
 import com.wenming.library.upload.email.EmailReporter;
+import com.wenming.weiswift.app.common.basenet.HttpManager;
 import com.wenming.weiswift.app.login.activity.BackgroundActivity;
 import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
@@ -58,6 +59,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         //LeakCanary.install(this);
         initImageLoader(getApplicationContext());
         registerActivityLifecycleCallbacks(this);
+        HttpManager.getInstance().init(this);
         initCrashReport();
         //使用亮色(light)主题，不使用夜间模式
         boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);

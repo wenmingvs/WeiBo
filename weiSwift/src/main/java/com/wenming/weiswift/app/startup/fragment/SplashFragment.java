@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.common.oauth.constant.WeicoAuthConstants;
-import com.wenming.weiswift.app.home.activity.MainActivity;
+import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.startup.contract.SplashContract;
 import com.wenming.weiswift.app.unlogin.activity.WebViewActivity;
 import com.wenming.weiswift.utils.ToastUtil;

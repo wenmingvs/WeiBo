@@ -14,12 +14,9 @@
     <string name="login_web_auth_success">客户端授权成功</string>
     <string name="login_web_auth_cancel">客户端授权取消</string>
 
-    <!-- 首页-->
-    <string name="home_request_groups_ing">正在加载分组信息...</string>
-
-
-    <!--主界面-->
-    <string name="main_tab_default">全部</string>
+    <!-- 分组-->
+    <string name="groups_loading">正在加载分组信息...</string>
+    <string name="groups_default">全部</string>
 
     <string name="action_settings">Settings</string>
 
