@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.widget;
+package com.wenming.weiswift.app.timeline.widget;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,9 +13,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.home.data.entity.Group;
-import com.wenming.weiswift.app.home.timeline.adapter.GroupAdapter;
-import com.wenming.weiswift.app.mvp.presenter.GroupListPresenter;
-import com.wenming.weiswift.app.mvp.presenter.imp.GroupListPresenterImp;
+import com.wenming.weiswift.app.timeline.adapter.GroupAdapter;
 import com.wenming.weiswift.app.mvp.view.GroupPopWindowView;
 import com.wenming.weiswift.app.common.NewFeature;
 import com.wenming.weiswift.app.imgpreview.ImageDetailDialog;

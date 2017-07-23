@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.widget;
+package com.wenming.weiswift.app.timeline.widget;
 
 /**
  * Created by wenmingvs on 16/5/16.

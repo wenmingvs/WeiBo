@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.adapter;
+package com.wenming.weiswift.app.timeline.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

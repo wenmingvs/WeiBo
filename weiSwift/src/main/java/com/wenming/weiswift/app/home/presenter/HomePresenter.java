@@ -34,27 +34,23 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onSuccess(List<Group> groups) {
                 mView.dismissLoading();
                 mView.setGroupsList(groups);
-                mView.hideRetryBg();
             }
 
             @Override
             public void onFail(String error) {
                 mView.dismissLoading();
                 mView.showServerMessage(error);
-                mView.showRetryBg();
             }
 
             @Override
             public void onNetWorkNotConnected() {
                 mView.dismissLoading();
                 mView.showNoneNetWork();
-                mView.showRetryBg();
             }
 
             @Override
             public void onTimeOut() {
                 mView.dismissLoading();
-                mView.showRetryBg();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.weiboitem;
+package com.wenming.weiswift.app.timeline.weiboitem;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.home.timeline.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.timeline.adapter.WeiboAdapter;
 import com.wenming.weiswift.app.mvp.view.WeiBoArrowView;
 
 /**

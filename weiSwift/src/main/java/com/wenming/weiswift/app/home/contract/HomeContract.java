@@ -19,11 +19,7 @@ public interface HomeContract {
         void showLoading();
 
         void dismissLoading();
-
-        void showRetryBg();
-
-        void hideRetryBg();
-
+        
         void showNoneNetWork();
     }
 

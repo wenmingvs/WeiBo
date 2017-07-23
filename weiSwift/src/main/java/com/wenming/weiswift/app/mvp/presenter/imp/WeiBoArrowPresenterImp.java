@@ -9,7 +9,7 @@ import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.entity.list.FavoriteList;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
-import com.wenming.weiswift.app.home.timeline.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.timeline.adapter.WeiboAdapter;
 import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.FavoriteListModel;
 import com.wenming.weiswift.app.mvp.model.FriendShipModel;

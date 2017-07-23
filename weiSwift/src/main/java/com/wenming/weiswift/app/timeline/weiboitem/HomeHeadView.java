@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.weiboitem;
+package com.wenming.weiswift.app.timeline.weiboitem;
 
 import android.content.Context;
 import android.util.AttributeSet;

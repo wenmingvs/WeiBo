@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.adapter;
+package com.wenming.weiswift.app.timeline.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.home.data.entity.Group;
-import com.wenming.weiswift.app.home.timeline.widget.IGroupItemClick;
+import com.wenming.weiswift.app.timeline.widget.IGroupItemClick;
 import com.wenming.weiswift.app.login.Constants;
 
 import java.util.ArrayList;

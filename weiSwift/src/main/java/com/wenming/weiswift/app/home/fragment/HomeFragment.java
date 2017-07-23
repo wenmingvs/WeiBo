@@ -16,7 +16,9 @@ import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.home.adapter.GroupPagerAdapter;
 import com.wenming.weiswift.app.home.contract.HomeContract;
 import com.wenming.weiswift.app.home.data.entity.Group;
-import com.wenming.weiswift.app.home.timeline.fragment.TimeLineFragment;
+import com.wenming.weiswift.app.timeline.data.TimeLineDataManager;
+import com.wenming.weiswift.app.timeline.fragment.TimeLineFragment;
+import com.wenming.weiswift.app.timeline.presenter.TimeLinePresent;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.List;
@@ -85,7 +87,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private TimeLineFragment initTimeLineFragment() {
         TimeLineFragment timeLineFragment = TimeLineFragment.newInstance();
-        //TODO 初始化presenter
+        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()));
         return timeLineFragment;
     }
 
@@ -102,16 +104,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void dismissLoading() {
         dissLoadingDialog();
-    }
-
-    @Override
-    public void showRetryBg() {
-        //TODO 获取不到微博数据
-    }
-
-    @Override
-    public void hideRetryBg() {
-        //TODO 获取不到微博数据
     }
 
     @Override

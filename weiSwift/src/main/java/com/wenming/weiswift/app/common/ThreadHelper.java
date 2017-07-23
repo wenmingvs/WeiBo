@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * {@link #runOnWorkThread(Task, long)}
  * <p>
- * Created by Jay on 2016/11/8.
  */
 public class ThreadHelper {
     private static ThreadHelper sInstance;

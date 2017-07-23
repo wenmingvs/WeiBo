@@ -14,7 +14,7 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.app.common.FillContent;
-import com.wenming.weiswift.app.home.timeline.weiboitem.TimelineArrowWindow;
+import com.wenming.weiswift.app.timeline.weiboitem.TimelineArrowWindow;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;

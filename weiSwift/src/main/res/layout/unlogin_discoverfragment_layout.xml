@@ -14,7 +14,7 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/swipe_refresh_widget"
+            android:id="@+id/timeline_refresh_srl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

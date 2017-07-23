@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_widget"
+        android:id="@+id/timeline_refresh_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_gravity="center">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/weiboRecyclerView"
+            android:id="@+id/timeline_rlv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            tools:listitem="@layout/home_weiboitem_original_pictext"
-            android:scrollbars="vertical" />
+            tools:listitem="@layout/home_weiboitem_original_pictext" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include
-        layout="@layout/toolbar_home_login_toast"
-        android:visibility="gone" />
-
-    <include layout="@layout/empty_default" />
 </FrameLayout>
 
 

@@ -54,17 +54,25 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
-    compile 'com.google.code.gson:gson:2.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.wenmingvs:LogReport:1.0.3'
     compile 'com.cesards.android:cropimageview:1.0.2.1'
-    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+
+    //图片查看器组件
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    //Json解析组件
+    compile 'com.google.code.gson:gson:2.8.1'
+    //事件总线框架
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //网络请求框架
     compile 'com.android.volley:volley:1.0.0'
+    //RecyclerView组件
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.25'
     //Debug模式下编译LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 }

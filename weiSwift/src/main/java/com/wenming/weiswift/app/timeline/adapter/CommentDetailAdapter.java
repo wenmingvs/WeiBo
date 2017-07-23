@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.adapter;
+package com.wenming.weiswift.app.timeline.adapter;
 
 
 import android.content.Context;

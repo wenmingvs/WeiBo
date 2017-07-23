@@ -1,4 +1,4 @@
-package com.wenming.weiswift.app.home.timeline.weiboitem;
+package com.wenming.weiswift.app.timeline.weiboitem;
 
 /**
  * Created by wenmingvs on 16/4/27.

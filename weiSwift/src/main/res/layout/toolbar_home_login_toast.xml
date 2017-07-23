@@ -6,7 +6,6 @@
     android:background="@color/topbar_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_home_login" />
 
     <include layout="@layout/loaded_toast" />
 </LinearLayout>
