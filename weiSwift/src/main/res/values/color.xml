@@ -3,8 +3,9 @@
     <color name="pink_for_text">#ff2f65</color>
 
     <!--分组-->
-    <color name="group_tabTextColor">#a0d1d9</color>
+    <color name="group_tabTextColor">@color/fifty_per_trans_white</color>
     <color name="group_tabSelectedTextColor">#FFFFFF</color>
+
 
 
     <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->

@@ -5,5 +5,14 @@
     android:layout_height="wrap_content"
     android:background="@color/bg_toast">
 
+    <TextView
+        android:id="@+id/toast_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/topbar_toast_height"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        android:visibility="gone" />
 
 </RelativeLayout>
