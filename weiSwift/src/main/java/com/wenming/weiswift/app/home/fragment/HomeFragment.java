@@ -79,6 +79,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 TimeLineFragment groupFragment = initTimeLineFragment();
                 mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
             }
+            mGourpTl.setTabMode(TabLayout.MODE_SCROLLABLE);
+        } else {
+            mGourpTl.setTabMode(TabLayout.GRAVITY_CENTER);
         }
         mGroupVp.setAdapter(mGroupAdapter);
         mGourpTl.setupWithViewPager(mGroupVp);

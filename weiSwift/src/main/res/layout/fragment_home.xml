@@ -31,7 +31,6 @@
             app:tabGravity="center"
             app:tabIndicatorColor="@color/group_tabSelectedTextColor"
             app:tabIndicatorHeight="3dp"
-            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/group_tabSelectedTextColor"
             app:tabTextColor="@color/group_tabTextColor" />
 
