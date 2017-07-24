@@ -9,10 +9,27 @@ import java.util.List;
  */
 
 public interface TimeLineDataSource {
-    void requestTimeLine(String accessToken, TimeLineCallBack callBack);
 
-    interface TimeLineCallBack {
+    void requestLatestTimeLine(String accessToken, TimeLinePullToRefreshCallBack callBack);
+
+    void requestLatestTimeLineBySinceId(String accessToken, String sinceId, TimeLinePullToRefreshCallBack callBack);
+    
+    interface TimeLinePullToRefreshCallBack {
         void onSuccess(List<Status> statusList);
+
+        void onPullToRefreshEmpty();
+
+        void onFail(String error);
+
+        void onNetWorkNotConnected();
+
+        void onTimeOut();
+    }
+
+    interface TimeLineLoadMoreCallBack {
+        void onSuccess(List<Status> statusList);
+
+        void onLoadMoreEmpty();
 
         void onFail(String error);
 

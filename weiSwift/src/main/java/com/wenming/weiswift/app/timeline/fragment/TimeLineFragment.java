@@ -15,6 +15,8 @@ import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineAdapter;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
+import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.toast.LoadedToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,16 +88,58 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void setTimeLineList(List<Status> timeLineList) {
-        mAdapter.addData(timeLineList);
+        mAdapter.setNewData(timeLineList);
     }
 
     @Override
     public void addHeaderTimeLine(List<Status> timeLineList) {
-
+        mAdapter.addData(timeLineList);
     }
 
     @Override
     public void addLastTimeLine(List<Status> timeLineList) {
 
+    }
+
+    @Override
+    public void showLoading() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
+
+    @Override
+    public void dismissLoading() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    public void showPullToRefreshEmpty() {
+        if (getActivity() != null && isAdded()) {
+            LoadedToast.showToast(mContext, getString(R.string.timeline_count_zeor));
+        }
+    }
+
+    @Override
+    public void showServerMessage(String error) {
+        ToastUtil.showShort(mContext, error);
+    }
+
+    @Override
+    public void showNetWorkNotConnected() {
+        ToastUtil.showShort(mContext, R.string.common_network_not_connected);
+    }
+
+    @Override
+    public void showTimeOut() {
+        ToastUtil.showShort(mContext, R.string.common_network_time_out);
     }
 }

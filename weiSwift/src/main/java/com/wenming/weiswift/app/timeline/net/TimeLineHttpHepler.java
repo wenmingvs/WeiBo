@@ -7,6 +7,7 @@ import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.app.common.basenet.HttpManager;
 import com.wenming.weiswift.app.common.constants.APIConstants;
 import com.wenming.weiswift.app.debug.DebugTool;
+import com.wenming.weiswift.app.timeline.constants.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,15 @@ public class TimeLineHttpHepler {
     }
 
     public static void getTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getTimeLine(token, 0, 0, 20, 1, 0, false, requesetTag, listener, errorListener);
+        getTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID,
+                Constants.TIMELINE_DEFALUT_COUNT, Constants.TIMELINE_DEFALUT_PAGE,
+                Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
+    }
+
+    public static void getTimeLine(String token, long sinceId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        getTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, sinceId,
+                Constants.TIMELINE_DEFALUT_COUNT, Constants.TIMELINE_DEFALUT_PAGE,
+                Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 
 }

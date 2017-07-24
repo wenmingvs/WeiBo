@@ -17,6 +17,18 @@ public interface TimeLineContract {
         void addHeaderTimeLine(List<Status> timeLineList);
 
         void addLastTimeLine(List<Status> timeLineList);
+
+        void showLoading();
+
+        void dismissLoading();
+
+        void showPullToRefreshEmpty();
+
+        void showServerMessage(String error);
+
+        void showNetWorkNotConnected();
+
+        void showTimeOut();
     }
 
     interface Presenter extends BasePresenter {

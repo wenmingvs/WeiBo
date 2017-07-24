@@ -1,6 +1,7 @@
 package com.wenming.weiswift.app.timeline.data;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,7 +26,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void requestTimeLine(String accessToken, TimeLineCallBack callBack) {
+    public void requestLatestTimeLine(String accessToken, final TimeLinePullToRefreshCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
@@ -33,19 +34,47 @@ public class TimeLineDataManager implements TimeLineDataSource {
         TimeLineHttpHepler.getTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                StatusList statusList = StatusList.parse(response);
-                ArrayList<Status> temp = statusList.statuses;
-                if (temp != null && temp.size() > 0) {
-                    
-                } else {
-
-                }
+                pullToRefreshSuccess(response, callBack);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
             }
         });
     }
+
+    @Override
+    public void requestLatestTimeLineBySinceId(String accessToken, String sinceId, final TimeLinePullToRefreshCallBack callBack) {
+        if (!NetUtil.isConnected(mContext)) {
+            callBack.onNetWorkNotConnected();
+            return;
+        }
+        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), mRequestTag, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pullToRefreshSuccess(response, callBack);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
+            }
+        });
+    }
+
+    private void pullToRefreshSuccess(String response, TimeLinePullToRefreshCallBack callBack) {
+        StatusList statusList = StatusList.parse(response);
+        ArrayList<Status> timeLineList = statusList.statuses;
+        if (timeLineList != null && timeLineList.size() > 0) {
+            callBack.onSuccess(timeLineList);
+        } else {
+            callBack.onPullToRefreshEmpty();
+        }
+    }
+
 }

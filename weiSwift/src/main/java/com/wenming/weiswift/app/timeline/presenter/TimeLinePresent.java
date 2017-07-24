@@ -27,21 +27,61 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void requestTimeLine(List<Status> timeLineList) {
-        if (timeLineList == null || timeLineList.size() == 0){
+        if (timeLineList == null || timeLineList.size() == 0) {
             requestLatestTimeLine();
-        }else {
-            requestTimeLineBySinceId(timeLineList.get(0).);
+        } else {
+            requestTimeLineBySinceId(timeLineList.get(0).id);
         }
     }
 
-    private void requestTimeLineBySinceId() {
-        mDataModel.requestTimeLine();
+    @Override
+    public void requestMoreTimeLine(List<Status> timeLineList) {
+
     }
 
     private void requestLatestTimeLine() {
-        mDataModel.requestTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new TimeLineDataSource.TimeLineCallBack() {
+        mDataModel.requestLatestTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new TimeLineDataSource.TimeLinePullToRefreshCallBack() {
             @Override
             public void onSuccess(List<Status> statusList) {
+                mView.dismissLoading();
+                mView.addHeaderTimeLine(statusList);
+            }
+
+            @Override
+            public void onPullToRefreshEmpty() {
+                mView.dismissLoading();
+                mView.showPullToRefreshEmpty();
+            }
+
+            @Override
+            public void onFail(String error) {
+                mView.dismissLoading();
+                mView.showServerMessage(error);
+            }
+
+            @Override
+            public void onNetWorkNotConnected() {
+                mView.dismissLoading();
+                mView.showNetWorkNotConnected();
+            }
+
+            @Override
+            public void onTimeOut() {
+                mView.dismissLoading();
+                mView.showTimeOut();
+            }
+        });
+    }
+
+    private void requestTimeLineBySinceId(String sinceId) {
+        mDataModel.requestLatestTimeLineBySinceId(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new TimeLineDataSource.TimeLinePullToRefreshCallBack() {
+            @Override
+            public void onSuccess(List<Status> statusList) {
+
+            }
+
+            @Override
+            public void onPullToRefreshEmpty() {
 
             }
 
@@ -60,10 +100,5 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
             }
         });
-    }
-
-    @Override
-    public void requestMoreTimeLine(List<Status> timeLineList) {
-
     }
 }

@@ -111,6 +111,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void showNoneNetWork() {
-        ToastUtil.showShort(mContext, R.string.common_none_network);
+        ToastUtil.showShort(mContext, R.string.common_network_not_connected);
     }
 }

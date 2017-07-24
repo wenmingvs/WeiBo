@@ -5,7 +5,8 @@
 
     <!--common -->
     <string name="common_loading">正在加载...</string>
-    <string name="common_none_network">网络连接断开，请确保网络连接正常</string>
+    <string name="common_network_not_connected">网络连接断开，请确保网络连接正常</string>
+    <string name="common_network_time_out">网络连接超时，请确保网络连接正常</string>
 
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
@@ -17,6 +18,10 @@
     <!-- 分组-->
     <string name="groups_loading">正在加载分组信息...</string>
     <string name="groups_default">全部</string>
+
+    <!-- 微博页 -->
+    <string name="timeline_count">(%1$s)条新微博</string>
+    <string name="timeline_count_zeor">0条新微博</string>
 
     <string name="action_settings">Settings</string>
 
