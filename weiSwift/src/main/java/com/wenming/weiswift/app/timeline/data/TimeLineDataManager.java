@@ -4,8 +4,12 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.wenming.weiswift.app.home.net.HomeHttpHelper;
+import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.common.entity.list.StatusList;
+import com.wenming.weiswift.app.timeline.net.TimeLineHttpHepler;
 import com.wenming.weiswift.utils.NetUtil;
+
+import java.util.ArrayList;
 
 /**
  * Created by wenmingvs on 2017/7/23.
@@ -26,14 +30,21 @@ public class TimeLineDataManager implements TimeLineDataSource {
             callBack.onNetWorkNotConnected();
             return;
         }
-        HomeHttpHelper.getTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                StatusList statusList = StatusList.parse(response);
+                ArrayList<Status> temp = statusList.statuses;
+                if (temp != null && temp.size() > 0) {
+                    
+                } else {
 
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
             }
         });
     }

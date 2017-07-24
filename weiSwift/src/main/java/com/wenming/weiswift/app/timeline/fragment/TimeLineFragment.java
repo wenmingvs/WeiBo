@@ -1,7 +1,6 @@
 package com.wenming.weiswift.app.timeline.fragment;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -63,7 +62,9 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     private void initView() {
-        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new TimeLineAdapter(new ArrayList<Status>(0));
         mRecyclerView.setAdapter(mAdapter);
@@ -80,7 +81,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void setTimeLineList(List<Status> timeLineList) {
-
+        mAdapter.addData(timeLineList);
     }
 
     @Override
