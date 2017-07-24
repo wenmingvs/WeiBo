@@ -71,7 +71,12 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     private void initListener() {
-
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresent.requestTimeLine(mAdapter.getData());
+            }
+        });
     }
 
     @Override

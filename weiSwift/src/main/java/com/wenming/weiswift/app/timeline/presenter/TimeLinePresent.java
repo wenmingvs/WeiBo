@@ -23,20 +23,31 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void start() {
-        requestTimeLine();
     }
 
     @Override
-    public void requestTimeLine() {
+    public void requestTimeLine(List<Status> timeLineList) {
+        if (timeLineList == null || timeLineList.size() == 0){
+            requestLatestTimeLine();
+        }else {
+            requestTimeLineBySinceId(timeLineList.get(0).);
+        }
+    }
+
+    private void requestTimeLineBySinceId() {
+        mDataModel.requestTimeLine();
+    }
+
+    private void requestLatestTimeLine() {
         mDataModel.requestTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new TimeLineDataSource.TimeLineCallBack() {
             @Override
             public void onSuccess(List<Status> statusList) {
-                mView.setTimeLineList(statusList);
+
             }
 
             @Override
             public void onFail(String error) {
-                
+
             }
 
             @Override
@@ -52,12 +63,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     @Override
-    public void requestHeaderTimeLine() {
-
-    }
-
-    @Override
-    public void requestLastTimeLine() {
+    public void requestMoreTimeLine(List<Status> timeLineList) {
 
     }
 }

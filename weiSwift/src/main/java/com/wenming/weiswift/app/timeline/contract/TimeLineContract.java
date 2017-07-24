@@ -20,10 +20,14 @@ public interface TimeLineContract {
     }
 
     interface Presenter extends BasePresenter {
-        void requestTimeLine();
+        /**
+         * 首次请求
+         */
+        void requestTimeLine(List<Status> timeLineList);
 
-        void requestHeaderTimeLine();
-
-        void requestLastTimeLine();
+        /**
+         * 加载更多
+         */
+        void requestMoreTimeLine(List<Status> timeLineList);
     }
 }
