@@ -142,4 +142,19 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     public void showTimeOut() {
         ToastUtil.showShort(mContext, R.string.common_network_time_out);
     }
+
+    @Override
+    public void loadMoreComplete() {
+        mAdapter.loadMoreComplete();
+    }
+
+    @Override
+    public void loadMoreFail() {
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void loadMoreEnd() {
+        mAdapter.loadMoreEnd();
+    }
 }

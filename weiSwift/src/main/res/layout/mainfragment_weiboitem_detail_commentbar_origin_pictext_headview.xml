@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:paddingTop="10dp">
 
-    <include layout="@layout/home_weiboitem_original_pictext" />
+    <include layout="@layout/timeline_original_pictext" />
 
     <include layout="@layout/home_weiboitem_detail_bottom_bar" />
 

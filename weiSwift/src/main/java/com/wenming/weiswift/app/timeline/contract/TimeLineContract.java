@@ -29,6 +29,12 @@ public interface TimeLineContract {
         void showNetWorkNotConnected();
 
         void showTimeOut();
+
+        void loadMoreComplete();
+
+        void loadMoreFail();
+
+        void loadMoreEnd();
     }
 
     interface Presenter extends BasePresenter {

@@ -5,6 +5,9 @@ package com.wenming.weiswift.app.timeline.constants;
  */
 
 public class Constants {
+    public static final int TYPE_ORINGIN_ITEM = 0;
+    public static final int TYPE_RETWEET_ITEM = 1;
+
     public static final long TIMELINE_DEFALUT_SINCE_ID = 0;
     public static final long TIMELINE_DEFALUT_MAX_ID = 0;
     public static final int TIMELINE_DEFALUT_COUNT = 20;

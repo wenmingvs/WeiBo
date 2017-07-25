@@ -5,7 +5,7 @@
     android:background="@color/windowBackground"
     android:orientation="vertical">
 
-    <include layout="@layout/mainfragment_weiboitem_retweet_pictext" />
+    <include layout="@layout/timeline_retweet_pictext" />
 
     <include layout="@layout/home_weiboitem_detail_bottom_bar" />
 

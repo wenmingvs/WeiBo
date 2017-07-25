@@ -23,6 +23,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void start() {
+        requestLatestTimeLine();
     }
 
     @Override

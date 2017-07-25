@@ -20,10 +20,14 @@ package com.wenming.weiswift.app.common.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.sina.weibo.sdk.openapi.models.Geo;
 import com.sina.weibo.sdk.openapi.models.Visible;
 
 import java.util.ArrayList;
+
+import static com.wenming.weiswift.app.timeline.constants.Constants.TYPE_ORINGIN_ITEM;
+import static com.wenming.weiswift.app.timeline.constants.Constants.TYPE_RETWEET_ITEM;
 
 /**
  * 微博结构体。
@@ -31,7 +35,7 @@ import java.util.ArrayList;
  * @author SINA
  * @since 2013-11-22
  */
-public class Status implements Parcelable {
+public class Status implements MultiItemEntity, Parcelable {
 
     /**
      * 微博创建时间
@@ -167,7 +171,14 @@ public class Status implements Parcelable {
      */
     public String singleImgSizeType;
 
-
+    @Override
+    public int getItemType() {
+        if (retweeted_status != null) {
+            return TYPE_RETWEET_ITEM;
+        } else {
+            return TYPE_ORINGIN_ITEM;
+        }
+    }
 
 
     public static class PicUrlsBean implements Parcelable {

@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            tools:listitem="@layout/home_weiboitem_original_pictext" />
+            tools:listitem="@layout/timeline_original_pictext" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
