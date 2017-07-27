@@ -8,7 +8,7 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <include layout="@layout/home_weiboitem_titlebar" />
+    <include layout="@layout/common_status_topbar" />
 
     <com.wenming.weiswift.widget.emojitextview.EmojiTextView
         android:id="@+id/retweet_content"
@@ -53,5 +53,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/mainfragment_weiboitem_bottombar" />
+    <include layout="@layout/common_status_bottombar" />
 </LinearLayout>

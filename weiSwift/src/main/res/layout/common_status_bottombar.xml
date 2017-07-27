@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bottombar_layout"
+    android:id="@+id/common_bottombar_container_ll"
     android:layout_width="match_parent"
     android:layout_height="36dp"
     android:background="@color/commentbar_bg"
@@ -22,7 +22,7 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/bottombar_retweet"
+                android:id="@+id/common_bottombar_retweet_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/timeline_feedcard_retweet_background_auto"
@@ -36,7 +36,7 @@
                     android:src="@drawable/timeline_icon_redirect" />
 
                 <TextView
-                    android:id="@+id/redirect"
+                    android:id="@+id/common_bottombar_retweet_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -62,7 +62,7 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/bottombar_comment"
+                android:id="@+id/common_bottombar_comment_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/timeline_feedcard_retweet_background_auto"
@@ -76,7 +76,7 @@
                     android:src="@drawable/timeline_icon_comment" />
 
                 <TextView
-                    android:id="@+id/comment"
+                    android:id="@+id/common_bottombar_comment_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -98,7 +98,7 @@
 
 
         <LinearLayout
-            android:id="@+id/bottombar_attitude"
+            android:id="@+id/common_bottombar_like_ll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -113,7 +113,7 @@
                 android:src="@drawable/timeline_icon_unlike" />
 
             <TextView
-                android:id="@+id/feedlike"
+                android:id="@+id/common_bottombar_like_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

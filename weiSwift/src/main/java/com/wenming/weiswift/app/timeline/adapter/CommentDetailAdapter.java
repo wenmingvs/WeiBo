@@ -77,8 +77,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public CommentViewHolder(View v) {
             super(v);
-            profile_img = (ImageView) v.findViewById(R.id.profile_img);
-            profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
+            profile_img = (ImageView) v.findViewById(R.id.common_avatar_iv);
+            profile_verified = (ImageView) v.findViewById(R.id.common_avatar_identification_iv);
             profile_name = (TextView) v.findViewById(R.id.comment_profile_name);
             profile_time = (TextView) v.findViewById(R.id.comment_profile_time);
             content = (EmojiTextView) v.findViewById(R.id.comment_content);

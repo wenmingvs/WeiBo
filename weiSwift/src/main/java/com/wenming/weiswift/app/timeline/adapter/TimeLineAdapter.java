@@ -95,28 +95,25 @@ public class TimeLineAdapter extends BaseMultiItemQuickAdapter<Status, BaseViewH
 
     private void onBindOriginHolder(final OriginViewHolder holder, final Status status) {
 
-
-
-
         //如果这条原创微博没有被删除
         if (status.user != null) {
-            holder.titlebar_layout.setVisibility(View.VISIBLE);
-            holder.bottombar_layout.setVisibility(View.VISIBLE);
+            holder.mTopBarContainerLl.setVisibility(View.VISIBLE);
+            holder.mBottomBarContainerLl.setVisibility(View.VISIBLE);
             holder.splitLine.setVisibility(View.GONE);
             holder.favoritedelete.setVisibility(View.GONE);
-            FillContent.fillTitleBar(mContext, status, holder.profile_img, holder.profile_verified, holder.profile_name, holder.profile_time, holder.weibo_comefrom);
+            FillContent.fillTitleBar(mContext, status, holder.mTopBarAvatarIv, holder.mTopBarAvatarIdenIv, holder.mTopBarNickNameTv, holder.mTopBarTimeTv, holder.weibo_comefrom);
             FillContent.fillWeiBoContent(status.text, mContext, holder.weibo_content);
-            FillContent.fillButtonBar(mContext, status, holder.bottombar_retweet, holder.bottombar_comment, holder.bottombar_attitude, holder.comment, holder.redirect, holder.feedlike);
+            FillContent.fillButtonBar(mContext, status, holder.mBottomBarRetweetLl, holder.mBottomBarCommentLl, holder.mBottomBarLikeLl, holder.comment, holder.redirect, holder.feedlike);
             FillContent.fillWeiBoImgList(status, mContext, holder.imageList);
 
-            holder.bottombar_layout.setOnClickListener(new View.OnClickListener() {
+            holder.mBottomBarContainerLl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                 }
             });
 
-            holder.popover_arrow.setOnClickListener(new View.OnClickListener() {
+            holder.mTopBarStatusMoreIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     holder.origin_weibo_layout.setDrawingCacheEnabled(true);
@@ -137,8 +134,8 @@ public class TimeLineAdapter extends BaseMultiItemQuickAdapter<Status, BaseViewH
         }
         //如果这条原创微博被删除
         else {
-            holder.titlebar_layout.setVisibility(View.GONE);
-            holder.bottombar_layout.setVisibility(View.GONE);
+            holder.mTopBarContainerLl.setVisibility(View.GONE);
+            holder.mBottomBarContainerLl.setVisibility(View.GONE);
             holder.imageList.setVisibility(View.GONE);
             holder.splitLine.setVisibility(View.VISIBLE);
             holder.favoritedelete.setVisibility(View.VISIBLE);

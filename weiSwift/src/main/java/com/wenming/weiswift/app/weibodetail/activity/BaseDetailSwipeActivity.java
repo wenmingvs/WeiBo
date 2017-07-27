@@ -71,9 +71,9 @@ public abstract class BaseDetailSwipeActivity extends BaseSwipeActivity implemen
         mContext = this;
         setContentView(R.layout.messagefragment_base_layout);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.base_swipe_refresh_widget);
-        bottombar_retweet = (LinearLayout) findViewById(R.id.bottombar_retweet);
-        bottombar_comment = (LinearLayout) findViewById(R.id.bottombar_comment);
-        bottombar_attitude = (LinearLayout) findViewById(R.id.bottombar_attitude);
+        bottombar_retweet = (LinearLayout) findViewById(R.id.common_bottombar_retweet_ll);
+        bottombar_comment = (LinearLayout) findViewById(R.id.common_bottombar_comment_ll);
+        bottombar_attitude = (LinearLayout) findViewById(R.id.common_bottombar_like_ll);
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
         mStatus = getIntent().getParcelableExtra("weiboitem");
         mDetailActivityPresent = new DetailActivityPresentImp(this);

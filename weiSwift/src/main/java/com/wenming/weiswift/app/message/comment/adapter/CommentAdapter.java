@@ -137,11 +137,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public CommentViewHolder(View v) {
             super(v);
             comment_layout = (LinearLayout) v.findViewById(R.id.comment_layout);
-            profile_img = (ImageView) v.findViewById(R.id.profile_img);
-            profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
-            profile_name = (TextView) v.findViewById(R.id.profile_name);
-            profile_time = (TextView) v.findViewById(R.id.profile_time);
-            weibo_comefrom = (TextView) v.findViewById(R.id.weiboComeFrom);
+            profile_img = (ImageView) v.findViewById(R.id.common_avatar_iv);
+            profile_verified = (ImageView) v.findViewById(R.id.common_avatar_identification_iv);
+            profile_name = (TextView) v.findViewById(R.id.common_status_nickname_tv);
+            profile_time = (TextView) v.findViewById(R.id.common_status_time_tv);
+            weibo_comefrom = (TextView) v.findViewById(R.id.common_status_source_tv);
 
             comment_content = (EmojiTextView) v.findViewById(R.id.commentitem_content);
             comment_repley = (TextView) v.findViewById(R.id.comment_reply);

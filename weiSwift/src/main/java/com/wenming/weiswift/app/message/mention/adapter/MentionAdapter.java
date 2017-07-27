@@ -155,12 +155,12 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
         public MentionViewHolder(View v) {
             super(v);
             bg_layout = (LinearLayout) v.findViewById(R.id.bg_layout);
-            profile_img = (ImageView) v.findViewById(R.id.profile_img);
-            profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
-            profile_name = (TextView) v.findViewById(R.id.profile_name);
-            profile_time = (TextView) v.findViewById(R.id.profile_time);
-            weibo_comefrom = (TextView) v.findViewById(R.id.weiboComeFrom);
-            popover_arrow = (ImageView) v.findViewById(R.id.popover_arrow);
+            profile_img = (ImageView) v.findViewById(R.id.common_avatar_iv);
+            profile_verified = (ImageView) v.findViewById(R.id.common_avatar_identification_iv);
+            profile_name = (TextView) v.findViewById(R.id.common_status_nickname_tv);
+            profile_time = (TextView) v.findViewById(R.id.common_status_time_tv);
+            weibo_comefrom = (TextView) v.findViewById(R.id.common_status_source_tv);
+            popover_arrow = (ImageView) v.findViewById(R.id.common_status_more_iv);
 
             mention_content = (EmojiTextView) v.findViewById(R.id.mention_content);
             imageList = (RecyclerView) v.findViewById(R.id.weibo_image);
@@ -170,13 +170,13 @@ public abstract class MentionAdapter extends RecyclerView.Adapter<ViewHolder> {
             mentionitem_name = (TextView) v.findViewById(R.id.mentionitem_name);
             mentionitem_content = (TextView) v.findViewById(R.id.mentionitem_content);
 
-            redirect = (TextView) v.findViewById(R.id.redirect);
-            comment = (TextView) v.findViewById(R.id.comment);
-            feedlike = (TextView) v.findViewById(R.id.feedlike);
+            redirect = (TextView) v.findViewById(R.id.common_bottombar_retweet_tv);
+            comment = (TextView) v.findViewById(R.id.common_bottombar_comment_tv);
+            feedlike = (TextView) v.findViewById(R.id.common_bottombar_like_tv);
 
-            bottombar_retweet = (LinearLayout) v.findViewById(R.id.bottombar_retweet);
-            bottombar_comment = (LinearLayout) v.findViewById(R.id.bottombar_comment);
-            bottombar_attitude = (LinearLayout) v.findViewById(R.id.bottombar_attitude);
+            bottombar_retweet = (LinearLayout) v.findViewById(R.id.common_bottombar_retweet_ll);
+            bottombar_comment = (LinearLayout) v.findViewById(R.id.common_bottombar_comment_ll);
+            bottombar_attitude = (LinearLayout) v.findViewById(R.id.common_bottombar_like_ll);
         }
     }
 }

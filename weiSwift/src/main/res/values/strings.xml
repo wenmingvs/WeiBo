@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">WeiSwift</string>
-
     <!--common -->
     <string name="common_loading">正在加载...</string>
     <string name="common_network_not_connected">网络连接断开，请确保网络连接正常</string>
     <string name="common_network_time_out">网络连接超时，请确保网络连接正常</string>
-
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
     <string name="login_sso_auth_text">客户端授权</string>
     <string name="login_web_auth_text">网页端授权</string>
     <string name="login_web_auth_success">客户端授权成功</string>
     <string name="login_web_auth_cancel">客户端授权取消</string>
-
     <!-- 分组-->
     <string name="groups_loading">正在加载分组信息...</string>
     <string name="groups_default">全部</string>
-
-    <!-- 微博页 -->
+    <!-- 微博刷新成功 -->
     <string name="timeline_count">(%1$s)条新微博</string>
     <string name="timeline_count_zeor">0条新微博</string>
+    <!-- 微博时间 -->
+    <string name="just_now">刚刚</string>
+    <string name="min">分钟前</string>
+    <string name="hour">小时前</string>
+    <string name="day">天前</string>
+    <string name="month">月前</string>
+    <string name="year">年前</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+    <string name="share_title">来自WeiSwift微博客户端</string>
 
     <string name="action_settings">Settings</string>
 
@@ -37,17 +43,4 @@
     <string name="list_footer_loading">正在加载中…</string>
     <string name="list_footer_network_error">点击重新加载</string>
     <string name="list_footer_end">已经到底了</string>
-
-    <!-- Time -->
-    <string name="just_now">刚刚</string>
-    <string name="min">分钟前</string>
-    <string name="hour">小时前</string>
-    <string name="day">天前</string>
-    <string name="month">月前</string>
-    <string name="year">年前</string>
-    <string name="today">今天</string>
-    <string name="yesterday">昨天</string>
-    <string name="the_day_before_yesterday">前天</string>
-    <string name="share_title">来自WeiSwift微博客户端</string>
-
 </resources>
