@@ -11,12 +11,13 @@
     <string name="login_web_auth_text">网页端授权</string>
     <string name="login_web_auth_success">客户端授权成功</string>
     <string name="login_web_auth_cancel">客户端授权取消</string>
-    <!-- 分组-->
+    <!-- 首页-->
     <string name="groups_loading">正在加载分组信息...</string>
     <string name="groups_default">全部</string>
-    <!-- 微博刷新成功 -->
     <string name="timeline_count">(%1$s)条新微博</string>
     <string name="timeline_count_zeor">0条新微博</string>
+    <string name="timeline_source_from_suffix">来自 (%1$s)</string>
+
     <!-- 微博时间 -->
     <string name="just_now">刚刚</string>
     <string name="min">分钟前</string>

@@ -21,7 +21,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -42,14 +42,24 @@ public class MyApplication extends Application implements Application.ActivityLi
     private List<Activity> mActivityList = new LinkedList<Activity>();
 
     public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
-        config.threadPriority(Thread.NORM_PRIORITY - 2);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.memoryCache(new WeakMemoryCache());
-        config.memoryCacheSize(20 * 1024 * 1024);//设置内存缓存的最大字节数为 App 最大可用内存的 1/8。
-        config.diskCacheSize(200 * 1024 * 1024); // 200 MiB
-        config.tasksProcessingOrder(QueueProcessingType.LIFO);
-        config.writeDebugLogs(); // Remove for release app
+        DisplayImageOptions.Builder disBuilder = new DisplayImageOptions.Builder();
+        disBuilder.cacheInMemory(true);
+        disBuilder.cacheOnDisk(true);
+        disBuilder.considerExifParams(true);
+        DisplayImageOptions displayImageOptions = disBuilder.build();
+        int memoryCacheSize = (int) Runtime.getRuntime().maxMemory();
+        if (memoryCacheSize >= 128 * 1024 * 1024) {
+            memoryCacheSize /= 16;
+        } else {
+            memoryCacheSize /= 20;
+        }
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCacheSize(memoryCacheSize)
+                .diskCacheSize(200 * 1024 * 1024)
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .defaultDisplayImageOptions(displayImageOptions);
         ImageLoader.getInstance().init(config.build());
     }
 
