@@ -38,13 +38,6 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.mContext = context;
     }
 
-    /**
-     * 设置图片间距，注意要保证addItemDecoration只被调用一次，多次调用间距会累加
-     *
-     * @param parent
-     * @param viewType
-     * @return
-     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ORINGIN_ITEM) {
@@ -84,7 +77,7 @@ public abstract class WeiboAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((OriginViewHolder) holder).favoritedelete.setVisibility(View.GONE);
                 FillContent.fillTitleBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).mTopBarAvatarIv, ((OriginViewHolder) holder).mTopBarAvatarIdenIv, ((OriginViewHolder) holder).mTopBarNickNameTv, ((OriginViewHolder) holder).mTopBarTimeTv, ((OriginViewHolder) holder).weibo_comefrom);
                 FillContent.fillWeiBoContent(mDatas.get(position).text, mContext, ((OriginViewHolder) holder).weibo_content);
-                FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).mBottomBarRetweetLl, ((OriginViewHolder) holder).mBottomBarCommentLl, ((OriginViewHolder) holder).mBottomBarLikeLl, ((OriginViewHolder) holder).comment, ((OriginViewHolder) holder).redirect, ((OriginViewHolder) holder).feedlike);
+                FillContent.fillButtonBar(mContext, mDatas.get(position), ((OriginViewHolder) holder).mBottomBarRetweetLl, ((OriginViewHolder) holder).mBottomBarCommentLl, ((OriginViewHolder) holder).mBottomBarLikeLl, ((OriginViewHolder) holder).mBottomBarCommentTv, ((OriginViewHolder) holder).mBottomBarRetweetTv, ((OriginViewHolder) holder).mBottomBarLikeTv);
                 FillContent.fillWeiBoImgList(mDatas.get(position), mContext, ((OriginViewHolder) holder).imageList);
 
                 ((OriginViewHolder) holder).mBottomBarContainerLl.setOnClickListener(new View.OnClickListener() {

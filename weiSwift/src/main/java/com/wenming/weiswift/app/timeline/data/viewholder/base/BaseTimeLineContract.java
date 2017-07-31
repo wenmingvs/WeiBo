@@ -2,6 +2,7 @@ package com.wenming.weiswift.app.timeline.data.viewholder.base;
 
 import com.wenming.weiswift.app.common.base.mvp.BasePresenter;
 import com.wenming.weiswift.app.common.base.mvp.BaseView;
+import com.wenming.weiswift.app.common.entity.Status;
 
 /**
  * Created by wenmingvs on 2017/7/25.
@@ -19,12 +20,6 @@ public interface BaseTimeLineContract {
 
         void setTopBarSourceFrom(String source);
 
-        void setBottomBarRetweetNum(int retweetNum);
-
-        void setBottomCommentNum(int commentNum);
-
-        void setBottomLikeNum(int likeNum);
-
         void hideTopBarSourceFrom();
 
         void showTopBarSourceFrom();
@@ -32,9 +27,24 @@ public interface BaseTimeLineContract {
         void hideTopBarIden();
 
         void showTopBarIden();
+
+        void setBottomBarRetweetCount(int count);
+
+        void setDefaultRetweetContent();
+
+        void setBottomBarCommentCount(int count);
+
+        void setDefaultCommentContent();
+
+        void setBottomBarLikeCount(int count);
+
+        void setDefaultLikeContent();
+
+        void goToStatusDetailActivity(Status status);
     }
 
     interface Presenter extends BasePresenter {
 
+        void goToStatusDetailActivity();
     }
 }

@@ -1,5 +1,7 @@
 package com.wenming.weiswift.app.timeline.data.viewholder.retweet;
 
+import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLinePresenter;
 
 /**
@@ -7,6 +9,11 @@ import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLinePresen
  */
 
 public class RetweetPresenter extends BaseTimeLinePresenter implements RetweetContract.Presenter {
+
+    public RetweetPresenter(BaseTimeLineContract.View view, Status dataModel) {
+        super(view, dataModel);
+    }
+
     @Override
     public void start() {
 

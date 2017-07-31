@@ -68,7 +68,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new TimeLineAdapter(new ArrayList<Status>(0));
+        mAdapter = new TimeLineAdapter(mContext, new ArrayList<Status>(0));
         mRecyclerView.setAdapter(mAdapter);
     }
 

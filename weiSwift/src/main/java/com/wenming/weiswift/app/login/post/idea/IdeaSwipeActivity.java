@@ -112,7 +112,7 @@ public class IdeaSwipeActivity extends BaseSwipeActivity implements ImgListAdapt
         mIdea_linearLayout = (LinearLayout) findViewById(R.id.idea_linearLayout);
         mIdeaType = getIntent().getStringExtra("ideaType");
         mStatus = getIntent().getParcelableExtra("status");
-        mComment = getIntent().getParcelableExtra("comment");
+        mComment = getIntent().getParcelableExtra("mBottomBarCommentTv");
         mInputType.setText(mIdeaType);
         refreshUserName();
         initContent();

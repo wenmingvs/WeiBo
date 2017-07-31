@@ -27,26 +27,24 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
 
     private void updateView() {
         //设置头像
-        mView.setTopBarAvatar(mDataModel.user.avatar_hd);
-        //设置认证
-        setTopBarIdentication();
-        //设置名称
-        setTopBarName();
-        //设置时间
+        setAvatar();
+        //设置昵称与备注
+        setTopBarNickName();
+        //设置微博时间
         mView.setTopBarCreateTime(mDataModel.created_at);
-        //设置来源
+        //设置微博来源
         setTopBarSourceFrom();
+        //设置转发数
+        setRetweetCount();
+        //设置评论数
+        setCommendCount();
+        //设置点赞数
+        setLikeCount();
     }
 
-    private void setTopBarSourceFrom() {
-        if (mDataModel == null || TextUtils.isEmpty(mDataModel.source)) {
-            mView.hideTopBarSourceFrom();
-        } else {
-            mView.setTopBarSourceFrom(mDataModel.source);
-        }
-    }
-
-    private void setTopBarIdentication() {
+    private void setAvatar() {
+        mView.setTopBarAvatar(mDataModel.user.avatar_hd);
+        //设置头像认证
         boolean verifty = mDataModel.user.verified;
         int type = mDataModel.user.verified_type;
         if (verifty && type == 0) {
@@ -60,7 +58,10 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
         }
     }
 
-    private void setTopBarName() {
+    /**
+     * 设置昵称与备注
+     */
+    private void setTopBarNickName() {
         if (mDataModel.user == null) {
             return;
         }
@@ -68,6 +69,57 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
             mView.setTopBarName(mDataModel.user.remark);
         } else {
             mView.setTopBarName(mDataModel.user.name);
+        }
+    }
+
+    /**
+     * 设置微博来源
+     */
+    private void setTopBarSourceFrom() {
+        if (mDataModel == null || TextUtils.isEmpty(mDataModel.source)) {
+            mView.hideTopBarSourceFrom();
+        } else {
+            mView.setTopBarSourceFrom(mDataModel.source);
+        }
+    }
+
+    /**
+     * 设置点赞数
+     */
+    private void setLikeCount() {
+        if (mDataModel.attitudes_count != 0) {
+            mView.setBottomBarLikeCount(mDataModel.attitudes_count);
+        } else {
+            mView.setDefaultLikeContent();
+        }
+    }
+
+    /**
+     * 设置评论数
+     */
+    private void setCommendCount() {
+        if (mDataModel.comments_count != 0) {
+            mView.setBottomBarCommentCount(mDataModel.comments_count);
+        } else {
+            mView.setDefaultCommentContent();
+        }
+    }
+
+    /**
+     * 设置转发数
+     */
+    private void setRetweetCount() {
+        if (mDataModel.reposts_count != 0) {
+            mView.setBottomBarRetweetCount(mDataModel.reposts_count);
+        } else {
+            mView.setDefaultRetweetContent();
+        }
+    }
+
+    @Override
+    public void goToStatusDetailActivity() {
+        if (mDataModel.retweeted_status.user != null) {
+            mView.goToStatusDetailActivity(mDataModel);
         }
     }
 }

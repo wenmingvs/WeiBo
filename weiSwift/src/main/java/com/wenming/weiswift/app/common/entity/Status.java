@@ -26,6 +26,7 @@ import com.sina.weibo.sdk.openapi.models.Visible;
 
 import java.util.ArrayList;
 
+import static com.wenming.weiswift.app.timeline.constants.Constants.TYPE_ORINGIN_DELETE;
 import static com.wenming.weiswift.app.timeline.constants.Constants.TYPE_ORINGIN_ITEM;
 import static com.wenming.weiswift.app.timeline.constants.Constants.TYPE_RETWEET_ITEM;
 
@@ -173,10 +174,17 @@ public class Status implements MultiItemEntity, Parcelable {
 
     @Override
     public int getItemType() {
+        //转发微博
         if (retweeted_status != null) {
             return TYPE_RETWEET_ITEM;
-        } else {
+        }
+        //原创微博
+        else if (user != null) {
             return TYPE_ORINGIN_ITEM;
+        }
+        //删除的原创微博
+        else {
+            return TYPE_ORINGIN_DELETE;
         }
     }
 

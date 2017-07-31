@@ -84,13 +84,13 @@ public class CommentModelImp implements CommentModel {
         if (NewFeature.CACHE_MESSAGE_MENTION) {
             switch (groupType) {
                 case Constants.GROUP_COMMENT_TYPE_ALL:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "所有评论" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                     break;
                 case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "关注的人" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                     break;
                 case Constants.GROUP_COMMENT_TYPE_BYME:
-                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                    SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "我发出的" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                     break;
             }
         }
@@ -102,13 +102,13 @@ public class CommentModelImp implements CommentModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_COMMENT_TYPE_ALL:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "所有评论" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "所有评论" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.GROUP_COMMENT_TYPE_FRIENDS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "关注的人" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "关注的人" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.GROUP_COMMENT_TYPE_BYME:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/comment", "我发出的" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/message/mBottomBarCommentTv", "我发出的" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
         }
         if (response != null) {

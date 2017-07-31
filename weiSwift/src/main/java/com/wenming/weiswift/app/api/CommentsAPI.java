@@ -383,7 +383,7 @@ public class CommentsAPI extends AbsOpenAPI {
 
     private WeiboParameters buildCreateParams(String comment, long id, boolean comment_ori) {
         WeiboParameters params = new WeiboParameters(mAppKey);
-        params.put("comment", comment);
+        params.put("mBottomBarCommentTv", comment);
         params.put("id", id);
         params.put("comment_ori", comment_ori ? 1 : 0);
         return params;
@@ -394,7 +394,7 @@ public class CommentsAPI extends AbsOpenAPI {
         WeiboParameters params = new WeiboParameters(mAppKey);
         params.put("cid", cid);
         params.put("id", id);
-        params.put("comment", comment);
+        params.put("mBottomBarCommentTv", comment);
         params.put("without_mention", without_mention ? 1 : 0);
         params.put("comment_ori", comment_ori ? 1 : 0);
         return params;

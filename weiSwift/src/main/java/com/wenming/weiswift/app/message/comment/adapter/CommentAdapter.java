@@ -58,7 +58,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (mDatas.get(position).user.allow_all_comment) {
                     Intent intent = new Intent(mContext, IdeaSwipeActivity.class);
                     intent.putExtra("ideaType", PostService.POST_SERVICE_REPLY_COMMENT);
-                    intent.putExtra("comment", mDatas.get(position));
+                    intent.putExtra("mBottomBarCommentTv", mDatas.get(position));
                     mContext.startActivity(intent);
                 } else {
                     ToastUtil.showShort(mContext, "此用户不允许所有人评论");

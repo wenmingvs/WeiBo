@@ -75,19 +75,19 @@ public class Comment implements Parcelable {
 //            return null;
 //        }
 //
-//        Comment comment = new Comment();
-//        comment.created_at = jsonObject.optString("created_at");
-//        comment.id = jsonObject.optString("id");
-//        comment.text = jsonObject.optString("text");
-//        comment.source = jsonObject.optString("source");
-//        comment.source = getSource(jsonObject.optString("source"));
-//        comment.user = User.parse(jsonObject.optJSONObject("user"));
-//        comment.mid = jsonObject.optString("mid");
-//        comment.idstr = jsonObject.optString("idstr");
-//        comment.status = Status.parse(jsonObject.optJSONObject("status"));
-//        comment.reply_comment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
+//        Comment mBottomBarCommentTv = new Comment();
+//        mBottomBarCommentTv.created_at = jsonObject.optString("created_at");
+//        mBottomBarCommentTv.id = jsonObject.optString("id");
+//        mBottomBarCommentTv.text = jsonObject.optString("text");
+//        mBottomBarCommentTv.source = jsonObject.optString("source");
+//        mBottomBarCommentTv.source = getSource(jsonObject.optString("source"));
+//        mBottomBarCommentTv.user = User.parse(jsonObject.optJSONObject("user"));
+//        mBottomBarCommentTv.mid = jsonObject.optString("mid");
+//        mBottomBarCommentTv.idstr = jsonObject.optString("idstr");
+//        mBottomBarCommentTv.status = Status.parse(jsonObject.optJSONObject("status"));
+//        mBottomBarCommentTv.reply_comment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
 //
-//        return comment;
+//        return mBottomBarCommentTv;
 //    }
 
 //    public static Comment parse(String jsonString) {
