@@ -1,20 +1,19 @@
 package com.wenming.weiswift.app.timeline.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.constants.Constants;
+import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
+import com.wenming.weiswift.app.timeline.data.viewholder.origin.OriginPresenter;
 import com.wenming.weiswift.app.timeline.data.viewholder.origin.OriginViewHolder;
+import com.wenming.weiswift.app.timeline.data.viewholder.retweet.RetweetPresenter;
 import com.wenming.weiswift.app.timeline.data.viewholder.retweet.RetweetViewHolder;
-import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
 
 import java.util.List;
 
@@ -57,40 +56,22 @@ public class TimeLineAdapter extends BaseMultiItemQuickAdapter<Status, BaseViewH
     }
 
     private void onBindOriginHolder(final OriginViewHolder holder, final Status status) {
-        holder.mTopBarContainerLl.setVisibility(View.VISIBLE);
-        holder.mBottomBarContainerLl.setVisibility(View.VISIBLE);
-        holder.splitLine.setVisibility(View.GONE);
-        holder.favoritedelete.setVisibility(View.GONE);
-        FillContent.fillTitleBar(mContext, status, holder.mTopBarAvatarIv, holder.mTopBarAvatarIdenIv, holder.mTopBarNickNameTv, holder.mTopBarTimeTv, holder.weibo_comefrom);
-        FillContent.fillWeiBoContent(status.text, mContext, holder.weibo_content);
-        FillContent.fillButtonBar(mContext, status, holder.mBottomBarRetweetLl, holder.mBottomBarCommentLl, holder.mBottomBarLikeLl, holder.mBottomBarCommentTv, holder.mBottomBarRetweetTv, holder.mBottomBarLikeTv);
-        FillContent.fillWeiBoImgList(status, mContext, holder.imageList);
+        BaseTimeLineContract.Presenter presenter = holder.getPresenter();
+        if (presenter == null) {
+            presenter = new OriginPresenter(holder, status);
+        } else {
+            presenter.reset();
+        }
+        presenter.start();
     }
 
     private void onBindRetweetHolder(final RetweetViewHolder holder, final Status status) {
-        FillContent.fillTitleBar(mContext, status, holder.profile_img, holder.profile_verified, holder.profile_name, holder.profile_time, holder.weibo_comefrom);
-        FillContent.fillRetweetContent(status, mContext, holder.origin_nameAndcontent);
-        FillContent.fillWeiBoContent(status.text, mContext, holder.retweet_content);
-        FillContent.fillButtonBar(mContext, status, holder.bottombar_retweet, holder.bottombar_comment, holder.bottombar_attitude, holder.comment, holder.redirect, holder.feedlike);
-        FillContent.fillWeiBoImgList(status.retweeted_status, mContext, holder.retweet_imageList);
-
-        holder.popover_arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.retweet_weibo_layout.setDrawingCacheEnabled(true);
-                holder.retweet_weibo_layout.buildDrawingCache(true);
-                //arrowClick(status, position, holder.retweet_weibo_layout.getDrawingCache());
-            }
-        });
-
-        //微博背景的点击事件
-        holder.retweet_weibo_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, RetweetPicTextCommentDetailSwipeActivity.class);
-                intent.putExtra("weiboitem", status);
-                mContext.startActivity(intent);
-            }
-        });
+        BaseTimeLineContract.Presenter presenter = holder.getPresenter();
+        if (presenter == null) {
+            presenter = new RetweetPresenter(holder, status);
+        } else {
+            presenter.reset();
+        }
+        presenter.start();
     }
 }

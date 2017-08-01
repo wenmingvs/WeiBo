@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="16分钟前  "
+                    android:layout_marginRight="10dp"
                     android:textColor="@color/home_weiboitem_title_profile_time"
                     android:textSize="@dimen/home_weiboitem_title_profile_time" />
 
@@ -52,9 +53,9 @@
                     android:id="@+id/common_status_source_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="来自 微博weibo.com"
                     android:textColor="@color/home_weiboitem_title_weibocomefrom"
-                    android:textSize="@dimen/home_weiboitem_title_weibocomefrom" />
+                    android:textSize="@dimen/home_weiboitem_title_weibocomefrom"
+                    tools:text="来自 微博weibo.com" />
             </LinearLayout>
 
         </LinearLayout>

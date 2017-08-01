@@ -2,6 +2,7 @@ package com.wenming.weiswift.app.timeline.data.viewholder.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +19,7 @@ import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailS
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -31,15 +33,15 @@ public abstract class BaseTimeLineViewHolder extends BaseViewHolder implements B
     private ImageView mTopBarAvatarIdenIv;
     private TextView mTopBarNickNameTv;
     private TextView mTopBarTimeTv;
-    public TextView mTopBarSourceFrom;
+    private TextView mTopBarSourceFrom;
     private ImageView mTopBarStatusMoreIv;
     //BottomBar
-    public LinearLayout mBottomBarRetweetLl;
-    public LinearLayout mBottomBarCommentLl;
-    public LinearLayout mBottomBarLikeLl;
-    public TextView mBottomBarRetweetTv;
-    public TextView mBottomBarCommentTv;
-    public TextView mBottomBarLikeTv;
+    private LinearLayout mBottomBarRetweetLl;
+    private LinearLayout mBottomBarCommentLl;
+    private LinearLayout mBottomBarLikeLl;
+    private TextView mBottomBarRetweetTv;
+    private TextView mBottomBarCommentTv;
+    private TextView mBottomBarLikeTv;
     protected Context mContext;
     private BaseTimeLineContract.Presenter mPresenter;
 
@@ -58,7 +60,12 @@ public abstract class BaseTimeLineViewHolder extends BaseViewHolder implements B
         this.mRootView = view;
         this.mContext = context;
         prepareView();
+        initView();
         initListener();
+    }
+
+    protected void initView() {
+
     }
 
     protected View findViewById(int paramInt) {
@@ -69,11 +76,12 @@ public abstract class BaseTimeLineViewHolder extends BaseViewHolder implements B
     }
 
     protected void prepareView() {
-        mTopBarAvatarIv = (ImageView) mRootView.findViewById(R.id.common_avatar_iv);
-        mTopBarAvatarIdenIv = (ImageView) mRootView.findViewById(R.id.common_avatar_identification_iv);
-        mTopBarStatusMoreIv = (ImageView) mRootView.findViewById(R.id.common_status_more_iv);
-        mTopBarNickNameTv = (TextView) mRootView.findViewById(R.id.common_status_nickname_tv);
-        mTopBarTimeTv = (TextView) mRootView.findViewById(R.id.common_status_time_tv);
+        mTopBarAvatarIv = (ImageView) findViewById(R.id.common_avatar_iv);
+        mTopBarAvatarIdenIv = (ImageView) findViewById(R.id.common_avatar_identification_iv);
+        mTopBarStatusMoreIv = (ImageView) findViewById(R.id.common_status_more_iv);
+        mTopBarNickNameTv = (TextView) findViewById(R.id.common_status_nickname_tv);
+        mTopBarTimeTv = (TextView) findViewById(R.id.common_status_time_tv);
+        mTopBarSourceFrom = (TextView) findViewById(R.id.common_status_source_tv);
         mBottomBarRetweetLl = (LinearLayout) findViewById(R.id.common_bottombar_retweet_ll);
         mBottomBarCommentLl = (LinearLayout) findViewById(R.id.common_bottombar_comment_ll);
         mBottomBarLikeLl = (LinearLayout) findViewById(R.id.common_bottombar_like_ll);
@@ -183,5 +191,47 @@ public abstract class BaseTimeLineViewHolder extends BaseViewHolder implements B
             return;
         }
         mBottomBarLikeTv.setText(mContext.getString(R.string.timeline_like));
+    }
+
+    /**
+     * 根据图片数量，初始化GridLayoutManager，并且设置列数，
+     * 当图片 = 1 的时候，显示1列
+     * 当图片<=4张的时候，显示2列
+     * 当图片>4 张的时候，显示3列
+     */
+    protected GridLayoutManager initGridLayoutManager(ArrayList<String> imageDatas) {
+        GridLayoutManager gridLayoutManager;
+        if (imageDatas != null) {
+            switch (imageDatas.size()) {
+                case 1:
+                    gridLayoutManager = new GridLayoutManager(mContext, 1);
+                    break;
+                case 2:
+                    gridLayoutManager = new GridLayoutManager(mContext, 2);
+                    break;
+                case 3:
+                    gridLayoutManager = new GridLayoutManager(mContext, 3);
+                    break;
+                case 4:
+                    gridLayoutManager = new GridLayoutManager(mContext, 2);
+                    break;
+                default:
+                    gridLayoutManager = new GridLayoutManager(mContext, 3);
+                    break;
+            }
+        } else {
+            gridLayoutManager = new GridLayoutManager(mContext, 3);
+        }
+        return gridLayoutManager;
+    }
+
+    @Override
+    public void resetView() {
+
+    }
+
+    @Override
+    public BaseTimeLineContract.Presenter getPresenter() {
+        return mPresenter;
     }
 }

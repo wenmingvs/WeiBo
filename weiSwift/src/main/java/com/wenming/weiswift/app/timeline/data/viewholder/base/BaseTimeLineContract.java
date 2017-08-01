@@ -41,10 +41,16 @@ public interface BaseTimeLineContract {
         void setDefaultLikeContent();
 
         void goToStatusDetailActivity(Status status);
+
+        Presenter getPresenter();
+
+        void resetView();
     }
 
     interface Presenter extends BasePresenter {
 
         void goToStatusDetailActivity();
+
+        void reset();
     }
 }

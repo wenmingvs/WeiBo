@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/origin_weibo_layout"
+    android:id="@+id/timeline_origin_pictext_container_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -12,20 +12,20 @@
     <include layout="@layout/common_status_topbar" />
 
     <com.wenming.weiswift.widget.emojitextview.EmojiTextView
-        android:id="@+id/weibo_Content"
+        android:id="@+id/timeline_origin_pictext_etv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="@dimen/home_weiboitem_marginleftright"
         android:layout_marginRight="@dimen/home_weiboitem_marginleftright"
         android:layout_marginTop="8dp"
+        tools:text="\@飞常准 :  【网曝：首都机场有人带枪上飞机】 据“停机坪”公众号1月4日发布的消息，有网友报料称，有乘客把看似是玩具或道具“手枪”带上了飞机。并在机舱里拿着枪摆各种姿势合影。事件发生的地点在北京首都机场的一架飞机上。"
         android:lineSpacingExtra="@dimen/home_original_weiboitem_linespace"
-        tools:text="#知政#【财政部谈跨境电商新政：不会给消费者带来太大负担】财政部关税司有关负责人坦承，新政客观上会提高消费者总体税负水平。但其指出，在税率设置上暂给予一定优惠，具体而言有升有降。新政有利于电商化解部分成本，对大众消费品价格总体影响有限，不会给消费者带来太大负担。http://t.cn/RqXsr16"
         android:textColor="@color/home_original_weiboitem_font"
         android:textSize="@dimen/home_original_weiboitem_font" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/weibo_image"
+        android:id="@+id/timeline_origin_pictext_rlv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
@@ -33,23 +33,9 @@
         android:paddingBottom="10dp" />
 
     <ImageView
-        android:id="@+id/splitLine"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#e5e5e5"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/favorities_delete"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/message_item_auto"
-        android:gravity="center"
-        android:text="删除"
-        android:textColor="#929292"
-        android:textSize="16sp"
-        android:visibility="gone" />
-
+        android:background="#e5e5e5" />
 
     <include layout="@layout/common_status_bottombar" />
 </LinearLayout>

@@ -32,16 +32,16 @@ import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.User;
-import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.app.imgpreview.ImageDetailsActivity;
 import com.wenming.weiswift.app.imgpreview.SaveImageDialog;
-import com.wenming.weiswift.app.timeline.adapter.ImageAdapter;
-import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
-import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
-import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
-import com.wenming.weiswift.app.timeline.adapter.CommentDetailAdapter;
 import com.wenming.weiswift.app.login.post.PostService;
 import com.wenming.weiswift.app.login.post.idea.IdeaSwipeActivity;
+import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
+import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
+import com.wenming.weiswift.app.timeline.adapter.CommentDetailAdapter;
+import com.wenming.weiswift.app.timeline.adapter.TimeLineImageAdapter;
+import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
+import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.NetUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
@@ -390,12 +390,12 @@ public class FillContent {
             recyclerview.setVisibility(View.VISIBLE);
         }
         GridLayoutManager gridLayoutManager = initGridLayoutManager(imageDatas, context);
-        ImageAdapter imageAdapter = new ImageAdapter(status, context);
+        TimeLineImageAdapter timeLineImageAdapter = new TimeLineImageAdapter(status, context);
         recyclerview.setHasFixedSize(true);
-        recyclerview.setAdapter(imageAdapter);
+        recyclerview.setAdapter(timeLineImageAdapter);
         recyclerview.setLayoutManager(gridLayoutManager);
-        imageAdapter.setData(imageDatas);
-        imageAdapter.notifyDataSetChanged();
+        timeLineImageAdapter.setData(status);
+        timeLineImageAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -468,17 +468,11 @@ public class FillContent {
 
     /**
      * 填充微博列表图片
-     *
-     * @param context
-     * @param status
-     * @param options
-     * @param position
-     * @param longImg
-     * @param norImg
-     * @param gifImg
-     * @param imageLabel
      */
     public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
+        if (status == null || status.bmiddle_pic_urls.size() == 0) {
+            return;
+        }
         final ArrayList<String> urllist;
         if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
             urllist = status.thumbnail_pic_urls;

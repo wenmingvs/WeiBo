@@ -13,9 +13,9 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.common.NewFeature;
+import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.utils.ScreenUtil;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import pl.droidsonroids.gif.GifImageView;
 /**
  * Created by wenmingvs on 16/1/3.
  */
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+public class TimeLineImageAdapter extends RecyclerView.Adapter<TimeLineImageAdapter.ViewHolder> {
     private ArrayList<String> mData;
     private Context mContext;
     private Status mStatus;
@@ -39,17 +39,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheOnDisk(true)
             .build();
 
-    public ImageAdapter(Status status, Context context) {
-        this.mStatus = status;
-        if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
-            this.mData = status.thumbnail_pic_urls;
-        } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
-            this.mData = status.bmiddle_pic_urls;
-        } else {
-            this.mData = status.origin_pic_urls;
-        }
+    public TimeLineImageAdapter(Status status, Context context) {
         this.mContext = context;
-
+        this.mStatus = status;
+        setData(status);
     }
 
     @Override
@@ -70,13 +63,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mData == null ? 0 : mData.size();
+        int count = 0;
+        if (mData != null && mData.size() > 0) {
+            count = mData.size();
+        }
+        return count;
     }
 
-    public void setData(ArrayList<String> data) {
-        this.mData = data;
+    public void setData(Status status) {
+        if (status != null) {
+            if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+                this.mData = status.thumbnail_pic_urls;
+            } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
+                this.mData = status.bmiddle_pic_urls;
+            } else {
+                this.mData = status.origin_pic_urls;
+            }
+        }
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public SubsamplingScaleImageView longImg;

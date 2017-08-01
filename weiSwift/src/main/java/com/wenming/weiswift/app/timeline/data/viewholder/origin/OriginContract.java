@@ -1,5 +1,6 @@
 package com.wenming.weiswift.app.timeline.data.viewholder.origin;
 
+import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
 
 /**
@@ -8,7 +9,13 @@ import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContra
 
 public interface OriginContract {
     interface View extends BaseTimeLineContract.View {
+        void setImgListContent(String text);
 
+        void setImgListContent(Status status);
+
+        void setImgListVisible(boolean visible);
+
+        boolean isImgListVisble();
     }
 
     interface Presenter extends BaseTimeLineContract.Presenter {

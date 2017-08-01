@@ -13,7 +13,6 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
     private BaseTimeLineContract.View mView;
     private Status mDataModel;
 
-
     public BaseTimeLinePresenter(BaseTimeLineContract.View view, Status dataModel) {
         this.mView = view;
         this.mDataModel = dataModel;
@@ -25,7 +24,7 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
         updateView();
     }
 
-    private void updateView() {
+    protected void updateView() {
         //设置头像
         setAvatar();
         //设置昵称与备注
@@ -114,6 +113,11 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
         } else {
             mView.setDefaultRetweetContent();
         }
+    }
+
+    @Override
+    public void reset() {
+        mView.resetView();
     }
 
     @Override
