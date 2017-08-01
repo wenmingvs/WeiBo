@@ -25,7 +25,6 @@ import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 
 import java.util.ArrayList;
 
-import static com.sina.weibo.sdk.openapi.legacy.AccountAPI.CAPITAL.R;
 
 /**
  * Created by wenmingvs on 2015/12/29.
