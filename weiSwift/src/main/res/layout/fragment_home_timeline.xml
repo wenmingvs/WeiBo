@@ -12,8 +12,8 @@
         android:id="@+id/timeline_refresh_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/timeline_rlv"
@@ -22,6 +22,25 @@
             tools:listitem="@layout/timeline_original_pictext" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/timeline_new_status_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_toast">
+
+        <TextView
+            android:id="@+id/timeline_new_status_tv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topbar_toast_height"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"
+            tools:text="0条新微博" />
+
+    </LinearLayout>
 
 </FrameLayout>
 

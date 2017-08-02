@@ -22,8 +22,6 @@ public interface TimeLineContract {
 
         void dismissLoading();
 
-        void showPullToRefreshEmpty();
-
         void showServerMessage(String error);
 
         void showNetWorkNotConnected();

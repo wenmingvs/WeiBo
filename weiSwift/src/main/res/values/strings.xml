@@ -14,8 +14,7 @@
     <!-- 首页-->
     <string name="groups_loading">正在加载分组信息...</string>
     <string name="groups_default">全部</string>
-    <string name="timeline_count">(%1$s)条新微博</string>
-    <string name="timeline_count_zeor">0条新微博</string>
+    <string name="timeline_count">%1$s条新微博</string>
     <string name="timeline_source_from_suffix">来自 %1$s</string>
     <string name="timeline_comment">评论</string>
     <string name="timeline_retweet">转发</string>

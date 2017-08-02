@@ -103,6 +103,8 @@ public class TimeLineDataManager implements TimeLineDataSource {
         StatusList statusList = StatusList.parse(response);
         ArrayList<Status> timeLineList = statusList.statuses;
         if (timeLineList != null && timeLineList.size() > 0) {
+            //删掉第一条重复的微博
+            timeLineList.remove(0);
             callBack.onLoadMoreSuccess(timeLineList);
         } else {
             callBack.onLoadMoreEmpty();

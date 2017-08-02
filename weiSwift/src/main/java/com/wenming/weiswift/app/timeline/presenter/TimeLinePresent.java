@@ -117,11 +117,12 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     private void onRefreshEmpty() {
         mView.dismissLoading();
-        mView.showPullToRefreshEmpty();
+        mView.showNewWeiboCount(0);
     }
 
     private void onRefreshSuccess(List<Status> statusList) {
         mView.dismissLoading();
+        mView.showNewWeiboCount(statusList.size());
         mView.addHeaderTimeLine(statusList);
         mView.scrollToTop();
     }
@@ -175,22 +176,26 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     private void onLoadMoreTimeOut() {
+        mView.loadMoreFail();
         mView.showNetWorkTimeOut();
     }
 
     private void onLoadMoreNetWorkNotConnected() {
+        mView.loadMoreFail();
         mView.showNetWorkNotConnected();
     }
 
     private void onLoadMoreFail(String error) {
         mView.showServerMessage(error);
+        mView.loadMoreFail();
     }
 
     private void onLoadMoreEmpty() {
-
+        mView.loadMoreEnd();
     }
 
     private void onLoadMoreSuccess(List<Status> statusList) {
         mView.addLastTimeLine(statusList);
+        mView.loadMoreComplete();
     }
 }
