@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_4"
-        android:text="@string/list_footer_loading"
+        android:text="@string/common_footer_loading"
         android:textColor="@color/loadding_footer_text"
         android:textSize="@dimen/sp_14" />
 </LinearLayout>

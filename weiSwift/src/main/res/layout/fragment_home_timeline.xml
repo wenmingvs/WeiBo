@@ -39,9 +39,7 @@
             android:textSize="@dimen/sp_14"
             android:visibility="gone"
             tools:text="0条新微博" />
-
     </LinearLayout>
-
 </FrameLayout>
 
 

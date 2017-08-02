@@ -108,7 +108,7 @@ public class LoadingFooter extends RelativeLayout {
                 mLoadingView.setVisibility(showView ? VISIBLE : GONE);
 
                 mLoadingProgress.setVisibility(View.VISIBLE);
-                mLoadingText.setText(R.string.list_footer_loading);
+                mLoadingText.setText(R.string.common_footer_loading);
                 break;
             case TheEnd:
                 setOnClickListener(null);

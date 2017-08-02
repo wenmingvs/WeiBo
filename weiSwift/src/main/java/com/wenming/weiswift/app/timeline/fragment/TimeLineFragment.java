@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.common.widget.CommonLoadMoreView;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineAdapter;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
 import com.wenming.weiswift.utils.ToastUtil;
@@ -75,7 +76,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
         mSwipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new TimeLineAdapter(mContext, new ArrayList<Status>(0));
-        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+        mAdapter.setLoadMoreView(new CommonLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -5,6 +5,9 @@
     <string name="common_loading">正在加载...</string>
     <string name="common_network_not_connected">网络连接断开，请确保网络连接正常</string>
     <string name="common_network_time_out">网络连接超时，请确保网络连接正常</string>
+    <string name="common_footer_loading">正在加载中…</string>
+    <string name="common_footer_fail">加载失败，点击重新加载</string>
+    <string name="common_footer_empty">没有更多内容了</string>
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
     <string name="login_sso_auth_text">客户端授权</string>
@@ -43,8 +46,5 @@
     <string name="header_text">The Header</string>
     <string name="footer_text">The Footer</string>
 
-    <!--footer-->
-    <string name="list_footer_loading">正在加载中…</string>
-    <string name="list_footer_network_error">点击重新加载</string>
-    <string name="list_footer_end">已经到底了</string>
+
 </resources>
