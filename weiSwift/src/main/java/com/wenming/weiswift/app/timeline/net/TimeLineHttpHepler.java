@@ -61,15 +61,13 @@ public class TimeLineHttpHepler {
     }
 
     public static void getTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID,
-                Constants.TIMELINE_DEFALUT_COUNT, Constants.TIMELINE_DEFALUT_PAGE,
-                Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
+        getTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
+                Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 
     public static void getTimeLine(String token, long sinceId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, sinceId,
-                Constants.TIMELINE_DEFALUT_COUNT, Constants.TIMELINE_DEFALUT_PAGE,
-                Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
+        getTimeLine(token, sinceId, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
+                Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 
 }

@@ -28,15 +28,13 @@ public class OriginPresenter extends BaseTimeLinePresenter implements OriginCont
     }
 
     private void setImgList() {
-        ArrayList<String> imageDatas = mDataModel.bmiddle_pic_urls;
-        if (imageDatas == null || imageDatas.size() == 0) {
+        ArrayList<String> imgList = mDataModel.bmiddle_pic_urls;
+        if (imgList == null || imgList.size() == 0) {
             mView.setImgListVisible(false);
-            return;
-        }
-        if (!mView.isImgListVisble()) {
+        } else {
             mView.setImgListVisible(true);
+            mView.setImgListContent(mDataModel);
         }
-        mView.setImgListContent(mDataModel);
     }
 
     private void setText() {

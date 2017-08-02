@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.common.entity.Status;
@@ -64,9 +65,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     private void initView() {
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new TimeLineAdapter(mContext, new ArrayList<Status>(0));
         mRecyclerView.setAdapter(mAdapter);
@@ -76,9 +75,15 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresent.requestTimeLine(mAdapter.getData());
+                mPresent.refreshTimeLine(mAdapter.getData());
             }
         });
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                mPresent.loadMoreTimeLine(mAdapter.getData());
+            }
+        },mRecyclerView);
     }
 
     @Override
@@ -93,12 +98,12 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void addHeaderTimeLine(List<Status> timeLineList) {
-        mAdapter.addData(timeLineList);
+        mAdapter.addData(0, timeLineList);
     }
 
     @Override
     public void addLastTimeLine(List<Status> timeLineList) {
-
+        mAdapter.addData(timeLineList);
     }
 
     @Override
@@ -156,5 +161,10 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     @Override
     public void loadMoreEnd() {
         mAdapter.loadMoreEnd();
+    }
+
+    @Override
+    public void scrollToTop() {
+        mRecyclerView.scrollToPosition(0);
     }
 }

@@ -2,6 +2,12 @@
 <resources>
     <color name="pink_for_text">#ff2f65</color>
 
+    <!--loading-->
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="holo_orange_light">#ffffbb33</color>
+    <color name="holo_red_light">#ffff4444</color>
+
     <!--分组-->
     <color name="group_tabTextColor">@color/fifty_per_trans_white</color>
     <color name="group_tabSelectedTextColor">#FFFFFF</color>

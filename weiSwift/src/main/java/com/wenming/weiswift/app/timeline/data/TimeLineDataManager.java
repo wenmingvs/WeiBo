@@ -26,7 +26,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void requestLatestTimeLine(String accessToken, final TimeLinePullToRefreshCallBack callBack) {
+    public void refreshTimeLine(String accessToken, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
@@ -47,7 +47,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void requestLatestTimeLineBySinceId(String accessToken, String sinceId, final TimeLinePullToRefreshCallBack callBack) {
+    public void refreshTimeLine(String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
@@ -67,7 +67,28 @@ public class TimeLineDataManager implements TimeLineDataSource {
         });
     }
 
-    private void pullToRefreshSuccess(String response, TimeLinePullToRefreshCallBack callBack) {
+    @Override
+    public void loadMoreTimeLine(String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
+        if (!NetUtil.isConnected(mContext)) {
+            callBack.onNetWorkNotConnected();
+            return;
+        }
+        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), mRequestTag, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pullToRefreshSuccess(response, callBack);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
+            }
+        });
+    }
+
+    private void pullToRefreshSuccess(String response, RefreshTimeLineCallBack callBack) {
         StatusList statusList = StatusList.parse(response);
         ArrayList<Status> timeLineList = statusList.statuses;
         if (timeLineList != null && timeLineList.size() > 0) {

@@ -10,11 +10,13 @@ import java.util.List;
 
 public interface TimeLineDataSource {
 
-    void requestLatestTimeLine(String accessToken, TimeLinePullToRefreshCallBack callBack);
+    void refreshTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
 
-    void requestLatestTimeLineBySinceId(String accessToken, String sinceId, TimeLinePullToRefreshCallBack callBack);
-    
-    interface TimeLinePullToRefreshCallBack {
+    void refreshTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
+
+    void loadMoreTimeLine(String accessToken, String sinceId, LoadMoreTimeLineCallBack callBack);
+
+    interface RefreshTimeLineCallBack {
         void onSuccess(List<Status> statusList);
 
         void onPullToRefreshEmpty();
@@ -26,7 +28,7 @@ public interface TimeLineDataSource {
         void onTimeOut();
     }
 
-    interface TimeLineLoadMoreCallBack {
+    interface LoadMoreTimeLineCallBack {
         void onSuccess(List<Status> statusList);
 
         void onLoadMoreEmpty();

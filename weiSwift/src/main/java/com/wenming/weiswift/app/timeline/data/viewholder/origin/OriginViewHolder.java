@@ -38,10 +38,6 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
         super.initView();
     }
 
-    private void initImgList() {
-
-    }
-
     @Override
     protected void initListener() {
         super.initListener();
@@ -85,11 +81,7 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
 
     @Override
     public boolean isImgListVisble() {
-        if (mImgListRlv.getVisibility() == View.GONE || mImgListRlv.getVisibility() == View.INVISIBLE) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(mImgListRlv.getVisibility() == View.GONE || mImgListRlv.getVisibility() == View.INVISIBLE);
     }
 
     @Override

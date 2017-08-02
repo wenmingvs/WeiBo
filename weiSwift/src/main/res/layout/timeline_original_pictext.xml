@@ -32,11 +32,6 @@
         android:layout_marginRight="6dp"
         android:paddingBottom="10dp" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e5e5e5" />
-
     <include layout="@layout/common_status_bottombar" />
 </LinearLayout>
 

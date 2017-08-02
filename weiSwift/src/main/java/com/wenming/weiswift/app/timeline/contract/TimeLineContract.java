@@ -35,17 +35,19 @@ public interface TimeLineContract {
         void loadMoreFail();
 
         void loadMoreEnd();
+
+        void scrollToTop();
     }
 
     interface Presenter extends BasePresenter {
         /**
          * 首次请求
          */
-        void requestTimeLine(List<Status> timeLineList);
+        void refreshTimeLine(List<Status> timeLineList);
 
         /**
          * 加载更多
          */
-        void requestMoreTimeLine(List<Status> timeLineList);
+        void loadMoreTimeLine(List<Status> timeLineList);
     }
 }

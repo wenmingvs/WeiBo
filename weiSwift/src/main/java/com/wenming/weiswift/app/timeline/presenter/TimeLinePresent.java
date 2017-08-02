@@ -5,6 +5,7 @@ import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
 import com.wenming.weiswift.app.timeline.data.TimeLineDataSource;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -27,79 +28,169 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     @Override
-    public void requestTimeLine(List<Status> timeLineList) {
+    public void refreshTimeLine(List<Status> timeLineList) {
+        //请求最新的微博
         if (timeLineList == null || timeLineList.size() == 0) {
             requestLatestTimeLine();
-        } else {
+        }
+        //请求当前第一条微博更早的微博
+        else {
             requestTimeLineBySinceId(timeLineList.get(0).id);
         }
     }
 
     @Override
-    public void requestMoreTimeLine(List<Status> timeLineList) {
-
+    public void loadMoreTimeLine(List<Status> timeLineList) {
+        mDataModel.loadMoreTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
     }
 
     private void requestLatestTimeLine() {
-        mDataModel.requestLatestTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new TimeLineDataSource.TimeLinePullToRefreshCallBack() {
-            @Override
-            public void onSuccess(List<Status> statusList) {
-                mView.dismissLoading();
-                mView.addHeaderTimeLine(statusList);
-            }
-
-            @Override
-            public void onPullToRefreshEmpty() {
-                mView.dismissLoading();
-                mView.showPullToRefreshEmpty();
-            }
-
-            @Override
-            public void onFail(String error) {
-                mView.dismissLoading();
-                mView.showServerMessage(error);
-            }
-
-            @Override
-            public void onNetWorkNotConnected() {
-                mView.dismissLoading();
-                mView.showNetWorkNotConnected();
-            }
-
-            @Override
-            public void onTimeOut() {
-                mView.dismissLoading();
-                mView.showTimeOut();
-            }
-        });
+        mDataModel.refreshTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
     }
 
     private void requestTimeLineBySinceId(String sinceId) {
-        mDataModel.requestLatestTimeLineBySinceId(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new TimeLineDataSource.TimeLinePullToRefreshCallBack() {
-            @Override
-            public void onSuccess(List<Status> statusList) {
+        mDataModel.refreshTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
+    }
 
+    private static class RefreshTimeLineCallBack implements TimeLineDataSource.RefreshTimeLineCallBack {
+        private WeakReference<TimeLinePresent> mPresenterRef;
+
+        RefreshTimeLineCallBack(TimeLinePresent timeLinePresent) {
+            this.mPresenterRef = new WeakReference<>(timeLinePresent);
+        }
+
+        @Override
+        public void onSuccess(List<Status> statusList) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshSuccess(statusList);
             }
+        }
 
-            @Override
-            public void onPullToRefreshEmpty() {
-
+        @Override
+        public void onPullToRefreshEmpty() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshEmpty();
             }
+        }
 
-            @Override
-            public void onFail(String error) {
-
+        @Override
+        public void onFail(String error) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshFail(error);
             }
+        }
 
-            @Override
-            public void onNetWorkNotConnected() {
-
+        @Override
+        public void onNetWorkNotConnected() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshNetWorkNotConnected();
             }
+        }
 
-            @Override
-            public void onTimeOut() {
-
+        @Override
+        public void onTimeOut() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshTimeOut();
             }
-        });
+        }
+    }
+
+    private void onRefreshTimeOut() {
+        mView.dismissLoading();
+        mView.showTimeOut();
+    }
+
+    private void onRefreshNetWorkNotConnected() {
+        mView.dismissLoading();
+        mView.showNetWorkNotConnected();
+    }
+
+    private void onRefreshFail(String error) {
+        mView.dismissLoading();
+        mView.showServerMessage(error);
+    }
+
+    private void onRefreshEmpty() {
+        mView.dismissLoading();
+        mView.showPullToRefreshEmpty();
+    }
+
+    private void onRefreshSuccess(List<Status> statusList) {
+        mView.dismissLoading();
+        mView.addHeaderTimeLine(statusList);
+        mView.scrollToTop();
+    }
+
+    private class LoadMoreTimeLineCallBack implements TimeLineDataSource.LoadMoreTimeLineCallBack {
+        private WeakReference<TimeLinePresent> mPresenterRef;
+
+        LoadMoreTimeLineCallBack(TimeLinePresent timeLinePresent) {
+            this.mPresenterRef = new WeakReference<>(timeLinePresent);
+        }
+
+        @Override
+        public void onSuccess(List<Status> statusList) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onLoadMoreSuccess();
+            }
+        }
+
+        @Override
+        public void onLoadMoreEmpty() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onLoadMoreEmpty();
+            }
+        }
+
+        @Override
+        public void onFail(String error) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onLoadMoreFail();
+            }
+        }
+
+        @Override
+        public void onNetWorkNotConnected() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onLoadMoreNetWorkNotConnected();
+            }
+        }
+
+        @Override
+        public void onTimeOut() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onLoadMoreTimeOut();
+            }
+        }
+    }
+
+    private void onLoadMoreTimeOut() {
+
+    }
+
+    private void onLoadMoreNetWorkNotConnected() {
+
+    }
+
+    private void onLoadMoreFail() {
+
+    }
+
+    private void onLoadMoreEmpty() {
+
+    }
+
+    private void onLoadMoreSuccess() {
+
     }
 }
