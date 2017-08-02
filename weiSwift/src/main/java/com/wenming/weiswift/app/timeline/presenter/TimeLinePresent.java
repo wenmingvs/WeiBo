@@ -12,9 +12,9 @@ import java.util.List;
  * Created by wenmingvs on 16/5/14.
  */
 public class TimeLinePresent implements TimeLineContract.Presenter {
-
     private TimeLineContract.View mView;
     private TimeLineDataSource mDataModel;
+    private long mGourpId;
 
     public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel) {
         this.mView = view;
@@ -102,7 +102,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     private void onRefreshTimeOut() {
         mView.dismissLoading();
-        mView.showTimeOut();
+        mView.showNetWorkTimeOut();
     }
 
     private void onRefreshNetWorkNotConnected() {
@@ -134,10 +134,10 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         }
 
         @Override
-        public void onSuccess(List<Status> statusList) {
+        public void onLoadMoreSuccess(List<Status> statusList) {
             TimeLinePresent presenter = mPresenterRef.get();
             if (null != presenter) {
-                presenter.onLoadMoreSuccess();
+                presenter.onLoadMoreSuccess(statusList);
             }
         }
 
@@ -153,7 +153,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         public void onFail(String error) {
             TimeLinePresent presenter = mPresenterRef.get();
             if (null != presenter) {
-                presenter.onLoadMoreFail();
+                presenter.onLoadMoreFail(error);
             }
         }
 
@@ -175,22 +175,22 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     private void onLoadMoreTimeOut() {
-
+        mView.showNetWorkTimeOut();
     }
 
     private void onLoadMoreNetWorkNotConnected() {
-
+        mView.showNetWorkNotConnected();
     }
 
-    private void onLoadMoreFail() {
-
+    private void onLoadMoreFail(String error) {
+        mView.showServerMessage(error);
     }
 
     private void onLoadMoreEmpty() {
 
     }
 
-    private void onLoadMoreSuccess() {
-
+    private void onLoadMoreSuccess(List<Status> statusList) {
+        mView.addLastTimeLine(statusList);
     }
 }

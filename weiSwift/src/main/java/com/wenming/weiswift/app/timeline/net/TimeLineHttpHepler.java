@@ -44,7 +44,7 @@ public class TimeLineHttpHepler {
             params.put("since_id", String.valueOf(sinceId));
         }
         if (maxId != 0) {
-            params.put("max_id", String.valueOf(sinceId));
+            params.put("max_id", String.valueOf(maxId));
         }
         if (count != 0) {
             params.put("count", String.valueOf(count));
@@ -65,9 +65,8 @@ public class TimeLineHttpHepler {
                 Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 
-    public static void getTimeLine(String token, long sinceId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getTimeLine(token, sinceId, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
+    public static void getTimeLine(String token, long sinceId, long maxId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        getTimeLine(token, sinceId, maxId, Constants.TIMELINE_DEFALUT_COUNT,
                 Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
-
 }

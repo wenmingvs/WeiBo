@@ -14,7 +14,7 @@ public interface TimeLineDataSource {
 
     void refreshTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
 
-    void loadMoreTimeLine(String accessToken, String sinceId, LoadMoreTimeLineCallBack callBack);
+    void loadMoreTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
 
     interface RefreshTimeLineCallBack {
         void onSuccess(List<Status> statusList);
@@ -29,7 +29,7 @@ public interface TimeLineDataSource {
     }
 
     interface LoadMoreTimeLineCallBack {
-        void onSuccess(List<Status> statusList);
+        void onLoadMoreSuccess(List<Status> statusList);
 
         void onLoadMoreEmpty();
 

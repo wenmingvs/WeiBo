@@ -28,7 +28,7 @@ public interface TimeLineContract {
 
         void showNetWorkNotConnected();
 
-        void showTimeOut();
+        void showNetWorkTimeOut();
 
         void loadMoreComplete();
 
@@ -37,6 +37,8 @@ public interface TimeLineContract {
         void loadMoreEnd();
 
         void scrollToTop();
+
+        void showNewWeiboCount(int num);
     }
 
     interface Presenter extends BasePresenter {

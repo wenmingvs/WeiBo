@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wenming.weiswift.R;
@@ -144,7 +147,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     @Override
-    public void showTimeOut() {
+    public void showNetWorkTimeOut() {
         ToastUtil.showShort(mContext, R.string.common_network_time_out);
     }
 
@@ -166,5 +169,30 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     @Override
     public void scrollToTop() {
         mRecyclerView.scrollToPosition(0);
+    }
+
+    @Override
+    public void showNewWeiboCount(final int num) {
+        Animation animation = new AlphaAnimation(0.5f, 1.0f);
+        animation.setDuration(2000);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mToastTv.setVisibility(View.VISIBLE);
+                mToastTv.setText(num + "条新微博");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mToastTv.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mToastBg.startAnimation(animation);
     }
 }

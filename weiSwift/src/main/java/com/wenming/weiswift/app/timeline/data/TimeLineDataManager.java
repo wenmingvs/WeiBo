@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
+import com.wenming.weiswift.app.timeline.constants.Constants;
 import com.wenming.weiswift.app.timeline.net.TimeLineHttpHepler;
 import com.wenming.weiswift.utils.NetUtil;
 
@@ -34,7 +35,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
         TimeLineHttpHepler.getTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pullToRefreshSuccess(response, callBack);
+                handleRefreshResult(response, callBack);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -52,10 +53,10 @@ public class TimeLineDataManager implements TimeLineDataSource {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pullToRefreshSuccess(response, callBack);
+                handleRefreshResult(response, callBack);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -68,15 +69,15 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void loadMoreTimeLine(String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
+    public void loadMoreTimeLine(String accessToken, String maxId, final LoadMoreTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getTimeLine(accessToken, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pullToRefreshSuccess(response, callBack);
+                handleLoadMoreResult(response, callBack);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -88,13 +89,23 @@ public class TimeLineDataManager implements TimeLineDataSource {
         });
     }
 
-    private void pullToRefreshSuccess(String response, RefreshTimeLineCallBack callBack) {
+    private void handleRefreshResult(String response, RefreshTimeLineCallBack callBack) {
         StatusList statusList = StatusList.parse(response);
         ArrayList<Status> timeLineList = statusList.statuses;
         if (timeLineList != null && timeLineList.size() > 0) {
             callBack.onSuccess(timeLineList);
         } else {
             callBack.onPullToRefreshEmpty();
+        }
+    }
+
+    private void handleLoadMoreResult(String response, LoadMoreTimeLineCallBack callBack) {
+        StatusList statusList = StatusList.parse(response);
+        ArrayList<Status> timeLineList = statusList.statuses;
+        if (timeLineList != null && timeLineList.size() > 0) {
+            callBack.onLoadMoreSuccess(timeLineList);
+        } else {
+            callBack.onLoadMoreEmpty();
         }
     }
 
