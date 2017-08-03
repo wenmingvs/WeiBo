@@ -22,6 +22,7 @@ import com.wenming.weiswift.app.common.widget.CommonLoadMoreView;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineAdapter;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
 import com.wenming.weiswift.utils.ToastUtil;
+import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +96,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
                 mPresent.loadMoreTimeLine(mTimeLineAdapter.getData());
             }
         }, mTimeLineRlv);
+        mTimeLineRlv.setOnScrollListener(mOnScrollListener);
     }
 
     @Override
@@ -208,4 +210,35 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
         mCountTv.startAnimation(animation);
         mCountLl.startAnimation(animation);
     }
+
+    /**
+     * 监听滑动状态，滑动过程中做以下操作
+     * 1. 停止加载图片
+     * 2. 手指向上滑动隐藏底部导航栏,向下滑超过个像素显示底部导航栏
+     */
+    public EndlessRecyclerOnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            //手指向上滑动
+            if (mScrolledDistance > sHideThreshold && mControlsVisible) {
+                if (mOnBottonBarListener != null) {
+                    mOnBottonBarListener.hideButtonBar();
+                }
+                mControlsVisible = false;
+                mScrolledDistance = 0;
+            }
+            //手指向下滑动
+            else if (mScrolledDistance < -SHOW_THRESHOLD && !mControlsVisible) {
+                if (mOnBottonBarListener != null) {
+                    mOnBottonBarListener.showButtonBar();
+                }
+                mControlsVisible = true;
+                mScrolledDistance = 0;
+            }
+            if ((mControlsVisible && dy > 0) || (!mControlsVisible && dy < 0)) {
+                mScrolledDistance += dy;
+            }
+        }
+    };
 }
