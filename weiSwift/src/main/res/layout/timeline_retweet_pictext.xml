@@ -45,13 +45,19 @@
             android:textColor="@color/home_retweet_weiboitem_font"
             android:textSize="@dimen/home_retweet_weiboitem_font" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/timeline_retweet_content_img_rlv"
+        <com.wenming.weiswift.app.common.widget.FixClickListenerRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp" />
+            android:gravity="center">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/timeline_retweet_content_img_rlv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp" />
+
+        </com.wenming.weiswift.app.common.widget.FixClickListenerRelativeLayout>
     </LinearLayout>
 
     <include layout="@layout/common_status_bottombar" />
