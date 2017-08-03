@@ -22,7 +22,6 @@ import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.widget.CommonLoadMoreView;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineAdapter;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
-import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -40,15 +39,6 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     private LinearLayout mCountLl;
     private TimeLineContract.Presenter mPresent;
     /**
-     * 顶部导航栏
-     */
-    private LinearLayout mTopBar;
-
-    /**
-     * 手指滑动距离多少个像素点的距离，才隐藏bar
-     */
-    private static int sHideThreshold;
-    /**
      * 记录手指滑动的距离
      */
     private int mScrolledDistance = 0;
@@ -56,8 +46,6 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
      * 记录bar是否显示或者隐藏
      */
     private boolean mControlsVisible = true;
-
-    private static final int SHOW_THRESHOLD = 80;
 
     public TimeLineFragment() {
     }
@@ -91,7 +79,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     private void initData() {
-        sHideThreshold = DensityUtil.dp2px(mContext, 20);
+
     }
 
     private void initView() {
@@ -191,7 +179,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void scrollToTop() {
-        mTimeLineRlv.smoothScrollToPosition(0);
+        mTimeLineRlv.scrollToPosition(0);
     }
 
     public boolean isOnFirstCompletelyVisibleItemPosition() {
@@ -241,13 +229,13 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             //手指向上滑动
-            if (mScrolledDistance > sHideThreshold && mControlsVisible) {
+            if (mScrolledDistance > BottomBarManager.HIDE_THRESHOLD && mControlsVisible) {
                 BottomBarManager.getInstance().hideBottomBar();
                 mControlsVisible = false;
                 mScrolledDistance = 0;
             }
             //手指向下滑动
-            else if (mScrolledDistance < -SHOW_THRESHOLD && !mControlsVisible) {
+            else if (mScrolledDistance < -BottomBarManager.SHOW_THRESHOLD && !mControlsVisible) {
                 BottomBarManager.getInstance().showBottomBar();
                 mControlsVisible = true;
                 mScrolledDistance = 0;
