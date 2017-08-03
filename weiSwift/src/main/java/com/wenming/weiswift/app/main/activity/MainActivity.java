@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.wenming.library.LogReport;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.BarManager;
+import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.MyApplication;
 import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
@@ -46,7 +46,6 @@ public class MainActivity extends BaseAppCompatActivity {
     private ImageView mPostTabIv;
     private LinearLayout mButtonBarLl;
     private FragmentTransaction mTransaction;
-    private BarManager mBarManager;
 
     private String mCurrentIndex;
 
@@ -66,6 +65,12 @@ public class MainActivity extends BaseAppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BottomBarManager.getInstance().release();
+    }
+
     private void prepareView() {
         mHomeTabRl = (RelativeLayout) findViewById(R.id.tv_home);
         mMessageTabRl = (RelativeLayout) findViewById(R.id.tv_message);
@@ -73,7 +78,6 @@ public class MainActivity extends BaseAppCompatActivity {
         mMySelfTabRl = (RelativeLayout) findViewById(R.id.tv_profile);
         mPostTabIv = (ImageView) findViewById(R.id.fl_post);
         mButtonBarLl = (LinearLayout) findViewById(R.id.buttonBarId);
-
     }
 
     private void initData() {
@@ -83,8 +87,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private void initView() {
         LogReport.getInstance().upload(mContext);
         DebugTool.showEnvironment(mContext);
-        mBarManager = new BarManager();
-        mBarManager.showBottomBar(mButtonBarLl);
+        BottomBarManager.getInstance().setBottomView(mButtonBarLl);
         mFragmentManager = getSupportFragmentManager();
         initStatusBar();
     }
@@ -138,6 +141,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 setTabFragment(TAB_PROFILE_FRAGMENT);
             }
         });
+
     }
 
     /**
@@ -258,10 +262,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * @param tabName 需要切换到的具体页面
      */
     private void setTabFragment(String tabName) {
-        if (mHomeFragment != null) {
-            mBarManager.showBottomBar(mButtonBarLl);
-        }
-
         if (!tabName.equals(mCurrentIndex)) {
             switchToFragment(tabName);
         } else {
@@ -276,7 +276,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 3. 对于发现fragment，执行：无
      * 4. 对于关于我fragment，执行：无
      *
-     * @param currentIndex
      */
     private void alreadyAtFragment(String currentIndex) {
         //如果在当前页
@@ -298,8 +297,6 @@ public class MainActivity extends BaseAppCompatActivity {
 
     /**
      * 隐藏所有的fragment，并且取消所有的底部导航栏的icon的高亮状态
-     *
-     * @param transaction
      */
     private void hideAllFragments(FragmentTransaction transaction) {
         if (mHomeFragment != null) {

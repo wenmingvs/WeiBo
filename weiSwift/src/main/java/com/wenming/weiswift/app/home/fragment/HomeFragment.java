@@ -119,7 +119,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         if (currentFragment == null){
             return;
         }
-        if (currentFragment != null && currentFragment.isOnFirstCompletelyVisibleItemPosition()) {
+        if (currentFragment.isOnFirstCompletelyVisibleItemPosition()) {
             currentFragment.refreshTimeLine();
         }else {
             currentFragment.scrollToTop();
