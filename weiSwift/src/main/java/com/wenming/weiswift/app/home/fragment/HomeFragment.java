@@ -113,4 +113,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void showNoneNetWork() {
         ToastUtil.showShort(mContext, R.string.common_network_not_connected);
     }
+
+    public void scrollToTop() {
+        TimeLineFragment currentFragment = mGroupAdapter.getCurrentFragment();
+        if (currentFragment == null){
+            return;
+        }
+        if (currentFragment != null && currentFragment.isOnFirstCompletelyVisibleItemPosition()) {
+            currentFragment.refreshTimeLine();
+        }else {
+            currentFragment.scrollToTop();
+        }
+    }
 }

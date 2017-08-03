@@ -282,9 +282,9 @@ public class MainActivity extends BaseAppCompatActivity {
         //如果在当前页
         switch (currentIndex) {
             case TAB_HOME_FRAGMENT:
-//                if (mHomeFragment != null) {
-//                    mHomeFragment.scrollToTop(true);
-//                }
+                if (mHomeFragment != null) {
+                    mHomeFragment.scrollToTop();
+                }
                 break;
             case TAB_MESSAGE_FRAGMENT:
                 break;

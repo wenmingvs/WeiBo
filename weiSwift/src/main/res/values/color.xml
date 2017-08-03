@@ -12,8 +12,6 @@
     <color name="group_tabTextColor">@color/fifty_per_trans_white</color>
     <color name="group_tabSelectedTextColor">#FFFFFF</color>
 
-
-
     <color name="windowBackground">#f2f2f2</color><!--window的背景样式-->
     <!-- TopBar 一系列颜色 -->
     <color name="topbar_bg">#FFFFFF</color><!--顶部Bar的背景样式-->

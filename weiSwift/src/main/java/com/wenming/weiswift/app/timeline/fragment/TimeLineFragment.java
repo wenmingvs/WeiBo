@@ -30,9 +30,10 @@ import java.util.List;
  * Created by wenmingvs on 16/4/27.
  */
 public class TimeLineFragment extends BaseFragment implements TimeLineContract.View {
-    public RecyclerView mRecyclerView;
-    public TimeLineAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    public RecyclerView mTimeLineRlv;
+    public TimeLineAdapter mTimeLineAdapter;
+    private LinearLayoutManager mTimeLineLlManager;
     private TextView mCountTv;
     private LinearLayout mCountLl;
     private TimeLineContract.Presenter mPresent;
@@ -63,7 +64,7 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     private void prepareView() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.timeline_refresh_srl);
-        mRecyclerView = (RecyclerView) findViewById(R.id.timeline_rlv);
+        mTimeLineRlv = (RecyclerView) findViewById(R.id.timeline_rlv);
         mCountLl = (LinearLayout) findViewById(R.id.timeline_new_status_ll);
         mCountTv = (TextView) findViewById(R.id.timeline_new_status_tv);
     }
@@ -74,26 +75,26 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     private void initView() {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new TimeLineAdapter(mContext, new ArrayList<Status>(0));
-        mAdapter.setLoadMoreView(new CommonLoadMoreView());
-        mRecyclerView.setAdapter(mAdapter);
+        mTimeLineLlManager = new LinearLayoutManager(mContext);
+        mTimeLineRlv.setLayoutManager(mTimeLineLlManager);
+        mTimeLineAdapter = new TimeLineAdapter(mContext, new ArrayList<Status>(0));
+        mTimeLineAdapter.setLoadMoreView(new CommonLoadMoreView());
+        mTimeLineRlv.setAdapter(mTimeLineAdapter);
     }
 
     private void initListener() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresent.refreshTimeLine(mAdapter.getData());
+                refreshTimeLine();
             }
         });
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        mTimeLineAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                mSwipeRefreshLayout.setEnabled(false);
-                mPresent.loadMoreTimeLine(mAdapter.getData());
+                mPresent.loadMoreTimeLine(mTimeLineAdapter.getData());
             }
-        },mRecyclerView);
+        }, mTimeLineRlv);
     }
 
     @Override
@@ -103,17 +104,17 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void setTimeLineList(List<Status> timeLineList) {
-        mAdapter.setNewData(timeLineList);
+        mTimeLineAdapter.setNewData(timeLineList);
     }
 
     @Override
     public void addHeaderTimeLine(List<Status> timeLineList) {
-        mAdapter.addData(0, timeLineList);
+        mTimeLineAdapter.addData(0, timeLineList);
     }
 
     @Override
     public void addLastTimeLine(List<Status> timeLineList) {
-        mAdapter.addData(timeLineList);
+        mTimeLineAdapter.addData(timeLineList);
     }
 
     @Override
@@ -153,22 +154,31 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
 
     @Override
     public void loadMoreComplete() {
-        mAdapter.loadMoreComplete();
+        mTimeLineAdapter.loadMoreComplete();
     }
 
     @Override
     public void loadMoreFail() {
-        mAdapter.loadMoreFail();
+        mTimeLineAdapter.loadMoreFail();
     }
 
     @Override
     public void loadMoreEnd() {
-        mAdapter.loadMoreEnd();
+        mTimeLineAdapter.loadMoreEnd();
     }
 
     @Override
     public void scrollToTop() {
-        mRecyclerView.scrollToPosition(0);
+        mTimeLineRlv.smoothScrollToPosition(0);
+    }
+
+    public boolean isOnFirstCompletelyVisibleItemPosition() {
+        return mTimeLineLlManager.findFirstCompletelyVisibleItemPosition() == 0;
+    }
+
+    public void refreshTimeLine() {
+        showLoading();
+        mPresent.refreshTimeLine(mTimeLineAdapter.getData());
     }
 
     @Override
