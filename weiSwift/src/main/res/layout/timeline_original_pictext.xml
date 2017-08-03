@@ -24,20 +24,13 @@
         android:textColor="@color/home_original_weiboitem_font"
         android:textSize="@dimen/home_original_weiboitem_font" />
 
-    <com.wenming.weiswift.app.common.widget.FixClickListenerRelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/timeline_origin_pictext_rlv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/timeline_origin_pictext_rlv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:paddingBottom="10dp" />
-
-    </com.wenming.weiswift.app.common.widget.FixClickListenerRelativeLayout>
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:paddingBottom="10dp" />
     <include layout="@layout/common_status_bottombar" />
 </LinearLayout>
 

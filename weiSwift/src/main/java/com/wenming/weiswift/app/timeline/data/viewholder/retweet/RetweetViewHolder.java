@@ -107,6 +107,7 @@ public class RetweetViewHolder extends BaseTimeLineViewHolder implements Retweet
         mOriginImgRlv.setHasFixedSize(true);
         mOriginImgRlv.setAdapter(mImgAdapter);
         mOriginImgRlv.setLayoutManager(gridLayoutManager);
+        mOriginImgRlv.setNestedScrollingEnabled(false);
     }
 
     @Override

@@ -40,11 +40,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="35dp"
                 android:drawableLeft="@drawable/weibo_icon"
-                android:drawablePadding="20dp"
+                android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="@string/login_sso_auth_text"
                 android:textColor="#666666"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:theme="@style/LoginButton" />
 
             <Button
@@ -52,11 +52,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/weibo_icon"
-                android:drawablePadding="20dp"
+                android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="@string/login_web_auth_text"
                 android:textColor="#666666"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:theme="@style/LoginButton" />
 
         </LinearLayout>

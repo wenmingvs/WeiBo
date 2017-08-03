@@ -13,6 +13,7 @@ import com.wenming.weiswift.utils.NetUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -54,7 +55,17 @@ public class HomeDataManager implements HomeDataSource {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callBack.onTimeOut();
+                if (error == null || error.networkResponse == null) {
+                    callBack.onTimeOut();
+                }
+                String body = null;
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                callBack.onFail(body);
             }
         });
     }

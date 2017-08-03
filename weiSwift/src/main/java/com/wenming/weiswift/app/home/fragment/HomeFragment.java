@@ -114,7 +114,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     @Override
-    public void showServerMessage(String text) {
+    public void showServerMessage(final String text) {
         ToastUtil.showShort(mContext, text);
     }
 

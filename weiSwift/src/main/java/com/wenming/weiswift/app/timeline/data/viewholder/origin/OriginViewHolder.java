@@ -68,6 +68,7 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
         mImgListRlv.setAdapter(mImgAdapter);
         mImgListRlv.setLayoutManager(gridLayoutManager);
         mImgAdapter.setData(status);
+        mImgListRlv.setNestedScrollingEnabled(false);
     }
 
     @Override
