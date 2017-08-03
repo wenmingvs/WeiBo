@@ -10,11 +10,17 @@ import java.util.List;
 
 public interface TimeLineDataSource {
 
-    void refreshTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
+    void refreshDefaultTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
 
-    void refreshTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshDefaultTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
 
-    void loadMoreTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
+    void loadMoreDefaultTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
+
+    void refreshGroupTimeLine(String accessToken, long groupId, RefreshTimeLineCallBack callBack);
+
+    void refreshGroupTimeLine(String accessToken, long groupId, String sinceId, RefreshTimeLineCallBack callBack);
+
+    void loadMoreGroupTimeLine(String accessToken, long groupId, String maxId, LoadMoreTimeLineCallBack callBack);
 
     interface RefreshTimeLineCallBack {
         void onSuccess(List<Status> statusList);

@@ -98,8 +98,6 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                     .setStatusBarColor(getResources().getColor(R.color.black))
                     .process(this);
         }
-        
-
     }
 
 

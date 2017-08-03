@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.home.adapter.GroupPagerAdapter;
+import com.wenming.weiswift.app.home.constant.Constants;
 import com.wenming.weiswift.app.home.contract.HomeContract;
 import com.wenming.weiswift.app.home.data.entity.Group;
 import com.wenming.weiswift.app.timeline.data.TimeLineDataManager;
@@ -77,12 +78,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private void initView() {
         mActivity.setSupportActionBar(mToolBar);
-        addDefaultFragment();
+        initDefaultFragment();
     }
 
-    private void addDefaultFragment() {
+    private void initDefaultFragment() {
         mGroupAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
-        TimeLineFragment defaultFragment = initTimeLineFragment();
+        TimeLineFragment defaultFragment = initTimeLineFragment(Constants.GROUP_ALL);
         mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
         mGroupVp.setAdapter(mGroupAdapter);
         mGourpTl.setupWithViewPager(mGroupVp);
@@ -99,16 +100,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void setGroupsList(List<Group> groups) {
         if (groups != null && groups.size() > 0) {
             for (int i = 0; i < groups.size(); i++) {
-                TimeLineFragment groupFragment = initTimeLineFragment();
+                TimeLineFragment groupFragment = initTimeLineFragment(Long.valueOf(groups.get(i).id));
                 mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
             }
             mGroupAdapter.notifyDataSetChanged();
         }
     }
 
-    private TimeLineFragment initTimeLineFragment() {
+    private TimeLineFragment initTimeLineFragment(long gourpId) {
         TimeLineFragment timeLineFragment = TimeLineFragment.newInstance();
-        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()), mRefreshAll);
+        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()), mRefreshAll, gourpId);
         return timeLineFragment;
     }
 

@@ -16,14 +16,15 @@ import java.util.List;
 public class TimeLinePresent implements TimeLineContract.Presenter {
     private TimeLineContract.View mView;
     private TimeLineDataSource mDataModel;
-    private long mGourpId;
+    private long mGroupId;
     private boolean mRefreshAll;
 
-    public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel, boolean refreshAll) {
+    public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel, boolean refreshAll, long groupId) {
         this.mView = view;
         this.mDataModel = dataModel;
-        this.mRefreshAll = refreshAll;
         this.mView.setPresenter(this);
+        this.mRefreshAll = refreshAll;
+        this.mGroupId = groupId;
     }
 
     @Override
@@ -56,15 +57,30 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void loadMoreTimeLine(List<Status> timeLineList) {
-        mDataModel.loadMoreTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+        if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
+            mDataModel.loadMoreDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+        } else {
+            mDataModel.loadMoreGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+        }
+
     }
 
     private void requestLatestTimeLine() {
-        mDataModel.refreshTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
+        if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
+            mDataModel.refreshDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
+        } else {
+            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, new RefreshTimeLineCallBack(this));
+        }
+
     }
 
     private void requestTimeLineBySinceId(String sinceId) {
-        mDataModel.refreshTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
+        if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
+            mDataModel.refreshDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
+        } else {
+            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, sinceId, new RefreshTimeLineCallBack(this));
+        }
+
     }
 
     private static class RefreshTimeLineCallBack implements TimeLineDataSource.RefreshTimeLineCallBack {

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.base.BaseFragment;
@@ -83,6 +84,9 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     }
 
     private void initView() {
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         mTimeLineLlManager = new LinearLayoutManager(mContext);
         mTimeLineRlv.setLayoutManager(mTimeLineLlManager);
@@ -242,6 +246,25 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
             }
             if ((mControlsVisible && dy > 0) || (!mControlsVisible && dy < 0)) {
                 mScrolledDistance += dy;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            switch (newState) {
+                //屏幕停止滚动
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    ImageLoader.getInstance().resume();
+                    break;
+                //屏幕滚动且用户使用的触碰或手指还在屏幕上
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    ImageLoader.getInstance().pause();
+                    break;
+                //由于用户的操作，屏幕产生惯性滑动
+                case RecyclerView.SCROLL_STATE_SETTLING:
+                    ImageLoader.getInstance().pause();
+                    break;
             }
         }
     };

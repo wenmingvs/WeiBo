@@ -27,12 +27,12 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void refreshTimeLine(String accessToken, final RefreshTimeLineCallBack callBack) {
+    public void refreshDefaultTimeLine(String accessToken, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getDefaultTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handleRefreshResult(response, callBack);
@@ -48,12 +48,12 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void refreshTimeLine(String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
+    public void refreshDefaultTimeLine(String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getTimeLine(accessToken, Long.valueOf(sinceId), Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getDefaultTimeLine(accessToken, Long.valueOf(sinceId), Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handleRefreshResult(response, callBack);
@@ -69,12 +69,75 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void loadMoreTimeLine(String accessToken, String maxId, final LoadMoreTimeLineCallBack callBack) {
+    public void loadMoreDefaultTimeLine(String accessToken, String maxId, final LoadMoreTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getTimeLine(accessToken, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getDefaultTimeLine(accessToken, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handleLoadMoreResult(response, callBack);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void refreshGroupTimeLine(String accessToken, long groupId, final RefreshTimeLineCallBack callBack) {
+        if (!NetUtil.isConnected(mContext)) {
+            callBack.onNetWorkNotConnected();
+            return;
+        }
+        TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, mRequestTag, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handleRefreshResult(response, callBack);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void refreshGroupTimeLine(String accessToken, long groupId, String sinceId, final RefreshTimeLineCallBack callBack) {
+        if (!NetUtil.isConnected(mContext)) {
+            callBack.onNetWorkNotConnected();
+            return;
+        }
+        TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, mRequestTag, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handleRefreshResult(response, callBack);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (TextUtils.isEmpty(error.getCause().getMessage())) {
+                    callBack.onTimeOut();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadMoreGroupTimeLine(String accessToken, long groupId, String maxId, final LoadMoreTimeLineCallBack callBack) {
+        if (!NetUtil.isConnected(mContext)) {
+            callBack.onNetWorkNotConnected();
+            return;
+        }
+        TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handleLoadMoreResult(response, callBack);

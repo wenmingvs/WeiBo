@@ -20,4 +20,9 @@ public class APIConstants {
      * 获取当前登陆用户好友分组列表
      */
     public static final String GROUPS = API_SERVER + "/friendships/groups.json";
+
+    /**
+     * 获取当前登录用户某一好友分组的微博列表
+     */
+    public static final String GROUPS_TIMELINE = API_SERVER + "/friendships/groups/timeline.json";
 }
