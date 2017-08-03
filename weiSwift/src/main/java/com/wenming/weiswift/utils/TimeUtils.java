@@ -100,7 +100,7 @@ public class TimeUtils {
         return nowYear == msgYear;
     }
 
-    public synchronized long parseTimeString(String created_at) {
+    public static synchronized long parseTimeString(String created_at) {
         try {
             return orig_format.parse(created_at).getTime();
         } catch (Exception e) {

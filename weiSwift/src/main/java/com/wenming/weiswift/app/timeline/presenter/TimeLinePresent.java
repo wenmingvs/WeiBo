@@ -2,8 +2,10 @@ package com.wenming.weiswift.app.timeline.presenter;
 
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.timeline.constants.Constants;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
 import com.wenming.weiswift.app.timeline.data.TimeLineDataSource;
+import com.wenming.weiswift.utils.TimeUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -15,10 +17,12 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     private TimeLineContract.View mView;
     private TimeLineDataSource mDataModel;
     private long mGourpId;
+    private boolean mRefreshAll;
 
-    public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel) {
+    public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel, boolean refreshAll) {
         this.mView = view;
         this.mDataModel = dataModel;
+        this.mRefreshAll = refreshAll;
         this.mView.setPresenter(this);
     }
 
@@ -29,8 +33,19 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void refreshTimeLine(List<Status> timeLineList) {
-        //请求最新的微博
+        boolean haveCacheTimeLine;
+        boolean isTimeOut = false;
         if (timeLineList == null || timeLineList.size() == 0) {
+            haveCacheTimeLine = false;
+        } else {
+            haveCacheTimeLine = true;
+            long timeSpace = System.currentTimeMillis() - TimeUtils.parseTimeString(timeLineList.get(0).created_at);
+            isTimeOut = timeSpace >= Constants.TIME_SPACE;
+        }
+        //1. 外部指定，一定要全量刷新
+        //2. 不存在任何微博缓存，要全量刷新
+        //3. 第一条微博的时间发布超过3分钟，要全量刷新
+        if (mRefreshAll || !haveCacheTimeLine || isTimeOut) {
             requestLatestTimeLine();
         }
         //请求当前第一条微博更早的微博
@@ -123,7 +138,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     private void onRefreshSuccess(List<Status> statusList) {
         mView.dismissLoading();
         mView.showNewWeiboCount(statusList.size());
-        mView.addHeaderTimeLine(statusList);
+        mView.setTimeLineList(statusList);
         mView.scrollToTop();
     }
 

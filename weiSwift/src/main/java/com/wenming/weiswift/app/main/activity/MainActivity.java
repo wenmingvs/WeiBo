@@ -37,6 +37,8 @@ public class MainActivity extends BaseAppCompatActivity {
     private static final String TAB_DISCOVERY_FRAGMENT = "discovery";
     private static final String TAB_PROFILE_FRAGMENT = "profile";
 
+    public static final String EXTRA_REFRESH_ALL = "extra_refresh_all";
+
     private HomeFragment mHomeFragment;
     private MessageFragment mMessageFragment;
     private DiscoverFragment mDiscoverFragment;
@@ -48,6 +50,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private FragmentTransaction mTransaction;
 
     private String mCurrentIndex;
+    private boolean mRefreshAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initData() {
-
+        mRefreshAll = getIntent().getBooleanExtra(EXTRA_REFRESH_ALL, false);
     }
 
     private void initView() {
@@ -200,7 +203,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private void showHomeFragment() {
         mHomeTabRl.setSelected(true);
         if (mHomeFragment == null) {
-            mHomeFragment = HomeFragment.newInstance();
+            mHomeFragment = HomeFragment.newInstance(mRefreshAll);
             new HomePresenter(new HomeDataManager(mContext), mHomeFragment);
             mTransaction.add(R.id.main_content_fl, mHomeFragment, TAB_HOME_FRAGMENT);
         } else {

@@ -33,12 +33,19 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     private AppCompatActivity mActivity;
     private HomeContract.Presenter mPresenter;
     private GroupPagerAdapter mGroupAdapter;
+    private boolean mRefreshAll;
+
+    private static final String ARG_REFRESH_ALL = "arg_refresh_all";
 
     public HomeFragment() {
     }
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    public static HomeFragment newInstance(boolean refreshAll) {
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_REFRESH_ALL, refreshAll);
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +56,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prepareView();
+        initData();
         initView();
         mPresenter.start();
     }
@@ -58,6 +66,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         mToolBar = (Toolbar) findViewById(R.id.main_toolbar);
         mGourpTl = (TabLayout) findViewById(R.id.main_tablayout);
         mGroupVp = (ViewPager) findViewById(R.id.main_groups_vp);
+    }
+
+    private void initData() {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mRefreshAll = arguments.getBoolean(ARG_REFRESH_ALL);
+        }
     }
 
     private void initView() {
@@ -90,7 +105,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private TimeLineFragment initTimeLineFragment() {
         TimeLineFragment timeLineFragment = TimeLineFragment.newInstance();
-        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()));
+        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()), mRefreshAll);
         return timeLineFragment;
     }
 

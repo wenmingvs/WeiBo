@@ -97,6 +97,7 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     @Override
     public void goToMainActivity() {
         Intent intent = new Intent(mContext, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_REFRESH_ALL, true);
         mContext.startActivity(intent);
     }
 
