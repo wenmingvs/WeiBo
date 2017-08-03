@@ -77,6 +77,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private void initView() {
         mActivity.setSupportActionBar(mToolBar);
+        addDefaultFragment();
+    }
+
+    private void addDefaultFragment() {
+        mGroupAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
+        TimeLineFragment defaultFragment = initTimeLineFragment();
+        mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
+        mGroupVp.setAdapter(mGroupAdapter);
+        mGourpTl.setupWithViewPager(mGroupVp);
+        mGroupVp.setCurrentItem(0, false);
+        mGourpTl.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     @Override
@@ -86,21 +97,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void setGroupsList(List<Group> groups) {
-        mGroupAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
-        TimeLineFragment defaultFragment = initTimeLineFragment();
-        mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
         if (groups != null && groups.size() > 0) {
             for (int i = 0; i < groups.size(); i++) {
                 TimeLineFragment groupFragment = initTimeLineFragment();
                 mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
             }
-            mGourpTl.setTabMode(TabLayout.MODE_SCROLLABLE);
-        } else {
-            mGourpTl.setTabMode(TabLayout.GRAVITY_CENTER);
+            mGroupAdapter.notifyDataSetChanged();
         }
-        mGroupVp.setAdapter(mGroupAdapter);
-        mGourpTl.setupWithViewPager(mGroupVp);
-        mGroupVp.setCurrentItem(0, false);
     }
 
     private TimeLineFragment initTimeLineFragment() {
