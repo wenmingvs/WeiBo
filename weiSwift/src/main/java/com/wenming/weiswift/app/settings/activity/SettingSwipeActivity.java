@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.mvp.presenter.SettingActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.SettingActivityPresentImp;
@@ -59,7 +59,7 @@ public class SettingSwipeActivity extends BaseSwipeActivity implements SettingAc
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //mSettingActivityPresent.logout(mContext);
-                                ((MyApplication) getApplication()).finishAll();
+                                ((ApplicationHelper) getApplication()).finishAll();
 
                             }
                         })

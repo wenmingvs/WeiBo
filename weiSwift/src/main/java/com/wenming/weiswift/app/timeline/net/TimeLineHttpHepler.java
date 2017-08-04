@@ -3,7 +3,7 @@ package com.wenming.weiswift.app.timeline.net;
 import android.text.TextUtils;
 
 import com.android.volley.Response;
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 import com.wenming.weiswift.app.common.basenet.HttpManager;
 import com.wenming.weiswift.app.common.constants.APIConstants;
 import com.wenming.weiswift.app.debug.DebugTool;
@@ -35,7 +35,7 @@ public class TimeLineHttpHepler {
     public static void getDefaultTimeLine(String token, long sinceId, long maxId, int count, int page, int feature, boolean trimUser,
                                           Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         if (TextUtils.isEmpty(token)) {
-            DebugTool.showToast(MyApplication.getContext(), "token is empty");
+            DebugTool.showToast(ApplicationHelper.getContext(), "token is empty");
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -77,7 +77,7 @@ public class TimeLineHttpHepler {
     public static void getGroupsTimeLine(String token, long groupId, long sinceId, long maxId, int count, int page, int feature, boolean trimUser,
                                          Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         if (TextUtils.isEmpty(token) || groupId == 0) {
-            DebugTool.showToast(MyApplication.getContext(), "token is empty || gourpId == 0");
+            DebugTool.showToast(ApplicationHelper.getContext(), "token is empty || gourpId == 0");
             return;
         }
         Map<String, String> params = new HashMap<>();

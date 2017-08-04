@@ -2,7 +2,7 @@ package com.wenming.weiswift.app.common.preference;
 
 import android.content.SharedPreferences;
 
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -17,7 +17,7 @@ public class UserPrefences {
     private static final String ACCOUNT_GOURPS = "account_groups";
 
     private static SharedPreferences getSp(long uid) {
-        return MyApplication.getContext().getSharedPreferences(uid + FILE_NAME_SUFFIX, MODE_PRIVATE);
+        return ApplicationHelper.getContext().getSharedPreferences(uid + FILE_NAME_SUFFIX, MODE_PRIVATE);
     }
 
     public static void setUserGroups(long uid, String jsonString) {

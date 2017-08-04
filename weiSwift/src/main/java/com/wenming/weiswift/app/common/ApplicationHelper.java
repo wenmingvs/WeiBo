@@ -29,6 +29,7 @@ import com.wenming.library.LogReport;
 import com.wenming.library.save.imp.CrashWriter;
 import com.wenming.library.upload.email.EmailReporter;
 import com.wenming.weiswift.app.common.basenet.HttpManager;
+import com.wenming.weiswift.app.debug.StrictModeTool;
 import com.wenming.weiswift.app.login.activity.BackgroundActivity;
 import com.wenming.weiswift.utils.LogUtil;
 import com.wenming.weiswift.utils.SharedPreferencesUtil;
@@ -37,9 +38,33 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
+public class ApplicationHelper extends Application implements Application.ActivityLifecycleCallbacks {
     private static Context sContext;
     private List<Activity> mActivityList = new LinkedList<Activity>();
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        registerActivityLifecycleCallbacks(this);
+        //ImageLoader初始化
+        initImageLoader(getApplicationContext());
+        //Volley初始化
+        HttpManager.getInstance().init(this);
+        //StrictModeTool初始化
+        StrictModeTool.enableDefaults();
+
+        initCrashReport();
+        //使用亮色(light)主题，不使用夜间模式
+        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
+        LogUtil.d("setNightMode = " + setNightMode);
+        if (setNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        sContext = getApplicationContext();
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+    }
 
     public static void initImageLoader(Context context) {
         DisplayImageOptions.Builder disBuilder = new DisplayImageOptions.Builder();
@@ -61,26 +86,6 @@ public class MyApplication extends Application implements Application.ActivityLi
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .defaultDisplayImageOptions(displayImageOptions);
         ImageLoader.getInstance().init(config.build());
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        //LeakCanary.install(this);
-        initImageLoader(getApplicationContext());
-        registerActivityLifecycleCallbacks(this);
-        HttpManager.getInstance().init(this);
-        initCrashReport();
-        //使用亮色(light)主题，不使用夜间模式
-        boolean setNightMode = (boolean) SharedPreferencesUtil.get(this, "setNightMode", false);
-        LogUtil.d("setNightMode = " + setNightMode);
-        if (setNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        sContext = getApplicationContext();
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     private void initCrashReport() {

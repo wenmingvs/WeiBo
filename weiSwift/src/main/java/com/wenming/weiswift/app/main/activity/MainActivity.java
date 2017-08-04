@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import com.wenming.library.LogReport;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.BottomBarManager;
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
 import com.wenming.weiswift.app.common.entity.User;
@@ -350,7 +350,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 .setIcon(R.drawable.logo)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MyApplication) getApplication()).finishAll();
+                        ((ApplicationHelper) getApplication()).finishAll();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

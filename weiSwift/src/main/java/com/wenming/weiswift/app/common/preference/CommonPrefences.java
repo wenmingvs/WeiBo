@@ -3,7 +3,7 @@ package com.wenming.weiswift.app.common.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 
 /**
  * Created by wenmingvs on 2017/5/31.
@@ -13,7 +13,7 @@ public class CommonPrefences {
     private static final String FILE_NAME = "common_preference";
 
     private static SharedPreferences getSp() {
-        return MyApplication.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        return ApplicationHelper.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
     private static void setString(String key, String value) {

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.wenming.weiswift.app.common.MyApplication;
+import com.wenming.weiswift.app.common.ApplicationHelper;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.api.UsersAPI;
 import com.wenming.weiswift.app.common.entity.User;
@@ -152,7 +152,7 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setNightMode(String message) {
-        ((MyApplication) mContext.getApplicationContext()).recreateForNightMode();
+        ((ApplicationHelper) mContext.getApplicationContext()).recreateForNightMode();
     }
 
     private void initContent() {
