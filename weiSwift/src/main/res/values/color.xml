@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="pink_for_text">#ff2f65</color>
+    <!--通用-->
+    <color name="common_status_bar_color">#0b5461</color>
 
     <!--loading-->
     <color name="holo_blue_bright">#ff00ddff</color>

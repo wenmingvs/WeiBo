@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.jaeger.library.StatusBarUtil;
 import com.wenming.weiswift.app.utils.ToastUtils;
 
 /**
