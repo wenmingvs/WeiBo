@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include layout="@layout/toolbar_profile" />
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -168,7 +168,124 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/profilefragment_layout_moreline" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/favorities_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="0.5dp"
+                        android:background="@drawable/message_item_auto"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile_11" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="55dp"
+                            android:text="我的收藏"
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="@dimen/home_original_weiboitem_font" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/weibobrowser_goforward_disabled" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/message_item_auto"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile_9" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="55dp"
+                            android:text="我的草稿"
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="@dimen/home_original_weiboitem_font" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/weibobrowser_goforward_disabled" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/settingRl"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/message_item_auto"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile_10" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="55dp"
+                            android:text="设置"
+                            android:textColor="@color/rl_textcolor"
+                            android:textSize="@dimen/home_original_weiboitem_font" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/weibobrowser_goforward_disabled" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
@@ -180,8 +297,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </FrameLayout>
 
 

@@ -2,14 +2,12 @@ package com.wenming.weiswift.app.imgpreview;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.StatusBarUtils;
 import com.wenming.weiswift.app.imgpreview.animation.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
@@ -90,14 +88,6 @@ public class ImageDetailsActivity extends Activity implements ViewPagerAdapter.O
                 SaveImageDialog.showDialog(mDatas.get(mViewPager.getCurrentItem()), mContext);
             }
         });
-
-        //只有小米，或者魅族手机，或者6.0的手机，才适配状态栏
-        if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi") || Build.MANUFACTURER.equalsIgnoreCase("meizu") || Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            StatusBarUtils.from(this)
-                    .setTransparentStatusbar(true)
-                    .setStatusBarColor(getResources().getColor(R.color.black))
-                    .process(this);
-        }
     }
 
 

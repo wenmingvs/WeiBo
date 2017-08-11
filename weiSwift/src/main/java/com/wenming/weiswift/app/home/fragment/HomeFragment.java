@@ -28,6 +28,10 @@ import java.util.List;
  * Created by wenmingvs on 16/4/27.
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View {
+    private static final String ARG_REFRESH_ALL = "arg_refresh_all";
+
+    private static final int CACHE_FRAGMENT_NUM = 6;
+
     private Toolbar mToolBar;
     private TabLayout mGourpTl;
     private ViewPager mGroupVp;
@@ -35,8 +39,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
     private GroupPagerAdapter mGroupAdapter;
     private boolean mRefreshAll;
-
-    private static final String ARG_REFRESH_ALL = "arg_refresh_all";
 
     public HomeFragment() {
     }
@@ -79,6 +81,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     private void initView() {
         mActivity.setSupportActionBar(mToolBar);
         initDefaultFragment();
+        mGroupVp.setOffscreenPageLimit(CACHE_FRAGMENT_NUM);
     }
 
     private void initDefaultFragment() {

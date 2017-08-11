@@ -17,7 +17,6 @@ import com.wenming.weiswift.app.main.activity.MainActivity;
 import com.wenming.weiswift.app.mvp.presenter.WebViewActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.WebViewActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.WebViewActivityView;
-import com.wenming.weiswift.app.startup.activity.SplashActivity;
 
 /**
  * Created by wenmingvs on 16/5/12.
@@ -61,14 +60,7 @@ public class WebViewActivity extends Activity implements WebViewActivityView {
                         if (mWeb.canGoBack()) {
                             mWeb.goBack();
                         } else {
-                            if (!mComeFromAccoutActivity) {
-                                Intent intent = new Intent(mContext, SplashActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                finish();
-                            }
-
+                            finish();
                         }
                         return true;
                     }

@@ -14,9 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.wenming.library.LogReport;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.ApplicationHelper;
-import com.wenming.weiswift.app.common.StatusBarUtils;
+import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
 import com.wenming.weiswift.app.common.entity.User;
 import com.wenming.weiswift.app.common.user.UserManager;
@@ -28,7 +27,6 @@ import com.wenming.weiswift.app.home.presenter.HomePresenter;
 import com.wenming.weiswift.app.login.post.PostSwipeActivity;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
 import com.wenming.weiswift.app.myself.fragment.MySelfFragment;
-import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 
 public class MainActivity extends BaseAppCompatActivity {
@@ -65,6 +63,10 @@ public class MainActivity extends BaseAppCompatActivity {
             restoreFragment(savedInstanceState);
         } else {
             setTabFragment(TAB_HOME_FRAGMENT);
+            setTabFragment(TAB_MESSAGE_FRAGMENT);
+            setTabFragment(TAB_DISCOVERY_FRAGMENT);
+            setTabFragment(TAB_PROFILE_FRAGMENT);
+            switchToFragment(TAB_HOME_FRAGMENT);
         }
     }
 
@@ -92,22 +94,6 @@ public class MainActivity extends BaseAppCompatActivity {
         DebugTool.showEnvironment(mContext);
         BottomBarManager.getInstance().setBottomView(mButtonBarLl);
         mFragmentManager = getSupportFragmentManager();
-        initStatusBar();
-    }
-
-    private void initStatusBar() {
-        if (!(boolean) SharedPreferencesUtil.get(this, "setNightMode", false)) {
-            StatusBarUtils.from(this)
-                    .setTransparentStatusbar(true)
-                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
-                    .setLightStatusBar(true)
-                    .process(this);
-        } else {
-            StatusBarUtils.from(this)
-                    .setTransparentStatusbar(true)
-                    .setStatusBarColor(getResources().getColor(R.color.home_status_bg))
-                    .process(this);
-        }
     }
 
     private void initListener() {

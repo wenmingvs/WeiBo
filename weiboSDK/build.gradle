@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 8
+        minSdkVersion 14
+        targetSdkVersion 22
     }
 
     buildTypes {
@@ -19,5 +19,5 @@ android {
 
 dependencies {
     compile files('libs/weiboSDKCore_3.1.2.jar')
-    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:support-v4:22.2.0'
 }

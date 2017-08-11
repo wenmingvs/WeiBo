@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.User;
-import com.wenming.weiswift.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,7 +27,6 @@ public class BackgroundActivity extends Activity {
     private TextView mStatuses_count;
     private TextView mFriends_count;
     private TextView mFollowers_count;
-    private CheckBox mCheckBox;
     private User mUser;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.avator_default)
@@ -72,10 +69,7 @@ public class BackgroundActivity extends Activity {
         mStatuses_count = (TextView) findViewById(R.id.profile_statuses_count);
         mFollowers_count = (TextView) findViewById(R.id.profile_followers_count);
         mFriends_count = (TextView) findViewById(R.id.profile_friends_count);
-        mCheckBox = (CheckBox) findViewById(R.id.nightMode_cb);
 
-        boolean isNightMode = (boolean) SharedPreferencesUtil.get(mContext, "setNightMode", false);
-        mCheckBox.setChecked(isNightMode);
         ImageLoader.getInstance().displayImage(mUser.avatar_hd, mProfile_myimg, options);
         mProfile_myname.setText(mUser.name);
         mProfile_mydescribe.setText("简介:" + mUser.description);
