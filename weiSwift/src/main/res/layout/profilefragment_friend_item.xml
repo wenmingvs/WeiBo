@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="71dp"
     android:layout_marginBottom="0.5dp"
-    android:background="@drawable/message_item_auto"
+    android:background="@drawable/common_button_bg"
     android:clickable="true"
     android:orientation="horizontal">
 
@@ -64,7 +64,7 @@
         android:id="@+id/friend_layout"
         android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:background="@drawable/message_item_auto"
+        android:background="@drawable/common_button_bg"
         android:gravity="center">
 
         <ImageView

@@ -17,6 +17,11 @@ public class APIConstants {
     public static final String FRIENDS_TIMELINE = API_SERVER + "/statuses/friends_timeline.json";
 
     /**
+     * 根据用户ID获取用户信息
+     */
+    public static final String USER_SHOW = API_SERVER + "/users/show.json";
+
+    /**
      * 获取当前登陆用户好友分组列表
      */
     public static final String GROUPS = API_SERVER + "/friendships/groups.json";

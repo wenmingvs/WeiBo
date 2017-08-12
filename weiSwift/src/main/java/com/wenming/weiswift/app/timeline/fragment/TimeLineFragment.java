@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.base.BaseFragment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.widget.CommonLoadMoreView;
@@ -229,26 +228,6 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
      * 2. 手指向上滑动隐藏底部导航栏,向下滑超过SHOW_THRESHOLD个像素显示底部导航栏
      */
     public RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            //手指向上滑动
-            if (mScrolledDistance > BottomBarManager.HIDE_THRESHOLD && mControlsVisible) {
-                BottomBarManager.getInstance().hideBottomBar();
-                mControlsVisible = false;
-                mScrolledDistance = 0;
-            }
-            //手指向下滑动
-            else if (mScrolledDistance < -BottomBarManager.SHOW_THRESHOLD && !mControlsVisible) {
-                BottomBarManager.getInstance().showBottomBar();
-                mControlsVisible = true;
-                mScrolledDistance = 0;
-            }
-            if ((mControlsVisible && dy > 0) || (!mControlsVisible && dy < 0)) {
-                mScrolledDistance += dy;
-            }
-        }
-
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);

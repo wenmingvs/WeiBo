@@ -43,7 +43,7 @@
         android:id="@+id/favorities_delete"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/message_item_auto"
+        android:background="@drawable/common_button_bg"
         android:gravity="center"
         android:text="删除"
         android:textColor="#929292"

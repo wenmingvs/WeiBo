@@ -62,7 +62,6 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         } else {
             mDataModel.loadMoreGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
         }
-
     }
 
     private void requestLatestTimeLine() {
@@ -71,7 +70,6 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         } else {
             mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, new RefreshTimeLineCallBack(this));
         }
-
     }
 
     private void requestTimeLineBySinceId(String sinceId) {

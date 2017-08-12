@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginBottom="1dp"
-                android:background="@drawable/message_item_auto"
+                android:background="@drawable/common_button_bg"
                 android:clickable="true"
                 android:orientation="horizontal">
 
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginBottom="1dp"
-                android:background="@drawable/message_item_auto"
+                android:background="@drawable/common_button_bg"
                 android:clickable="true"
                 android:orientation="horizontal">
 
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginBottom="1dp"
-                android:background="@drawable/message_item_auto"
+                android:background="@drawable/common_button_bg"
                 android:clickable="true"
                 android:orientation="horizontal">
 

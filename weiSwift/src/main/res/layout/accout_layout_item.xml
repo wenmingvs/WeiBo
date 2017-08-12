@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="71dp"
-    android:background="@drawable/message_item_auto"
+    android:background="@drawable/common_button_bg"
     android:orientation="horizontal">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

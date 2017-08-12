@@ -182,38 +182,19 @@ public class FillContent {
     }
 
     public static void updateRealtionShip(Context context, User user, ImageView icon, TextView text) {
-        boolean isNightMode = (boolean) SharedPreferencesUtil.get(context, "setNightMode", false);
-        if (!isNightMode) {
-            if (user.follow_me && user.following) {
-                icon.setImageResource(R.drawable.card_icon_arrow);
-                text.setText("互相关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_each_other));
-            } else if (user.following) {
-                icon.setImageResource(R.drawable.card_icon_attention);
-                text.setText("已关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_alreay));
-            } else {
-                icon.setImageResource(R.drawable.card_icon_addattention);
-                text.setText("加关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_none));
-            }
+        if (user.follow_me && user.following) {
+            icon.setImageResource(R.drawable.card_icon_arrow);
+            text.setText("互相关注");
+            text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_each_other));
+        } else if (user.following) {
+            icon.setImageResource(R.drawable.card_icon_attention);
+            text.setText("已关注");
+            text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_alreay));
         } else {
-            if (user.follow_me && user.following) {
-                icon.setImageResource(R.drawable.card_icon_arrow);
-                text.setText("互相关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_each_other));
-            } else if (user.following) {
-                icon.setImageResource(R.drawable.card_icon_attention);
-                text.setText("已关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_alreay));
-            } else {
-                icon.setImageResource(R.drawable.card_icon_addattention);
-                text.setText("加关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_none));
-            }
+            icon.setImageResource(R.drawable.card_icon_addattention);
+            text.setText("加关注");
+            text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_none));
         }
-
-
     }
 
 

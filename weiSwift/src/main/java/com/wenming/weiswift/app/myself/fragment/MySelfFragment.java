@@ -112,12 +112,12 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
         mProfile_myimg = (ImageView) mView.findViewById(R.id.profile_myimg);
         mProfile_myname = (TextView) mView.findViewById(R.id.profile_myname);
         mProfile_mydescribe = (TextView) mView.findViewById(R.id.profile_mydescribe);
-        mStatuses_count = (TextView) mView.findViewById(R.id.profile_statuses_count);
+        mStatuses_count = (TextView) mView.findViewById(R.id.drawer_weibo_count_tv);
         mFollowers_count = (TextView) mView.findViewById(R.id.profile_followers_count);
         mFriends_count = (TextView) mView.findViewById(R.id.profile_friends_count);
-        mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.yyweibo_layout);
-        mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.followers_layout);
-        mFriends_Layout = (LinearLayout) mView.findViewById(R.id.friends_layout);
+        mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.drawer_weibo_count_ll);
+        mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.drawer_followers_count_ll);
+        mFriends_Layout = (LinearLayout) mView.findViewById(R.id.drawer_focus_count_ll);
         mFavorities_Layout = (RelativeLayout) mView.findViewById(R.id.favorities_layout);
         mSettings = (TextView) mView.findViewById(R.id.setting);
         mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);

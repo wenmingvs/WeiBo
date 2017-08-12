@@ -5,36 +5,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.wenming.library.LogReport;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.ApplicationHelper;
-import com.wenming.weiswift.app.common.BottomBarManager;
 import com.wenming.weiswift.app.common.base.BaseAppCompatActivity;
 import com.wenming.weiswift.app.common.entity.User;
+import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
+import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
+import com.wenming.weiswift.app.common.user.UserInfoCallBack;
 import com.wenming.weiswift.app.common.user.UserManager;
 import com.wenming.weiswift.app.debug.DebugTool;
 import com.wenming.weiswift.app.discover.DiscoverFragment;
 import com.wenming.weiswift.app.home.data.HomeDataManager;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
 import com.wenming.weiswift.app.home.presenter.HomePresenter;
-import com.wenming.weiswift.app.login.post.PostSwipeActivity;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
 import com.wenming.weiswift.app.myself.fragment.MySelfFragment;
 
 
 public class MainActivity extends BaseAppCompatActivity {
-    private static final String TAB_HOME_FRAGMENT = "home";
-    private static final String TAB_MESSAGE_FRAGMENT = "message";
-    private static final String TAB_DISCOVERY_FRAGMENT = "discovery";
-    private static final String TAB_PROFILE_FRAGMENT = "profile";
-
+    private static final String TAB_HOME_FRAGMENT = "tab_home_fragment";
+    private static final String TAB_MESSAGE_FRAGMENT = "tab_message_fragment";
+    private static final String TAB_DISCOVERY_FRAGMENT = "tab_discovery_fragment";
+    private static final String TAB_PROFILE_FRAGMENT = "tab_profile_fragment";
     public static final String EXTRA_REFRESH_ALL = "extra_refresh_all";
 
     private HomeFragment mHomeFragment;
@@ -42,13 +45,31 @@ public class MainActivity extends BaseAppCompatActivity {
     private DiscoverFragment mDiscoverFragment;
     private MySelfFragment mMySelfFragment;
     private FragmentManager mFragmentManager;
-    private RelativeLayout mHomeTabRl, mMessageTabRl, mDiscoverTabRl, mMySelfTabRl;
-    private ImageView mPostTabIv;
-    private LinearLayout mButtonBarLl;
     private FragmentTransaction mTransaction;
+
+
+    private DrawerLayout mDrawerLayout;
+    private ImageView mDrawerAvatarIv;
+    private TextView mDrawerDescriptionIv;
+    private TextView mDrawerNickNameIv;
+    private TextView mDrawerWeiBoCountTv;
+    private TextView mDrawerFocusCountTv;
+    private TextView mDrawerFollowersCountTv;
+    private LinearLayout mDrawerWeiBoContainerLl;
+    private LinearLayout mDrawerFocusContainerLl;
+    private LinearLayout mDrawerFollowerCountLl;
 
     private String mCurrentIndex;
     private boolean mRefreshAll;
+    private DisplayImageOptions mOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.avator_default)
+            .showImageForEmptyUri(R.drawable.avator_default)
+            .showImageOnFail(R.drawable.avator_default)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .considerExifParams(true)
+            .displayer(new CircleBitmapDisplayer(14671839, 1))
+            .build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +79,19 @@ public class MainActivity extends BaseAppCompatActivity {
         initData();
         initView();
         initListener();
-//        如果是从崩溃中恢复，还需要加载之前的缓存
-        if (savedInstanceState != null) {
-            restoreFragment(savedInstanceState);
-        } else {
-            setTabFragment(TAB_HOME_FRAGMENT);
-            setTabFragment(TAB_MESSAGE_FRAGMENT);
-            setTabFragment(TAB_DISCOVERY_FRAGMENT);
-            setTabFragment(TAB_PROFILE_FRAGMENT);
-            switchToFragment(TAB_HOME_FRAGMENT);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BottomBarManager.getInstance().release();
     }
 
     private void prepareView() {
-        mHomeTabRl = (RelativeLayout) findViewById(R.id.tv_home);
-        mMessageTabRl = (RelativeLayout) findViewById(R.id.tv_message);
-        mDiscoverTabRl = (RelativeLayout) findViewById(R.id.tv_discovery);
-        mMySelfTabRl = (RelativeLayout) findViewById(R.id.tv_profile);
-        mPostTabIv = (ImageView) findViewById(R.id.fl_post);
-        mButtonBarLl = (LinearLayout) findViewById(R.id.buttonBarId);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_container_dl);
+        mDrawerAvatarIv = (ImageView) findViewById(R.id.drawer_avatar);
+        mDrawerNickNameIv = (TextView) findViewById(R.id.drawer_nickname);
+        mDrawerDescriptionIv = (TextView) findViewById(R.id.drawer_description);
+        mDrawerWeiBoCountTv = (TextView) findViewById(R.id.drawer_weibo_count_tv);
+        mDrawerFocusCountTv = (TextView) findViewById(R.id.drawer_focus_count_tv);
+        mDrawerFollowersCountTv = (TextView) findViewById(R.id.drawer_follower_count_tv);
+        mDrawerWeiBoContainerLl = (LinearLayout) findViewById(R.id.drawer_weibo_count_ll);
+        mDrawerFocusContainerLl = (LinearLayout) findViewById(R.id.drawer_followers_count_ll);
+        mDrawerFollowerCountLl = (LinearLayout) findViewById(R.id.drawer_focus_count_ll);
     }
 
     private void initData() {
@@ -90,47 +99,64 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initView() {
-        LogReport.getInstance().upload(mContext);
         DebugTool.showEnvironment(mContext);
-        BottomBarManager.getInstance().setBottomView(mButtonBarLl);
         mFragmentManager = getSupportFragmentManager();
+        //显示我的微博
+        setTabFragment(TAB_HOME_FRAGMENT);
+        //显示我的信息
+        initMySelfInfo();
+    }
+
+    private void initMySelfInfo() {
+        UserManager.getInstance().getUserInfo(AccessTokenManager.getInstance().getOAuthToken().getToken(), AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken().getUid(), new UserInfoCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                //设置头像
+                ImageLoader.getInstance().displayImage(UserManager.getInstance().getUser().avatar_hd, mDrawerAvatarIv, mOptions);
+                //设置昵称
+                mDrawerNickNameIv.setText(UserManager.getInstance().getUser().name);
+                //设置简介
+                mDrawerDescriptionIv.setText(String.format(getString(R.string.drawer_desciption_format), UserManager.getInstance().getUser().description));
+                //设置微博数
+                mDrawerWeiBoCountTv.setText(String.valueOf(UserManager.getInstance().getUser().statuses_count));
+                //设置关注数
+                mDrawerFocusCountTv.setText(String.valueOf(UserManager.getInstance().getUser().friends_count));
+                //设置粉丝数
+                mDrawerFollowersCountTv.setText(String.valueOf(UserManager.getInstance().getUser().followers_count));
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
     }
 
     private void initListener() {
-        mHomeTabRl.setOnClickListener(new View.OnClickListener() {
+        mDrawerWeiBoContainerLl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                setTabFragment(TAB_HOME_FRAGMENT);
+            public void onClick(View view) {
+                if (UserManager.getInstance().getUser() == null) {
+                    return;
+                }
             }
         });
-        mMessageTabRl.setOnClickListener(new View.OnClickListener() {
+        mDrawerFocusContainerLl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                setTabFragment(TAB_MESSAGE_FRAGMENT);
+            public void onClick(View view) {
+                if (UserManager.getInstance().getUser() == null) {
+                    return;
+                }
             }
         });
-        mPostTabIv.setOnClickListener(new View.OnClickListener() {
+        mDrawerFollowerCountLl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PostSwipeActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                if (UserManager.getInstance().getUser() == null) {
+                    return;
+                }
             }
         });
-
-        mDiscoverTabRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(TAB_DISCOVERY_FRAGMENT);
-            }
-        });
-
-        mMySelfTabRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTabFragment(TAB_PROFILE_FRAGMENT);
-            }
-        });
-
     }
 
     /**
@@ -162,7 +188,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 1. 切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
      */
     private void switchToFragment(String index) {
-        mButtonBarLl.clearAnimation();
         mTransaction = mFragmentManager.beginTransaction();
         hideAllFragments(mTransaction);
         switch (index) {
@@ -187,7 +212,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 切换到首页模块
      */
     private void showHomeFragment() {
-        mHomeTabRl.setSelected(true);
         if (mHomeFragment == null) {
             mHomeFragment = HomeFragment.newInstance(mRefreshAll);
             new HomePresenter(new HomeDataManager(mContext), mHomeFragment);
@@ -201,7 +225,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 切换到消息模块
      */
     private void showMessageFragment() {
-        mMessageTabRl.setSelected(true);
         if (mMessageFragment == null) {
             mMessageFragment = new MessageFragment();
             mTransaction.add(R.id.main_content_fl, mMessageFragment, TAB_MESSAGE_FRAGMENT);
@@ -214,7 +237,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 切换到发现模块
      */
     private void showDiscoveryFragment() {
-        mDiscoverTabRl.setSelected(true);
         if (mDiscoverFragment == null) {
             mDiscoverFragment = new DiscoverFragment();
             mTransaction.add(R.id.main_content_fl, mDiscoverFragment, TAB_DISCOVERY_FRAGMENT);
@@ -227,7 +249,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 切换到关于我模块
      */
     private void showProfileFragment() {
-        mMySelfTabRl.setSelected(true);
         if (mMySelfFragment == null) {
             User currentUser = UserManager.getInstance().getUser();
             if (mHomeFragment != null && currentUser != null) {
@@ -264,7 +285,6 @@ public class MainActivity extends BaseAppCompatActivity {
      * 2. 对于消息fragment，执行：无
      * 3. 对于发现fragment，执行：无
      * 4. 对于关于我fragment，执行：无
-     *
      */
     private void alreadyAtFragment(String currentIndex) {
         //如果在当前页
@@ -301,10 +321,6 @@ public class MainActivity extends BaseAppCompatActivity {
         if (mMySelfFragment != null) {
             transaction.hide(mMySelfFragment);
         }
-        mHomeTabRl.setSelected(false);
-        mMessageTabRl.setSelected(false);
-        mDiscoverTabRl.setSelected(false);
-        mMySelfTabRl.setSelected(false);
     }
 
     @Override

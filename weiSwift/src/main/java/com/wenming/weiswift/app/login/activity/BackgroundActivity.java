@@ -66,7 +66,7 @@ public class BackgroundActivity extends Activity {
         mProfile_myimg = (ImageView) findViewById(R.id.profile_myimg);
         mProfile_myname = (TextView) findViewById(R.id.profile_myname);
         mProfile_mydescribe = (TextView) findViewById(R.id.profile_mydescribe);
-        mStatuses_count = (TextView) findViewById(R.id.profile_statuses_count);
+        mStatuses_count = (TextView) findViewById(R.id.drawer_weibo_count_tv);
         mFollowers_count = (TextView) findViewById(R.id.profile_followers_count);
         mFriends_count = (TextView) findViewById(R.id.profile_friends_count);
 

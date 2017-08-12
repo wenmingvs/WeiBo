@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/message_item_auto"
+        android:background="@drawable/common_button_bg"
         android:clickable="true"
         android:orientation="horizontal"
         android:visibility="gone">

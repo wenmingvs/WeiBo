@@ -3,6 +3,12 @@
     <color name="pink_for_text">#ff2f65</color>
     <!--通用-->
     <color name="common_status_bar_color">#6403d4f9</color>
+    <color name="common_bg">#fafafa</color>
+    <color name="common_button_normal_bg">#fafafa</color>
+    <color name="common_button_highlight_bg">#D5D5D5</color>
+    <!--drawer bg-->
+    <color name="drawer_highlight_content_text">#db2058</color>
+    <color name="drawer_normal_content_text">#3e3e3e</color>
 
     <!--loading-->
     <color name="holo_blue_bright">#ff00ddff</color>
@@ -125,8 +131,7 @@
     <color name="home_status_text">#FFFFFF</color><!--状态栏的的文字样颜色-->
 
     <!--按钮栏-白天 -->
-    <color name="rl_normal_bg">#FFFFFF</color><!--状态栏的的背景颜色-->
-    <color name="rl_highlight_bg">#f2f2f2</color><!--状态栏的的背景颜色-->
+    <!--状态栏的的背景颜色-->
     <color name="rl_textcolor">#111111</color>
 
     <!--正在加载时候图片的占位图颜色-白天 -->

@@ -1,4 +1,7 @@
 <resources>
+    <!-- 侧滑抽屉 -->
+    <dimen name="drawer_width">300dp</dimen>
+    <dimen name="drawer_button_height">45dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
