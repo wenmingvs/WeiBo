@@ -24,7 +24,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <android.support.design.widget.TabLayout
