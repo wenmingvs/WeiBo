@@ -2,6 +2,7 @@ package com.wenming.weiswift.app.timeline.data.viewholder.retweet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineImageAdapter;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineViewHolder;
+import com.wenming.weiswift.app.weibodetail.activity.BaseDetailSwipeActivity;
 import com.wenming.weiswift.app.weibodetail.activity.RetweetPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
 import com.wenming.weiswift.widget.emojitextview.WeiBoContentTextUtil;
@@ -86,7 +88,9 @@ public class RetweetViewHolder extends BaseTimeLineViewHolder implements Retweet
     @Override
     public void goToRetweetDetailActivity(Status status) {
         Intent intent = new Intent(mContext, RetweetPicTextCommentDetailSwipeActivity.class);
-        intent.putExtra("weiboitem", status);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BaseDetailSwipeActivity.EXTRA_WEIBO, status);
+        intent.putExtra(BaseDetailSwipeActivity.BUNDLE_STATUS, bundle);
         mContext.startActivity(intent);
     }
 
@@ -112,10 +116,6 @@ public class RetweetViewHolder extends BaseTimeLineViewHolder implements Retweet
 
     @Override
     public boolean isImgListVisble() {
-        if (mOriginImgRlv.getVisibility() == View.GONE || mOriginImgRlv.getVisibility() == View.INVISIBLE) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(mOriginImgRlv.getVisibility() == View.GONE || mOriginImgRlv.getVisibility() == View.INVISIBLE);
     }
 }

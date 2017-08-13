@@ -122,7 +122,7 @@ public abstract class BaseTimeLinePresenter implements BaseTimeLineContract.Pres
 
     @Override
     public void goToStatusDetailActivity() {
-        if (mDataModel.retweeted_status.user != null) {
+        if (mDataModel.user != null) {
             mView.goToStatusDetailActivity(mDataModel);
         }
     }

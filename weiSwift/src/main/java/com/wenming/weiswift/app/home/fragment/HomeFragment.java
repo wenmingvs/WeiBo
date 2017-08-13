@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +27,9 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View {
     private static final String ARG_REFRESH_ALL = "arg_refresh_all";
-
-    private static final int CACHE_FRAGMENT_NUM = 6;
-
-    private Toolbar mToolBar;
+    private static final int CACHE_FRAGMENT_NUM = 3;
     private TabLayout mGourpTl;
     private ViewPager mGroupVp;
-    private AppCompatActivity mActivity;
     private HomeContract.Presenter mPresenter;
     private GroupPagerAdapter mGroupAdapter;
     private boolean mRefreshAll;
@@ -65,9 +59,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     private void prepareView() {
-        mActivity = (AppCompatActivity) getActivity();
-        mToolBar = (Toolbar) findViewById(R.id.main_toolbar);
-        mGourpTl = (TabLayout) findViewById(R.id.main_tablayout);
         mGroupVp = (ViewPager) findViewById(R.id.main_groups_vp);
     }
 
@@ -79,14 +70,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     private void initView() {
-        mActivity.setSupportActionBar(mToolBar);
-
         initDefaultFragment();
         mGroupVp.setOffscreenPageLimit(CACHE_FRAGMENT_NUM);
     }
 
     private void initDefaultFragment() {
-        mGroupAdapter = new GroupPagerAdapter(mActivity.getSupportFragmentManager());
+        mGroupAdapter = new GroupPagerAdapter(getActivity().getSupportFragmentManager());
         TimeLineFragment defaultFragment = initTimeLineFragment(Constants.GROUP_ALL);
         mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
         mGroupVp.setAdapter(mGroupAdapter);
@@ -98,6 +87,10 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void setPresenter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    public void setTabLayout(TabLayout tabLayout) {
+        mGourpTl = tabLayout;
     }
 
     @Override

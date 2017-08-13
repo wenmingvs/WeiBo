@@ -2,6 +2,7 @@ package com.wenming.weiswift.app.timeline.data.viewholder.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
+import com.wenming.weiswift.app.weibodetail.activity.BaseDetailSwipeActivity;
 import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.utils.DateUtils;
 import com.wenming.weiswift.utils.TimeUtils;
@@ -103,7 +105,9 @@ public abstract class BaseTimeLineViewHolder extends BaseViewHolder implements B
     @Override
     public void goToStatusDetailActivity(Status status) {
         Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
-        intent.putExtra("weiboitem", status.retweeted_status);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BaseDetailSwipeActivity.EXTRA_WEIBO, status);
+        intent.putExtra(BaseDetailSwipeActivity.BUNDLE_STATUS, bundle);
         mContext.startActivity(intent);
     }
 

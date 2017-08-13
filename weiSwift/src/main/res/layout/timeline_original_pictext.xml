@@ -31,6 +31,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:paddingBottom="10dp" />
+
     <include layout="@layout/common_status_bottombar" />
 </LinearLayout>
 

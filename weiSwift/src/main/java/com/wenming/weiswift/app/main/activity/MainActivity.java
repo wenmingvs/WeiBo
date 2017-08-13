@@ -1,21 +1,23 @@
 package com.wenming.weiswift.app.main.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,13 +51,10 @@ public class MainActivity extends BaseAppCompatActivity {
     private static final String TAB_PROFILE_FRAGMENT = "tab_profile_fragment";
     public static final String EXTRA_REFRESH_ALL = "extra_refresh_all";
 
-    private HomeFragment mHomeFragment;
-    private MessageFragment mMessageFragment;
-    private DiscoverFragment mDiscoverFragment;
-    private MySelfFragment mMySelfFragment;
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mTransaction;
-
+    //导航栏
+    private Toolbar mToolBar;
+    private TabLayout mTabLayout;
+    //抽屉布局
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private ImageView mDrawerAvatarIv;
@@ -68,7 +67,14 @@ public class MainActivity extends BaseAppCompatActivity {
     private LinearLayout mDrawerFocusContainerLl;
     private LinearLayout mDrawerFollowerCountLl;
     private View mNavigationHeader;
-    private ActionBarDrawerToggle mDrawerToggle;
+    //内容碎片
+    private HomeFragment mHomeFragment;
+    private MessageFragment mMessageFragment;
+    private DiscoverFragment mDiscoverFragment;
+    private MySelfFragment mMySelfFragment;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
+
 
     private String mCurrentIndex;
     private boolean mRefreshAll;
@@ -81,6 +87,7 @@ public class MainActivity extends BaseAppCompatActivity {
             .considerExifParams(true)
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
+    private Snackbar mSnackbar;
 
 
     @Override
@@ -94,6 +101,8 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void prepareView() {
+        mToolBar = (Toolbar) findViewById(R.id.main_toolbar);
+        mTabLayout = (TabLayout) findViewById(R.id.main_tablayout);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_container_dl);
         mNavigationView = (NavigationView) findViewById(R.id.main_drawer_nv);
         mNavigationHeader = mNavigationView.getHeaderView(0);
@@ -115,19 +124,44 @@ public class MainActivity extends BaseAppCompatActivity {
     private void initView() {
         DebugTool.showEnvironment(mContext);
         mFragmentManager = getSupportFragmentManager();
+        //初始化顶部导航栏
+        initToolBar();
         //初始化抽屉栏
         initDrawerLayout();
-        //显示我的微博
+        //初始化内容栏，显示我的微博
         setTabFragment(TAB_HOME_FRAGMENT);
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initDrawerLayout() {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.drawer_navigation_open, R.string.drawer_navigation_close) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+                syncState();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+                syncState();
+            }
+        };
+        mDrawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        //显示抽屉栏目icon原来的颜色
+        mNavigationView.setItemIconTintList(null);
         //显示我的信息
         initMySelfInfo();
     }
 
-    private void initDrawerLayout() {
-        //显示抽屉栏目icon原来的颜色
-        mNavigationView.setItemIconTintList(null);
-    }
-
+    /**
+     * 显示我的信息
+     */
     private void initMySelfInfo() {
         UserManager.getInstance().getUserInfo(AccessTokenManager.getInstance().getOAuthToken().getToken(), AppAuthConstants.APP_KEY, AccessTokenManager.getInstance().getOAuthToken().getUid(), new UserInfoCallBack() {
             @Override
@@ -230,29 +264,6 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     /**
-     * 如果fragment因为内存不够或者其他原因被销毁掉，在这个方法中执行恢复操作
-     */
-    private void restoreFragment(Bundle savedInstanceState) {
-        mCurrentIndex = savedInstanceState.getString("index");
-        mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(TAB_HOME_FRAGMENT);
-        mMessageFragment = (MessageFragment) mFragmentManager.findFragmentByTag(TAB_MESSAGE_FRAGMENT);
-        mDiscoverFragment = (DiscoverFragment) mFragmentManager.findFragmentByTag(TAB_DISCOVERY_FRAGMENT);
-        mMySelfFragment = (MySelfFragment) mFragmentManager.findFragmentByTag(TAB_PROFILE_FRAGMENT);
-        switchToFragment(mCurrentIndex);
-    }
-
-    /**
-     * Activity被销毁的时候，要记录当前处于哪个页面
-     *
-     * @param outState
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("index", mCurrentIndex);
-        super.onSaveInstanceState(outState);
-    }
-
-    /**
      * 执行切换fragment 的操作
      * 注意：
      * 1. 切换页面的时候，还要调用showBottomBar来保证底部导航栏的显示
@@ -284,11 +295,13 @@ public class MainActivity extends BaseAppCompatActivity {
     private void showHomeFragment() {
         if (mHomeFragment == null) {
             mHomeFragment = HomeFragment.newInstance(mRefreshAll);
+            mHomeFragment.setTabLayout(mTabLayout);
             new HomePresenter(new HomeDataManager(mContext), mHomeFragment);
             mTransaction.add(R.id.main_content_fl, mHomeFragment, TAB_HOME_FRAGMENT);
         } else {
             mTransaction.show(mHomeFragment);
         }
+        mTabLayout.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -301,6 +314,7 @@ public class MainActivity extends BaseAppCompatActivity {
         } else {
             mTransaction.show(mMessageFragment);
         }
+        mTabLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -313,6 +327,7 @@ public class MainActivity extends BaseAppCompatActivity {
         } else {
             mTransaction.show(mDiscoverFragment);
         }
+        mTabLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -329,8 +344,8 @@ public class MainActivity extends BaseAppCompatActivity {
             mTransaction.add(R.id.main_content_fl, mMySelfFragment, TAB_PROFILE_FRAGMENT);
         } else {
             mTransaction.show(mMySelfFragment);
-
         }
+        mTabLayout.setVisibility(View.GONE);
     }
 
 
@@ -407,30 +422,19 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
-            showExitDialog();
-        }
-        return false;
-    }
-
-    /**
-     * 显示退出窗口
-     */
-    public void showExitDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage("确定要退出？")
-                .setCancelable(true)
-                .setIcon(R.drawable.logo)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+            if (mSnackbar == null || !mSnackbar.isShown()) {
+                mSnackbar = Snackbar.make(mDrawerLayout, "确定要退出？", Toast.LENGTH_SHORT);
+                mSnackbar.setAction("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         ((ApplicationHelper) getApplication()).finishAll();
                     }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+                mSnackbar.show();
+            } else {
+                mSnackbar.dismiss();
+            }
+        }
+        return false;
     }
 }

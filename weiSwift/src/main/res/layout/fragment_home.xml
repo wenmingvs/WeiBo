@@ -1,48 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_groups_vp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".app.main.activity.MainActivity">
+    android:layout_height="match_parent" />
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_appbar_Al"
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:background="@drawable/main_appbar_background"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/main_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_below="@id/main_toolbar"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/group_tabSelectedTextColor"
-            app:tabIndicatorHeight="3dp"
-            app:tabSelectedTextColor="@color/group_tabSelectedTextColor"
-            app:tabTextColor="@color/group_tabTextColor" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_groups_vp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</android.support.design.widget.CoordinatorLayout>
 
 
 

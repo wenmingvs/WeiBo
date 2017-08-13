@@ -18,12 +18,12 @@ import com.wenming.weiswift.app.common.entity.Comment;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
-import com.wenming.weiswift.app.timeline.adapter.CommentDetailAdapter;
-import com.wenming.weiswift.app.timeline.adapter.MentionDetailAdapter;
 import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
 import com.wenming.weiswift.app.mvp.presenter.DetailActivityPresent;
 import com.wenming.weiswift.app.mvp.presenter.imp.DetailActivityPresentImp;
 import com.wenming.weiswift.app.mvp.view.DetailActivityView;
+import com.wenming.weiswift.app.timeline.adapter.CommentDetailAdapter;
+import com.wenming.weiswift.app.timeline.adapter.MentionDetailAdapter;
 import com.wenming.weiswift.app.weibodetail.headview.OnDetailButtonClickListener;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
@@ -41,6 +41,9 @@ import java.util.ArrayList;
  * Created by wenmingvs on 16/4/20.
  */
 public abstract class BaseDetailSwipeActivity extends BaseSwipeActivity implements DetailActivityView {
+
+    public static final String BUNDLE_STATUS = "bundle_status";
+    public static final String EXTRA_WEIBO = "extra_status";
 
     public Status mStatus;
     public ArrayList<Comment> mCommentDatas = new ArrayList<>();
@@ -75,7 +78,7 @@ public abstract class BaseDetailSwipeActivity extends BaseSwipeActivity implemen
         bottombar_comment = (LinearLayout) findViewById(R.id.common_bottombar_comment_ll);
         bottombar_attitude = (LinearLayout) findViewById(R.id.common_bottombar_like_ll);
         mRecyclerView = (RecyclerView) findViewById(R.id.base_RecyclerView);
-        mStatus = getIntent().getParcelableExtra("weiboitem");
+        mStatus = getIntent().getBundleExtra(BUNDLE_STATUS).getParcelable(EXTRA_WEIBO);
         mDetailActivityPresent = new DetailActivityPresentImp(this);
         initRefreshLayout();
         initRecyclerView();

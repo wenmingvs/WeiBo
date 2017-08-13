@@ -73,10 +73,11 @@ public class OriginPicTextHeaderView extends LinearLayout {
         profile_verified = (ImageView) mView.findViewById(R.id.common_avatar_identification_iv);
         profile_name = (TextView) mView.findViewById(R.id.common_status_nickname_tv);
         profile_time = (TextView) mView.findViewById(R.id.common_status_time_tv);
-        weibo_content = (EmojiTextView) mView.findViewById(R.id.weibo_Content);
+        weibo_content = (EmojiTextView) mView.findViewById(R.id.timeline_origin_pictext_etv);
         weibo_comefrom = (TextView) mView.findViewById(R.id.common_status_source_tv);
         bottombar_layout = (LinearLayout) mView.findViewById(R.id.common_bottombar_container_ll);
-        imageList = (RecyclerView) mView.findViewById(R.id.weibo_image);
+
+        imageList = (RecyclerView) mView.findViewById(R.id.timeline_origin_pictext_rlv);
         mPopover_arrow = (ImageView) mView.findViewById(R.id.common_status_more_iv);
         commentView = (TextView) mView.findViewById(R.id.commentBar_comment);
         retweetView = (TextView) mView.findViewById(R.id.commentBar_retweet);

@@ -3,6 +3,7 @@ package com.wenming.weiswift.app.weibodetail.headview;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wenming.weiswift.R;
+import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.mvp.model.imp.StatusDetailModelImp;
-import com.wenming.weiswift.app.common.FillContent;
 import com.wenming.weiswift.app.timeline.weiboitem.TimelineArrowWindow;
+import com.wenming.weiswift.app.weibodetail.activity.BaseDetailSwipeActivity;
 import com.wenming.weiswift.app.weibodetail.activity.OriginPicTextCommentDetailSwipeActivity;
 import com.wenming.weiswift.utils.DensityUtil;
 import com.wenming.weiswift.utils.ScreenUtil;
@@ -80,11 +82,11 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         profile_verified = (ImageView) findViewById(R.id.common_avatar_identification_iv);
         profile_name = (TextView) findViewById(R.id.common_status_nickname_tv);
         profile_time = (TextView) findViewById(R.id.common_status_time_tv);
-        retweet_content = (EmojiTextView) findViewById(R.id.retweet_content);
+        retweet_content = (EmojiTextView) findViewById(R.id.timeline_retweet_text_tv);
         weibo_comefrom = (TextView) findViewById(R.id.common_status_source_tv);
         bottombar_layout = (LinearLayout) findViewById(R.id.common_bottombar_container_ll);
-        origin_nameAndcontent = (EmojiTextView) findViewById(R.id.origin_nameAndcontent);
-        retweet_imageList = (RecyclerView) findViewById(R.id.origin_imageList);
+        origin_nameAndcontent = (EmojiTextView) findViewById(R.id.timeline_retweet_content_text_tv);
+        retweet_imageList = (RecyclerView) findViewById(R.id.timeline_retweet_content_img_rlv);
         commentView = (TextView) findViewById(R.id.commentBar_comment);
         retweetView = (TextView) findViewById(R.id.commentBar_retweet);
         likeView = (TextView) findViewById(R.id.commentBar_like);
@@ -92,7 +94,7 @@ public class RetweetPicTextHeaderView extends LinearLayout {
         mPopover_arrow = (ImageView) mView.findViewById(R.id.common_status_more_iv);
         mCommentIndicator = (ImageView) findViewById(R.id.comment_indicator);
         mRetweetIndicator = (ImageView) findViewById(R.id.retweet_indicator);
-        retweetStatus_layout = (LinearLayout) findViewById(R.id.retweetStatus_layout);
+        retweetStatus_layout = (LinearLayout) findViewById(R.id.timeline_retweet_content_ll);
         initWeiBoContent(context, status);
     }
 
@@ -141,7 +143,9 @@ public class RetweetPicTextHeaderView extends LinearLayout {
             public void onClick(View v) {
                 if (status.retweeted_status != null && status.retweeted_status.user != null) {
                     Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
-                    intent.putExtra("weiboitem", status.retweeted_status);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(BaseDetailSwipeActivity.EXTRA_WEIBO, status.retweeted_status);
+                    intent.putExtra(BaseDetailSwipeActivity.BUNDLE_STATUS, bundle);
                     mContext.startActivity(intent);
                 }
             }
