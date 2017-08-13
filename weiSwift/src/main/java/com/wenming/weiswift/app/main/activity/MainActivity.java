@@ -3,11 +3,15 @@ package com.wenming.weiswift.app.main.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,7 +34,12 @@ import com.wenming.weiswift.app.home.data.HomeDataManager;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
 import com.wenming.weiswift.app.home.presenter.HomePresenter;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
+import com.wenming.weiswift.app.myself.collect.activity.CollectSwipeActivity;
+import com.wenming.weiswift.app.myself.fans.activity.FansSwipeActivity;
+import com.wenming.weiswift.app.myself.focus.activity.FocusSwipeActivity;
 import com.wenming.weiswift.app.myself.fragment.MySelfFragment;
+import com.wenming.weiswift.app.myself.myweibo.activity.MyWeiBoSwipeActivity;
+import com.wenming.weiswift.app.settings.activity.SettingSwipeActivity;
 
 
 public class MainActivity extends BaseAppCompatActivity {
@@ -47,8 +56,8 @@ public class MainActivity extends BaseAppCompatActivity {
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
 
-
     private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
     private ImageView mDrawerAvatarIv;
     private TextView mDrawerDescriptionIv;
     private TextView mDrawerNickNameIv;
@@ -58,6 +67,8 @@ public class MainActivity extends BaseAppCompatActivity {
     private LinearLayout mDrawerWeiBoContainerLl;
     private LinearLayout mDrawerFocusContainerLl;
     private LinearLayout mDrawerFollowerCountLl;
+    private View mNavigationHeader;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private String mCurrentIndex;
     private boolean mRefreshAll;
@@ -71,6 +82,7 @@ public class MainActivity extends BaseAppCompatActivity {
             .displayer(new CircleBitmapDisplayer(14671839, 1))
             .build();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,15 +95,17 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private void prepareView() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_container_dl);
-        mDrawerAvatarIv = (ImageView) findViewById(R.id.drawer_avatar);
-        mDrawerNickNameIv = (TextView) findViewById(R.id.drawer_nickname);
-        mDrawerDescriptionIv = (TextView) findViewById(R.id.drawer_description);
-        mDrawerWeiBoCountTv = (TextView) findViewById(R.id.drawer_weibo_count_tv);
-        mDrawerFocusCountTv = (TextView) findViewById(R.id.drawer_focus_count_tv);
-        mDrawerFollowersCountTv = (TextView) findViewById(R.id.drawer_follower_count_tv);
-        mDrawerWeiBoContainerLl = (LinearLayout) findViewById(R.id.drawer_weibo_count_ll);
-        mDrawerFocusContainerLl = (LinearLayout) findViewById(R.id.drawer_followers_count_ll);
-        mDrawerFollowerCountLl = (LinearLayout) findViewById(R.id.drawer_focus_count_ll);
+        mNavigationView = (NavigationView) findViewById(R.id.main_drawer_nv);
+        mNavigationHeader = mNavigationView.getHeaderView(0);
+        mDrawerAvatarIv = (ImageView) mNavigationHeader.findViewById(R.id.drawer_avatar);
+        mDrawerNickNameIv = (TextView) mNavigationHeader.findViewById(R.id.drawer_nickname);
+        mDrawerDescriptionIv = (TextView) mNavigationHeader.findViewById(R.id.drawer_description);
+        mDrawerWeiBoCountTv = (TextView) mNavigationHeader.findViewById(R.id.drawer_weibo_count_tv);
+        mDrawerFocusCountTv = (TextView) mNavigationHeader.findViewById(R.id.drawer_focus_count_tv);
+        mDrawerWeiBoContainerLl = (LinearLayout) mNavigationHeader.findViewById(R.id.drawer_weibo_count_ll);
+        mDrawerFollowersCountTv = (TextView) mNavigationHeader.findViewById(R.id.drawer_follower_count_tv);
+        mDrawerFocusContainerLl = (LinearLayout) mNavigationHeader.findViewById(R.id.drawer_followers_count_ll);
+        mDrawerFollowerCountLl = (LinearLayout) mNavigationHeader.findViewById(R.id.drawer_focus_count_ll);
     }
 
     private void initData() {
@@ -101,10 +115,17 @@ public class MainActivity extends BaseAppCompatActivity {
     private void initView() {
         DebugTool.showEnvironment(mContext);
         mFragmentManager = getSupportFragmentManager();
+        //初始化抽屉栏
+        initDrawerLayout();
         //显示我的微博
         setTabFragment(TAB_HOME_FRAGMENT);
         //显示我的信息
         initMySelfInfo();
+    }
+
+    private void initDrawerLayout() {
+        //显示抽屉栏目icon原来的颜色
+        mNavigationView.setItemIconTintList(null);
     }
 
     private void initMySelfInfo() {
@@ -133,12 +154,26 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initListener() {
+        mNavigationHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UserManager.getInstance().getUser() == null) {
+                    return;
+                }
+                Intent intent = new Intent(mContext, MyWeiBoSwipeActivity.class);
+                startActivity(intent);
+                mDrawerLayout.closeDrawers();
+            }
+        });
         mDrawerWeiBoContainerLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (UserManager.getInstance().getUser() == null) {
                     return;
                 }
+                Intent intent = new Intent(mContext, MyWeiBoSwipeActivity.class);
+                startActivity(intent);
+                mDrawerLayout.closeDrawers();
             }
         });
         mDrawerFocusContainerLl.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +182,9 @@ public class MainActivity extends BaseAppCompatActivity {
                 if (UserManager.getInstance().getUser() == null) {
                     return;
                 }
+                Intent intent = new Intent(mContext, FocusSwipeActivity.class);
+                startActivity(intent);
+                mDrawerLayout.closeDrawers();
             }
         });
         mDrawerFollowerCountLl.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +193,38 @@ public class MainActivity extends BaseAppCompatActivity {
                 if (UserManager.getInstance().getUser() == null) {
                     return;
                 }
+                Intent intent = new Intent(mContext, FansSwipeActivity.class);
+                startActivity(intent);
+                mDrawerLayout.closeDrawers();
+            }
+        });
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.drawer_menu_timeline:
+                        setTabFragment(TAB_HOME_FRAGMENT);
+                        break;
+                    case R.id.drawer_menu_notication:
+                        setTabFragment(TAB_MESSAGE_FRAGMENT);
+                        break;
+                    case R.id.drawer_menu_favorities:
+                        if (UserManager.getInstance().getUser() == null) {
+                            return false;
+                        }
+                        Intent intent = new Intent(mContext, CollectSwipeActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.drawer_menu_hotweibo:
+                        setTabFragment(TAB_DISCOVERY_FRAGMENT);
+                        break;
+                    case R.id.drawer_menu_setting:
+                        startActivity(new Intent(mContext, SettingSwipeActivity.class));
+                        break;
+                }
+                mDrawerLayout.closeDrawers();
+                return true;
             }
         });
     }

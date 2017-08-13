@@ -20,12 +20,16 @@ public class BaseAppCompatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.common_status_bar_color));
+        setDefaultStatusBarColor();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ToastUtils.release();
+    }
+
+    protected void setDefaultStatusBarColor() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.common_status_bar_color));
     }
 }

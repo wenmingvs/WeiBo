@@ -174,7 +174,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/favorities_layout"
+                        android:id="@+id/drawer_favorities_rl"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="0.5dp"

@@ -22,7 +22,7 @@
 
 
             <RelativeLayoutz
-                android:id="@+id/publicweibo_layout"
+                android:id="@+id/drawer_hotweibo_rl"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="8dp"

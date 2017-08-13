@@ -17,9 +17,12 @@
     <string name="drawer_focus_title">关注</string>
     <string name="drawer_follower_title">粉丝</string>
     <string name="drawer_my_weibo">我的微博</string>
+    <string name="drawer_my_notification">我的通知</string>
     <string name="drawer_my_favor">我的收藏</string>
     <string name="drawer_hot_weibo">热门微博</string>
     <string name="drawer_setting">设置</string>
+    <string name="drawer_navigation_open">抽屉栏打开</string>
+    <string name="drawer_navigation_close">抽屉栏关闭</string>
 
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>

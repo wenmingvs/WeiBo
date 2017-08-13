@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_menu_timeline"
+            android:checked="true"
+            android:icon="@drawable/drawer_my_weibo"
+            android:title="@string/drawer_my_weibo" />
+
+        <item
+            android:id="@+id/drawer_menu_notication"
+            android:checked="true"
+            android:icon="@drawable/drawer_my_notification"
+            android:title="@string/drawer_my_notification" />
+
+        <item
+            android:id="@+id/drawer_menu_favorities"
+            android:checked="true"
+            android:icon="@drawable/drawer_my_favorite"
+            android:title="@string/drawer_my_favor" />
+
+        <item
+            android:id="@+id/drawer_menu_hotweibo"
+            android:checked="true"
+            android:icon="@drawable/drawer_hot"
+            android:title="@string/drawer_hot_weibo" />
+
+        <item
+            android:id="@+id/drawer_menu_setting"
+            android:checked="true"
+            android:icon="@drawable/drawer_settings"
+            android:title="@string/drawer_setting" />
+
+    </group>
+
+
+</menu>

@@ -80,6 +80,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private void initView() {
         mActivity.setSupportActionBar(mToolBar);
+
         initDefaultFragment();
         mGroupVp.setOffscreenPageLimit(CACHE_FRAGMENT_NUM);
     }

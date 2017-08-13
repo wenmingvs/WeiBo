@@ -118,7 +118,7 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
         mMyWeiBo_Layout = (LinearLayout) mView.findViewById(R.id.drawer_weibo_count_ll);
         mFollowers_Layout = (LinearLayout) mView.findViewById(R.id.drawer_followers_count_ll);
         mFriends_Layout = (LinearLayout) mView.findViewById(R.id.drawer_focus_count_ll);
-        mFavorities_Layout = (RelativeLayout) mView.findViewById(R.id.favorities_layout);
+        mFavorities_Layout = (RelativeLayout) mView.findViewById(R.id.drawer_favorities_rl);
         mSettings = (TextView) mView.findViewById(R.id.setting);
         mProgressBar = (CircleProgressBar) mView.findViewById(R.id.progressbar);
         mMyprofile_layout = (RelativeLayout) mView.findViewById(R.id.myprofile_layout);
@@ -176,7 +176,7 @@ public class MySelfFragment extends Fragment implements ProfileFragmentView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, MyWeiBoSwipeActivity.class);
-                startActivityForResult(intent, 0x1);
+                startActivity(intent);
             }
         });
 

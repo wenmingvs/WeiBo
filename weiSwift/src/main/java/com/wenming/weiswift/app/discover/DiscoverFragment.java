@@ -36,7 +36,7 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     private void prepareView() {
-        mPublicWeibo = (RelativeLayout) findViewById(R.id.publicweibo_layout);
+        mPublicWeibo = (RelativeLayout) findViewById(R.id.drawer_hotweibo_rl);
 
     }
 
