@@ -21,7 +21,7 @@ import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.UserModel;
 import com.wenming.weiswift.utils.NetUtil;
-import com.wenming.weiswift.utils.SDCardUtil;
+import com.wenming.weiswift.utils.SDCardUtils;
 import com.wenming.weiswift.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -200,11 +200,11 @@ public class UserModelImp implements UserModel {
      */
     @Override
     public void getUserDetailList(final Context context, final OnUserListRequestFinish onUserListRequestFinish) {
-        String jsonstring = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt");
+        String jsonstring = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift", "登录列表缓存.txt");
         if (jsonstring == null && AccessTokenManager.getInstance().getOAuthToken().isSessionValid()) {
             cacheCurrentOuthToken(context);
         }
-        TokenList tokenList = TokenList.parse(SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift", "登录列表缓存.txt"));
+        TokenList tokenList = TokenList.parse(SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift", "登录列表缓存.txt"));
         if (tokenList == null) {
             //如果本地没有缓存的话，就添加自己一个用户就好了，然后再保存到本地
             return;
@@ -255,13 +255,13 @@ public class UserModelImp implements UserModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_MYWEIBO_TYPE_ALL:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_ORIGIN:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_PICWEIBO:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                 break;
         }
     }
@@ -272,13 +272,13 @@ public class UserModelImp implements UserModel {
         mCurrentGroup = groupType;
         switch (groupType) {
             case Constants.GROUP_MYWEIBO_TYPE_ALL:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_ORIGIN:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.GROUP_MYWEIBO_TYPE_PICWEIBO:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
         }
         if (response != null) {
@@ -289,12 +289,12 @@ public class UserModelImp implements UserModel {
 
     @Override
     public void cacheSave_user(Context context, String response) {
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
     }
 
     @Override
     public void cacheLoad_user(Context context, OnUserDetailRequestFinish onUserDetailRequestFinish) {
-        String response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+        String response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的基本信息" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (response != null) {
             onUserDetailRequestFinish.onComplete(User.parse(response));
         }
@@ -304,10 +304,10 @@ public class UserModelImp implements UserModel {
     public void cacheSave_userlist(int groupType, Context context, String response) {
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                 break;
             case FRIENDS_LISTS:
-                SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+                SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
                 break;
         }
     }
@@ -318,10 +318,10 @@ public class UserModelImp implements UserModel {
         mUserListType = groupType;
         switch (groupType) {
             case FOLLOWERS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case FRIENDS_LISTS:
-                response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的关注列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
         }
         if (response != null) {
@@ -343,7 +343,7 @@ public class UserModelImp implements UserModel {
         tokenList.current_uid = uid;
         tokenList.total_number = tokenList.tokenList.size();
         Gson gson = new Gson();
-        SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
+        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
     }
 
     /**

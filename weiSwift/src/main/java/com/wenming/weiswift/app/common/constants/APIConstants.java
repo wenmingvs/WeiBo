@@ -30,4 +30,9 @@ public class APIConstants {
      * 获取当前登录用户某一好友分组的微博列表
      */
     public static final String GROUPS_TIMELINE = API_SERVER + "/friendships/groups/timeline.json";
+
+    /**
+     * 将一个或多个短链接还原成原始的长链接
+     */
+    public static final String SHORT_URL_EXPAND = API_SERVER + "/short_url/expand.json";
 }

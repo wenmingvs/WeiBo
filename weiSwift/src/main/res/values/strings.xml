@@ -8,6 +8,8 @@
     <string name="common_footer_loading">正在加载中…</string>
     <string name="common_footer_fail">加载失败，点击重新加载</string>
     <string name="common_footer_empty">没有更多内容了</string>
+    <string name="common_less_storage_size">存储空间不足，请清理存储卡</string>
+    <string name="common_not_enough_storage_size">没有存储空间或存储卡异常，请检查</string>
     <!--drawer -->
     <string name="drawer_nickname_hint">昵称</string>
     <string name="drawer_desciption_hint">简介</string>

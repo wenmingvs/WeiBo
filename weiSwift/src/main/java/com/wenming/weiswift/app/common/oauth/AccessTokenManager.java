@@ -38,7 +38,7 @@ public class AccessTokenManager {
         sAccessToken.setExpiresTime(expiresTime);
     }
 
-    public static void writeAccessToken(Oauth2AccessToken token) {
+    public void writeAccessToken(Oauth2AccessToken token) {
         if (null == token) {
             return;
         }
@@ -49,30 +49,30 @@ public class AccessTokenManager {
         UserAccountPrefences.setExpiresTime(token.getExpiresTime());
     }
 
-    public static Oauth2AccessToken getOAuthToken() {
+    public Oauth2AccessToken getOAuthToken() {
         return sAccessToken;
     }
 
-    public static long getUid() {
+    public long getUid() {
         return Long.valueOf(sAccessToken.getUid());
     }
 
-    public static String getAccessToken() {
+    public String getAccessToken() {
         return sAccessToken.getToken();
     }
 
-    public static String getRefreshToken() {
+    public String getRefreshToken() {
         return sAccessToken.getRefreshToken();
     }
 
-    public static long getExpiresTime() {
+    public long getExpiresTime() {
         return sAccessToken.getExpiresTime();
     }
 
     /**
      * 清空 SharedPreferences 中 Token信息。
      */
-    public static void clearAccessToken() {
+    public void clearAccessToken() {
         UserAccountPrefences.setUid("");
         UserAccountPrefences.setAccessToken("");
         UserAccountPrefences.setRefreshAccessToken("");

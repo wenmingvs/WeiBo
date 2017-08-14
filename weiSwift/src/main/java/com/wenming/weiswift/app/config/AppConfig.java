@@ -11,7 +11,7 @@ package com.wenming.weiswift.app.config;
 import android.text.TextUtils;
 import android.util.Xml;
 
-import com.wenming.weiswift.utils.SDCardUtil;
+import com.wenming.weiswift.utils.SDCardUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -33,7 +33,7 @@ public class AppConfig {
      * 初始化SDCard下test config文件
      */
     private static void initTestConfig() {
-        final String configFilePath = SDCardUtil.getSDCardPath() + CONFIG_FILE_FOR_TEST;
+        final String configFilePath = SDCardUtils.getSDCardPath() + CONFIG_FILE_FOR_TEST;
         final File testConfigFile = new File(configFilePath);
         if (!testConfigFile.exists()) {
             return;

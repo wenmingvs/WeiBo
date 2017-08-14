@@ -35,6 +35,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
         TimeLineHttpHepler.getDefaultTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 handleRefreshResult(response, callBack);
             }
         }, new Response.ErrorListener() {

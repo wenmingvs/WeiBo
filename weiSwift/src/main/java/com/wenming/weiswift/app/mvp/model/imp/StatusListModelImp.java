@@ -15,7 +15,7 @@ import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.StatusListModel;
-import com.wenming.weiswift.utils.SDCardUtil;
+import com.wenming.weiswift.utils.SDCardUtils;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.toast.LoadedToast;
 
@@ -163,11 +163,11 @@ public class StatusListModelImp implements StatusListModel {
         mCurrentGroup = groupType;
         mOnDataFinishedUIListener = onDataFinishedListener;
         if (groupType == Constants.GROUP_TYPE_ALL) {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+            response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+            response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         } else {
-            response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getOAuthToken().getUid() + ".txt");
+            response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getOAuthToken().getUid() + ".txt");
         }
         if (response != null) {
             mStatusList = (ArrayList<Status>) StatusList.parse(response).statuses;
@@ -184,11 +184,11 @@ public class StatusListModelImp implements StatusListModel {
     public void cacheSave(long groupType, Context context, StatusList statusList) {
         String response = new Gson().toJson(statusList);
         if (groupType == Constants.GROUP_TYPE_ALL) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+            SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
         } else if (groupType == Constants.GROUP_TYPE_FRIENDS_CIRCLE) {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+            SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
         } else {
-            SDCardUtil.put(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getOAuthToken().getUid() + ".txt", response);
+            SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenManager.getInstance().getOAuthToken().getUid() + ".txt", response);
         }
     }
 

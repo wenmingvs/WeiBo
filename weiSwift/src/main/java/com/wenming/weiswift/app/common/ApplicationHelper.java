@@ -46,6 +46,8 @@ public class ApplicationHelper extends Application implements Application.Activi
     public void onCreate() {
         super.onCreate();
         registerActivityLifecycleCallbacks(this);
+        //路径管理器初始化
+        AppDirManager.initFileManager(ApplicationHelper.getContext());
         //ImageLoader初始化
         initImageLoader(getApplicationContext());
         //Volley初始化
