@@ -38,14 +38,6 @@ public class TimeLineFragment extends BaseFragment implements TimeLineContract.V
     private TextView mCountTv;
     private LinearLayout mCountLl;
     private TimeLineContract.Presenter mPresent;
-    /**
-     * 记录手指滑动的距离
-     */
-    private int mScrolledDistance = 0;
-    /**
-     * 记录bar是否显示或者隐藏
-     */
-    private boolean mControlsVisible = true;
 
     public TimeLineFragment() {
     }

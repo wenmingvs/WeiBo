@@ -12,6 +12,7 @@ import com.wenming.weiswift.app.common.entity.list.FavoriteList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.FavoriteListModel;
+import com.wenming.weiswift.app.utils.TextSaveUtils;
 import com.wenming.weiswift.utils.SDCardUtils;
 import com.wenming.weiswift.utils.ToastUtil;
 import com.wenming.weiswift.widget.toast.LoadedToast;
@@ -137,12 +138,12 @@ public class FavoriteListModelImp implements FavoriteListModel {
 
     @Override
     public void cacheSave(Context context, String response) {
-        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+        TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
     }
 
     @Override
     public void cacheLoad(Context context, OnDataFinishedListener onDataFinishedListener) {
-        String response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+        String response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (response != null) {
             ArrayList<Favorite> temp = FavoriteList.parse(response).favorites;
             if (temp != null && temp.size() > 0) {

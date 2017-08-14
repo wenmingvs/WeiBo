@@ -12,6 +12,7 @@ import com.wenming.weiswift.app.common.entity.list.UserList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.FriendShipModel;
+import com.wenming.weiswift.app.utils.TextSaveUtils;
 import com.wenming.weiswift.utils.SDCardUtils;
 import com.wenming.weiswift.utils.ToastUtil;
 
@@ -78,7 +79,7 @@ public class FriendShipModelImp implements FriendShipModel {
      * @param context
      */
     private void updateCache(Context context, User usertoUpdate) {
-        String follerResponse = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+        String follerResponse = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (follerResponse != null) {
             UserList userList = UserList.parse(follerResponse);
             ArrayList<User> usersList = userList.users;
@@ -89,7 +90,7 @@ public class FriendShipModelImp implements FriendShipModel {
                 }
             }
             userList.users = usersList;
-            SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(userList));
+            TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(userList));
 
         }
 

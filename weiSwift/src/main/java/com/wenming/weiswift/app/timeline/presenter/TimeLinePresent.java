@@ -1,5 +1,6 @@
 package com.wenming.weiswift.app.timeline.presenter;
 
+import com.wenming.weiswift.app.common.ThreadHelper;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.timeline.constants.Constants;
@@ -29,7 +30,19 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     @Override
     public void start() {
-        requestLatestTimeLine();
+        //先加载缓存，再网络请求最新的
+        loadTimeLineCache();
+    }
+
+    private void loadTimeLineCache() {
+        //加载全部微博缓存
+        if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
+            mDataModel.loadFriendsTimeLineCache(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), new LoadCacheCallBack());
+        }
+        //加载分组微博缓存
+        else {
+            mDataModel.loadGroupTimeLineCache(Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), mGroupId, new LoadCacheCallBack());
+        }
     }
 
     @Override
@@ -58,7 +71,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     @Override
     public void loadMoreTimeLine(List<Status> timeLineList) {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.loadMoreDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+            mDataModel.loadMoreFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
         } else {
             mDataModel.loadMoreGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
         }
@@ -66,7 +79,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     private void requestLatestTimeLine() {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.refreshDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
+            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
         } else {
             mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, new RefreshTimeLineCallBack(this));
         }
@@ -74,7 +87,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     private void requestTimeLineBySinceId(String sinceId) {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.refreshDefaultTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
         } else {
             mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, sinceId, new RefreshTimeLineCallBack(this));
         }
@@ -154,6 +167,29 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         mView.showNewWeiboCount(statusList.size());
         mView.setTimeLineList(statusList);
         mView.scrollToTop();
+    }
+
+    private class LoadCacheCallBack implements TimeLineDataSource.LoadCacheCallBack {
+        @Override
+        public void onComplete(final List<Status> data) {
+            ThreadHelper.instance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mView.setTimeLineList(data);
+                    requestLatestTimeLine();
+                }
+            });
+        }
+
+        @Override
+        public void onEmpty() {
+            ThreadHelper.instance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    requestLatestTimeLine();
+                }
+            });
+        }
     }
 
     private class LoadMoreTimeLineCallBack implements TimeLineDataSource.LoadMoreTimeLineCallBack {

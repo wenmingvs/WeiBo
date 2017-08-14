@@ -9,7 +9,6 @@ import com.wenming.weiswift.app.common.entity.list.FavoriteList;
 import com.wenming.weiswift.app.common.entity.list.StatusList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.widget.ArrowDialog;
-import com.wenming.weiswift.app.timeline.adapter.WeiboAdapter;
 import com.wenming.weiswift.app.login.Constants;
 import com.wenming.weiswift.app.mvp.model.FavoriteListModel;
 import com.wenming.weiswift.app.mvp.model.FriendShipModel;
@@ -18,6 +17,8 @@ import com.wenming.weiswift.app.mvp.model.imp.FavoriteListModelImp;
 import com.wenming.weiswift.app.mvp.model.imp.FriendShipModelImp;
 import com.wenming.weiswift.app.mvp.model.imp.StatusListModelImp;
 import com.wenming.weiswift.app.mvp.presenter.WeiBoArrowPresent2;
+import com.wenming.weiswift.app.timeline.adapter.WeiboAdapter;
+import com.wenming.weiswift.app.utils.TextSaveUtils;
 import com.wenming.weiswift.utils.SDCardUtils;
 
 /**
@@ -88,26 +89,26 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
         String response = null;
         switch (weiboGroup) {
             case Constants.DELETE_WEIBO_TYPE1:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.DELETE_WEIBO_TYPE2:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.DELETE_WEIBO_TYPE3:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.DELETE_WEIBO_TYPE4:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.DELETE_WEIBO_TYPE5:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 break;
             case Constants.DELETE_WEIBO_TYPE6:
-                response = SDCardUtils.get(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+                response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
                 FavoriteList favoriteList = FavoriteList.parse(response);
                 if (favoriteList != null && favoriteList.favorites.size() > 0 && position < favoriteList.favorites.size()) {
                     favoriteList.favorites.remove(position);
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(favoriteList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的收藏" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(favoriteList));
                 }
                 return;
         }
@@ -117,19 +118,19 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
             statusList.statuses.remove(position);
             switch (weiboGroup) {
                 case Constants.DELETE_WEIBO_TYPE1:
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/home", "全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
                     break;
                 case Constants.DELETE_WEIBO_TYPE2:
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的全部微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
                     break;
                 case Constants.DELETE_WEIBO_TYPE3:
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的原创微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
                     break;
                 case Constants.DELETE_WEIBO_TYPE4:
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/profile", "我的图片微博" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
                     break;
                 case Constants.DELETE_WEIBO_TYPE5:
-                    SDCardUtils.put(mContext, SDCardUtils.getSDCardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
+                    TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/home", "好友圈" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", new Gson().toJson(statusList));
                     break;
             }
         }

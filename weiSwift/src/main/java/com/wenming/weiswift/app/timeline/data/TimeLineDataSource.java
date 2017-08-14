@@ -10,13 +10,17 @@ import java.util.List;
 
 public interface TimeLineDataSource {
 
+    void loadFriendsTimeLineCache(long uid, LoadCacheCallBack callBack);
+
+    void loadGroupTimeLineCache(long uid, long groupId, LoadCacheCallBack callBack);
+
     /**
      * 请求好友时间线
      *
      * @param accessToken
      * @param callBack
      */
-    void refreshDefaultTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
+    void refreshFriendsTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
 
     /**
      * 请求第一条微博上面的好友时间线
@@ -25,7 +29,7 @@ public interface TimeLineDataSource {
      * @param sinceId
      * @param callBack
      */
-    void refreshDefaultTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshFriendsTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
 
     /**
      * 加载更多好友时间线
@@ -34,7 +38,7 @@ public interface TimeLineDataSource {
      * @param maxId
      * @param callBack
      */
-    void loadMoreDefaultTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
+    void loadMoreFriendsTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
 
     /**
      * 请求分组时间线
@@ -61,6 +65,12 @@ public interface TimeLineDataSource {
      * @param callBack
      */
     void loadMoreGroupTimeLine(String accessToken, long groupId, String maxId, LoadMoreTimeLineCallBack callBack);
+
+    interface LoadCacheCallBack {
+        void onComplete(List<Status> data);
+
+        void onEmpty();
+    }
 
     interface RefreshTimeLineCallBack {
         void onSuccess(List<Status> statusList);

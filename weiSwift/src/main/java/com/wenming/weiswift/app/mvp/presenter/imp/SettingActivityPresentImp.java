@@ -29,7 +29,7 @@ public class SettingActivityPresentImp implements SettingActivityPresent {
     @Override
     public void logout(final Context context) {
         tokenListModel.deleteToken(context, AccessTokenManager.getInstance().getOAuthToken().getUid());
-        AccessTokenManager.clearAccessToken();
+        AccessTokenManager.getInstance().clearAccessToken();
         tokenListModel.switchToken(context, 0, new TokenListModel.OnTokenSwitchListener() {
             @Override
             public void onSuccess() {

@@ -1,5 +1,8 @@
 package com.wenming.weiswift.app.home.presenter;
 
+import android.text.TextUtils;
+
+import com.wenming.weiswift.app.common.ThreadHelper;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.home.contract.HomeContract;
 import com.wenming.weiswift.app.home.data.HomeDataSource;
@@ -23,28 +26,49 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void start() {
-        requestGroups();
+        //无token，显示空白
+        if (TextUtils.isEmpty(AccessTokenManager.getInstance().getAccessToken())) {
+            return;
+        }
+        //先load缓存再网络请求
+        loadGroupsCache();
+    }
+
+    private void loadGroupsCache() {
+        mDataModel.loadGroupsCache(AccessTokenManager.getInstance().getUid(), new HomeDataSource.LoadCacheCallBack() {
+            @Override
+            public void onComplete(final List<Group> groups) {
+                ThreadHelper.instance().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.setGroupsList(groups);
+                        requestGroups();
+                    }
+                });
+            }
+
+            @Override
+            public void onEmpty() {
+                requestGroups();
+            }
+        });
     }
 
     @Override
     public void requestGroups() {
-        mView.showLoading();
-        mDataModel.requestGroups(AccessTokenManager.getInstance().getOAuthToken().getToken(), new HomeDataSource.GroupCallBack() {
+        mDataModel.requestGroups(AccessTokenManager.getInstance().getAccessToken(), AccessTokenManager.getInstance().getUid(), new HomeDataSource.GroupCallBack() {
             @Override
             public void onSuccess(List<Group> groups) {
-                mView.dismissLoading();
                 mView.setGroupsList(groups);
             }
 
             @Override
             public void onFail(String error) {
-                mView.dismissLoading();
                 mView.showServerMessage(error);
             }
 
             @Override
             public void onNetWorkNotConnected() {
-                mView.dismissLoading();
                 mView.showNoneNetWork();
             }
 

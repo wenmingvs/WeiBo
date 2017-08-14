@@ -9,7 +9,16 @@ import java.util.List;
  */
 
 public interface HomeDataSource {
-    void requestGroups(String accessToken, GroupCallBack callBack);
+
+    void loadGroupsCache(long uid, LoadCacheCallBack callBack);
+
+    void requestGroups(String accessToken,long uid, GroupCallBack callBack);
+
+    interface LoadCacheCallBack {
+        void onComplete(List<Group> data);
+
+        void onEmpty();
+    }
 
     interface GroupCallBack {
         void onSuccess(List<Group> data);

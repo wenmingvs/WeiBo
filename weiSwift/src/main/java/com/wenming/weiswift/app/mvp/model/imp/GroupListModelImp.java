@@ -10,6 +10,7 @@ import com.wenming.weiswift.app.home.data.entity.GroupList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.common.oauth.constant.AppAuthConstants;
 import com.wenming.weiswift.app.mvp.model.GroupListModel;
+import com.wenming.weiswift.app.utils.TextSaveUtils;
 import com.wenming.weiswift.utils.SDCardUtils;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class GroupListModelImp implements GroupListModel {
 
     @Override
     public void cacheLoad(Context context, OnGroupListFinishedListener onGroupListFinishedListener) {
-        String response = SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
+        String response = TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt");
         if (response != null) {
             mGroupList = GroupList.parse(response).lists;
             onGroupListFinishedListener.onDataFinish(mGroupList);
@@ -50,7 +51,7 @@ public class GroupListModelImp implements GroupListModel {
 
     @Override
     public void cacheSave(Context context, String response) {
-        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
+        TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/other", "我的分组列表" + AccessTokenManager.getInstance().getOAuthToken() + ".txt", response);
     }
 
     public RequestListener mGroupRequestListener = new RequestListener() {

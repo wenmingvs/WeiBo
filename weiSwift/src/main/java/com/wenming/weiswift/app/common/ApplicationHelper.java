@@ -45,6 +45,8 @@ public class ApplicationHelper extends Application implements Application.Activi
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = getApplicationContext();
+
         registerActivityLifecycleCallbacks(this);
         //路径管理器初始化
         AppDirManager.initFileManager(ApplicationHelper.getContext());
@@ -64,8 +66,6 @@ public class ApplicationHelper extends Application implements Application.Activi
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        sContext = getApplicationContext();
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     public static void initImageLoader(Context context) {

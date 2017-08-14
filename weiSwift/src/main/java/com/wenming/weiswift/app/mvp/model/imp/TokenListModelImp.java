@@ -8,6 +8,7 @@ import com.wenming.weiswift.app.common.entity.Token;
 import com.wenming.weiswift.app.common.entity.list.TokenList;
 import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.mvp.model.TokenListModel;
+import com.wenming.weiswift.app.utils.TextSaveUtils;
 import com.wenming.weiswift.utils.SDCardUtils;
 
 /**
@@ -19,7 +20,7 @@ public class TokenListModelImp implements TokenListModel {
     public void addToken(Context context, String token, String expiresIn, String refresh_token, String uid) {
         Gson gson = new Gson();
         Token element = new Token(token, expiresIn, refresh_token, uid);
-        TokenList tokenList = TokenList.parse(SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt"));
+        TokenList tokenList = TokenList.parse(TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt"));
         if (tokenList == null || tokenList.tokenList.size() == 0) {
             tokenList = new TokenList();
         }
@@ -33,14 +34,14 @@ public class TokenListModelImp implements TokenListModel {
         tokenList.tokenList.add(element);
         tokenList.total_number = tokenList.tokenList.size();
         tokenList.current_uid = uid;
-        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
+        TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
         updateAccessToken(token, expiresIn, refresh_token, uid);
     }
 
     @Override
     public void deleteToken(Context context, String uid) {
         Gson gson = new Gson();
-        TokenList tokenList = TokenList.parse(SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt"));
+        TokenList tokenList = TokenList.parse(TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt"));
         for (int i = 0; i < tokenList.tokenList.size(); i++) {
             if (tokenList.tokenList.get(i).uid.equals(uid)) {
                 tokenList.tokenList.remove(i);
@@ -48,14 +49,14 @@ public class TokenListModelImp implements TokenListModel {
         }
         tokenList.total_number = tokenList.tokenList.size();
         if (tokenList.tokenList.size() == 0) {
-            SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
-            AccessTokenManager.clearAccessToken();
+            TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
+            AccessTokenManager.getInstance().clearAccessToken();
             return;
         }
         tokenList.current_uid = tokenList.tokenList.get(0).uid;
-        SDCardUtils.put(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
+        TextSaveUtils.write(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt", gson.toJson(tokenList));
         if (AccessTokenManager.getInstance().getOAuthToken().equals(uid)) {
-            AccessTokenManager.clearAccessToken();
+            AccessTokenManager.getInstance().clearAccessToken();
             Token token = tokenList.tokenList.get(0);
             updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);
         }
@@ -64,7 +65,7 @@ public class TokenListModelImp implements TokenListModel {
 
     @Override
     public void switchToken(Context context, String uid) {
-        TokenList tokenList = TokenList.parse(SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt"));
+        TokenList tokenList = TokenList.parse(TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt"));
         for (int i = 0; i < tokenList.tokenList.size(); i++) {
             if (tokenList.tokenList.get(i).uid.equals(uid)) {
                 Token token = tokenList.tokenList.get(i);
@@ -76,7 +77,7 @@ public class TokenListModelImp implements TokenListModel {
 
     @Override
     public void switchToken(Context context, int positonInCache, OnTokenSwitchListener onTokenSwitchListener) {
-        TokenList tokenList = TokenList.parse(SDCardUtils.get(context, SDCardUtils.getSDCardPath() + "/weiSwift/", "登录列表缓存.txt"));
+        TokenList tokenList = TokenList.parse(TextSaveUtils.read(SDCardUtils.getSdcardPath() + "/weiSwift/", "登录列表缓存.txt"));
         if (tokenList.total_number > 0) {
             Token token = tokenList.tokenList.get(positonInCache);
             updateAccessToken(token.token, token.expiresIn, token.refresh_token, token.uid);
@@ -94,6 +95,6 @@ public class TokenListModelImp implements TokenListModel {
         mAccessToken.setExpiresIn(expiresIn);
         mAccessToken.setRefreshToken(refresh_token);
         mAccessToken.setUid(uid);
-        AccessTokenManager.writeAccessToken(mAccessToken);
+        AccessTokenManager.getInstance().writeAccessToken(mAccessToken);
     }
 }

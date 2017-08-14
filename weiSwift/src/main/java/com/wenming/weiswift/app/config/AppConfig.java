@@ -33,7 +33,7 @@ public class AppConfig {
      * 初始化SDCard下test config文件
      */
     private static void initTestConfig() {
-        final String configFilePath = SDCardUtils.getSDCardPath() + CONFIG_FILE_FOR_TEST;
+        final String configFilePath = SDCardUtils.getSdcardPath() + CONFIG_FILE_FOR_TEST;
         final File testConfigFile = new File(configFilePath);
         if (!testConfigFile.exists()) {
             return;

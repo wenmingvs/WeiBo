@@ -1,7 +1,5 @@
 package com.wenming.weiswift.common.file.option;
 
-import com.meitu.library.filemanager.exception.NotEnoughSpaceException;
-
 /**
  * func: 文件配置类
  * Created by Li WenTao on 2016/9/24 11:26
@@ -19,7 +17,6 @@ public final class GlobalFileOptions {
     private final String projectName;
 
     /**
-     * 用于控制{@link com.meitu.library.filemanager.exception.NotEnoughSpaceException}
      * 抛出的阈值，剩余空间小于该值则抛出异常。
      */
     private final long notEnoughSpaceLeftLine;
