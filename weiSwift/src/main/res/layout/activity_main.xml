@@ -14,14 +14,14 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/main_appbar_Al"
             android:layout_width="match_parent"
-            android:layout_height="104dp"
+            android:layout_height="128dp"
             android:background="@drawable/main_appbar_background"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -30,8 +30,6 @@
                 android:id="@+id/main_tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@id/main_toolbar"
-                android:visibility="gone"
                 app:tabGravity="center"
                 app:tabIndicatorColor="@color/group_tabSelectedTextColor"
                 app:tabIndicatorHeight="3dp"
