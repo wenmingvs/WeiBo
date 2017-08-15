@@ -19,5 +19,5 @@ public class Constants {
     /**
      * 第一条微博的时间发布超过3分钟，要全量刷新
      */
-    public static final int TIME_SPACE = 3 * 60 * 1000;
+    public static final int TIME_SPACE = 10 * 60 * 1000;
 }

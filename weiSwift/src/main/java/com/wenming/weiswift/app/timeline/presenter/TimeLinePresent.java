@@ -6,7 +6,6 @@ import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.timeline.constants.Constants;
 import com.wenming.weiswift.app.timeline.contract.TimeLineContract;
 import com.wenming.weiswift.app.timeline.data.TimeLineDataSource;
-import com.wenming.weiswift.utils.TimeUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -19,6 +18,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     private TimeLineDataSource mDataModel;
     private long mGroupId;
     private boolean mRefreshAll;
+    private long mRefreshTime;
 
     public TimeLinePresent(TimeLineContract.View view, TimeLineDataSource dataModel, boolean refreshAll, long groupId) {
         this.mView = view;
@@ -53,12 +53,12 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
             haveCacheTimeLine = false;
         } else {
             haveCacheTimeLine = true;
-            long timeSpace = System.currentTimeMillis() - TimeUtils.parseTimeString(timeLineList.get(0).created_at);
+            long timeSpace = System.currentTimeMillis() - mRefreshTime;
             isTimeOut = timeSpace >= Constants.TIME_SPACE;
         }
         //1. 外部指定，一定要全量刷新
         //2. 不存在任何微博缓存，要全量刷新
-        //3. 第一条微博的时间发布超过3分钟，要全量刷新
+        //3. 距离上一次刷新时间超过5分钟，要全量刷新
         if (mRefreshAll || !haveCacheTimeLine || isTimeOut) {
             requestLatestTimeLine();
         }
@@ -78,6 +78,8 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     private void requestLatestTimeLine() {
+        mRefreshTime = System.currentTimeMillis();
+        mRefreshAll = false;
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
             mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), new RefreshTimeLineCallBack(this));
         } else {
@@ -86,12 +88,67 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
     }
 
     private void requestTimeLineBySinceId(String sinceId) {
+        mRefreshTime = System.currentTimeMillis();
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), sinceId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), sinceId, new RefreshTimeLineBySinceIdCallBack(this));
         } else {
-            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), mGroupId, sinceId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), mGroupId, sinceId, new RefreshTimeLineBySinceIdCallBack(this));
+        }
+    }
+
+    private static class RefreshTimeLineBySinceIdCallBack implements TimeLineDataSource.RefreshTimeLineCallBack {
+        private WeakReference<TimeLinePresent> mPresenterRef;
+
+        RefreshTimeLineBySinceIdCallBack(TimeLinePresent timeLinePresent) {
+            this.mPresenterRef = new WeakReference<>(timeLinePresent);
         }
 
+        @Override
+        public void onSuccess(List<Status> statusList) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshSuccessBySinceId(statusList);
+            }
+        }
+
+        @Override
+        public void onPullToRefreshEmpty() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshEmpty();
+            }
+        }
+
+        @Override
+        public void onFail(String error) {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshFail(error);
+            }
+        }
+
+        @Override
+        public void onNetWorkNotConnected() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshNetWorkNotConnected();
+            }
+        }
+
+        @Override
+        public void onTimeOut() {
+            TimeLinePresent presenter = mPresenterRef.get();
+            if (null != presenter) {
+                presenter.onRefreshTimeOut();
+            }
+        }
+    }
+
+    private void onRefreshSuccessBySinceId(List<Status> statusList) {
+        mView.dismissLoading();
+        mView.showNewWeiboCount(statusList.size());
+        mView.addHeaderTimeLine(statusList);
+        mView.scrollToTop();
     }
 
     private static class RefreshTimeLineCallBack implements TimeLineDataSource.RefreshTimeLineCallBack {

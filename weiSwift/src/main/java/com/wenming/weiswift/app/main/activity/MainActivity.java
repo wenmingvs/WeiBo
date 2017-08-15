@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.ApplicationHelper;
@@ -227,8 +226,8 @@ public class MainActivity extends BaseAppCompatActivity {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 Log.e("wenming", verticalOffset + "");
-                //偏移的距离超过ToolBar高度的一半，隐藏状态栏（仅Android 4.1以上有效）
-                if (Math.abs(verticalOffset) > appBarLayout.getTotalScrollRange() / 2 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                //偏移的距离超过ToolBar高度的1/5，隐藏状态栏（仅Android 4.1以上有效）
+                if (Math.abs(verticalOffset) > appBarLayout.getTotalScrollRange() / 5 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_FULLSCREEN);
                 }
                 //偏移为0，表示回到顶部，ToolBar完全展示，显示状态栏
