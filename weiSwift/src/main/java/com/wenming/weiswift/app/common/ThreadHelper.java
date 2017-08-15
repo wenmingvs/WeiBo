@@ -85,20 +85,6 @@ public class ThreadHelper {
     }
 
     /**
-     * use {@link ThreadHelper#runOnWorkThread(Task)} instead.
-     */
-    @Deprecated
-    public void runOnWorkThread(final Runnable action) {
-        mThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND + Process.THREAD_PRIORITY_MORE_FAVORABLE);
-                action.run();
-            }
-        });
-    }
-
-    /**
      *  use {@link ThreadHelper#runOnWorkThread(Task, long)} instead.
      */
     @Deprecated

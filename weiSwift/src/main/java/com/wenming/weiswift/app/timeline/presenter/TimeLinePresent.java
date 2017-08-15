@@ -79,17 +79,17 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
 
     private void requestLatestTimeLine() {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), new RefreshTimeLineCallBack(this));
+            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), new RefreshTimeLineCallBack(this));
         } else {
-            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), mGroupId, new RefreshTimeLineCallBack(this));
         }
     }
 
     private void requestTimeLineBySinceId(String sinceId) {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), sinceId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), sinceId, new RefreshTimeLineCallBack(this));
         } else {
-            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, sinceId, new RefreshTimeLineCallBack(this));
+            mDataModel.refreshGroupTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), mGroupId, sinceId, new RefreshTimeLineCallBack(this));
         }
 
     }

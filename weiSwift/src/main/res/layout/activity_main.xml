@@ -14,7 +14,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/main_appbar_Al"
             android:layout_width="match_parent"
-            android:layout_height="128dp"
+            android:layout_height="125dp"
             android:background="@drawable/main_appbar_background"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -23,13 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/main_tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="45dp"
                 app:tabGravity="center"
                 app:tabIndicatorColor="@color/group_tabSelectedTextColor"
                 app:tabIndicatorHeight="3dp"

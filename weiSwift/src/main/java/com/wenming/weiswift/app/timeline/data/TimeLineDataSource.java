@@ -20,7 +20,7 @@ public interface TimeLineDataSource {
      * @param accessToken
      * @param callBack
      */
-    void refreshFriendsTimeLine(String accessToken, RefreshTimeLineCallBack callBack);
+    void refreshFriendsTimeLine(long uid, String accessToken, RefreshTimeLineCallBack callBack);
 
     /**
      * 请求第一条微博上面的好友时间线
@@ -29,7 +29,7 @@ public interface TimeLineDataSource {
      * @param sinceId
      * @param callBack
      */
-    void refreshFriendsTimeLine(String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshFriendsTimeLine(long uid, String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
 
     /**
      * 加载更多好友时间线
@@ -42,23 +42,26 @@ public interface TimeLineDataSource {
 
     /**
      * 请求分组时间线
+     *
      * @param accessToken
      * @param groupId
      * @param callBack
      */
-    void refreshGroupTimeLine(String accessToken, long groupId, RefreshTimeLineCallBack callBack);
+    void refreshGroupTimeLine(long uid, String accessToken, long groupId, RefreshTimeLineCallBack callBack);
 
     /**
      * 请求分组下第一条微博上面的时间线
+     *
      * @param accessToken
      * @param groupId
      * @param sinceId
      * @param callBack
      */
-    void refreshGroupTimeLine(String accessToken, long groupId, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshGroupTimeLine(long uid, String accessToken, long groupId, String sinceId, RefreshTimeLineCallBack callBack);
 
     /**
      * 加载更多分组时间线
+     *
      * @param accessToken
      * @param groupId
      * @param maxId

@@ -3,7 +3,6 @@ package com.wenming.weiswift.app.timeline.cache;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.AppDirManager;
 import com.wenming.weiswift.app.common.ApplicationHelper;
-import com.wenming.weiswift.app.common.oauth.AccessTokenManager;
 import com.wenming.weiswift.app.utils.ToastUtils;
 import com.wenming.weiswift.common.file.exception.NotEnoughSpaceException;
 import com.wenming.weiswift.common.file.exception.SDCardStateException;
@@ -26,9 +25,9 @@ public class TimeLineCacheConfig {
      *
      * @return 返回分组时间线缓存的文件夹
      */
-    public static String getGroupsTimeLineDir() {
+    public static String getGroupsTimeLineDir(long uid) {
         try {
-            return AppDirManager.getUserDir(AccessTokenManager.getInstance().getUid(), DIR_GROUPS_TIMELINE);
+            return AppDirManager.getUserDir(uid, DIR_GROUPS_TIMELINE);
         } catch (SDCardStateException e) {
             e.printStackTrace();
             ToastUtils.show(ApplicationHelper.getContext(), R.string.common_not_enough_storage_size);
@@ -44,9 +43,9 @@ public class TimeLineCacheConfig {
      *
      * @return 返回好友时间线缓存的文件夹
      */
-    public static String getFriendsTimeLine() {
+    public static String getFriendsTimeLine(long uid) {
         try {
-            return AppDirManager.getUserDir(AccessTokenManager.getInstance().getUid(), DIR_FRIENDS_TIMELINE);
+            return AppDirManager.getUserDir(uid, DIR_FRIENDS_TIMELINE);
         } catch (SDCardStateException e) {
             e.printStackTrace();
             ToastUtils.show(ApplicationHelper.getContext(), R.string.common_not_enough_storage_size);
