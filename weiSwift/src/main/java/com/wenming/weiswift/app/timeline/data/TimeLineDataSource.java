@@ -29,7 +29,7 @@ public interface TimeLineDataSource {
      * @param sinceId
      * @param callBack
      */
-    void refreshFriendsTimeLine(long uid, String accessToken, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshFriendsTimeLine(long uid, String accessToken, long sinceId, RefreshTimeLineCallBack callBack);
 
     /**
      * 加载更多好友时间线
@@ -38,7 +38,7 @@ public interface TimeLineDataSource {
      * @param maxId
      * @param callBack
      */
-    void loadMoreFriendsTimeLine(String accessToken, String maxId, LoadMoreTimeLineCallBack callBack);
+    void loadMoreFriendsTimeLine(String accessToken, long maxId, LoadMoreTimeLineCallBack callBack);
 
     /**
      * 请求分组时间线
@@ -57,7 +57,7 @@ public interface TimeLineDataSource {
      * @param sinceId
      * @param callBack
      */
-    void refreshGroupTimeLine(long uid, String accessToken, long groupId, String sinceId, RefreshTimeLineCallBack callBack);
+    void refreshGroupTimeLine(long uid, String accessToken, long groupId, long sinceId, RefreshTimeLineCallBack callBack);
 
     /**
      * 加载更多分组时间线
@@ -67,7 +67,7 @@ public interface TimeLineDataSource {
      * @param maxId
      * @param callBack
      */
-    void loadMoreGroupTimeLine(String accessToken, long groupId, String maxId, LoadMoreTimeLineCallBack callBack);
+    void loadMoreGroupTimeLine(String accessToken, long groupId, long maxId, LoadMoreTimeLineCallBack callBack);
 
     interface LoadCacheCallBack {
         void onComplete(List<Status> data);

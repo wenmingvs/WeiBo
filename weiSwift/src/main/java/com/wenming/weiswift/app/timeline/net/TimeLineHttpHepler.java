@@ -32,7 +32,7 @@ public class TimeLineHttpHepler {
      * @param listener      请求成功回调
      * @param errorListener 请求失败的回调
      */
-    public static void getDefaultTimeLine(String token, long sinceId, long maxId, int count, int page, int feature, boolean trimUser,
+    public static void getFriendsTimeLine(String token, long sinceId, long maxId, int count, int page, int feature, boolean trimUser,
                                           Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         if (TextUtils.isEmpty(token)) {
             DebugTool.showToast(ApplicationHelper.getContext(), "token is empty");
@@ -105,13 +105,13 @@ public class TimeLineHttpHepler {
         HttpManager.getInstance().httpStringGetRequest(APIConstants.GROUPS_TIMELINE, params, requesetTag, listener, errorListener);
     }
 
-    public static void getDefaultTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getDefaultTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
+    public static void getFriendsTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        getFriendsTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
                 Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 
-    public static void getDefaultTimeLine(String token, long sinceId, long maxId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        getDefaultTimeLine(token, sinceId, maxId, Constants.TIMELINE_DEFALUT_COUNT,
+    public static void getFriendsTimeLine(String token, long sinceId, long maxId, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        getFriendsTimeLine(token, sinceId, maxId, Constants.TIMELINE_DEFALUT_COUNT,
                 Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);
     }
 

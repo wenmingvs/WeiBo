@@ -24,7 +24,6 @@ public class TimeLineDataManager implements TimeLineDataSource {
     private Context mContext;
     private Object mRequestTag = new Object();
 
-
     public TimeLineDataManager(Context context) {
         this.mContext = context;
     }
@@ -66,10 +65,22 @@ public class TimeLineDataManager implements TimeLineDataSource {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getDefaultTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getFriendsTimeLine(accessToken, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                handleFriendTimeLineRefreshResult(uid, response, callBack);
+                StatusList statusList = StatusList.parse(response);
+                ArrayList<Status> timeLineList = statusList.statuses;
+                if (timeLineList != null && timeLineList.size() > 0) {
+                    ThreadHelper.instance().runOnWorkThread(new ThreadHelper.Task() {
+                        @Override
+                        public void onRun() {
+                            TextSaveUtils.write(TimeLineCacheConfig.getFriendsTimeLine(uid), TimeLineCacheConfig.FILE_FRIENDS_TIMELINE, response);
+                        }
+                    });
+                    callBack.onSuccess(timeLineList);
+                } else {
+                    callBack.onPullToRefreshEmpty();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -82,15 +93,21 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void refreshFriendsTimeLine(final long uid, String accessToken, String sinceId, final RefreshTimeLineCallBack callBack) {
+    public void refreshFriendsTimeLine(final long uid, String accessToken, long sinceId, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getDefaultTimeLine(accessToken, Long.valueOf(sinceId), Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getFriendsTimeLine(accessToken, Long.valueOf(sinceId), Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                handleFriendTimeLineRefreshResult(uid, response, callBack);
+                StatusList statusList = StatusList.parse(response);
+                ArrayList<Status> timeLineList = statusList.statuses;
+                if (timeLineList != null && timeLineList.size() > 0) {
+                    callBack.onSuccess(timeLineList);
+                } else {
+                    callBack.onPullToRefreshEmpty();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -103,12 +120,12 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void loadMoreFriendsTimeLine(String accessToken, String maxId, final LoadMoreTimeLineCallBack callBack) {
+    public void loadMoreFriendsTimeLine(String accessToken, long maxId, final LoadMoreTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getDefaultTimeLine(accessToken, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getFriendsTimeLine(accessToken, Constants.TIMELINE_DEFALUT_SINCE_ID, Long.valueOf(maxId), mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handleLoadMoreResult(response, callBack);
@@ -132,7 +149,20 @@ public class TimeLineDataManager implements TimeLineDataSource {
         TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                handleGroupsTimeLineRefreshResult(uid, response, groupId, callBack);
+                StatusList statusList = StatusList.parse(response);
+                ArrayList<Status> timeLineList = statusList.statuses;
+                if (timeLineList != null && timeLineList.size() > 0) {
+                    ThreadHelper.instance().runOnWorkThread(new ThreadHelper.Task() {
+                        @Override
+                        public void onRun() {
+                            TextSaveUtils.write(TimeLineCacheConfig.getGroupsTimeLineDir(uid),
+                                    TimeLineCacheConfig.FILE_GROUPS_TIMELINE_PRRFIX + String.valueOf(groupId) + TimeLineCacheConfig.FILE_GROUPS_TIMELINE_SUFFIX, response);
+                        }
+                    });
+                    callBack.onSuccess(timeLineList);
+                } else {
+                    callBack.onPullToRefreshEmpty();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -145,15 +175,21 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void refreshGroupTimeLine(final long uid, String accessToken, final long groupId, String sinceId, final RefreshTimeLineCallBack callBack) {
+    public void refreshGroupTimeLine(final long uid, String accessToken, final long groupId, long sinceId, final RefreshTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
         }
-        TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, mRequestTag, new Response.Listener<String>() {
+        TimeLineHttpHepler.getGroupsTimeLine(accessToken, groupId, sinceId, Constants.TIMELINE_DEFALUT_MAX_ID, mRequestTag, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                handleGroupsTimeLineRefreshResult(uid, response, groupId, callBack);
+                StatusList statusList = StatusList.parse(response);
+                ArrayList<Status> timeLineList = statusList.statuses;
+                if (timeLineList != null && timeLineList.size() > 0) {
+                    callBack.onSuccess(timeLineList);
+                } else {
+                    callBack.onPullToRefreshEmpty();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -166,7 +202,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
     }
 
     @Override
-    public void loadMoreGroupTimeLine(String accessToken, long groupId, String maxId, final LoadMoreTimeLineCallBack callBack) {
+    public void loadMoreGroupTimeLine(String accessToken, long groupId, long maxId, final LoadMoreTimeLineCallBack callBack) {
         if (!NetUtil.isConnected(mContext)) {
             callBack.onNetWorkNotConnected();
             return;
@@ -184,39 +220,6 @@ public class TimeLineDataManager implements TimeLineDataSource {
                 }
             }
         });
-    }
-
-    private void handleFriendTimeLineRefreshResult(final long uid, final String response, RefreshTimeLineCallBack callBack) {
-        StatusList statusList = StatusList.parse(response);
-        ArrayList<Status> timeLineList = statusList.statuses;
-        if (timeLineList != null && timeLineList.size() > 0) {
-            ThreadHelper.instance().runOnWorkThread(new ThreadHelper.Task() {
-                @Override
-                public void onRun() {
-                    TextSaveUtils.write(TimeLineCacheConfig.getFriendsTimeLine(uid), TimeLineCacheConfig.FILE_FRIENDS_TIMELINE, response);
-                }
-            });
-            callBack.onSuccess(timeLineList);
-        } else {
-            callBack.onPullToRefreshEmpty();
-        }
-    }
-
-    private void handleGroupsTimeLineRefreshResult(final long uid, final String response, final long groupId, RefreshTimeLineCallBack callBack) {
-        StatusList statusList = StatusList.parse(response);
-        ArrayList<Status> timeLineList = statusList.statuses;
-        if (timeLineList != null && timeLineList.size() > 0) {
-            ThreadHelper.instance().runOnWorkThread(new ThreadHelper.Task() {
-                @Override
-                public void onRun() {
-                    TextSaveUtils.write(TimeLineCacheConfig.getGroupsTimeLineDir(uid),
-                            TimeLineCacheConfig.FILE_GROUPS_TIMELINE_PRRFIX + String.valueOf(groupId) + TimeLineCacheConfig.FILE_GROUPS_TIMELINE_SUFFIX, response);
-                }
-            });
-            callBack.onSuccess(timeLineList);
-        } else {
-            callBack.onPullToRefreshEmpty();
-        }
     }
 
     private void handleLoadMoreResult(String response, LoadMoreTimeLineCallBack callBack) {

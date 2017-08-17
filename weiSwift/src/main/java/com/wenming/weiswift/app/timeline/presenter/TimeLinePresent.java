@@ -53,8 +53,7 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
             haveCacheTimeLine = false;
         } else {
             haveCacheTimeLine = true;
-            long timeSpace = System.currentTimeMillis() - mRefreshTime;
-            isTimeOut = timeSpace >= Constants.TIME_SPACE;
+            isTimeOut = (System.currentTimeMillis() - mRefreshTime) >= Constants.TIME_SPACE;
         }
         //1. 外部指定，一定要全量刷新
         //2. 不存在任何微博缓存，要全量刷新
@@ -64,16 +63,16 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         }
         //请求当前第一条微博更早的微博
         else {
-            requestTimeLineBySinceId(timeLineList.get(0).id);
+            requestTimeLineBySinceId(Long.valueOf(timeLineList.get(0).id));
         }
     }
 
     @Override
     public void loadMoreTimeLine(List<Status> timeLineList) {
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
-            mDataModel.loadMoreFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+            mDataModel.loadMoreFriendsTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), Long.valueOf(timeLineList.get(timeLineList.size() - 1).id), new LoadMoreTimeLineCallBack(this));
         } else {
-            mDataModel.loadMoreGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, timeLineList.get(timeLineList.size() - 1).id, new LoadMoreTimeLineCallBack(this));
+            mDataModel.loadMoreGroupTimeLine(AccessTokenManager.getInstance().getOAuthToken().getToken(), mGroupId, Long.valueOf(timeLineList.get(timeLineList.size() - 1).id), new LoadMoreTimeLineCallBack(this));
         }
     }
 
@@ -87,8 +86,9 @@ public class TimeLinePresent implements TimeLineContract.Presenter {
         }
     }
 
-    private void requestTimeLineBySinceId(String sinceId) {
+    private void requestTimeLineBySinceId(long sinceId) {
         mRefreshTime = System.currentTimeMillis();
+        mRefreshAll = false;
         if (mGroupId == com.wenming.weiswift.app.home.constant.Constants.GROUP_ALL) {
             mDataModel.refreshFriendsTimeLine(AccessTokenManager.getInstance().getUid(), AccessTokenManager.getInstance().getAccessToken(), sinceId, new RefreshTimeLineBySinceIdCallBack(this));
         } else {
