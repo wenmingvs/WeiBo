@@ -1,7 +1,6 @@
 package com.wenming.weiswift.app.main.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -13,11 +12,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +38,8 @@ import com.wenming.weiswift.app.discover.DiscoverFragment;
 import com.wenming.weiswift.app.home.data.HomeDataManager;
 import com.wenming.weiswift.app.home.fragment.HomeFragment;
 import com.wenming.weiswift.app.home.presenter.HomePresenter;
+import com.wenming.weiswift.app.login.post.PostService;
+import com.wenming.weiswift.app.login.post.idea.IdeaSwipeActivity;
 import com.wenming.weiswift.app.message.fragment.fragment.MessageFragment;
 import com.wenming.weiswift.app.myself.collect.activity.CollectSwipeActivity;
 import com.wenming.weiswift.app.myself.fans.activity.FansSwipeActivity;
@@ -222,24 +222,24 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initListener() {
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.e("wenming", verticalOffset + "");
-                //偏移的距离超过ToolBar高度的1/5，隐藏状态栏（仅Android 4.1以上有效）
-                if (Math.abs(verticalOffset) > appBarLayout.getTotalScrollRange() / 5 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_FULLSCREEN);
-                }
-                //偏移为0，表示回到顶部，ToolBar完全展示，显示状态栏
-                else if (verticalOffset == 0) {
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                    } else {
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    }
-                }
-            }
-        });
+//        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                Log.e("wenming", verticalOffset + "");
+//                //偏移的距离超过ToolBar高度的1/5，隐藏状态栏（仅Android 4.1以上有效）
+//                if (Math.abs(verticalOffset) > appBarLayout.getTotalScrollRange() / 5 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                    mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_FULLSCREEN);
+//                }
+//                //偏移为0，表示回到顶部，ToolBar完全展示，显示状态栏
+//                else if (verticalOffset == 0) {
+//                    if (Build.VERSION.SDK_INT >= 16) {
+//                        mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//                    } else {
+//                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    }
+//                }
+//            }
+//        });
         mNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -488,5 +488,24 @@ public class MainActivity extends BaseAppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_write_weibo:
+                Intent intent = new Intent(mContext, IdeaSwipeActivity.class);
+                intent.putExtra("ideaType", PostService.POST_SERVICE_CREATE_WEIBO);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

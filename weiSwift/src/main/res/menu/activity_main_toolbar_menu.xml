@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toolbar_write_weibo"
+        android:icon="@drawable/toolbar_write_weibo"
+        android:title="@string/toolbar_write_weibo"
+        app:showAsAction="ifRoom" />
+
+</menu>

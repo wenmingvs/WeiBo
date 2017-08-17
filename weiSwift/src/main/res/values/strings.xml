@@ -25,6 +25,8 @@
     <string name="drawer_setting">设置</string>
     <string name="drawer_navigation_open">抽屉栏打开</string>
     <string name="drawer_navigation_close">抽屉栏关闭</string>
+    <!-- ToolBar -->
+    <string name="toolbar_write_weibo">写微博</string>
 
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>
@@ -53,8 +55,6 @@
     <string name="yesterday">昨天</string>
     <string name="the_day_before_yesterday">前天</string>
     <string name="share_title">来自WeiSwift微博客户端</string>
-
-    <string name="action_settings">Settings</string>
 
     <string name="home_image_detail_image_pop_window_save_pic">保存图片</string>
     <string name="home_image_detail_image_pop_window_forward_weibo">转发微博</string>
