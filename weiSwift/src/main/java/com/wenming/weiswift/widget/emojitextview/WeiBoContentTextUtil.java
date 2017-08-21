@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
+import com.wenming.weiswift.app.timeline.constants.Constants;
 import com.wenming.weiswift.utils.DensityUtil;
 
 import java.util.regex.Matcher;
@@ -26,18 +27,10 @@ import java.util.regex.Pattern;
  * Created by wenmingvs on 16/4/16.
  */
 public class WeiBoContentTextUtil {
-
-    private static final String AT = "@[\\w\\p{InCJKUnifiedIdeographs}-]{1,26}";// @人
-    private static final String TOPIC = "#[\\p{Print}\\p{InCJKUnifiedIdeographs}&&[^#]]+#";// ##话题
-    private static final String URL = "http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";// url
-    private static final String EMOJI = "\\[(\\S+?)\\]";//emoji 表情
-
-    private static final String ALL = "(" + AT + ")" + "|" + "(" + TOPIC + ")" + "|" + "(" + URL + ")" + "|" + "(" + EMOJI + ")";
-
     public static SpannableStringBuilder getWeiBoContent(String source, final Context context, TextView textView) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(source);
         //设置正则
-        Pattern pattern = Pattern.compile(ALL);
+        Pattern pattern = Pattern.compile(Constants.ALL);
         Matcher matcher = pattern.matcher(spannableStringBuilder);
 
         if (matcher.find()) {
@@ -49,7 +42,6 @@ public class WeiBoContentTextUtil {
             }
             matcher.reset();
         }
-
         while (matcher.find()) {
             final String at = matcher.group(1);
             final String topic = matcher.group(2);

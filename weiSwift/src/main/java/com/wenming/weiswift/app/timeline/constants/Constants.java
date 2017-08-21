@@ -16,6 +16,14 @@ public class Constants {
     public static final int TIMELINE_DEFALUT_FEATURE = 0;
     public static final boolean TIMELINE_DEFALUT_TRIM_USER = false;
 
+    public static final String AT = "@[\\w\\p{InCJKUnifiedIdeographs}-]{1,26}";// @人
+    public static final String TOPIC = "#[\\p{Print}\\p{InCJKUnifiedIdeographs}&&[^#]]+#";// ##话题
+    public static final String URL = "http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";// url
+    public static final String EMOJI = "\\[(\\S+?)\\]";//emoji 表情
+    public static final String ALL = "(" + AT + ")" + "|" + "(" + TOPIC + ")" + "|" + "(" + URL + ")" + "|" + "(" + EMOJI + ")";
+
+    public static final String SHROT_URL = "http://t.cn/[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";// url
+
     /**
      * 第一条微博的时间发布超过3分钟，要全量刷新
      */

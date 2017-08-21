@@ -69,6 +69,14 @@ public interface TimeLineDataSource {
      */
     void loadMoreGroupTimeLine(String accessToken, long groupId, long maxId, LoadMoreTimeLineCallBack callBack);
 
+    /**
+     * 将一个或多个短链接还原成原始的长链接
+     *
+     * @param accessToken
+     * @param urlList
+     */
+    void parseShortUrl(String accessToken, List<String> urlList, ParseShortUrlCallBack callBack);
+
     interface LoadCacheCallBack {
         void onComplete(List<Status> data);
 
@@ -93,6 +101,16 @@ public interface TimeLineDataSource {
         void onLoadMoreEmpty();
 
         void onFail(String error);
+
+        void onNetWorkNotConnected();
+
+        void onTimeOut();
+    }
+
+    interface ParseShortUrlCallBack {
+        void onSuccess();
+
+        void onFail();
 
         void onNetWorkNotConnected();
 

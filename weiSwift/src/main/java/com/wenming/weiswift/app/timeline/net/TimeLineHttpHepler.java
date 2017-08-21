@@ -10,6 +10,7 @@ import com.wenming.weiswift.app.debug.DebugTool;
 import com.wenming.weiswift.app.timeline.constants.Constants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -103,6 +104,24 @@ public class TimeLineHttpHepler {
             params.put("trim_user", String.valueOf(0));
         }
         HttpManager.getInstance().httpStringGetRequest(APIConstants.GROUPS_TIMELINE, params, requesetTag, listener, errorListener);
+    }
+
+    /**
+     * 将一个或多个短链接还原成原始的长链接
+     *
+     * @param token         采用OAuth授权方式为必填参数，OAuth授权后获得。
+     * @param urlList       需要还原的短链接，需要URLencoded，最多不超过20个 。
+     * @param requesetTag   请求标示
+     * @param listener      请求成功回调
+     * @param errorListener 请求失败的回调
+     */
+    public static void parseShortUrlList(String token, List<String> urlList, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        Map<String, String> params = new HashMap<>();
+        params.put("access_token", token);
+        for (String url : urlList) {
+            params.put("url_short", url);
+        }
+        HttpManager.getInstance().httpStringGetRequest(APIConstants.SHORT_URL_EXPAND, params, "url_short", urlList, requesetTag, listener, errorListener);
     }
 
     public static void getFriendsTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {

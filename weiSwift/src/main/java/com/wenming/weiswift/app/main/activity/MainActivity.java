@@ -165,7 +165,6 @@ public class MainActivity extends BaseAppCompatActivity {
         mNavigationView.setItemIconTintList(null);
         //加载缓存，然后再进行网络加载
         loadUserInfo();
-        requestMySelfInfo();
     }
 
     private void loadUserInfo() {
