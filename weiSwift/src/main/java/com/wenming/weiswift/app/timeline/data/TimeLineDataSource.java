@@ -77,6 +77,12 @@ public interface TimeLineDataSource {
      */
     void parseShortUrl(String accessToken, List<String> urlList, ParseShortUrlCallBack callBack);
 
+    interface RequestVideoImgCallBack {
+        void onSuccess(String videoUrl);
+
+        void onFail();
+    }
+
     interface LoadCacheCallBack {
         void onComplete(List<Status> data);
 

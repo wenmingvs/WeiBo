@@ -13,6 +13,8 @@ public interface OriginContract {
 
         void setImgListContent(Status status);
 
+        void setVideoImg(String videoImg);
+
         void setImgListVisible(boolean visible);
 
         boolean isImgListVisble();

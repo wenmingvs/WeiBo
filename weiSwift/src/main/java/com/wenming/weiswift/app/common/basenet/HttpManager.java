@@ -48,6 +48,11 @@ public class HttpManager {
         VolleyController.instance().addToRequestQueue(stringRequest, requestTag);
     }
 
+    public static void httpStringGetRequest(String url, Object requestTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        StringRequest stringRequest = new StringRequest(url, listener, errorListener);
+        VolleyController.instance().addToRequestQueue(stringRequest, requestTag);
+    }
+
     /**
      * 拼接Get操作的网络请求
      *

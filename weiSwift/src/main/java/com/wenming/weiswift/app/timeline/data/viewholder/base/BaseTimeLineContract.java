@@ -50,7 +50,7 @@ public interface BaseTimeLineContract {
     interface Presenter extends BasePresenter {
 
         void goToStatusDetailActivity();
-
+        
         void reset();
     }
 }

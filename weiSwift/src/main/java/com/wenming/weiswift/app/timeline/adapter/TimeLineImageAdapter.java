@@ -45,6 +45,12 @@ public class TimeLineImageAdapter extends RecyclerView.Adapter<TimeLineImageAdap
         setData(status);
     }
 
+    public TimeLineImageAdapter(String videoImg, Context context) {
+        this.mData = new ArrayList<String>();
+        this.mContext = context;
+        this.mData.add(videoImg);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.mainfragment_weiboitem_imageitem, parent, false);

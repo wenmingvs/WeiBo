@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineImageAdapter;
+import com.wenming.weiswift.app.timeline.adapter.VideoImgAdapter;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineViewHolder;
 import com.wenming.weiswift.widget.emojitextview.EmojiTextView;
@@ -18,7 +19,6 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
     private LinearLayout mStatusContainerLl;
     private EmojiTextView mTextContentTv;
     private RecyclerView mImgListRlv;
-    private TimeLineImageAdapter mImgAdapter;
     private OriginContract.Presenter mPresenter;
 
     public OriginViewHolder(Context context, View v) {
@@ -63,11 +63,22 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
     @Override
     public void setImgListContent(Status status) {
         GridLayoutManager gridLayoutManager = initGridLayoutManager(status.bmiddle_pic_urls);
-        mImgAdapter = new TimeLineImageAdapter(status, mContext);
+        TimeLineImageAdapter imgListAdapter = new TimeLineImageAdapter(status, mContext);
         mImgListRlv.setHasFixedSize(true);
-        mImgListRlv.setAdapter(mImgAdapter);
+        mImgListRlv.setAdapter(imgListAdapter);
         mImgListRlv.setLayoutManager(gridLayoutManager);
-        mImgAdapter.setData(status);
+        imgListAdapter.setData(status);
+        mImgListRlv.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void setVideoImg(String videoImg) {
+        mImgListRlv.setVisibility(View.VISIBLE);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+        VideoImgAdapter videoImgAdapter = new VideoImgAdapter(videoImg, mContext);
+        mImgListRlv.setHasFixedSize(true);
+        mImgListRlv.setAdapter(videoImgAdapter);
+        mImgListRlv.setLayoutManager(gridLayoutManager);
         mImgListRlv.setNestedScrollingEnabled(false);
     }
 

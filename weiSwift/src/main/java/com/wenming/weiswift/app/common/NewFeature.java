@@ -89,6 +89,4 @@ public class NewFeature {
     public static int origin_quality = 3;
 
     public static int timeline_img_quality = bmiddle_quality;
-
-
 }

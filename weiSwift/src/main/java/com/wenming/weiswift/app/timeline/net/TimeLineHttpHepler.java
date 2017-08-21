@@ -124,6 +124,10 @@ public class TimeLineHttpHepler {
         HttpManager.getInstance().httpStringGetRequest(APIConstants.SHORT_URL_EXPAND, params, "url_short", urlList, requesetTag, listener, errorListener);
     }
 
+    public static void getHTMLCode(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        HttpManager.getInstance().httpStringGetRequest(url, new Object(), listener, errorListener);
+    }
+
     public static void getFriendsTimeLine(String token, Object requesetTag, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         getFriendsTimeLine(token, Constants.TIMELINE_DEFALUT_SINCE_ID, Constants.TIMELINE_DEFALUT_MAX_ID, Constants.TIMELINE_DEFALUT_COUNT,
                 Constants.TIMELINE_DEFALUT_PAGE, Constants.TIMELINE_DEFALUT_FEATURE, Constants.TIMELINE_DEFALUT_TRIM_USER, requesetTag, listener, errorListener);

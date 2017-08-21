@@ -22,7 +22,8 @@ public class Constants {
     public static final String EMOJI = "\\[(\\S+?)\\]";//emoji 表情
     public static final String ALL = "(" + AT + ")" + "|" + "(" + TOPIC + ")" + "|" + "(" + URL + ")" + "|" + "(" + EMOJI + ")";
 
-    public static final String SHROT_URL = "http://t.cn/[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";// url
+    public static final String SHROT_URL = "http://t.cn/[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";
+    public static final String HTML_VIDEO_IMG = "imgUrl: [a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]";
 
     /**
      * 第一条微博的时间发布超过3分钟，要全量刷新
