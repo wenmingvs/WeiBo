@@ -26,19 +26,18 @@ public class ShortUrlUtils {
         return content;
     }
 
-
     /**
      * 获取HTML中的视频图片地址
      *
      * @param htmlCode
      * @return
      */
-    public static String getVideoImgUrl(String htmlCode) {
-        Pattern pattern = Pattern.compile(Constants.HTML_VIDEO_IMG);
+    public static String getVideoImgUrl(String htmlCode, String regx) {
+        Pattern pattern = Pattern.compile(regx);
         String videoUrl = null;
         Matcher matcher = pattern.matcher(htmlCode);
         if (matcher.find()) {
-            videoUrl = matcher.group();
+            videoUrl = matcher.group(1);
         }
         return videoUrl;
     }

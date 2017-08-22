@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.common.entity.Status;
 import com.wenming.weiswift.app.timeline.adapter.TimeLineImageAdapter;
+import com.wenming.weiswift.app.timeline.adapter.VideoImgAdapter;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineContract;
 import com.wenming.weiswift.app.timeline.data.viewholder.base.BaseTimeLineViewHolder;
 import com.wenming.weiswift.app.weibodetail.activity.BaseDetailSwipeActivity;
@@ -24,7 +25,6 @@ public class RetweetViewHolder extends BaseTimeLineViewHolder implements Retweet
     private EmojiTextView mRetweetContentTv;
     private EmojiTextView mOriginContentTv;
     private RecyclerView mOriginImgRlv;
-    private TimeLineImageAdapter mImgAdapter;
     private RetweetContract.Presenter mPresenter;
 
     public RetweetViewHolder(Context context, View v) {
@@ -106,10 +106,20 @@ public class RetweetViewHolder extends BaseTimeLineViewHolder implements Retweet
     @Override
     public void setImgListContent(Status status) {
         GridLayoutManager gridLayoutManager = initGridLayoutManager(status.bmiddle_pic_urls);
-        mImgAdapter = new TimeLineImageAdapter(status, mContext);
-        mImgAdapter.setData(status);
+        TimeLineImageAdapter imgAdapter = new TimeLineImageAdapter(status, mContext);
+        imgAdapter.setData(status);
         mOriginImgRlv.setHasFixedSize(true);
-        mOriginImgRlv.setAdapter(mImgAdapter);
+        mOriginImgRlv.setAdapter(imgAdapter);
+        mOriginImgRlv.setLayoutManager(gridLayoutManager);
+        mOriginImgRlv.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void setVideoImg(String videoImg) {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+        VideoImgAdapter videoImgAdapter = new VideoImgAdapter(videoImg, mContext);
+        mOriginImgRlv.setHasFixedSize(true);
+        mOriginImgRlv.setAdapter(videoImgAdapter);
         mOriginImgRlv.setLayoutManager(gridLayoutManager);
         mOriginImgRlv.setNestedScrollingEnabled(false);
     }

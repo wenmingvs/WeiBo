@@ -35,10 +35,19 @@ public class ShortUrlManager {
         mVideoImgMap.put(shortURl, videoImgUrl);
     }
 
-    public ShortUrlEntity getLongUrlCache(String weiboContent) {
+    public ShortUrlEntity getLongUrlByWeiBoContent(String weiboContent) {
         ShortUrlEntity urlEntity = mLongUrlHashMap.get(getShortUrl(weiboContent));
         if (urlEntity != null) {
             return urlEntity;
+        } else {
+            return null;
+        }
+    }
+
+    public String getLongUrlByShortUrl(String shortUrl) {
+        ShortUrlEntity urlEntity = mLongUrlHashMap.get(shortUrl);
+        if (urlEntity != null) {
+            return urlEntity.getLongUrl();
         } else {
             return null;
         }

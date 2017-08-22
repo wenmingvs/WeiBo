@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.wenming.weiswift.R;
 import com.wenming.weiswift.app.profile.activity.ProfileSwipeActivity;
 import com.wenming.weiswift.app.timeline.constants.Constants;
+import com.wenming.weiswift.app.timeline.shorturl.ShortUrlManager;
 import com.wenming.weiswift.utils.DensityUtil;
 
 import java.util.regex.Matcher;
@@ -81,9 +82,17 @@ public class WeiBoContentTextUtil {
             if (url != null) {
                 int start = matcher.start(3);
                 int end = start + url.length();
-                Drawable websiteDrawable = context.getResources().getDrawable(R.drawable.button_web);
-                websiteDrawable.setBounds(0, 0, websiteDrawable.getIntrinsicWidth(), websiteDrawable.getIntrinsicHeight());
-                ClickableImageSpan imageSpan = new ClickableImageSpan(websiteDrawable, ImageSpan.ALIGN_BOTTOM) {
+                Drawable urlIcon;
+                String longUrl = ShortUrlManager.getInstance().getLongUrlByShortUrl(url);
+                if (!TextUtils.isEmpty(longUrl) && (longUrl.contains(Constants.HTML_MIAOPAI_KEYWORD) || longUrl.contains(Constants.HTML_WEIBO_VIDEO_KEYWORD))) {
+                    urlIcon = context.getResources().getDrawable(R.drawable.timeline_content_video_icon);
+                } else if (!TextUtils.isEmpty(longUrl) && (url.endsWith(".jpg") || url.endsWith(".jpeg"))) {
+                    urlIcon = context.getResources().getDrawable(R.drawable.timeline_content_img_icon);
+                } else {
+                    urlIcon = context.getResources().getDrawable(R.drawable.timeline_content_web_icon);
+                }
+                urlIcon.setBounds(0, 0, urlIcon.getIntrinsicWidth(), urlIcon.getIntrinsicHeight());
+                ClickableImageSpan imageSpan = new ClickableImageSpan(urlIcon, ImageSpan.ALIGN_BOTTOM) {
                     @Override
                     public void onClick(View widget) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

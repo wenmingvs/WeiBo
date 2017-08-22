@@ -73,7 +73,6 @@ public class OriginViewHolder extends BaseTimeLineViewHolder implements OriginCo
 
     @Override
     public void setVideoImg(String videoImg) {
-        mImgListRlv.setVisibility(View.VISIBLE);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
         VideoImgAdapter videoImgAdapter = new VideoImgAdapter(videoImg, mContext);
         mImgListRlv.setHasFixedSize(true);

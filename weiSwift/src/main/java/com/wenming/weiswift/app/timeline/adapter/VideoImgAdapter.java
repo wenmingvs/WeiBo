@@ -14,7 +14,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.wenming.weiswift.R;
-import com.wenming.weiswift.app.timeline.net.TimeLineHttpHepler;
 import com.wenming.weiswift.utils.ScreenUtil;
 
 /**
@@ -41,7 +40,7 @@ public class VideoImgAdapter extends RecyclerView.Adapter<VideoImgAdapter.ViewHo
         ViewHolder viewHolder = new ViewHolder(view);
         FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) viewHolder.norImg.getLayoutParams();
         norImgLayout.width = ScreenUtil.getScreenWidth(mContext);
-        norImgLayout.height = (int) (ScreenUtil.getScreenWidth(mContext) * 0.7);
+        norImgLayout.height = (int) (ScreenUtil.getScreenWidth(mContext) * 0.6);
         return viewHolder;
     }
 
@@ -66,11 +65,5 @@ public class VideoImgAdapter extends RecyclerView.Adapter<VideoImgAdapter.ViewHo
             super(itemView);
             norImg = (ImageView) itemView.findViewById(R.id.norImg);
         }
-    }
-
-    private static void setSingleImgSize(Context context, ImageView norImg) {
-        FrameLayout.LayoutParams norImgLayout = (FrameLayout.LayoutParams) norImg.getLayoutParams();
-        norImgLayout.width = ScreenUtil.getScreenWidth(context);
-        norImgLayout.height = (int) (ScreenUtil.getScreenWidth(context) * 0.7);
     }
 }

@@ -22,6 +22,8 @@ public class RetweetContract {
 
         void setImgListContent(Status status);
 
+        void setVideoImg(String videoImg);
+
         boolean isImgListVisble();
     }
 

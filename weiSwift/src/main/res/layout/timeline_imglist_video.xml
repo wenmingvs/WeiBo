@@ -11,6 +11,12 @@
         android:layout_width="115dp"
         android:layout_height="115dp"
         android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/timeline_video_play" />
     
 </FrameLayout>
 
