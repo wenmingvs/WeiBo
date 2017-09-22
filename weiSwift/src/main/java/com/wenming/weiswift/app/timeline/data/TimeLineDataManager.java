@@ -238,9 +238,7 @@ public class TimeLineDataManager implements TimeLineDataSource {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (TextUtils.isEmpty(error.getCause().getMessage())) {
-                    callBack.onTimeOut();
-                }
+                callBack.onTimeOut();
             }
         });
     }
