@@ -11,9 +11,12 @@ import com.wenming.weiswift.app.home.data.entity.Group;
 import java.util.List;
 
 /**
+ * 首页的业务
+ * <p>
+ * 1. 加载分组
+ * <p>
  * Created by wenmingvs on 2017/6/5.
  */
-
 public class HomePresenter implements HomeContract.Presenter {
     private HomeDataSource mDataModel;
     private HomeContract.View mView;
@@ -26,7 +29,6 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void start() {
-        //无token，显示空白
         if (TextUtils.isEmpty(AccessTokenManager.getInstance().getAccessToken())) {
             return;
         }
@@ -74,6 +76,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
             @Override
             public void onTimeOut() {
+                mView.showTimeOut();
                 mView.dismissLoading();
             }
         });

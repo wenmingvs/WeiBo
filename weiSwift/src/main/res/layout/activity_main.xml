@@ -54,7 +54,7 @@
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/activity_main_drawer_header"
         android:fitsSystemWindows="true"
+        app:headerLayout="@layout/activity_main_drawer_header"
         app:menu="@menu/activity_main_drawer_menu" />
 </android.support.v4.widget.DrawerLayout>

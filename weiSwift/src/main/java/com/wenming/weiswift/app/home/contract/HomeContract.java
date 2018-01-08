@@ -12,15 +12,34 @@ import java.util.List;
 
 public interface HomeContract {
     interface View extends BaseView<Presenter> {
+        /**
+         * 设置分组
+         * @param groups
+         */
         void setGroupsList(List<Group> groups);
 
+        /**
+         * 展示后台下发的信息
+         * @param text
+         */
         void showServerMessage(String text);
 
+        /**
+         * 展示loading
+         */
         void showLoading();
 
+        /**
+         * 隐藏loading
+         */
         void dismissLoading();
-        
+
+        /**
+         * 显示无网络
+         */
         void showNoneNetWork();
+
+        void showTimeOut();
     }
 
     interface Presenter extends BasePresenter {

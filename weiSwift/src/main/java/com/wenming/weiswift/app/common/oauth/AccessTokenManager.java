@@ -7,7 +7,6 @@ import com.wenming.weiswift.app.common.preference.UserAccountPrefences;
 /**
  * Created by wenmingvs on 2017/5/31.
  */
-
 public class AccessTokenManager {
     private static AccessTokenManager mInstance;
     private static Oauth2AccessToken sAccessToken;

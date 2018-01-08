@@ -27,8 +27,11 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View {
     private static final String ARG_REFRESH_ALL = "arg_refresh_all";
+    /**
+     * 缓存的viewpager数
+     */
     private static final int CACHE_FRAGMENT_NUM = 3;
-    private TabLayout mGourpTl;
+    private TabLayout mGroupTl;
     private ViewPager mGroupVp;
     private HomeContract.Presenter mPresenter;
     private GroupPagerAdapter mGroupAdapter;
@@ -59,7 +62,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     private void prepareView() {
-        mGroupVp = (ViewPager) findViewById(R.id.main_groups_vp);
+        mGroupVp = (ViewPager) findViewById(R.id.home_groups_vp);
     }
 
     private void initData() {
@@ -70,18 +73,19 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     private void initView() {
-        initDefaultFragment();
-        mGroupVp.setOffscreenPageLimit(CACHE_FRAGMENT_NUM);
-    }
-
-    private void initDefaultFragment() {
+        //初始化分组列表
         mGroupAdapter = new GroupPagerAdapter(getActivity().getSupportFragmentManager());
-        TimeLineFragment defaultFragment = initTimeLineFragment(Constants.GROUP_ALL);
+        //创建【全部】分组
+        TimeLineFragment defaultFragment = createTimeLineFragment(Constants.GROUP_ALL);
         mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
         mGroupVp.setAdapter(mGroupAdapter);
-        mGourpTl.setupWithViewPager(mGroupVp);
+        //标签栏与viewpager绑定
+        mGroupTl.setupWithViewPager(mGroupVp);
         mGroupVp.setCurrentItem(0, false);
-        mGourpTl.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //设置标签为可滑动
+        mGroupTl.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //设置提前加载的分组
+        mGroupVp.setOffscreenPageLimit(CACHE_FRAGMENT_NUM);
     }
 
     @Override
@@ -90,23 +94,35 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     public void setTabLayout(TabLayout tabLayout) {
-        mGourpTl = tabLayout;
+        mGroupTl = tabLayout;
     }
 
+    /**
+     * 每次更新分组，都会重新创建adapter，达到清除上次数据的效果，更新分组不会很频繁所以不用担心性能问题
+     *
+     * @param groups
+     */
     @Override
     public void setGroupsList(List<Group> groups) {
-        if (groups != null && groups.size() > 0) {
-            for (int i = 0; i < groups.size(); i++) {
-                TimeLineFragment groupFragment = initTimeLineFragment(Long.valueOf(groups.get(i).id));
-                mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
-            }
-            mGroupAdapter.notifyDataSetChanged();
+        if (groups == null || groups.size() == 0) {
+            return;
         }
+        //创建【全部】分组
+        mGroupAdapter = new GroupPagerAdapter(getActivity().getSupportFragmentManager());
+        TimeLineFragment defaultFragment = createTimeLineFragment(Constants.GROUP_ALL);
+        mGroupAdapter.addFragment(defaultFragment, getString(R.string.groups_default));
+        mGroupVp.setAdapter(mGroupAdapter);
+        //加载全新的tab
+        for (int i = 0; i < groups.size(); i++) {
+            TimeLineFragment groupFragment = createTimeLineFragment(Long.valueOf(groups.get(i).id));
+            mGroupAdapter.addFragment(groupFragment, groups.get(i).name);
+        }
+        mGroupAdapter.notifyDataSetChanged();
     }
 
-    private TimeLineFragment initTimeLineFragment(long gourpId) {
+    private TimeLineFragment createTimeLineFragment(long groupId) {
         TimeLineFragment timeLineFragment = TimeLineFragment.newInstance();
-        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()), mRefreshAll, gourpId);
+        new TimeLinePresent(timeLineFragment, new TimeLineDataManager(mContext.getApplicationContext()), mRefreshAll, groupId);
         return timeLineFragment;
     }
 
@@ -130,14 +146,19 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         ToastUtil.showShort(mContext, R.string.common_network_not_connected);
     }
 
+    @Override
+    public void showTimeOut() {
+        ToastUtil.showShort(mContext, R.string.common_network_time_out);
+    }
+
     public void scrollToTop() {
         TimeLineFragment currentFragment = mGroupAdapter.getCurrentFragment();
-        if (currentFragment == null){
+        if (currentFragment == null) {
             return;
         }
         if (currentFragment.isOnFirstCompletelyVisibleItemPosition()) {
             currentFragment.refreshTimeLine();
-        }else {
+        } else {
             currentFragment.scrollToTop();
         }
     }

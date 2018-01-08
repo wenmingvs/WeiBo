@@ -27,6 +27,9 @@
     <string name="drawer_navigation_close">抽屉栏关闭</string>
     <!-- ToolBar -->
     <string name="toolbar_write_weibo">写微博</string>
+    <!-- Main -->
+    <string name="main_back_press">确定要退出？</string>
+    <string name="main_back_press_ok">确定</string>
 
     <!--登录-->
     <string name="login_hint">登录一下，精彩内容马上就来</string>

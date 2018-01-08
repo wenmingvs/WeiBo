@@ -3,7 +3,6 @@ package com.wenming.weiswift.app.main.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -59,7 +58,6 @@ public class MainActivity extends BaseAppCompatActivity {
     //导航栏
     private Toolbar mToolBar;
     private TabLayout mTabLayout;
-    private AppBarLayout mAppBarLayout;
     //抽屉布局
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -109,7 +107,6 @@ public class MainActivity extends BaseAppCompatActivity {
     private void prepareView() {
         mToolBar = (Toolbar) findViewById(R.id.main_toolbar);
         mTabLayout = (TabLayout) findViewById(R.id.main_tablayout);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar_Al);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_container_dl);
         mNavigationView = (NavigationView) findViewById(R.id.main_drawer_nv);
         mNavigationHeader = mNavigationView.getHeaderView(0);
@@ -193,16 +190,16 @@ public class MainActivity extends BaseAppCompatActivity {
     private void requestMySelfInfo() {
         UserManager.getInstance().requestUserInfo(AccessTokenManager.getInstance().getOAuthToken().getToken(),
                 AppAuthConstants.APP_KEY, Long.valueOf(AccessTokenManager.getInstance().getOAuthToken().getUid()), new UserInfoCallBack() {
-            @Override
-            public void onSuccess(User user) {
-                updateUserViews(user);
-            }
+                    @Override
+                    public void onSuccess(User user) {
+                        updateUserViews(user);
+                    }
 
-            @Override
-            public void onFail() {
+                    @Override
+                    public void onFail() {
 
-            }
-        });
+                    }
+                });
     }
 
     private void updateUserViews(User user) {
@@ -221,24 +218,6 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initListener() {
-//        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                Log.e("wenming", verticalOffset + "");
-//                //偏移的距离超过ToolBar高度的1/5，隐藏状态栏（仅Android 4.1以上有效）
-//                if (Math.abs(verticalOffset) > appBarLayout.getTotalScrollRange() / 5 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_FULLSCREEN);
-//                }
-//                //偏移为0，表示回到顶部，ToolBar完全展示，显示状态栏
-//                else if (verticalOffset == 0) {
-//                    if (Build.VERSION.SDK_INT >= 16) {
-//                        mDrawerLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//                    } else {
-//                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//                    }
-//                }
-//            }
-//        });
         mNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -473,14 +452,16 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
-            if (mSnackbar == null || !mSnackbar.isShown()) {
-                mSnackbar = Snackbar.make(mDrawerLayout, "确定要退出？", Toast.LENGTH_SHORT);
-                mSnackbar.setAction("确定", new View.OnClickListener() {
+            if (mSnackbar == null) {
+                mSnackbar = Snackbar.make(mDrawerLayout, getString(R.string.main_back_press), Toast.LENGTH_SHORT);
+                mSnackbar.setAction(getString(R.string.main_back_press_ok), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ((ApplicationHelper) getApplication()).finishAll();
                     }
                 });
+            }
+            if (!mSnackbar.isShown()) {
                 mSnackbar.show();
             } else {
                 mSnackbar.dismiss();
